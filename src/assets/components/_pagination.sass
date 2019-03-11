@@ -1,0 +1,78 @@
+.paginator
+  border-left: none
+  border-right: none
+  border-radius: 5px
+  padding: 7px 0 7px 0
+  -webkit-box-sizing: border-box
+  -moz-box-sizing: border-box
+  box-sizing: border-box
+  background-position: 0 0, 0 100%
+  background-repeat: no-repeat
+  -webkit-background-size: 100% 1px
+  -moz-background-size: 100% 1px
+  margin-bottom: 0.5rem
+  background-size: 100% 1px
+  background-color: $paginator-background-color
+  .pagination-next,
+  .pagination-previous
+    box-shadow: 1px 2px 5px 2px rgba(100, 100, 100, 0.1), 1px 1px 1px 0 rgba(50, 50, 50, 0.1), 0 1px 2px 0px rgba(50, 50, 50, 0.1)
+    padding-left: 0 !important
+    padding-right: 0 !important
+    white-space: nowrap
+    border: none
+    a
+      color: $paginator-color
+    .icon
+      vertical-align: middle
+  .pagination
+    padding-bottom: 0.2em
+    ul
+      list-style: none
+      li
+        margin-top: 0
+    .size-label
+      vertical-align: middle
+      color: $paginator-size-label-color
+    .pages-count-label
+      vertical-align: middle
+      padding-left: 1em
+      padding-right: 1em
+      font-size: 0.8rem
+      color: $paginator-count-label-color
+    .size-select-container
+      vertical-align: middle
+      padding: 0.2rem
+      select
+        border-color: $paginator-size-select-border-color
+        border-radius: 3px
+        &:-moz-focusring
+          color: transparent
+          text-shadow: 0 0 0 $paginator-size-label-color
+  .pagination-link
+    padding-bottom: 0.2em
+    &:not(.is-current)
+      border-width: 2px
+      border-color: rgba($paginator-current-border-color, .2)
+      color: $paginator-color
+    &.is-current
+      background-color: $paginator-current-background-color
+      border-color: $paginator-current-border-color
+      color: $paginator-current-color
+  .size-label
+    vertical-align: middle
+  .pages-count-label
+    vertical-align: middle
+    padding-left: 1em
+    padding-right: 1em
+    font-size: 0.9rem
+  .size-select-container
+    vertical-align: middle
+    padding: 0.2rem
+.breadcrumb
+  li + li
+    margin-top: 0
+.content
+  .paginator
+    ul
+      margin-top: 0
+

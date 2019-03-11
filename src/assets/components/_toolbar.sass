@@ -1,0 +1,47 @@
+.this-toolbar
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  font-size: 1rem
+  padding: 0.5em
+  height: 100%
+  width: 100%
+  align-items: flex-start
+  justify-content: flex-start
+  flex-direction: row
+  position: relative
+  @each $name, $pair in $colors
+    $color: nth($pair, 1)
+    $color-invert: nth($pair, 2)
+    &.is-#{$name}
+      background-color: rgba($color, .9)
+  &.is-vertical
+    flex-direction: column
+  &.is-right
+    align-items: flex-end
+    justify-content: flex-end
+  &.is-centered
+    align-items: center
+    justify-content: center
+  .this-action
+    padding-left: 0.15em
+    margin-left: 0.15em
+    margin-right: 0.15em
+.this-crud-toolbar
+  display: flex
+  align-items: center
+  .toolbar-button
+    margin-right: 0.1rem
+    @each $name, $pair in $colors
+      $color: nth($pair, 1)
+      $color-invert: nth($pair, 2)
+      &.is-#{$name}
+        .icon
+          color: $color
+          .tooltip
+            &::before
+              background: rgba($color, 0.9)
+              color: $color-invert
+            &:not(.is-loading)
+              &::after
+                border-color: rgba($color, 0.9) transparent transparent transparent
+

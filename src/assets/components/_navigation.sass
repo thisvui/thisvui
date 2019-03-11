@@ -1,0 +1,12 @@
+.navbar
+  h1
+    margin-bottom: 0
+  @each $name, $pair in $colors
+    $color: nth($pair, 1)
+    $color-invert: nth($pair, 2)
+    &.is-#{$name}
+      background-color: rgba($color, .9)
+      .navbar-item, h1, h2, h3
+        color: $color-invert
+
+

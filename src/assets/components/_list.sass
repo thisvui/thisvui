@@ -1,0 +1,38 @@
+.this-list-container
+  font-size: 0.85rem
+  ul:not(.pagination-list)
+    background-color: $list-background-color
+    display: flex
+    flex-direction: column
+    margin: 0
+    -webkit-box-shadow: 0 4px 15px rgba(0,0,0,.05)
+    box-shadow: 0 4px 15px rgba(0,0,0,.05)
+    border-radius: 6px
+    li
+      display: flex
+      flex-direction: row
+      padding: 0.5rem
+      border-bottom: $list-bottom-border
+      .list-item
+        display: flex
+        padding-left: 0.3rem
+        min-width: 10%
+        border-bottom: $list-item-bottom-border
+  .paginator
+    background-color: $list-background-color
+  .this-search
+    position: relative
+    margin-left: 0.5em
+    margin-right: 0.5em
+    margin-top: 0px
+    .input
+      border: 2px solid rgba($table-search-border-color, .5)
+      font-size: 0.95rem
+      &:hover
+        border-color: rgba($table-search-border-color, .7)
+    &.is-absolute
+      position: absolute
+      margin-top: 7px
+      .input
+        font-size: 0.9rem
+

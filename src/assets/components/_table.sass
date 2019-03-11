@@ -1,0 +1,64 @@
+.table
+  -webkit-box-shadow: 0 4px 15px rgba(0,0,0,.05)
+  box-shadow: 0 4px 15px rgba(0,0,0,.05)
+  font-size: 0.85rem
+  background-color: $table-background-color
+  border-radius: 6px
+  &.is-hoverable
+    tbody
+      tr:not(.is-selected)
+        &:hover
+          background-color: $table-row-hover-background-color
+  &.is-striped
+    tbody
+      tr:not(.is-selected)
+        &:hover
+          background-color: $table-row-hover-background-color
+  thead
+    th
+      color: $table-head-color
+      border-color: $table-head-border-color
+      .sort-icon
+        color: rgba($table-head-color, .8)
+        cursor: pointer
+  tbody
+    tr
+      &:hover
+        cursor: pointer
+    td
+      color: $table-td-color
+      border-color: rgba($table-td-border-color, 0.2)
+      font-weight: 400
+    th
+      border-color: rgba($table-th-border-color, 0.2)
+      .active
+        .arrow
+          opacity: 1
+  .row-checker
+    .is-checkradio[type="checkbox"] + label
+      &::before
+        border: 2px solid rgba($table-search-border-color, .5)
+        border-color: $table-search-border-color
+        outline: none
+.this-table-container
+  .this-search
+    position: relative
+    margin-left: 0.5em
+    margin-right: 0.5em
+    margin-top: 0px
+    .input
+      border: 2px solid rgba($table-search-border-color, .5)
+      font-size: 0.95rem
+      &:hover
+        border-color: rgba($table-search-border-color, .7)
+    &.is-absolute
+      position: absolute
+      margin-top: 7px
+      .input
+        font-size: 0.9rem
+.content
+  .table
+    thead
+      th
+        color: $table-head-color
+

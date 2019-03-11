@@ -1,0 +1,22 @@
+// Add new color variables to the color map.
+@import "~bulma/sass/utilities/derived-variables";
+
+$customColors: (
+  "secondary": (
+    $secondary,
+    $secondary-invert
+  ),
+  "moderate": (
+    $moderate,
+    $moderate-invert
+  ),
+  "happy": (
+    $happy,
+    $happy-invert
+  ),
+  "opaque": (
+    $opaque,
+    $opaque-invert
+  )
+);
+$colors: map-merge($colors, $customColors);

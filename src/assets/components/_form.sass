@@ -1,0 +1,160 @@
+.control
+  display: flex
+  .input, .select, .textarea
+    background: $input-background-color
+    border: 1px solid $input-border-color
+    color: $input-color
+    border-radius: 3px
+    box-shadow: none
+    -webkit-transition: all ease-in 0.3s
+      transition: all ease-in 0.3s
+    &:hover
+      border: 1px solid $input-hover-border-color
+    &:focus
+      border: 1px solid $input-border-color
+      border-bottom: 2px solid $input-bottom-border-color
+      -webkit-box-shadow: none
+        box-shadow: none
+    @each $name, $pair in $colors
+      $color: nth($pair, 1)
+      $color-invert: nth($pair, 2)
+      &.is-#{$name}
+        border-color: rgba($color, .3)
+        -webkit-box-shadow: 0 0 7px rgba($color, .1)
+        box-shadow: 0 0 7px rgba($color, .1)
+        &+ .icon
+          color: rgba($color, .5)
+        &:focus
+          border-bottom: 2px solid rgba($color, .9)
+          -webkit-box-shadow: 0 0 7px rgba($color, .1)
+          box-shadow: 0 0 7px rgba($color, .1)
+          &+ .icon
+            color: rgba($color, .9) !important
+    &[disabled]
+      border: 1px solid $input-border-color
+      box-shadow: 1px 1px 3px 1px rgba($input-border-color, 0.1)
+      &:hover
+        box-shadow: 1px 1px 1px 1px rgba($input-border-color, 0.2)
+  &.is-column
+    flex-direction: column
+.is-block
+  .control
+    display: block
+.label
+  color: $label-color
+  font-weight: lighter
+.is-checkradio[type="checkbox"] + label, .is-checkradio[type="radio"] + label
+  margin-left: 0
+.is-checkradio[type="checkbox"]
+  @each $name, $pair in $colors
+    $color: nth($pair, 1)
+    $color-invert: nth($pair, 2)
+    &.is-#{$name}
+      &.has-background-color + label::before
+        background-color: $color
+      &:checked
+        color: $color
+        &.is-block + label
+          background-color: $color
+          &::before
+            color: $color-invert
+          &::after
+            border-color: $color-invert
+        &.has-background-color + label
+          &::before
+            background-color: $color
+            color: $color-invert
+          &::after
+            border-color: $color-invert
+.is-checkradio[type="radio"]
+  &+ label
+    &::before
+      outline: none
+  @each $name, $pair in $colors
+    $color: nth($pair, 1)
+    $color-invert: nth($pair, 2)
+    &.is-#{$name}
+      &:checked + label
+        &::before
+          outline: none
+          &:hover
+            border-color: $color !important
+        &::after
+          background-color: $color !important
+.this-autocomplete
+  position: relative
+  max-width: 400px
+  .this-autocomplete-results
+    padding: 0.3em
+    margin: 0
+    border: 1px solid rgba($primary, 0.2)
+    overflow-y: auto
+    position: absolute
+    width: 100%
+    z-index: 50
+    border-radius: 0 0 .3rem .3rem
+    box-shadow: 1px 1px 3px 2px rgba($black, 0.1)
+    .this-autocomplete-result
+      list-style: none
+      text-align: left
+      padding: 2px 0.5rem
+      cursor: pointer
+      &.is-active,
+      &:hover
+        color: white
+        background-color: $primary
+.file
+  & + .preview
+    margin-top: 0.5rem
+    background: $white-bis
+    color: rgba($dark, .7)
+    border: 1px solid rgba($primary, 0.5)
+    border-radius: 6px
+    -webkit-box-shadow: 0 4px 15px rgba($dark, .2)
+    box-shadow: 0 4px 15px rgba($dark, .2)
+    padding: 1.25rem
+  .file-label-container
+    border: 1px solid rgba($primary, 0.5)
+    border-radius: 6px
+    -webkit-box-shadow: 0 4px 15px rgba($dark, .2)
+    box-shadow: 0 3px 10px rgba($dark, .2)
+    .file-content
+      padding: 0.5em
+  @each $name, $pair in $colors
+    $color: nth($pair, 1)
+    $color-invert: nth($pair, 2)
+    &.is-#{$name}
+      .file-label-container
+        background: rgba($color, 0.3)
+        border-color: rgba($color, 0.5)
+        color: $color
+      & + .preview
+        background: rgba($color, 0.3)
+        border-color: rgba($color, 0.5)
+        color: $color
+  &.is-warning
+    .file-label-container
+      color: rgba($moderate, .9)
+    & + .preview
+      color: rgba($moderate, .9)
+  &.is-light
+    .file-label-container
+      color: rgba($dark, .9)
+    & + .preview
+      color: rgba($dark, .9)
+.this-text
+  display: flex
+  align-items: flex-start
+  align-content: normal
+  justify-content: normal
+  .label
+    margin-right: 0.5rem
+    font-weight: normal
+  &.is-center
+    align-items: center
+    align-content: center
+    justify-content: center
+  &.is-bold
+    font-weight: bold
+
+

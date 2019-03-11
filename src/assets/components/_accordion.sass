@@ -1,0 +1,28 @@
+.this-accordion
+  margin: 0
+  .this-accordion-item
+    margin: 0 auto 1px auto
+    .this-accordion-header
+      padding: 0.5em
+      border-radius: 0
+      cursor: pointer
+    &:first-child
+      .this-accordion-header
+        border-radius: 4px 4px 0 0
+    .this-accordion-body
+      padding: 0
+      box-shadow: 0 0px 1px 0px rgba(0, 0, 0, 0.1), 0 1px 1px 0px rgba(0, 0, 0, 0.14), 0 3px 3px 0 rgba(0, 0, 0, 0.12)
+      .this-accordion-content
+        padding: 0
+        .this-accordion-content-body
+          padding: 1em
+    @each $name, $pair in $colors
+      $color: nth($pair, 1)
+      $color-invert: nth($pair, 2)
+      &.is-#{$name}
+        .this-accordion-header
+          background-color: rgba($color, .9)
+          border: 1px solid rgba($color, 0.2)
+          color: $color-invert
+          a
+            color: $color-invert

@@ -1,0 +1,38 @@
+.modal
+  z-index: 60
+  .modal-card
+    &.is-small
+      width: calc(30vw)
+    &.is-half
+      width: calc(50vw)
+    &.is-medium
+      width: calc(70vw)
+    &.is-large
+      width: calc(100vw - 40px)
+    @each $name, $pair in $colors
+      $color: nth($pair, 1)
+      $color-invert: nth($pair, 2)
+      &.is-#{$name}
+        .modal-card-head
+          background-color: rgba($color, 0.9)
+          border-color: transparent
+          color: $color-invert
+          .modal-card-title
+            color: $color-invert
+  .modal-card-head
+    padding: 1rem
+    @each $name, $pair in $colors
+      $color: nth($pair, 1)
+      $color-invert: nth($pair, 2)
+      &.is-#{$name}
+        background-color: rgba($color, 0.9)
+        border-color: transparent
+        color: $color-invert
+        .modal-card-title
+          color: $color-invert
+    &.hero
+      flex-direction: unset
+  p:not(:last-child), dl:not(:last-child), ol:not(:last-child), ul:not(:last-child) blockquote:not(:last-child), pre:not(:last-child), table:not(:last-child)
+    margin-bottom: 0
+  .modal-card-foot
+    padding: 1rem

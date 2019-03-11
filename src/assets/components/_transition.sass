@@ -1,0 +1,267 @@
+/* -- fade -- */
+@-webkit-keyframes fade-enter
+  from
+    opacity: 0
+  to
+    opacity: 1
+@keyframes fade-enter
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+.fade-enter-active
+  -webkit-animation-name: fade-enter
+  animation-name: fade-enter
+  animation-duration: .5s
+
+
+@-webkit-keyframes fade-leave
+  from
+    opacity: 1
+  to
+    opacity: 0
+@keyframes fade-leave
+  from
+    opacity: 1
+  to
+    opacity: 0
+
+.fade-leave-to
+  -webkit-animation-name: fade-leave
+  animation-name: fade-leave
+  animation-duration: .5s
+
+/* -- slideDown -- */
+@-webkit-keyframes slideDown-enter
+  0%
+    transform: translateY(-100px)
+  100%
+    transform: translateY(0px)
+@keyframes slideDown-enter
+  0%
+    transform: translateY(-100px)
+  100%
+    transform: translateY(0px)
+
+.slideDown-enter-active
+  -webkit-animation-name: slideDown-enter
+  animation-name: slideDown-enter
+  animation-duration: .5s
+
+
+@-webkit-keyframes slideDown-leave
+  0%
+    transform: translateY(0px)
+  100%
+    transform: translateY(-100px)
+@keyframes slideDown-leave
+  0%
+    transform: translateY(0px)
+  100%
+    transform: translateY(-100px)
+
+.slideDown-leave-to
+  -webkit-animation-name: slideDown-leave
+  animation-name: slideDown-leave
+  animation-duration: .5s
+
+
+/* -- slideUp-- */
+@-webkit-keyframes slideUp-enter
+  0%
+    transform: translateY(100px)
+  100%
+    transform: translateY(0px)
+@keyframes slideUp-enter
+  0%
+    transform: translateY(100px)
+  100%
+    transform: translateY(0px)
+
+.slideUp-enter-active
+  -webkit-animation-name: slideUp-enter
+  animation-name: slideUp-enter
+  animation-duration: .5s
+
+@-webkit-keyframes slideUp-leave
+  0%
+    transform: translateY(0px)
+  100%
+    transform: translateY(100px)
+@keyframes slideUp-leave
+  0%
+    transform: translateY(0px)
+  100%
+    transform: translateY(100px)
+
+.slideUp-leave-to
+  -webkit-animation-name: slideUp-leave
+  animation-name: slideUp-leave
+  animation-duration: .5s
+
+/* -- slideLeft-- */
+@-webkit-keyframes slideLeft-enter
+  0%
+    transform: translateX(100px)
+  100%
+    transform: translateX(0px)
+@keyframes slideLeft-enter
+  0%
+    transform: translateX(100px)
+  100%
+    transform: translateX(0px)
+
+.slideLeft-enter-active
+  -webkit-animation-name: slideLeft-enter
+  animation-name: slideLeft-enter
+  animation-duration: .5s
+
+@-webkit-keyframes slideLeft-leave
+  0%
+    transform: translateX(0px)
+  100%
+    transform: translateX(100px)
+@keyframes slideLeft-leave
+  0%
+    transform: translateX(0px)
+  100%
+    transform: translateX(100px)
+
+.slideLeft-leave-to
+  -webkit-animation-name: slideLeft-leave
+  animation-name: slideLeft-leave
+  animation-duration: .5s
+
+/* -- slideRight-- */
+@-webkit-keyframes slideRight-enter
+  0%
+    transform: translateX(-100px)
+  100%
+    transform: translateX(0px)
+@keyframes slideRight-enter
+  0%
+    transform: translateX(-100px)
+  100%
+    transform: translateX(0px)
+
+.slideRight-enter-active
+  -webkit-animation-name: slideRight-enter
+  animation-name: slideRight-enter
+  animation-duration: .5s
+
+@-webkit-keyframes slideRight-leave
+  0%
+    transform: translateX(0px)
+  100%
+    transform: translateX(-100px)
+@keyframes slideRight-leave
+  0%
+    transform: translateX(0px)
+  100%
+    transform: translateX(-100px)
+
+.slideRight-leave-to
+  -webkit-animation-name: slideRight-leave
+  animation-name: slideRight-leave
+  animation-duration: .5s
+
+/* -- SlideNext-- */
+.slideNext-enter-active,
+.slideNext-leave-active,
+.slidePrev-enter-active,
+.slidePrev-leave-active
+  transition: .3s cubic-bezier(.25, .8, .50, 1)
+
+.slidePrev-leave-to, .slideNext-enter
+  transform: translate3d(-100%, 0, 0)
+  position: absolute
+  width: 100%
+
+.slidePrev-enter, .slideNext-leave-to
+  transform: translate3d(100%, 0, 0)
+  position: absolute
+  width: 100%
+
+
+.expand-enter-active,
+.expand-leave-active
+  transition: height .5s ease-in-out
+  overflow: hidden
+
+.expand-enter,
+.expand-leave-to
+  height: 0
+
+@-webkit-keyframes slide-in-left
+  0%
+    -webkit-transform: translateX(-1000px)
+    transform: translateX(-1000px)
+    opacity: 0
+
+  100%
+    -webkit-transform: translateX(0)
+    transform: translateX(0)
+    opacity: 1
+
+
+@keyframes slide-in-left
+  0%
+    -webkit-transform: translateX(-1000px)
+    transform: translateX(-1000px)
+    opacity: 0
+
+  100%
+    -webkit-transform: translateX(0)
+    transform: translateX(0)
+    opacity: 1
+
+
+@-webkit-keyframes slide-in-right
+  0%
+    -webkit-transform: translateX(0)
+    transform: translateX(0)
+    opacity: 1
+
+  100%
+    -webkit-transform: translateX(-1000px)
+    transform: translateX(-1000px)
+    opacity: 0
+
+
+@keyframes slide-in-right
+  0%
+    -webkit-transform: translateX(0)
+    transform: translateX(0)
+    opacity: 1
+
+  100%
+    -webkit-transform: translateX(-1000px)
+    transform: translateX(-1000px)
+    opacity: 0
+
+.slide-in-left-enter-active,
+.slide-in-left-leave-active,
+.slide-in-right-enter-active,
+.slide-in-right-leave-active
+  transition: 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both
+
+.slide-in-left-leave-to, .slide-in-left-enter
+  -webkit-animation: slide-in-right 0.5s
+  animation: slide-in-right 0.5s
+
+
+.slide-in-left-enter, .slide-in-right-leave-to
+  -webkit-animation: slide-in-left 0.5s
+  animation: slide-in-left 0.5s
+
+.slide-in-enter-active,
+.slide-in-leave-active
+  transition: 0.2s width ease-in-out
+
+.slide-in-enter,
+.slide-in-leave-to
+  width: 0
+
+
+
