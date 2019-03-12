@@ -387,12 +387,6 @@ export default {
     goTo(page) {
       this.currentPageNumber = page > 0 ? page - 1 : 0;
     }
-  },
-  created() {
-    console.info("THIS PAGINATOR CREATED");
-  },
-  mounted() {
-    console.info("THIS PAGINATOR MOUNTED");
   }
 };
 </script>

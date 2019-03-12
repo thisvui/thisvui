@@ -5,7 +5,6 @@ const ThisVui = {
   install(Vue, options = {}) {
     // for (let [key, value] of Object.values(components)) {
     Object.values(components).forEach(component => {
-      console.info(`Loading: ${component.name}`);
       Vue.component(component.name, component);
     });
     Vue.use(ThisValidate);
