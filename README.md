@@ -1,7 +1,7 @@
 # thisVui
-> A Vue.js + Bulma Components library
+> ThiVui is a Component Framework for Vue.js based on Bulma, intended to give developers easy tools to build powerful web apps with beautiful UI's. It's focused on flexibility and ease of use, without forgetting efficiency.
 
-![thisVui Logo](src/assets/thisvui_logo.png)
+![thisVui Logo](http://www.thisvui.com/thisvui_logo_small.png)
 
 ## Quickstart
 
@@ -16,4 +16,4 @@ npm install thisvui --save
 ```
 npm install vue
 ```
->For a detailed explanation on how things work, check out the official thisVui [documentation](http://thisvui.com) site.
+>For a detailed explanation on how things work, check out the official thisVui [documentation](http://www.thisvui.com) site.
