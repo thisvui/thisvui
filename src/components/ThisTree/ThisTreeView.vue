@@ -31,11 +31,10 @@ import tree from "../../mixins/tree";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
 import ThisTreeNav from "../ThisTree/ThisTreeNav";
-import ThisTransitionSlide from "../ThisTransition/ThisTransitionSlide";
 
 export default {
   name: "ThisTreeView",
-  components: { ThisTransitionSlide, ThisTreeNav },
+  components: { ThisTreeNav },
   mixins: [helpers, sizes, tree, common],
   props: {
     model: {

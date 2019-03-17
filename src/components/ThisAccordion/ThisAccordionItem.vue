@@ -17,13 +17,13 @@
       </this-level>
     </div>
     <div :class="getBodyClasses">
-      <this-transition-expand>
+      <this-expand>
         <div class="this-accordion-content" v-show="isItemOpen">
           <div class="this-accordion-content-body">
             <slot></slot>
           </div>
         </div>
-      </this-transition-expand>
+      </this-expand>
     </div>
   </article>
 </template>
@@ -34,12 +34,12 @@ import sizes from "../../mixins/sizes";
 import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
-import ThisTransitionExpand from "../ThisTransition/ThisTransitionExpand";
+import ThisExpand from "../ThisAnimation/ThisExpand";
 import ThisLevel from "../ThisLevel/ThisLevel";
 
 export default {
   name: "ThisAccordionItem",
-  components: { ThisLevel, ThisTransitionExpand },
+  components: { ThisLevel, ThisExpand },
   mixins: [common, syntax, sizes, helper],
   props: {
     title: {

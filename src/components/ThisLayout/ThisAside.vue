@@ -1,5 +1,5 @@
 <template>
-  <this-transition-slide
+  <this-slide
     :is-open="isOpen"
     :width="width"
     :animation-duration="animationDuration"
@@ -14,7 +14,7 @@
     >
       <slot></slot>
     </aside>
-  </this-transition-slide>
+  </this-slide>
 </template>
 
 <script>
@@ -22,11 +22,11 @@ import colors from "../../mixins/colors";
 import common from "../../mixins/common";
 import flex from "../../mixins/flex-direction";
 import CssArchitect from "../../utils/css-architect";
-import ThisTransitionSlide from "../ThisTransition/ThisTransitionSlide";
+import ThisSlide from "../ThisAnimation/ThisSlide";
 
 export default {
   name: "ThisAside",
-  components: { ThisTransitionSlide },
+  components: { ThisSlide },
   mixins: [common, colors, flex],
   props: {
     isOpen: {

@@ -58,4 +58,4 @@ export { default as ThisImage } from "./ThisImage";
 export * from "./ThisTag";
 export * from "./ThisColumn";
 export { default as ThisTile } from "./ThisTile";
-export * from "./ThisTransition";
+export * from "./ThisAnimation";

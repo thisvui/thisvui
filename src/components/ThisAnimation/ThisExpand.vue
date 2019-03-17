@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: "ThisTransitionExpand",
+  name: "ThisExpand",
   methods: {
     enter(element) {
       const width = getComputedStyle(element).width;

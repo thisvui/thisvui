@@ -8,13 +8,13 @@
       :heading-icon-class="headingIconClass"
       @click="toggleOpen"
     />
-    <this-transition-expand>
+    <this-expand>
       <div :class="getBodyClasses" v-if="isOpen">
         <div class="panel-content">
           <slot />
         </div>
       </div>
-    </this-transition-expand>
+    </this-expand>
   </nav>
 </template>
 
@@ -24,12 +24,12 @@ import helpers from "../../mixins/helpers";
 import common from "../../mixins/common";
 import ThisPanelHeading from "./ThisPanelHeading";
 import CssArchitect from "../../utils/css-architect";
-import ThisTransitionExpand from "../ThisTransition/ThisTransitionExpand";
+import ThisExpand from "../ThisAnimation/ThisExpand";
 
 export default {
   name: "ThisPanel",
   mixins: [common, helpers, syntax],
-  components: { ThisTransitionExpand, ThisPanelHeading },
+  components: { ThisExpand, ThisPanelHeading },
   props: {
     title: {
       type: String

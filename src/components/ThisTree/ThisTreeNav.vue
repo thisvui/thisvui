@@ -31,7 +31,7 @@
         <div v-show="open" class="icon"><i :class="openedIcon" /></div>
       </span>
     </a>
-    <this-transition-expand>
+    <this-expand>
       <div ref="children" v-if="isFolder && open" :class="getChildrenClasses">
         <ul>
           <this-tree-nav
@@ -45,7 +45,7 @@
           />
         </ul>
       </div>
-    </this-transition-expand>
+    </this-expand>
   </li>
 </template>
 
@@ -57,13 +57,13 @@ import ThisIcon from "../ThisIcon/ThisIcon";
 import Vue from "vue";
 import CssArchitect from "../../utils/css-architect";
 import ThisTag from "../ThisTag/ThisTag";
-import ThisTransitionExpand from "../ThisTransition/ThisTransitionExpand";
+import ThisExpand from "../ThisAnimation/ThisExpand";
 
 export default {
   name: "ThisTreeNav",
   mixins: [common, helpers, tree],
   components: {
-    ThisTransitionExpand,
+    ThisExpand,
     ThisTag,
     ThisIcon
   },

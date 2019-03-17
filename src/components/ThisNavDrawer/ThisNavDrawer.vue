@@ -1,5 +1,5 @@
 <template>
-  <this-transition-slide
+  <this-slide
     :is-open="isOpen"
     :width="width"
     :animation-duration="animationDuration"
@@ -37,7 +37,7 @@
         </template>
       </aside>
     </div>
-  </this-transition-slide>
+  </this-slide>
 </template>
 
 <script>
@@ -47,11 +47,11 @@ import tree from "../../mixins/tree";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
 import ThisTreeNav from "../ThisTree/ThisTreeNav";
-import ThisTransitionSlide from "../ThisTransition/ThisTransitionSlide";
+import ThisSlide from "../ThisAnimation/ThisSlide";
 
 export default {
   name: "ThisNavDrawer",
-  components: { ThisTransitionSlide, ThisTreeNav },
+  components: { ThisSlide, ThisTreeNav },
   mixins: [helpers, sizes, tree, common],
   props: {
     model: {
