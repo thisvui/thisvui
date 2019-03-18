@@ -1,5 +1,10 @@
 <template>
-  <div ref="slideContainer" :class="getClasses" :style="`width:${width}px`">
+  <div
+    ref="slideContainer"
+    :class="getClasses"
+    :style="`width:${getWidth}px`"
+    v-this-click-outside="handleOutsideClick"
+  >
     <slot />
   </div>
 </template>
@@ -43,6 +48,10 @@ export default {
       const cssArchitect = new CssArchitect("this-animation-container slide");
       cssArchitect.addClass("is-absolute", this.isAbsolute);
       return cssArchitect.getClasses();
+    },
+    getWidth: function() {
+      let width = `${this.width}${this.unity}`;
+      return this.isOpen ? width : "0";
     }
   },
   watch: {
@@ -50,24 +59,28 @@ export default {
       this.toggleSlide();
     }
   },
-  data() {
-    return {
-      wApiSupported: false
-    };
-  },
   methods: {
-    toggleSlide() {
+    getTarget() {
       let element = this.$refs.slideContainer;
       if (!element) {
         throw new DOMException("Cannot animate undefined element");
       }
+      return element;
+    },
+    toggleSlide() {
       let width = `${this.width}${this.unity}`;
-      element.style.width = this.isOpen ? width : "0";
+      this.changeWidth(this.getWidth);
+    },
+    handleOutsideClick(e) {
+      this.$emit("clickedOutside", e);
+    },
+    changeWidth(width) {
+      this.getTarget().style.width = width;
     }
   },
   mounted() {
     this.$nextTick(function() {
-      this.toggleSlide();
+      this.toggleSlide;
     });
   }
 };

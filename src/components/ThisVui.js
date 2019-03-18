@@ -1,5 +1,6 @@
 import * as components from "../components";
 import { ThisValidate } from "../components/ThisValidation/validation-bus";
+import ClickOutside from "../directives/click-outside";
 
 const ThisVui = {
   install(Vue, options = {}) {
@@ -8,6 +9,7 @@ const ThisVui = {
       Vue.component(component.name, component);
     });
     Vue.use(ThisValidate);
+    Vue.directive("this-click-outside", ClickOutside);
   }
 };
 

@@ -1,9 +1,11 @@
 <template>
   <this-slide
     :is-open="isOpen"
+    :is-absolute="isAbsolute"
     :width="width"
     :animation-duration="animationDuration"
     :animation-fill="animationFill"
+    @clickedOutside="handleOutsideClick"
   >
     <div
       :id="id"
@@ -61,6 +63,10 @@ export default {
     isOpen: {
       type: Boolean,
       default: true
+    },
+    isAbsolute: {
+      type: Boolean,
+      default: false
     },
     hideLabel: {
       type: [Boolean, String],
@@ -133,6 +139,11 @@ export default {
     return {
       parentProps: this.$parent.$props
     };
+  },
+  methods: {
+    handleOutsideClick(e) {
+      this.$emit("clickedOutside", e);
+    }
   }
 };
 </script>
