@@ -2,7 +2,7 @@
   <div
     ref="slideContainer"
     :class="getClasses"
-    :style="`width:${getWidth}px`"
+    :style="`width:${initialWidth}px`"
     v-this-click-outside="handleOutsideClick"
   >
     <slot />
@@ -51,8 +51,13 @@ export default {
     },
     getWidth: function() {
       let width = `${this.width}${this.unity}`;
-      return this.isOpen ? width : "0";
+      return this.isOpen ? width : this.initialWidth;
     }
+  },
+  data() {
+    return {
+      initialWidth: 0
+    };
   },
   watch: {
     isOpen: function(newVal, oldVal) {
@@ -68,7 +73,6 @@ export default {
       return element;
     },
     toggleSlide() {
-      let width = `${this.width}${this.unity}`;
       this.changeWidth(this.getWidth);
     },
     handleOutsideClick(e) {
@@ -80,7 +84,7 @@ export default {
   },
   mounted() {
     this.$nextTick(function() {
-      this.toggleSlide;
+      this.toggleSlide();
     });
   }
 };
