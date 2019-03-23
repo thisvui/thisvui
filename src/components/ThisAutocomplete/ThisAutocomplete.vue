@@ -4,14 +4,14 @@
       v-if="labelIcon !== undefined && !getBoolean(labelIconRight)"
       :class="getLabelIconClass"
     >
-      <i :class="labelIcon"></i>
+      <this-icon :icon="labelIcon"></this-icon>
     </span>
     <label v-if="!getRemoveLabel" :class="getLabelClass">{{ label }}</label>
     <span
       v-if="labelIcon !== undefined && getBoolean(labelIconRight)"
       :class="getLabelIconClass"
     >
-      <i :class="labelIcon"></i>
+      <this-icon :icon="labelIcon"></this-icon>
     </span>
     <div :class="getControlClass">
       <input
@@ -33,10 +33,10 @@
         @keydown.enter="onEnter"
       />
       <span v-if="icon" :class="getIconClass">
-        <i :class="icon"></i>
+        <this-icon :icon="icon"></this-icon>
       </span>
       <span v-if="valid" class="icon is-right has-text-success">
-        <i class="fas fa-check" />
+        <this-icon :icon="$thisvui.icons.check"></this-icon>
       </span>
       <template v-for="error in errors">
         <p
@@ -87,13 +87,11 @@ import utils from "../../utils/utils";
 import input from "../../mixins/input";
 import alignment from "../../mixins/alignment";
 import CssArchitect from "../../utils/css-architect";
-import ThisBox from "../ThisBox/ThisBox";
 import ThisIcon from "../ThisIcon/ThisIcon";
-import ThisAction from "../ThisAction/ThisAction";
 
 export default {
   name: "ThisAutocomplete",
-  components: { ThisAction, ThisIcon, ThisBox },
+  components: { ThisIcon },
   mixins: [input, alignment],
   props: {
     items: {

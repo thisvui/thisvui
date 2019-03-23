@@ -11,11 +11,15 @@ export default {
     },
     openedIcon: {
       type: String,
-      default: "fas fa-angle-up"
+      default: function() {
+        return this.$thisvui.icons.arrowUp;
+      }
     },
     closedIcon: {
       type: String,
-      default: "fas fa-angle-down"
+      default: function() {
+        return this.$thisvui.icons.arrowDown;
+      }
     },
     removeListStyle: {
       type: [Boolean, String],

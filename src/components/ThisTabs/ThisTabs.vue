@@ -22,7 +22,7 @@
               v-if="tab.icon"
               :class="tab.isActive ? `icon` : `icon ${tab.iconClass}`"
             >
-              <i :class="tab.icon"></i>
+              <this-icon :icon="tab.icon"></this-icon>
             </span>
             <span v-if="tab.name" v-text="tab.name"></span>
           </a>

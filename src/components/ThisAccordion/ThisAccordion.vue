@@ -28,11 +28,15 @@ export default {
     },
     icon: {
       type: String,
-      default: "fas fa-plus-circle"
+      default: function() {
+        return this.$thisvui.icons.add;
+      }
     },
     collapsedIcon: {
       type: String,
-      default: "fas fa-minus-circle"
+      default: function() {
+        return this.$thisvui.icons.cancel;
+      }
     },
     remainOpen: {
       type: [Boolean, String],

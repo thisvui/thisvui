@@ -24,7 +24,7 @@
       >
     </template>
     <span v-if="valid" class="icon is-right has-text-success">
-      <i class="fas fa-check" />
+      <this-icon :icon="$thisvui.icons.check"></this-icon>
     </span>
     <template v-for="error in errors">
       <p

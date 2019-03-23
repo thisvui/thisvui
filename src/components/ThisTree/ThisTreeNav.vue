@@ -27,8 +27,8 @@
         >{{ model.tag }}</this-tag
       >
       <span v-if="isFolder">
-        <div v-show="!open" class="icon"><i :class="closedIcon" /></div>
-        <div v-show="open" class="icon"><i :class="openedIcon" /></div>
+        <div v-show="!open" class="icon"><this-icon :icon="closedIcon" /></div>
+        <div v-show="open" class="icon"><this-icon :icon="openedIcon" /></div>
       </span>
     </a>
     <this-expand>

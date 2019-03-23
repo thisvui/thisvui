@@ -49,7 +49,9 @@ export default {
     },
     collapsedHeadingIcon: {
       type: String,
-      default: "fas fa-minus-circle"
+      default: function() {
+        return this.$thisvui.icons.collapse;
+      }
     }
   },
   computed: {

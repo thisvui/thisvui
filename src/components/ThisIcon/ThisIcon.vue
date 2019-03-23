@@ -1,8 +1,12 @@
 <template>
   <span :class="getContainerClass" :key="`${id}-${icon}`">
-    <span :class="getLayerClass" :data-tooltip="dataTooltip">
+    <span :class="getFa5LayerClass" :data-tooltip="dataTooltip" v-if="isFa5">
       <i :class="icon" />
     </span>
+    <i :class="getMaterialIconsClass" :data-tooltip="dataTooltip" v-if="isMd">
+      {{ icon }}
+    </i>
+    <i :class="icon" :data-tooltip="dataTooltip" v-if="isFa4" />
   </span>
 </template>
 
@@ -16,6 +20,9 @@ export default {
   name: "ThisIcon",
   mixins: [common, syntax, sizes],
   props: {
+    iconLib: {
+      type: String
+    },
     icon: {
       type: String,
       required: true
@@ -34,10 +41,20 @@ export default {
     return {
       containerClass: "icon ",
       tooltipContainerClass: "tooltip ",
-      layerContainerClass: "fa-layers fa-fw "
+      layerContainerClass: "fa-layers fa-fw ",
+      iconLibrary: ""
     };
   },
   computed: {
+    isFa5() {
+      return "fa5" === this.iconLibrary;
+    },
+    isFa4() {
+      return "fa4" === this.iconLibrary;
+    },
+    isMd() {
+      return "md" === this.iconLibrary;
+    },
     /**
      * Dynamically build the css classes for the icon container element
      * @returns { A String with the chained css classes }
@@ -62,12 +79,32 @@ export default {
      * Dynamically build the css classes for the layer element
      * @returns { A String with the chained css classes }
      */
-    getLayerClass: function() {
+    getFa5LayerClass: function() {
       const cssArchitect = new CssArchitect("fa-layers fa-fw");
       cssArchitect.addClass(this.layerClass);
       cssArchitect.addClass(this.getTooltipClass);
       return cssArchitect.getClasses();
+    },
+    getMaterialIconsClass: function() {
+      const cssArchitect = new CssArchitect("material-icons");
+      cssArchitect.addClass(this.getTooltipClass);
+      return cssArchitect.getClasses();
     }
+  },
+  methods: {
+    configureIconLib() {
+      let parent = this.$parent;
+      let iconLib = parent && parent.$props ? parent.$props.iconLib : null;
+      this.iconLibrary =
+        parent && iconLib
+          ? iconLib
+          : this.iconLib
+          ? this.iconLib
+          : this.$thisvui.iconLib;
+    }
+  },
+  mounted() {
+    this.configureIconLib();
   }
 };
 </script>

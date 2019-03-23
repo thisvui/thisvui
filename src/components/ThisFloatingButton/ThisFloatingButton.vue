@@ -32,7 +32,9 @@ export default {
     },
     icon: {
       type: String,
-      default: "fas fa-layer-group"
+      default: function() {
+        return this.$thisvui.icons.floatingButton;
+      }
     },
     label: {
       type: String

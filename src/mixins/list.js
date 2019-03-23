@@ -26,15 +26,21 @@ export default {
     },
     sortIcon: {
       type: String,
-      default: "fas fa-sort"
+      default: function() {
+        return this.$thisvui.icons.sort;
+      }
     },
     ascendingIcon: {
       type: String,
-      default: "fas fa-sort-up"
+      default: function() {
+        return this.$thisvui.icons.sortUp;
+      }
     },
     descendingIcon: {
       type: String,
-      default: "fas fa-sort-down"
+      default: function() {
+        return this.$thisvui.icons.sortDown;
+      }
     }
   },
   computed: {

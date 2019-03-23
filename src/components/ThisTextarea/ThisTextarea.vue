@@ -4,7 +4,7 @@
       v-if="labelIcon !== undefined && !getBoolean(labelIconRight)"
       :class="getLabelIconClass"
     >
-      <i :class="labelIcon"></i>
+      <this-icon :icon="labelIcon"></this-icon>
     </span>
     <label :for="id" v-if="!getRemoveLabel" :class="getLabelClass">{{
       label
@@ -13,7 +13,7 @@
       v-if="labelIcon !== undefined && getBoolean(labelIconRight)"
       :class="getLabelIconClass"
     >
-      <i :class="labelIcon"></i>
+      <this-icon :icon="labelIcon"></this-icon>
     </span>
     <div :class="getControlClass">
       <textarea
@@ -32,10 +32,10 @@
       >
       </textarea>
       <span v-if="icon" :class="getIconClass">
-        <i :class="icon"></i>
+        <this-icon :icon="icon"></this-icon>
       </span>
       <span v-if="valid" class="icon is-right has-text-success">
-        <i class="fas fa-check" />
+        <this-icon :icon="$thisvui.icons.check" />
       </span>
       <template v-for="error in errors">
         <p

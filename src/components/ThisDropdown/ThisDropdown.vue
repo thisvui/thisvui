@@ -9,7 +9,7 @@
       >
         <span>{{ text }}</span>
         <span class="icon is-small">
-          <i :class="icon" aria-hidden="true"></i>
+          <this-icon :icon="icon"></this-icon>
         </span>
       </button>
     </div>
@@ -26,21 +26,20 @@ import alignment from "../../mixins/alignment";
 import sizes from "../../mixins/sizes";
 import helpers from "../../mixins/helpers";
 import common from "../../mixins/common";
-import ThisImage from "../ThisImage/ThisImage";
 import CssArchitect from "../../utils/css-architect";
-import ThisIcon from "../ThisIcon/ThisIcon";
 
 export default {
   name: "ThisDropdown",
   mixins: [common, alignment, sizes, helpers],
-  components: { ThisIcon, ThisImage },
   props: {
     text: {
       type: String
     },
     icon: {
       type: String,
-      default: "fas fa-angle-down"
+      default: function() {
+        return this.$thisvui.icons.arrowDown;
+      }
     },
     isUp: {
       type: [Boolean, String],

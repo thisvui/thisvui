@@ -16,7 +16,7 @@
         />
         <span class="file-content is-size-6">
           <span class="file-icon">
-            <i class="fas fa-upload"></i>
+            <this-icon :icon="$thisvui.icons.upload"></this-icon>
           </span>
           <span class="file-label">
             <p v-if="isInitialUpload">
@@ -128,7 +128,9 @@ export default {
     },
     submitIcon: {
       type: String,
-      default: "fas fa-upload"
+      default: function() {
+        return this.$thisvui.icons.upload;
+      }
     },
     submitClass: {
       type: String,
@@ -140,7 +142,9 @@ export default {
     },
     clearIcon: {
       type: String,
-      default: "fas fa-trash"
+      default: function() {
+        return this.$thisvui.icons.remove;
+      }
     },
     clearClass: {
       type: String,

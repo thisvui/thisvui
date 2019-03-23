@@ -5,14 +5,14 @@
         v-if="labelIcon !== undefined && !getBoolean(labelIconRight)"
         :class="getLabelIconClass"
       >
-        <i :class="labelIcon"></i>
+        <this-icon :icon="labelIcon"></this-icon>
       </span>
       <label :class="getLabelClass">{{ label }}</label>
       <span
         v-if="labelIcon !== undefined && getBoolean(labelIconRight)"
         :class="getLabelIconClass"
       >
-        <i :class="labelIcon"></i>
+        <this-icon :icon="labelIcon"></this-icon>
       </span>
     </div>
     <div v-if="value">
@@ -20,14 +20,14 @@
         v-if="icon !== undefined && !getBoolean(labelIconRight)"
         :class="getLabelIconClass"
       >
-        <i :class="icon"></i>
+        <this-icon :icon="icon"></this-icon>
       </span>
       <label :class="getValueClass">{{ value }}</label>
       <span
         v-if="icon !== undefined && getBoolean(labelIconRight)"
         :class="getLabelIconClass"
       >
-        <i :class="icon"></i>
+        <this-icon :icon="icon"></this-icon>
       </span>
     </div>
   </div>
@@ -55,7 +55,7 @@ export default {
       default: "has-text-left"
     },
     value: {
-      type: String | Number
+      type: [String, Number]
     },
     valueClass: {
       type: String,

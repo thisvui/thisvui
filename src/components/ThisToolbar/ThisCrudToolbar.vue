@@ -11,7 +11,7 @@
       <this-icon
         :key="id + 'edit'"
         :data-tooltip="editTooltip"
-        icon="fas fa-edit"
+        :icon="$thisvui.icons.edit"
         tooltip-class="s-tooltip-top"
       />
     </this-action>
@@ -27,7 +27,7 @@
       <this-icon
         :key="id + 'save'"
         :data-tooltip="saveTooltip"
-        icon="fas fa-save"
+        :icon="$thisvui.icons.save"
         tooltip-class="is-tooltip-top"
       />
     </this-action>
@@ -42,7 +42,7 @@
       <this-icon
         :key="id + 'cancel'"
         :data-tooltip="cancelTooltip"
-        icon="fas fa-minus-circle"
+        :icon="$thisvui.icons.cancel"
         tooltip-class="is-tooltip-top"
       />
     </this-action>
@@ -57,7 +57,7 @@
       <this-icon
         :key="id + 'remove'"
         :data-tooltip="removeTooltip"
-        icon="fas fa-trash"
+        :icon="$thisvui.icons.remove"
         tooltip-class="is-tooltip-top"
       />
     </this-action>
@@ -72,7 +72,7 @@
       <this-icon
         :key="id + 'remove'"
         :data-tooltip="activateTooltip"
-        icon="fas fa-check"
+        :icon="$thisvui.icons.check"
         class="has-text-success toolbar-button"
         tooltip-class="is-tooltip-top"
       />
@@ -88,7 +88,7 @@
       <this-icon
         :key="id + 'add'"
         :data-tooltip="addTooltip"
-        icon="fas fa-plus-circle"
+        :icon="$thisvui.icons.add"
         class="has-text-success toolbar-button"
         tooltip-class="is-tooltip-top"
       />

@@ -4,7 +4,7 @@
       v-if="filtered"
       :container-class="getSearchClasses"
       v-model="searchKey"
-      icon="fas fa-search"
+      :icon="$thisvui.icons.search"
     >
     </this-input>
     <this-paginator
@@ -14,8 +14,8 @@
       :show-text="showText"
       :previous-text="previousText"
       :next-text="nextText"
-      previous-icon="fas fa-angle-left"
-      next-icon="fas fa-angle-right"
+      :previous-icon="$thisvui.icons.arrowLeft"
+      :next-icon="$thisvui.icons.arrowRight"
       :previous-btn-class="previousBtnClass"
       :next-btn-class="nextBtnClass"
       is-right="true"
@@ -39,8 +39,8 @@
       :show-text="showText"
       :previous-text="previousText"
       :next-text="nextText"
-      previous-icon="fas fa-angle-left"
-      next-icon="fas fa-angle-right"
+      :previous-icon="$thisvui.icons.arrowLeft"
+      :next-icon="$thisvui.icons.arrowRight"
       :previous-btn-class="previousBtnClass"
       :next-btn-class="nextBtnClass"
       is-right="true"
