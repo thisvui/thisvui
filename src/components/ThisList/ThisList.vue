@@ -4,6 +4,7 @@
       v-if="filtered"
       :container-class="getSearchClasses"
       v-model="searchKey"
+      :override-defaults="overrideDefaults"
       :icon="$thisvui.icons.search"
     >
     </this-input>
@@ -14,8 +15,6 @@
       :show-text="showText"
       :previous-text="previousText"
       :next-text="nextText"
-      :previous-icon="$thisvui.icons.arrowLeft"
-      :next-icon="$thisvui.icons.arrowRight"
       :previous-btn-class="previousBtnClass"
       :next-btn-class="nextBtnClass"
       is-right="true"
@@ -26,6 +25,8 @@
       :show-numbers="showNumbers"
       :link-class="linkClass"
       :current-link-class="currentLinkClass"
+      :icon-lib="iconLib"
+      :override-defaults="overrideDefaults"
     />
     <ul :class="getClasses">
       <li v-for="(item, index) in getItems" :key="index">
@@ -39,8 +40,6 @@
       :show-text="showText"
       :previous-text="previousText"
       :next-text="nextText"
-      :previous-icon="$thisvui.icons.arrowLeft"
-      :next-icon="$thisvui.icons.arrowRight"
       :previous-btn-class="previousBtnClass"
       :next-btn-class="nextBtnClass"
       is-right="true"
@@ -51,6 +50,8 @@
       :show-numbers="showNumbers"
       :link-class="linkClass"
       :current-link-class="currentLinkClass"
+      :icon-lib="iconLib"
+      :override-defaults="overrideDefaults"
     />
   </div>
 </template>

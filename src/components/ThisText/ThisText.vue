@@ -38,10 +38,13 @@ import utils from "../../utils/utils";
 import CssArchitect from "../../utils/css-architect";
 import helpers from "../../mixins/helpers";
 import common from "../../mixins/common";
+import icons from "../../mixins/icons";
+import ThisIcon from "../ThisIcon/ThisIcon";
 
 export default {
   name: "ThisText",
-  mixins: [common, helpers],
+  components: { ThisIcon },
+  mixins: [common, helpers, icons],
   props: {
     name: {
       type: String
@@ -144,9 +147,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getLabelIconClass: function() {
-      const cssArchitect = new CssArchitect(
-        "icon is-small is-left is-inline-flex"
-      );
+      const cssArchitect = new CssArchitect("is-small is-left is-inline-flex");
       cssArchitect.addClass(
         this.labelIconClass,
         this.labelIconClass !== undefined

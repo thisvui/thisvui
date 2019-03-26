@@ -16,7 +16,10 @@
         />
         <span class="file-content is-size-6">
           <span class="file-icon">
-            <this-icon :icon="$thisvui.icons.upload"></this-icon>
+            <this-icon
+              :preserve-defaults="!overrideDefaults"
+              :icon="$thisvui.icons.upload"
+            ></this-icon>
           </span>
           <span class="file-label">
             <p v-if="isInitialUpload">
@@ -65,6 +68,7 @@
 <script>
 import input from "../../mixins/input";
 import alignment from "../../mixins/alignment";
+import icons from "../../mixins/icons";
 import CssArchitect from "../../utils/css-architect";
 import ThisBox from "../ThisBox/ThisBox";
 import ThisIcon from "../ThisIcon/ThisIcon";
@@ -88,7 +92,7 @@ export default {
     ThisIcon,
     ThisBox
   },
-  mixins: [input, alignment],
+  mixins: [input, alignment, icons],
   props: {
     accept: {
       type: String,

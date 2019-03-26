@@ -4,11 +4,12 @@ import states from "./states";
 import sizes from "./sizes";
 import helpers from "./helpers";
 import common from "./common";
+import icons from "./icons";
 import utils from "../utils/utils";
 import CssArchitect from "../utils/css-architect";
 
 export default {
-  mixins: [common, validation, syntax, states, sizes, helpers],
+  mixins: [common, validation, syntax, states, sizes, helpers, icons],
   props: {
     name: {
       type: String

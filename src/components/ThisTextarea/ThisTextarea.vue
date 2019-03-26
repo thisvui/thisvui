@@ -32,10 +32,16 @@
       >
       </textarea>
       <span v-if="icon" :class="getIconClass">
-        <this-icon :icon="icon"></this-icon>
+        <this-icon
+          :preserve-defaults="!overrideDefaults"
+          :icon="icon"
+        ></this-icon>
       </span>
       <span v-if="valid" class="icon is-right has-text-success">
-        <this-icon :icon="$thisvui.icons.check" />
+        <this-icon
+          :preserve-defaults="!overrideDefaults"
+          :icon="$thisvui.icons.check"
+        />
       </span>
       <template v-for="error in errors">
         <p
@@ -52,9 +58,11 @@
 <script>
 import input from "../../mixins/input";
 import utils from "../../utils/utils";
+import ThisIcon from "../ThisIcon/ThisIcon";
 
 export default {
   name: "ThisTextarea",
+  components: { ThisIcon },
   mixins: [input],
   props: {
     rows: {

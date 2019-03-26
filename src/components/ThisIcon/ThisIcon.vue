@@ -20,12 +20,16 @@ export default {
   name: "ThisIcon",
   mixins: [common, syntax, sizes],
   props: {
-    iconLib: {
-      type: String
-    },
     icon: {
       type: String,
       required: true
+    },
+    iconLib: {
+      type: String
+    },
+    preserveDefaults: {
+      type: Boolean,
+      default: false
     },
     dataTooltip: {
       type: String
@@ -93,14 +97,17 @@ export default {
   },
   methods: {
     configureIconLib() {
-      let parent = this.$parent;
-      let iconLib = parent && parent.$props ? parent.$props.iconLib : null;
-      this.iconLibrary =
-        parent && iconLib
-          ? iconLib
-          : this.iconLib
+      if (this.preserveDefaults) {
+        this.iconLibrary = this.$thisvui.iconLib;
+      } else {
+        let parent = this.$parent;
+        let pIconLib = parent && parent.$props ? parent.$props.iconLib : null;
+        this.iconLibrary = this.iconLib
           ? this.iconLib
+          : parent && pIconLib
+          ? pIconLib
           : this.$thisvui.iconLib;
+      }
     }
   },
   mounted() {

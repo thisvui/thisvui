@@ -1,4 +1,7 @@
+import icons from "./icons";
+
 export default {
+  mixins: [icons],
   props: {
     showNumbers: {
       type: [Boolean, String],
@@ -38,10 +41,16 @@ export default {
       default: "Next"
     },
     previousIcon: {
-      type: String
+      type: String,
+      default: function() {
+        return this.$thisvui.icons.arrowLeft;
+      }
     },
     nextIcon: {
-      type: String
+      type: String,
+      default: function() {
+        return this.$thisvui.icons.arrowRight;
+      }
     },
     previousIconClass: {
       type: String

@@ -10,11 +10,12 @@ import alignment from "../../mixins/alignment";
 import sizes from "../../mixins/sizes";
 import helpers from "../../mixins/helpers";
 import common from "../../mixins/common";
+import icons from "../../mixins/icons";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
   name: "ThisAccordion",
-  mixins: [common, syntax, alignment, sizes, helpers],
+  mixins: [common, syntax, alignment, sizes, helpers, icons],
   props: {
     isBorderless: {
       type: [String, Boolean]

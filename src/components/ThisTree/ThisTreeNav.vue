@@ -27,8 +27,18 @@
         >{{ model.tag }}</this-tag
       >
       <span v-if="isFolder">
-        <div v-show="!open" class="icon"><this-icon :icon="closedIcon" /></div>
-        <div v-show="open" class="icon"><this-icon :icon="openedIcon" /></div>
+        <div v-show="!open" class="icon">
+          <this-icon
+            :preserve-defaults="!overrideDefaults"
+            :icon="closedIcon"
+          />
+        </div>
+        <div v-show="open" class="icon">
+          <this-icon
+            :preserve-defaults="!overrideDefaults"
+            :icon="openedIcon"
+          />
+        </div>
       </span>
     </a>
     <this-expand>
@@ -53,15 +63,15 @@
 import helpers from "../../mixins/helpers";
 import tree from "../../mixins/tree";
 import common from "../../mixins/common";
+import icons from "../../mixins/icons";
 import ThisIcon from "../ThisIcon/ThisIcon";
-import Vue from "vue";
 import CssArchitect from "../../utils/css-architect";
 import ThisTag from "../ThisTag/ThisTag";
 import ThisExpand from "../ThisAnimation/ThisExpand";
 
 export default {
   name: "ThisTreeNav",
-  mixins: [common, helpers, tree],
+  mixins: [common, helpers, tree, icons],
   components: {
     ThisExpand,
     ThisTag,

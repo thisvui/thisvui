@@ -13,6 +13,8 @@
         :icon-tooltip-class="previousIconTooltipClass"
         :is-paddingless="isPaddingless"
         :is-shadowless="isShadowless"
+        :icon-lib="iconLib"
+        :override-defaults="overrideDefaults"
       />
       <this-paginator-control
         v-if="isControlsOutside"
@@ -26,6 +28,8 @@
         :icon-tooltip-class="nextIconTooltipClass"
         :is-paddingless="isPaddingless"
         :is-shadowless="isShadowless"
+        :icon-lib="iconLib"
+        :override-defaults="overrideDefaults"
       />
       <ul :class="getListClass">
         <li>
@@ -60,6 +64,8 @@
             :icon-tooltip-class="previousIconTooltipClass"
             :is-paddingless="isPaddingless"
             :is-shadowless="isShadowless"
+            :icon-lib="iconLib"
+            :override-defaults="overrideDefaults"
           />
         </li>
         <li>
@@ -128,6 +134,8 @@
             :icon-tooltip-class="nextIconTooltipClass"
             :is-paddingless="isPaddingless"
             :is-shadowless="isShadowless"
+            :icon-lib="iconLib"
+            :override-defaults="overrideDefaults"
           />
         </li>
       </ul>

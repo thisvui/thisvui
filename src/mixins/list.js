@@ -1,8 +1,9 @@
 import pagination from "./pagination";
+import icons from "./icons";
 import CssArchitect from "../utils/css-architect";
 
 export default {
-  mixins: [pagination],
+  mixins: [pagination, icons],
   props: {
     items: {
       type: Array,

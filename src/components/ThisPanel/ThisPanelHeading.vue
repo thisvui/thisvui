@@ -4,18 +4,25 @@
     <span v-if="headingText !== undefined" class="is-size-6">{{
       headingText
     }}</span>
-    <this-icon v-if="icon !== undefined" :icon="icon" :class="getIconClasses">
+    <this-icon
+      v-if="icon !== undefined"
+      :preserve-defaults="!overrideDefaults"
+      :icon="icon"
+      :class="getIconClasses"
+    >
     </this-icon>
     <slot v-if="alignContentRight" />
   </div>
 </template>
 
 <script>
+import icons from "../../mixins/icons";
 import CssArchitect from "../../utils/css-architect";
 import ThisIcon from "../ThisIcon/ThisIcon";
 
 export default {
   name: "ThisPanelHeading",
+  mixins: [icons],
   components: { ThisIcon },
   props: {
     headingText: {

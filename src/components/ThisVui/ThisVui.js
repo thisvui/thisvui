@@ -1,6 +1,6 @@
 import * as components from "..";
 import { ThisValidate } from "../ThisValidation/validation-bus";
-import { ThisIconLib } from "../ThisIcon/icon-lib";
+import { ThisIconLib } from "../ThisIcon/IconLib";
 import ClickOutside from "../../directives/click-outside";
 import ThisvuiConfig from "./config";
 

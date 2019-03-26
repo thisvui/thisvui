@@ -1,4 +1,7 @@
+import icons from "./icons";
+
 export default {
+  mixins: [icons],
   props: {
     tagClass: {
       type: String

@@ -4,7 +4,11 @@
       <span :class="getLabelClasses" v-if="label && !showIcon">{{
         label
       }}</span>
-      <this-icon :icon="icon" v-if="getBoolean(showIcon)"></this-icon>
+      <this-icon
+        :preserve-defaults="!overrideDefaults"
+        :icon="icon"
+        v-if="getBoolean(showIcon)"
+      ></this-icon>
     </div>
     <ul :class="getOptionsClasses" v-if="getBoolean(isMenu)">
       <li v-for="(item, index) in items">
@@ -21,11 +25,14 @@
 import sizes from "../../mixins/sizes";
 import colors from "../../mixins/colors";
 import common from "../../mixins/common";
+import icons from "../../mixins/icons";
 import CssArchitect from "../../utils/css-architect";
+import ThisIcon from "../ThisIcon/ThisIcon";
 
 export default {
   name: "ThisFloatingButton",
-  mixins: [common, sizes, colors],
+  components: { ThisIcon },
+  mixins: [common, sizes, colors, icons],
   props: {
     items: {
       type: Array

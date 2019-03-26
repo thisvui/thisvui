@@ -11,6 +11,8 @@
               v-if="itemIcon"
               :icon="itemIcon"
               :class="iconClass"
+              :icon-lib="iconLib"
+              :preserve-defaults="!overrideDefaults"
             ></this-icon>
           </a>
         </template>
@@ -33,14 +35,16 @@ import syntax from "../../mixins/syntax";
 import sizes from "../../mixins/sizes";
 import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
+import icons from "../../mixins/icons";
 import CssArchitect from "../../utils/css-architect";
 import ThisExpand from "../ThisAnimation/ThisExpand";
 import ThisLevel from "../ThisLevel/ThisLevel";
+import ThisIcon from "../ThisIcon/ThisIcon";
 
 export default {
   name: "ThisAccordionItem",
-  components: { ThisLevel, ThisExpand },
-  mixins: [common, syntax, sizes, helper],
+  components: { ThisIcon, ThisLevel, ThisExpand },
+  mixins: [common, syntax, sizes, helper, icons],
   props: {
     title: {
       type: String

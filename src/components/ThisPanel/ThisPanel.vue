@@ -2,6 +2,8 @@
   <nav :id="id" :class="getClasses">
     <this-panel-heading
       v-if="title !== undefined"
+      :icon-lib="iconLib"
+      :override-defaults="overrideDefaults"
       :class="headingClass"
       :heading-text="title"
       :heading-icon="icon"
@@ -22,13 +24,14 @@
 import syntax from "../../mixins/syntax";
 import helpers from "../../mixins/helpers";
 import common from "../../mixins/common";
+import icons from "../../mixins/icons";
 import ThisPanelHeading from "./ThisPanelHeading";
 import CssArchitect from "../../utils/css-architect";
 import ThisExpand from "../ThisAnimation/ThisExpand";
 
 export default {
   name: "ThisPanel",
-  mixins: [common, helpers, syntax],
+  mixins: [common, helpers, syntax, icons],
   components: { ThisExpand, ThisPanelHeading },
   props: {
     title: {

@@ -4,6 +4,7 @@
       v-if="filtered"
       :container-class="getSearchClasses"
       v-model="searchKey"
+      :override-defaults="overrideDefaults"
       :icon="$thisvui.icons.search"
     >
     </this-input>
@@ -14,8 +15,6 @@
       :show-text="showText"
       :previous-text="previousText"
       :next-text="nextText"
-      :previous-icon="$thisvui.icons.arrowLeft"
-      :next-icon="$thisvui.icons.arrowRight"
       :previous-btn-class="previousBtnClass"
       :next-btn-class="nextBtnClass"
       is-right="true"
@@ -27,6 +26,8 @@
       :show-numbers="showNumbers"
       :link-class="linkClass"
       :current-link-class="currentLinkClass"
+      :icon-lib="iconLib"
+      :override-defaults="overrideDefaults"
     />
     <table :id="id" :class="getClasses">
       <thead>
@@ -94,8 +95,6 @@
       :show-text="showText"
       :previous-text="previousText"
       :next-text="nextText"
-      :previous-icon="$thisvui.icons.arrowLeft"
-      :next-icon="$thisvui.icons.arrowRight"
       :previous-btn-class="previousBtnClass"
       :next-btn-class="nextBtnClass"
       is-right="true"
@@ -107,22 +106,24 @@
       :show-numbers="showNumbers"
       :link-class="linkClass"
       :current-link-class="currentLinkClass"
+      :icon-lib="iconLib"
+      :override-defaults="overrideDefaults"
     />
   </div>
 </template>
 
 <script>
 import CssArchitect from "../../utils/css-architect";
-import { ThisPaginator } from "../ThisPaginator";
 import helpers from "../../mixins/helpers";
 import list from "../../mixins/list";
 import common from "../../mixins/common";
 import ThisInput from "../ThisInput/ThisInput";
 import ThisCheckbox from "../ThisCheckbox/ThisCheckbox";
+import ThisPaginator from "../ThisPaginator/ThisPaginator";
 
 export default {
   name: "ThisTable",
-  components: { ThisCheckbox, ThisInput, ThisPaginator },
+  components: { ThisPaginator, ThisCheckbox, ThisInput },
   mixins: [common, helpers, list],
   filters: {
     capitalize: function(str) {

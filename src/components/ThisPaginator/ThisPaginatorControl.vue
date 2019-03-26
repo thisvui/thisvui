@@ -3,6 +3,7 @@
     <action type="link" :disabled="disabled" :class="btnClass" @click="onClick">
       <this-icon
         v-if="icon"
+        :preserve-defaults="!overrideDefaults"
         :icon="icon"
         :class="getIconClass"
         :data-tooltip="iconTooltip"
@@ -17,11 +18,12 @@ import Action from "../ThisAction/ThisAction";
 import ThisIcon from "../ThisIcon/ThisIcon";
 import CssArchitect from "../../utils/css-architect";
 import helpers from "../../mixins/helpers";
+import icons from "../../mixins/icons";
 
 export default {
   name: "ThisPaginatorControl",
   components: { ThisIcon, Action },
-  mixins: [helpers],
+  mixins: [helpers, icons],
   props: {
     showText: {
       type: Boolean,

@@ -9,7 +9,10 @@
       >
         <span>{{ text }}</span>
         <span class="icon is-small">
-          <this-icon :icon="icon"></this-icon>
+          <this-icon
+            :preserve-defaults="!overrideDefaults"
+            :icon="icon"
+          ></this-icon>
         </span>
       </button>
     </div>
@@ -26,11 +29,14 @@ import alignment from "../../mixins/alignment";
 import sizes from "../../mixins/sizes";
 import helpers from "../../mixins/helpers";
 import common from "../../mixins/common";
+import icons from "../../mixins/icons";
 import CssArchitect from "../../utils/css-architect";
+import ThisIcon from "../ThisIcon/ThisIcon";
 
 export default {
   name: "ThisDropdown",
-  mixins: [common, alignment, sizes, helpers],
+  components: { ThisIcon },
+  mixins: [common, alignment, sizes, helpers, icons],
   props: {
     text: {
       type: String

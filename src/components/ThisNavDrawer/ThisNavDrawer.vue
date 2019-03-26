@@ -33,6 +33,8 @@
               :link-class="getLinkClass"
               :opened-icon="openedIcon"
               :closed-icon="closedIcon"
+              :icon-lib="iconLib"
+              :override-defaults="overrideDefaults"
             >
             </this-tree-nav>
           </ul>
@@ -47,6 +49,7 @@ import helpers from "../../mixins/helpers";
 import sizes from "../../mixins/sizes";
 import tree from "../../mixins/tree";
 import common from "../../mixins/common";
+import icons from "../../mixins/icons";
 import CssArchitect from "../../utils/css-architect";
 import ThisTreeNav from "../ThisTree/ThisTreeNav";
 import ThisSlide from "../ThisAnimation/ThisSlide";
@@ -54,7 +57,7 @@ import ThisSlide from "../ThisAnimation/ThisSlide";
 export default {
   name: "ThisNavDrawer",
   components: { ThisSlide, ThisTreeNav },
-  mixins: [helpers, sizes, tree, common],
+  mixins: [helpers, sizes, tree, common, icons],
   props: {
     model: {
       type: Array,
