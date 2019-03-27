@@ -3,6 +3,13 @@ import icons from "./icons";
 export default {
   mixins: [icons],
   props: {
+    serverSide: {
+      type: [Boolean, String],
+      default: false
+    },
+    totalItems: {
+      type: Number
+    },
     showNumbers: {
       type: [Boolean, String],
       default: false

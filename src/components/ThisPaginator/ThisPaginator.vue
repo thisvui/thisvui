@@ -49,7 +49,7 @@
         </li>
         <li>
           <span class="is-inline-block pages-count-label">{{
-            getPagesCount
+            getItemsCount
           }}</span>
         </li>
         <li :v-if="!isControlsOutside" key="left-controls">
@@ -163,9 +163,8 @@ export default {
   components: { ThisSelect, ThisPaginatorControl, ThisIcon, Action },
   mixins: [common, helpers, syntax, sizes, alignment, pagination],
   props: {
-    listData: {
-      type: Array,
-      required: true
+    items: {
+      type: Array
     },
     size: {
       type: Number,
@@ -292,27 +291,28 @@ export default {
      * Returns the pages count string
      * @returns { A String value }
      */
-    getPagesCount() {
+    getItemsCount() {
+      let length = this.serverSide ? this.totalItems : this.items.length
       return `${this.getStart + 1} - ${
-        this.getEnd < parseInt(this.listData.length)
+        this.getEnd < parseInt(length)
           ? this.getEnd
-          : parseInt(this.listData.length)
-      } of ${parseInt(this.listData.length)}`;
+          : parseInt(length)
+      } of ${parseInt(length)}`;
     },
     /**
      * Retrieves the paginated data list
      * @returns { An Array }
      */
-    paginatedData() {
-      return this.listData.slice(this.getStart, this.getEnd);
+    paginatedItems() {
+      return this.serverSide ? this.items : this.items.slice(this.getStart, this.getEnd);
     },
     /**
      * Returns the number of pages
      * @returns { A integer value }
      */
     numberOfPages() {
-      let dividend =
-        parseInt(this.listData.length) + parseInt(this.rowsPerPage);
+      let dividend = this.serverSide ? this.totalItems + parseInt(this.rowsPerPage):
+      parseInt(this.items.length) + parseInt(this.rowsPerPage);
       let pages = dividend / parseInt(this.rowsPerPage);
       return parseInt(pages);
     },
@@ -357,19 +357,26 @@ export default {
     }
   },
   mounted() {
-    this.$emit(UPDATE_EVENT, this.paginatedData);
+    this.updateData()
   },
   updated() {
-    this.$emit(UPDATE_EVENT, this.paginatedData);
+    this.updateData()
   },
   methods: {
+    updateData(){
+      let data = {
+        items : this.paginatedItems,
+        page: this.currentPageNumber,
+        size: this.rowsPerPage
+      }
+      this.$emit(UPDATE_EVENT, data);
+    },
     /**
      * Goes to the next page and emits the corresponding event
      */
     nextPage() {
       if (!this.isLastPage) {
         this.currentPageNumber++;
-        this.$emit(UPDATE_EVENT, this.paginatedData);
       }
     },
     /**
@@ -378,7 +385,6 @@ export default {
     prevPage() {
       if (!this.isFirstPage) {
         this.currentPageNumber--;
-        this.$emit(UPDATE_EVENT, this.paginatedData);
       }
     },
     /**

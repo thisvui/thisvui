@@ -10,8 +10,8 @@
     </this-input>
     <this-paginator
       v-if="isPaginated && isPaginatorAtTop"
-      :list-data="getFilteredItems"
-      @update="updateList"
+      :items="getFilteredItems"
+      @update="updateItems"
       :show-text="showText"
       :previous-text="previousText"
       :next-text="nextText"
@@ -90,8 +90,8 @@
     </table>
     <this-paginator
       v-if="isPaginated && !isPaginatorAtTop"
-      :list-data="getFilteredItems"
-      @update="updateList"
+      :items="getFilteredItems"
+      @update="updateItems"
       :show-text="showText"
       :previous-text="previousText"
       :next-text="nextText"

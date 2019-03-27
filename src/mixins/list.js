@@ -57,7 +57,7 @@ export default {
      * @returns { A String value }
      */
     getItems() {
-      return this.isPaginated ? this.paginatedList : this.getFilteredItems;
+      return this.isPaginated ? this.paginatedItems : this.getFilteredItems;
     },
     isPaginated() {
       return this.getBoolean(this.paginated);
@@ -112,7 +112,7 @@ export default {
       sortKey: "",
       sortOrders: sortOrders,
       searchKey: "",
-      paginatedList: []
+      paginatedItems: []
     };
   },
   methods: {
@@ -158,8 +158,8 @@ export default {
     /**
      * Updates the paginated list
      */
-    updateList(items) {
-      this.paginatedList = items;
+    updateItems({items}) {
+      this.paginatedItems = items;
     }
   }
 };
