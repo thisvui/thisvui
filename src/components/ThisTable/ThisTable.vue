@@ -11,7 +11,9 @@
     <this-paginator
       v-if="isPaginated && isPaginatorAtTop"
       :items="getFilteredItems"
-      @update="updateItems"
+      :server-side="serverSide"
+      :total-items="totalItems"
+      @update-page="updatePage"
       :show-text="showText"
       :previous-text="previousText"
       :next-text="nextText"
@@ -91,7 +93,9 @@
     <this-paginator
       v-if="isPaginated && !isPaginatorAtTop"
       :items="getFilteredItems"
-      @update="updateItems"
+      :server-side="serverSide"
+      :total-items="totalItems"
+      @update-page="updatePage"
       :show-text="showText"
       :previous-text="previousText"
       :next-text="nextText"

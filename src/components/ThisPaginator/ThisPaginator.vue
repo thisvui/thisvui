@@ -156,7 +156,7 @@ import common from "../../mixins/common";
 import ThisPaginatorControl from "./ThisPaginatorControl";
 import ThisSelect from "../ThisSelect/ThisSelect";
 
-const UPDATE_EVENT = "update";
+const UPDATE_PAGE_EVENT = "update-page";
 
 export default {
   name: "ThisPaginator",
@@ -369,7 +369,7 @@ export default {
         page: this.currentPageNumber,
         size: this.rowsPerPage
       }
-      this.$emit(UPDATE_EVENT, data);
+      this.$emit(UPDATE_PAGE_EVENT, data);
     },
     /**
      * Goes to the next page and emits the corresponding event

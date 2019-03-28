@@ -2,6 +2,8 @@ import pagination from "./pagination";
 import icons from "./icons";
 import CssArchitect from "../utils/css-architect";
 
+const UPDATE_PAGE_EVENT = "update-page";
+
 export default {
   mixins: [pagination, icons],
   props: {
@@ -57,7 +59,7 @@ export default {
      * @returns { A String value }
      */
     getItems() {
-      return this.isPaginated ? this.paginatedItems : this.getFilteredItems;
+      return this.isPaginated ? this.paginatedList : this.getFilteredItems;
     },
     isPaginated() {
       return this.getBoolean(this.paginated);
@@ -101,6 +103,13 @@ export default {
       return cssArchitect.getClasses();
     }
   },
+  watch: {
+    items: function(newVal, oldVal) {
+      if(this.serverSide){
+        this.paginatedList = newVal;
+      }
+    }
+  },
   data: function() {
     let sortOrders = {};
     if (this.columns) {
@@ -112,7 +121,7 @@ export default {
       sortKey: "",
       sortOrders: sortOrders,
       searchKey: "",
-      paginatedItems: []
+      paginatedList: []
     };
   },
   methods: {
@@ -158,8 +167,12 @@ export default {
     /**
      * Updates the paginated list
      */
-    updateItems({items}) {
-      this.paginatedItems = items;
+    updatePage(data) {
+      if(!this.serverSide) {
+        let {items} = data;
+        this.paginatedList = items;
+      }
+      this.$emit(UPDATE_PAGE_EVENT, { ...data });
     }
   }
 };
