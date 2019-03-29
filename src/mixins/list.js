@@ -121,6 +121,7 @@ export default {
       sortKey: "",
       sortOrders: sortOrders,
       searchKey: "",
+      paginationData: null,
       paginatedList: []
     };
   },
@@ -163,6 +164,7 @@ export default {
       this.sortKey = key;
       this.sortOrders[key] =
         this.sortOrders[key] === 0 ? 1 : this.sortOrders[key] === 1 ? -1 : 0;
+      this.updatePage(this.paginationData);
     },
     /**
      * Updates the paginated list
@@ -172,7 +174,10 @@ export default {
         let {items} = data;
         this.paginatedList = items;
       }
-      this.$emit(UPDATE_PAGE_EVENT, { ...data });
+      this.paginationData = data;
+      this.paginationData.sortKey = this.sortKey
+      this.paginationData.sortOrder = this.sortOrders[this.sortKey];
+      this.$emit(UPDATE_PAGE_EVENT, { ...this.paginationData });
     }
   }
 };
