@@ -3,7 +3,7 @@
 
 ![thisVui Logo](http://www.thisvui.com/thisvui_logo_small.png)
 
-## Quickstart
+## Quick Start
 
 
 #### Install 
