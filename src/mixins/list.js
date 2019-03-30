@@ -12,6 +12,10 @@ export default {
       type: Array,
       required: true
     },
+    checkedRows: {
+      type: Array,
+      default: () => []
+    },
     paginated: {
       type: [Boolean, String],
       default: false
@@ -23,6 +27,9 @@ export default {
     filtered: {
       type: [Boolean, String],
       default: false
+    },
+    isCheckable: {
+      type: [Boolean, String]
     },
     isSortable: {
       type: [Boolean, String],
@@ -117,7 +124,9 @@ export default {
       sortOrders: {},
       searchKey: "",
       paginationData: null,
-      paginatedList: []
+      paginatedList: [],
+      checkAllItems: false,
+      updatedCheckedRows: [...this.checkedRows]
     };
   },
   methods: {
@@ -140,6 +149,37 @@ export default {
         }
       });
       return false;
+    },
+    isRowChecked(item) {
+      return this.updatedCheckedRows.indexOf(item) >= 0;
+    },
+    removeCheckedRow(item) {
+      const index = this.updatedCheckedRows.indexOf(item);
+      if (index >= 0) {
+        this.updatedCheckedRows.splice(index, 1);
+      }
+    },
+    checkRow(item) {
+      if (!this.isRowChecked(item)) {
+        this.updatedCheckedRows.push(item);
+      } else {
+        this.removeCheckedRow(item);
+      }
+      this.$emit("checkRow", this.updatedCheckedRows, item);
+      this.$emit("update:checkedRows", this.updatedCheckedRows);
+    },
+    checkAllRows() {
+      for (let item of this.getItems) {
+        let check = !this.isRowChecked(item) && this.checkAllItems;
+        if (check) {
+          this.updatedCheckedRows.push(item);
+          continue;
+        }
+        if (!this.checkAllItems) {
+          this.removeCheckedRow(item);
+        }
+      }
+      this.$emit("update:checkedRows", this.updatedCheckedRows);
     },
     /**
      * Determines and returns the sort icon

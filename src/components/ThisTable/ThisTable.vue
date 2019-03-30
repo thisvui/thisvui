@@ -144,10 +144,6 @@ export default {
       type: String,
       default: "Actions"
     },
-    checkedRows: {
-      type: Array,
-      default: () => []
-    },
     simple: {
       type: Boolean,
       default: false
@@ -168,9 +164,6 @@ export default {
     isHoverable: {
       type: [Boolean, String],
       default: true
-    },
-    isCheckable: {
-      type: [Boolean, String]
     },
     isFullwidth: {
       type: [Boolean, String],
@@ -219,43 +212,8 @@ export default {
   },
   data: function() {
     return {
-      mappedColumns: [],
-      checkAllItems: false,
-      updatedCheckedRows: [...this.checkedRows]
+      mappedColumns: []
     };
-  },
-  methods: {
-    isRowChecked(item) {
-      return this.updatedCheckedRows.indexOf(item) >= 0;
-    },
-    removeCheckedRow(item) {
-      const index = this.updatedCheckedRows.indexOf(item);
-      if (index >= 0) {
-        this.updatedCheckedRows.splice(index, 1);
-      }
-    },
-    checkRow(item) {
-      if (!this.isRowChecked(item)) {
-        this.updatedCheckedRows.push(item);
-      } else {
-        this.removeCheckedRow(item);
-      }
-      this.$emit("checkRow", this.updatedCheckedRows, item);
-      this.$emit("update:checkedRows", this.updatedCheckedRows);
-    },
-    checkAllRows() {
-      for (let item of this.getItems) {
-        let check = !this.isRowChecked(item) && this.checkAllItems;
-        if (check) {
-          this.updatedCheckedRows.push(item);
-          continue;
-        }
-        if (!this.checkAllItems) {
-          this.removeCheckedRow(item);
-        }
-      }
-      this.$emit("update:checkedRows", this.updatedCheckedRows);
-    }
   },
   beforeCreate: function() {
     this.$options.components.ThisInput = require("../ThisInput/ThisInput").default;

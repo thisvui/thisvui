@@ -30,8 +30,26 @@
       :icon-lib="iconLib"
       :override-defaults="overrideDefaults"
     />
+    <div v-if="isCheckable" class="list-header">
+      <this-checkbox
+        class="row-checker"
+        has-background-color="true"
+        v-model="checkAllItems"
+        @change.native="checkAllRows"
+        @click.native.stop
+      >
+      </this-checkbox>
+    </div>
     <ul :class="getClasses">
       <li v-for="(item, index) in getItems" :key="index">
+        <this-list-item v-if="isCheckable">
+          <this-checkbox
+            class="row-checker"
+            :value="isRowChecked(item)"
+            @change.native="checkRow(item)"
+            @click.native.stop
+          ></this-checkbox>
+        </this-list-item>
         <slot name="items" v-bind:item="item" v-bind:index="index"> </slot>
       </li>
     </ul>
