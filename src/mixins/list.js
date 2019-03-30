@@ -3,6 +3,7 @@ import icons from "./icons";
 import CssArchitect from "../utils/css-architect";
 
 const UPDATE_PAGE_EVENT = "update-page";
+const SORT_EVENT = "onSort";
 
 export default {
   mixins: [pagination, icons],
@@ -81,7 +82,7 @@ export default {
           return this.searchItem(row, filterKey);
         });
       }
-      if (this.isSortable && sortKey && order !== 0) {
+      if (sortKey && order !== 0) {
         data = data.slice().sort(function(a, b) {
           a = a[sortKey];
           b = b[sortKey];
@@ -111,15 +112,9 @@ export default {
     }
   },
   data: function() {
-    let sortOrders = {};
-    if (this.columns) {
-      this.columns.forEach(function(key) {
-        sortOrders[key] = 0;
-      });
-    }
     return {
       sortKey: "",
-      sortOrders: sortOrders,
+      sortOrders: {},
       searchKey: "",
       paginationData: null,
       paginatedList: []
@@ -151,30 +146,55 @@ export default {
      * @returns { A css icon class }
      */
     getSortIcon(key) {
-      return this.sortOrders[key] > 0
-        ? this.ascendingIcon
-        : this.sortOrders[key] === 0
-        ? this.sortIcon
-        : this.descendingIcon;
+      let icon = this.sortIcon
+      switch (this.sortOrders[key]) {
+        case 0:
+          icon = this.sortIcon;
+          break;
+        case 1:
+          icon = this.ascendingIcon;
+          break;
+        case -1:
+          icon = this.descendingIcon;
+          break;
+      }
+      return icon;
+
     },
     /**
      * Determines the sort order giben a sort key
      */
-    sortBy: function(key) {
-      this.sortKey = key;
-      this.sortOrders[key] =
-        this.sortOrders[key] === 0 ? 1 : this.sortOrders[key] === 1 ? -1 : 0;
-      this.updatePage(this.paginationData);
+    sortBy: function(column) {
+      if(column.sortable) {
+        this.sortKey = column.name;
+        let sortOrders = {...this.sortOrders}
+        switch (sortOrders[this.sortKey]) {
+          case 0:
+            sortOrders[this.sortKey] = 1;
+            break;
+          case 1:
+            sortOrders[this.sortKey] = -1;
+            break;
+          case -1:
+            sortOrders[this.sortKey] = 0;
+            break;
+        }
+        this.sortOrders = sortOrders;
+        if (this.serverSide) {
+          this.updatePage(this.paginationData);
+        }
+        this.$emit(SORT_EVENT);
+      }
     },
     /**
      * Updates the paginated list
      */
     updatePage(data) {
+      this.paginationData = data || {};
       if(!this.serverSide) {
-        let {items} = data;
+        let {items} = this.paginationData ;
         this.paginatedList = items;
       }
-      this.paginationData = data;
       this.paginationData.sortKey = this.sortKey
       this.paginationData.sortOrder = this.sortOrders[this.sortKey];
       this.$emit(UPDATE_PAGE_EVENT, { ...this.paginationData });

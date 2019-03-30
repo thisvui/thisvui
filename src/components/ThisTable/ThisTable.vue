@@ -46,17 +46,17 @@
           </th>
           <template v-if="columns">
             <th
-              v-for="key in columns"
-              :key="key"
-              :class="{ active: sortKey == key }"
-              @click="sortBy(key)"
+              v-for="column in mappedColumns"
+              :key="column.name"
+              :class="{ active: sortKey == column.name }"
+              @click="sortBy(column)"
             >
               <span>
-                {{ key | capitalize }}
+                {{(column.display || column.name) | capitalize }}
                 <this-icon
-                  v-if="isSortable"
-                  :icon="getSortIcon(key)"
-                  @click="sortBy(key)"
+                  v-if="column.sortable"
+                  :icon="getSortIcon(column.name)"
+                  @click="sortBy(column)"
                   class="sort-icon"
                 >
                 </this-icon>
@@ -197,10 +197,29 @@ export default {
       cssArchitect.addClass("is-hoverable", this.getBoolean(this.isHoverable));
       cssArchitect.addClass("is-fullwidth", this.getBoolean(this.isFullwidth));
       return cssArchitect.getClasses();
+    },
+    getColumns(){
+      let columns = []
+      if(this.columns){
+        columns = this.columns.map(column => {
+          let isString = typeof column === "string"
+          let key = isString ? column : column.name
+          this.sortOrders[key] = 0;
+          if(isString){
+            return {name : column, sortable : this.isSortable};
+          }
+          if(column.sortable === undefined && this.isSortable){
+            column.sortable = this.isSortable
+          }
+          return column;
+        });
+      }
+      return columns
     }
   },
   data: function() {
     return {
+      mappedColumns: [],
       checkAllItems: false,
       updatedCheckedRows: [...this.checkedRows]
     };
@@ -242,6 +261,9 @@ export default {
     this.$options.components.ThisInput = require("../ThisInput/ThisInput").default;
     this.$options.components.ThisPaginator = require("../ThisPaginator/ThisPaginator").default;
     this.$options.components.ThisCheckbox = require("../ThisCheckbox/ThisCheckbox").default;
+  },
+  mounted() {
+    this.mappedColumns = this.getColumns
   }
 };
 </script>
