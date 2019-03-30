@@ -30,8 +30,9 @@
       :icon-lib="iconLib"
       :override-defaults="overrideDefaults"
     />
-    <div v-if="isCheckable" class="list-header">
+    <div v-if="showHeader" class="list-header">
       <this-checkbox
+        v-if="isCheckable"
         class="row-checker"
         has-background-color="true"
         v-model="checkAllItems"
@@ -39,6 +40,7 @@
         @click.native.stop
       >
       </this-checkbox>
+      <slot name="header"></slot>
     </div>
     <ul :class="getClasses">
       <li v-for="(item, index) in getItems" :key="index">
@@ -97,6 +99,10 @@ export default {
     }
   },
   props: {
+    showHeader: {
+      type: [Boolean, String],
+      default: false
+    },
     isResponsive: {
       type: [Boolean, String],
       default: true
