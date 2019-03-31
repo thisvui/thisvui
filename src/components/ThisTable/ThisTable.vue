@@ -75,8 +75,13 @@
       <tbody>
         <slot name="items" v-if="simple"> </slot>
         <template v-for="(item, index) in getItems" v-if="!simple">
-          <tr v-on="isExpandable(item) ? { click: () => toggleExpand(item) } : {}">
-            <td v-if="isCheckable(item) || isExpandable(item)" :style="{width: getFunctionColWidth(item)+'px'}">
+          <tr
+            v-on="isExpandable(item) ? { click: () => toggleExpand(item) } : {}"
+          >
+            <td
+              v-if="isCheckable(item) || isExpandable(item)"
+              :style="{ width: getFunctionColWidth(item) + 'px' }"
+            >
               <div class="is-flex">
                 <span v-if="isExpandable(item)" class="col-expandable">
                   <div v-show="!isExpanded(item)">
@@ -112,9 +117,16 @@
           <tr v-if="isExpandable(item)" class="this-table-expandable-row">
             <td class="this-table-expandable-col" :colspan="getColspan">
               <this-expand>
-                <div v-if="isExpanded(item)" class="this-table-expandable-container">
+                <div
+                  v-if="isExpanded(item)"
+                  class="this-table-expandable-container"
+                >
                   <div class="this-table-expandable-content">
-                    <slot name="detail" v-bind:item="item" v-bind:index="index"></slot>
+                    <slot
+                      name="detail"
+                      v-bind:item="item"
+                      v-bind:index="index"
+                    ></slot>
                   </div>
                 </div>
               </this-expand>
@@ -262,10 +274,10 @@ export default {
       }
       return columns;
     },
-    getColspan(){
-      let columnsNumber = this.columns.length
-      let additionalColumns = this.actionColumn ? 2 : 1
-      return columnsNumber + additionalColumns
+    getColspan() {
+      let columnsNumber = this.columns.length;
+      let additionalColumns = this.actionColumn ? 2 : 1;
+      return columnsNumber + additionalColumns;
     }
   },
   data: function() {
@@ -287,17 +299,17 @@ export default {
     toggleExpand(item) {
       const index = this.expandedRows.indexOf(item);
       if (index > -1) {
-        this.expandedRows.splice(index, 1)
+        this.expandedRows.splice(index, 1);
       } else {
-        this.expandedRows.push(item)
+        this.expandedRows.push(item);
       }
     },
-    getFunctionColWidth(item){
-      let width = 30
-      if(this.isCheckable(item)){
-        width = width + 40
+    getFunctionColWidth(item) {
+      let width = 30;
+      if (this.isCheckable(item)) {
+        width = width + 40;
       }
-      return width
+      return width;
     }
   },
   beforeCreate: function() {

@@ -113,7 +113,7 @@ export default {
   },
   watch: {
     items: function(newVal, oldVal) {
-      if(this.serverSide){
+      if (this.serverSide) {
         this.paginatedList = newVal;
       }
     }
@@ -181,15 +181,18 @@ export default {
       }
       this.$emit("update:checkedRows", this.updatedCheckedRows);
     },
-    isCheckable(item){
-      return (item && item.checkable) || (item.checkable === undefined && this.checkable)
+    isCheckable(item) {
+      return (
+        (item && item.checkable) ||
+        (item.checkable === undefined && this.checkable)
+      );
     },
     /**
      * Determines and returns the sort icon
      * @returns { A css icon class }
      */
     getSortIcon(key) {
-      let icon = this.sortIcon
+      let icon = this.sortIcon;
       switch (this.sortOrders[key]) {
         case 0:
           icon = this.sortIcon;
@@ -202,15 +205,14 @@ export default {
           break;
       }
       return icon;
-
     },
     /**
      * Determines the sort order giben a sort key
      */
     sortBy: function(column) {
-      if(column.sortable) {
+      if (column.sortable) {
         this.sortKey = column.name;
-        let sortOrders = {...this.sortOrders}
+        let sortOrders = { ...this.sortOrders };
         switch (sortOrders[this.sortKey]) {
           case 0:
             sortOrders[this.sortKey] = 1;
@@ -234,11 +236,11 @@ export default {
      */
     updatePage(data) {
       this.paginationData = data || {};
-      if(!this.serverSide) {
-        let {items} = this.paginationData ;
+      if (!this.serverSide) {
+        let { items } = this.paginationData;
         this.paginatedList = items;
       }
-      this.paginationData.sortKey = this.sortKey
+      this.paginationData.sortKey = this.sortKey;
       this.paginationData.sortOrder = this.sortOrders[this.sortKey];
       this.$emit(UPDATE_PAGE_EVENT, { ...this.paginationData });
     }

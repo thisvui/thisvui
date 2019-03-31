@@ -292,11 +292,9 @@ export default {
      * @returns { A String value }
      */
     getItemsCount() {
-      let length = this.serverSide ? this.totalItems : this.items.length
+      let length = this.serverSide ? this.totalItems : this.items.length;
       return `${this.getStart + 1} - ${
-        this.getEnd < parseInt(length)
-          ? this.getEnd
-          : parseInt(length)
+        this.getEnd < parseInt(length) ? this.getEnd : parseInt(length)
       } of ${parseInt(length)}`;
     },
     /**
@@ -304,15 +302,18 @@ export default {
      * @returns { An Array }
      */
     paginatedItems() {
-      return this.serverSide ? this.items : this.items.slice(this.getStart, this.getEnd);
+      return this.serverSide
+        ? this.items
+        : this.items.slice(this.getStart, this.getEnd);
     },
     /**
      * Returns the number of pages
      * @returns { A integer value }
      */
     numberOfPages() {
-      let dividend = this.serverSide ? this.totalItems + parseInt(this.rowsPerPage):
-      parseInt(this.items.length) + parseInt(this.rowsPerPage);
+      let dividend = this.serverSide
+        ? this.totalItems + parseInt(this.rowsPerPage)
+        : parseInt(this.items.length) + parseInt(this.rowsPerPage);
       let pages = dividend / parseInt(this.rowsPerPage);
       return parseInt(pages);
     },
@@ -357,18 +358,18 @@ export default {
     }
   },
   mounted() {
-    this.updateData()
+    this.updateData();
   },
   updated() {
-    this.updateData()
+    this.updateData();
   },
   methods: {
-    updateData(){
+    updateData() {
       let data = {
-        items : this.paginatedItems,
+        items: this.paginatedItems,
         page: this.currentPageNumber,
         size: this.rowsPerPage
-      }
+      };
       this.$emit(UPDATE_PAGE_EVENT, data);
     },
     /**
