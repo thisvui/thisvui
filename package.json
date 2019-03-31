@@ -5,10 +5,11 @@
   "description": "A Vue.js + Bulma Components library",
   "author": "ncanatta <ncanatta@gmail.com>",
   "scripts": {
-    "build-dev": "webpack --config build/webpack.lib.config.js",
-    "build-prod": "webpack --config build/webpack.lib.config.js --env.production --progress",
-    "postbuild-dev": "webpack --config build/webpack.styles.config.js",
-    "postbuild-prod": "webpack --config build/webpack.styles.config.js --env.production --progress",
+    "build": "webpack --config build/webpack.lib.config.js",
+    "build:prod": "npm run build -- --env.production --progress",
+    "postbuild": "webpack --config build/webpack.styles.config.js",
+    "postbuild:prod": "webpack --config build/webpack.styles.config.js --env.production --progress",
+    "bundle": "npm run build && npm run build:prod",
     "lint": "vue-cli-service lint",
     "pack": "npm pack",
     "showversion": "echo \"Version: $npm_package_version\""
