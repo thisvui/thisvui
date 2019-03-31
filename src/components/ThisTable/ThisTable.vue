@@ -34,15 +34,20 @@
     <table :id="id" :class="getClasses">
       <thead>
         <tr>
-          <th v-if="isCheckable">
-            <this-checkbox
-              class="row-checker"
-              has-background-color="true"
-              v-model="checkAllItems"
-              @change.native="checkAllRows"
-              @click.native.stop
-            >
-            </this-checkbox>
+          <th v-if="checkable || expandable" class="this-table-functions-col">
+            <div class="is-flex">
+              <div class="col-expandable" v-if="expandable"></div>
+              <div class="col-checkable" v-if="checkable">
+                <this-checkbox
+                  class="row-checker"
+                  has-background-color="true"
+                  v-model="checkAllItems"
+                  @change.native="checkAllRows"
+                  @click.native.stop
+                >
+                </this-checkbox>
+              </div>
+            </div>
           </th>
           <template v-if="columns">
             <th
@@ -52,7 +57,7 @@
               @click="sortBy(column)"
             >
               <span>
-                {{(column.display || column.name) | capitalize }}
+                {{ (column.display || column.name) | capitalize }}
                 <this-icon
                   v-if="column.sortable"
                   :icon="getSortIcon(column.name)"
@@ -69,22 +74,53 @@
       </thead>
       <tbody>
         <slot name="items" v-if="simple"> </slot>
-        <tr v-for="(item, index) in getItems" :key="index" v-if="!simple">
-          <td v-if="isCheckable">
-            <this-checkbox
-              class="row-checker"
-              :value="isRowChecked(item)"
-              @change.native="checkRow(item)"
-              @click.native.stop
-            >
-            </this-checkbox>
-          </td>
-          <slot name="items" v-bind:item="item" v-bind:index="index"> </slot>
-          <td v-if="hasActionColumn">
-            <slot name="actions" v-bind:item="item" v-bind:index="index">
-            </slot>
-          </td>
-        </tr>
+        <template v-for="(item, index) in getItems" v-if="!simple">
+          <tr v-on="isExpandable(item) ? { click: () => toggleExpand(item) } : {}">
+            <td v-if="isCheckable(item) || isExpandable(item)" :style="{width: getFunctionColWidth(item)+'px'}">
+              <div class="is-flex">
+                <span v-if="isExpandable(item)" class="col-expandable">
+                  <div v-show="!isExpanded(item)">
+                    <this-icon
+                      :preserve-defaults="!overrideDefaults"
+                      :icon="closedIcon"
+                    />
+                  </div>
+                  <div v-show="isExpanded(item)">
+                    <this-icon
+                      :preserve-defaults="!overrideDefaults"
+                      :icon="openedIcon"
+                    />
+                  </div>
+                </span>
+                <div class="col-checkable" v-if="isCheckable(item)">
+                  <this-checkbox
+                    class="row-checker"
+                    :value="isRowChecked(item)"
+                    @change.native="checkRow(item)"
+                    @click.native.stop
+                  >
+                  </this-checkbox>
+                </div>
+              </div>
+            </td>
+            <slot name="items" v-bind:item="item" v-bind:index="index"></slot>
+            <td v-if="hasActionColumn">
+              <slot name="actions" v-bind:item="item" v-bind:index="index">
+              </slot>
+            </td>
+          </tr>
+          <tr v-if="isExpandable(item)" class="this-table-expandable-row">
+            <td class="this-table-expandable-col" :colspan="getColspan">
+              <this-expand>
+                <div v-if="isExpanded(item)" class="this-table-expandable-container">
+                  <div class="this-table-expandable-content">
+                    <slot name="detail" v-bind:item="item" v-bind:index="index"></slot>
+                  </div>
+                </div>
+              </this-expand>
+            </td>
+          </tr>
+        </template>
       </tbody>
       <tfoot>
         <slot name="footer" />
@@ -124,10 +160,11 @@ import common from "../../mixins/common";
 import ThisInput from "../ThisInput/ThisInput";
 import ThisCheckbox from "../ThisCheckbox/ThisCheckbox";
 import ThisPaginator from "../ThisPaginator/ThisPaginator";
+import ThisExpand from "../ThisAnimation/ThisExpand";
 
 export default {
   name: "ThisTable",
-  components: { ThisPaginator, ThisCheckbox, ThisInput },
+  components: { ThisExpand, ThisPaginator, ThisCheckbox, ThisInput },
   mixins: [common, helpers, list],
   filters: {
     capitalize: function(str) {
@@ -147,6 +184,22 @@ export default {
     simple: {
       type: Boolean,
       default: false
+    },
+    expandable: {
+      type: Boolean,
+      default: false
+    },
+    openedIcon: {
+      type: String,
+      default: function() {
+        return this.$thisvui.icons.arrowDown;
+      }
+    },
+    closedIcon: {
+      type: String,
+      default: function() {
+        return this.$thisvui.icons.arrowRight;
+      }
     },
     isResponsive: {
       type: [Boolean, String],
@@ -191,29 +244,61 @@ export default {
       cssArchitect.addClass("is-fullwidth", this.getBoolean(this.isFullwidth));
       return cssArchitect.getClasses();
     },
-    getColumns(){
-      let columns = []
-      if(this.columns){
+    getColumns() {
+      let columns = [];
+      if (this.columns) {
         columns = this.columns.map(column => {
-          let isString = typeof column === "string"
-          let key = isString ? column : column.name
+          let isString = typeof column === "string";
+          let key = isString ? column : column.name;
           this.sortOrders[key] = 0;
-          if(isString){
-            return {name : column, sortable : this.isSortable};
+          if (isString) {
+            return { name: column, sortable: this.sortable };
           }
-          if(column.sortable === undefined && this.isSortable){
-            column.sortable = this.isSortable
+          if (column.sortable === undefined && this.sortable) {
+            column.sortable = this.sortable;
           }
           return column;
         });
       }
-      return columns
+      return columns;
+    },
+    getColspan(){
+      let columnsNumber = this.columns.length
+      let additionalColumns = this.actionColumn ? 2 : 1
+      return columnsNumber + additionalColumns
     }
   },
   data: function() {
     return {
-      mappedColumns: []
+      mappedColumns: [],
+      expandedRows: []
     };
+  },
+  methods: {
+    isExpandable(item) {
+      return (
+        (item && item.expandable) ||
+        (item.expandable === undefined && this.expandable)
+      );
+    },
+    isExpanded(item) {
+      return this.expandedRows.includes(item);
+    },
+    toggleExpand(item) {
+      const index = this.expandedRows.indexOf(item);
+      if (index > -1) {
+        this.expandedRows.splice(index, 1)
+      } else {
+        this.expandedRows.push(item)
+      }
+    },
+    getFunctionColWidth(item){
+      let width = 30
+      if(this.isCheckable(item)){
+        width = width + 40
+      }
+      return width
+    }
   },
   beforeCreate: function() {
     this.$options.components.ThisInput = require("../ThisInput/ThisInput").default;
@@ -221,7 +306,7 @@ export default {
     this.$options.components.ThisCheckbox = require("../ThisCheckbox/ThisCheckbox").default;
   },
   mounted() {
-    this.mappedColumns = this.getColumns
+    this.mappedColumns = this.getColumns;
   }
 };
 </script>

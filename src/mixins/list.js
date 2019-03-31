@@ -28,10 +28,10 @@ export default {
       type: [Boolean, String],
       default: false
     },
-    isCheckable: {
+    checkable: {
       type: [Boolean, String]
     },
-    isSortable: {
+    sortable: {
       type: [Boolean, String],
       default: false
     },
@@ -180,6 +180,9 @@ export default {
         }
       }
       this.$emit("update:checkedRows", this.updatedCheckedRows);
+    },
+    isCheckable(item){
+      return (item && item.checkable) || (item.checkable === undefined && this.checkable)
     },
     /**
      * Determines and returns the sort icon

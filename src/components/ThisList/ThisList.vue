@@ -32,7 +32,7 @@
     />
     <div v-if="showHeader" class="list-header">
       <this-checkbox
-        v-if="isCheckable"
+        v-if="checkable"
         class="row-checker"
         has-background-color="true"
         v-model="checkAllItems"
@@ -44,7 +44,7 @@
     </div>
     <ul :class="getClasses">
       <li v-for="(item, index) in getItems" :key="index">
-        <this-list-item v-if="isCheckable">
+        <this-list-item v-if="isCheckable(item)">
           <this-checkbox
             class="row-checker"
             :value="isRowChecked(item)"
