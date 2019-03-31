@@ -1,7 +1,7 @@
 {
   "main": "dist/thisvui.js",
   "name": "thisvui",
-  "version": "0.0.1-alpha.2",
+  "version": "0.0.1-alpha.3",
   "description": "A Vue.js + Bulma Components library",
   "author": "ncanatta <ncanatta@gmail.com>",
   "scripts": {
