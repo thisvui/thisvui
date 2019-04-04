@@ -1,15 +1,25 @@
 {
-  "main": "dist/thisvui.js",
   "name": "thisvui",
   "version": "0.0.1-alpha.3",
   "description": "A Vue.js + Bulma Components library",
   "author": "ncanatta <ncanatta@gmail.com>",
+  "license": "MIT",
+  "homepage": "http://www.thisvui.com",
+  "repository": "thisvui/thisvui",
+  "main": "dist/thisvui.js",
+  "module": "dist/thisvui.js",
+  "jsdelivr": "dist/thisvui.js",
+  "unpkg": "dist/thisvui.js",
+  "sideEffects": [
+    "*.css"
+  ],
   "scripts": {
     "build": "webpack --config build/webpack.lib.config.js",
     "build:prod": "npm run build -- --env.production --progress",
     "postbuild": "webpack --config build/webpack.styles.config.js",
     "postbuild:prod": "webpack --config build/webpack.styles.config.js --env.production --progress",
     "bundle": "npm run build && npm run build:prod",
+    "analize": "webpack --config build/webpack.lib.config.js --profile --json > webpack-stats.json",
     "lint": "vue-cli-service lint",
     "pack": "npm pack",
     "showversion": "echo \"Version: $npm_package_version\""
@@ -21,9 +31,7 @@
   "dependencies": {
     "bulma": "^0.7.2",
     "bulma-checkradio": "^2.1.0",
-    "bulma-switch": "^2.0.0",
-    "date-fns": "^1.30.1",
-    "flatpickr": "^4.5.2"
+    "bulma-switch": "^2.0.0"
   },
   "peerDependencies": {
     "vue": "2.5.x"
@@ -40,6 +48,7 @@
     "babel-loader": "^8.0.5",
     "copy-webpack-plugin": "^5.0.0",
     "css-loader": "^2.1.0",
+    "date-fns": "^2.0.0-alpha.27",
     "eslint": "^5.8.0",
     "eslint-config-prettier": "^4.1.0",
     "eslint-plugin-prettier": "^3.0.1",
@@ -63,6 +72,7 @@
     "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.6.7",
     "webpack": "^4.29.6",
+    "webpack-bundle-analyzer": "^3.1.0",
     "webpack-clean": "^1.2.3",
     "webpack-cli": "^3.2.3"
   },

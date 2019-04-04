@@ -1,19 +1,17 @@
 <template>
   <div :class="getContainerClass">
     <div class="field-label is-normal" v-if="label">
-      <span
+      <this-icon
         v-if="labelIcon !== undefined && !getBoolean(labelIconRight)"
+        :icon="labelIcon"
         :class="getLabelIconClass"
-      >
-        <this-icon :icon="labelIcon"></this-icon>
-      </span>
+      ></this-icon>
       <label v-if="!getRemoveLabel" :class="getLabelClass">{{ label }}</label>
-      <span
+      <this-icon
         v-if="labelIcon !== undefined && getBoolean(labelIconRight)"
+        :icon="labelIcon"
         :class="getLabelIconClass"
-      >
-        <this-icon :icon="labelIcon"></this-icon>
-      </span>
+      ></this-icon>
     </div>
     <div class="field-body">
       <div class="field">
@@ -33,9 +31,7 @@
             @change="onChange"
             @keyup.enter="onEnter"
           />
-          <span v-if="icon" :class="getIconClass">
-            <this-icon :icon="icon"></this-icon>
-          </span>
+          <this-icon v-if="icon" :icon="icon" :class="getIconClass"></this-icon>
           <span v-if="valid" class="icon is-right has-text-success">
             <this-icon
               :preserve-defaults="!overrideDefaults"
@@ -59,9 +55,11 @@
 <script>
 import input from "../../mixins/input";
 import utils from "../../utils/utils";
+import ThisIcon from "../ThisIcon/ThisIcon";
 
 export default {
   name: "ThisInput",
+  components: { ThisIcon },
   mixins: [input],
   props: {
     type: {

@@ -156,5 +156,77 @@
     justify-content: center
   &.is-bold
     font-weight: bold
+.this-calendar
+  position: absolute
+  border: 1px solid rgba($dark, .2)
+  display: grid
+  grid-template-columns: repeat(7, 1fr)
+  width: 320px
+  box-shadow: $card-shadow
+  border-bottom-left-radius: 5px
+  border-bottom-right-radius: 5px
+  z-index: 40
+  background: $white-bis
+  padding: 0 5px 5px 5px
+  &.inline-calendar
+    position: relative
+    z-index: 10
+  &-header
+    padding: .75rem
+    font-size: 1.25rem
+    grid-column: 1 / span 7
+    >span
+      text-align: center
+    .month-name
+      width: 200px
+  > *
+    align-items: center
+    display: flex
+    justify-content: center
+  &-headings
+    font-size: 0.8rem
+    color: rgba($dark, 0.8)
+    font-weight: bold
+    padding-bottom: 0.3rem
+  &-day
+    .day-number
+      border-radius: 50%
+      font-size: 0.9rem
+      transition: background-color linear .1s
+      width: 80%
+      height: 100%
+      padding: 5px
+      color: $opaque
+      text-align: center
+      cursor: pointer
+      border: 2px solid $white-bis
+      &:hover
+        background: rgba($opaque, .2)
+      &.is-current
+        color: $dark
+      &.is-selected
+        border: 2px solid rgba($primary, .1)
+        background: rgba($primary, .9)
+        color: $primary-invert
+      &.is-today
+        border: 2px solid rgba($primary, .2)
+  @each $name, $pair in $colors
+    $color: nth($pair, 1)
+    $color-invert: nth($pair, 2)
+    &.is-#{$name}
+      border-color: rgba($color, .3)
+      -webkit-box-shadow: 0 0 7px rgba($color, .1)
+      box-shadow: 0 0 7px rgba($color, .1)
+      .this-calendar
+        &-day
+          .day-number
+            &.is-selected
+              border: 2px solid rgba($color, .1)
+              background: rgba($color, .9)
+              color: $color-invert
+            &.is-today
+              border: 2px solid rgba($color, .2)
+      .change-month-arrow
+        color: $color
 
 
