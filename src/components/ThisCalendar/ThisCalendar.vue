@@ -36,35 +36,58 @@
       </template>
     </div>
     <transition name="fade">
-      <div :class="getCalendarClass" v-show="showCalendar">
-        <header :class="className(`header`)">
-          <this-action
-            :icon="$thisvui.icons.arrowLeft"
-            icon-class="change-month-arrow"
-            type="link"
-            @click="previousMonth"
-          ></this-action>
-          <span class="month-name"
-            >{{ currentMonthLabel }} {{ currentYear }}</span
-          >
-          <this-action
-            :icon="$thisvui.icons.arrowRight"
-            icon-class="change-month-arrow"
-            type="link"
-            @click="nextMonth"
-          ></this-action>
-        </header>
-        <div :class="className(`headings`)" v-for="dayLabel in dayLabels">
-          {{ dayLabel }}
-        </div>
-        <div v-for="day in daysArray" :class="getDayClass">
-          <div
-            type="link"
-            @click="setSelectedDate(day)"
-            :class="getDayNumberClass(day)"
-          >
-            {{ day.date | formatDateToDay }}
+      <div :class="getWidgetClass" v-show="showCalendar">
+        <div :class="getCalendarClass" v-if="!noCalendar">
+          <header :class="className(`header`)">
+            <this-action
+              :icon="$thisvui.icons.arrowLeft"
+              icon-class="change-month-arrow"
+              type="link"
+              @click="previousMonth"
+            ></this-action>
+            <span class="month-name"
+              >{{ currentMonthLabel }} {{ currentYear }}</span
+            >
+            <this-action
+              :icon="$thisvui.icons.arrowRight"
+              icon-class="change-month-arrow"
+              type="link"
+              @click="nextMonth"
+            ></this-action>
+          </header>
+          <div :class="className(`headings`)" v-for="dayLabel in dayLabels">
+            {{ dayLabel }}
           </div>
+          <div v-for="day in daysArray" :class="getDayClass">
+            <div
+              type="link"
+              @click="setSelectedDate(day)"
+              :class="getDayNumberClass(day)"
+            >
+              {{ day.date | formatDateToDay }}
+            </div>
+          </div>
+        </div>
+        <div :class="getTimePickerClass" v-if="enableTime">
+          <this-input
+            ref="hoursInput"
+            type="number"
+            v-model="hours"
+            :disabled="disabled"
+            :max="12"
+          ></this-input>
+          <this-input
+            type="number"
+            v-model="minutes"
+            :disabled="disabled"
+            :max="60"
+          ></this-input>
+          <this-input
+            type="number"
+            v-model="seconds"
+            :disabled="disabled"
+            :max="60"
+          ></this-input>
         </div>
       </div>
     </transition>
@@ -76,19 +99,24 @@ import input from "../../mixins/input";
 import CssArchitect from "../../utils/css-architect";
 import ThisIcon from "../ThisIcon/ThisIcon";
 
-import {
-  format,
-  startOfMonth,
-  endOfMonth,
-  lastDayOfMonth,
-  isSameMonth,
-  isSameDay,
-  addMonths,
-  getDay,
-  addDays,
-  eachDayOfInterval,
-  setDate
-} from "date-fns";
+import format from "date-fns/format";
+import startOfMonth from "date-fns/startOfMonth";
+import endOfMonth from "date-fns/endOfMonth";
+import lastDayOfMonth from "date-fns/lastDayOfMonth";
+import isSameMonth from "date-fns/isSameMonth";
+import isSameDay from "date-fns/isSameDay";
+import addMonths from "date-fns/addMonths";
+import getDay from "date-fns/getDay";
+import addDays from "date-fns/addDays";
+import eachDayOfInterval from "date-fns/eachDayOfInterval";
+import setDate from "date-fns/setDate";
+import setHours from "date-fns/setHours";
+import getHours from "date-fns/getHours";
+import setMinutes from "date-fns/setMinutes";
+import getMinutes from "date-fns/getMinutes";
+import setSeconds from "date-fns/setSeconds";
+import getSeconds from "date-fns/getSeconds";
+import getTime from "date-fns/getTime";
 
 const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -204,10 +232,18 @@ export default {
       cssArchitect.addClass("is-column", this.inline);
       return cssArchitect.getClasses();
     },
-    getCalendarClass: function() {
-      const cssArchitect = new CssArchitect("this-calendar");
+    getWidgetClass: function() {
+      const cssArchitect = new CssArchitect("this-calendar-widget");
       cssArchitect.addClass("inline-calendar", this.inline);
       cssArchitect.addClass(this.getSyntaxModifiers);
+      return cssArchitect.getClasses();
+    },
+    getCalendarClass: function() {
+      const cssArchitect = new CssArchitect("this-calendar");
+      return cssArchitect.getClasses();
+    },
+    getTimePickerClass: function() {
+      const cssArchitect = new CssArchitect("this-timepicker");
       return cssArchitect.getClasses();
     },
     getDayClass() {
@@ -215,11 +251,33 @@ export default {
       return cssArchitect.getClasses();
     }
   },
+  watch: {
+    hours: function(newVal, oldVal) {
+      this.setSelectedTime("h", newVal)
+    },
+    minutes: function(newVal, oldVal) {
+      this.setSelectedTime("m", newVal)
+    },
+    seconds: function(newVal, oldVal) {
+      this.setSelectedTime("s", newVal)
+    },
+    selectedTime: function(newVal, oldVal) {
+      this.initSelectedDate();
+      this.setSelectedDate();
+    }
+  },
   data() {
     return {
       inputDate: null,
       today: null,
       selectedDate: null,
+      selectedTime: null,
+      hours: null,
+      minutes: null,
+      seconds: null,
+      maxHours: 12,
+      maxMinutes: 59,
+      maxSeconds: 59,
       currentDate: null,
       dayLabels: null,
       showCalendar: false,
@@ -235,9 +293,16 @@ export default {
     if (this.startDate) {
       this.currentDate = this.startDate;
       this.selectedDate = this.startDate;
+      this.selectedTime = this.startDate;
     }
     if (this.inline) {
       this.showCalendar = true;
+    }
+    if(this.enableTime && this.selectedTime){
+      this.hours = getHours(this.selectedTime)
+      this.minutes = getMinutes(this.selectedTime)
+      this.seconds = getSeconds(this.selectedTime)
+
     }
   },
   filters: {
@@ -246,6 +311,16 @@ export default {
     }
   },
   methods: {
+    initSelectedTime(){
+      if(!this.selectedTime){
+        this.selectedTime = new Date()
+      }
+    },
+    initSelectedDate(){
+      if(!this.selectedDate){
+        this.selectedDate = new Date()
+      }
+    },
     className(className) {
       return `${this.baseClass}-${className}`;
     },
@@ -268,10 +343,37 @@ export default {
       this.$emit("input", this.selectedDate);
     },
     setSelectedDate(day) {
-      this.selectedDate = day.date;
+      this.initSelectedTime();
+      if(day){
+        this.selectedDate = day.date
+      }
+      let selectedDate = new Date(getTime(this.selectedDate))
+      let hours = getHours(this.selectedTime)
+      let minutes = getMinutes(this.selectedTime)
+      let seconds = getSeconds(this.selectedTime)
+      selectedDate = setHours(selectedDate, hours)
+      selectedDate = setMinutes(selectedDate, minutes)
+      selectedDate = setSeconds(selectedDate, seconds)
+      this.selectedDate = selectedDate
       let formattedDate = format(this.selectedDate, this.dateFormat);
       this.inputDate = formattedDate;
       this.$emit("input", this.selectedDate);
+    },
+    setSelectedTime(units, value) {
+      this.initSelectedTime();
+      let selectedTime = new Date(getTime(this.selectedTime))
+      switch (units) {
+        case 'h':
+          selectedTime = setHours(selectedTime, value);
+          break;
+        case 'm':
+          selectedTime = setMinutes(selectedTime, value);
+          break;
+        case 's':
+          selectedTime = setSeconds(selectedTime, value);
+          break;
+      }
+      this.selectedTime = selectedTime
     },
     onInput() {
       this.validateOnEvent("input");

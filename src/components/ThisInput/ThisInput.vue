@@ -26,6 +26,8 @@
             :validation-scope="validationScope"
             :type="type"
             :readonly="readonly"
+            :min="min"
+            :max="max"
             @input="onInput"
             @blur="onBlur"
             @change="onChange"
