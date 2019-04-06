@@ -1,61 +1,61 @@
-export * from "./ThisAccordion";
+export * from "./TAccordion";
 
-export * from "./ThisAction";
+export * from "./TAction";
 
-export { default as ThisAutocomplete } from "./ThisAutocomplete";
+export { default as TAutocomplete } from "./TAutocomplete";
 
-export { default as ThisBox } from "./ThisBox";
-export { default as ThisBreadcrumb } from "./ThisBreadcrumb";
+export { default as TBox } from "./TBox";
+export { default as TBreadcrumb } from "./TBreadcrumb";
 
-export { default as ThisCalendar } from "./ThisCalendar";
-export { default as ThisCard } from "./ThisCard";
-export { default as ThisCheckbox } from "./ThisCheckbox";
-export { default as ThisContainer } from "./ThisContainer";
+export { default as TCalendar } from "./TCalendar";
+export { default as TCard } from "./TCard";
+export { default as TCheckbox } from "./TCheckbox";
+export { default as TContainer } from "./TContainer";
 
-export * from "./ThisDropdown";
+export * from "./TDropdown";
 
-export { default as ThisFile } from "./ThisFile";
-export { default as ThisFloatingButton } from "./ThisFloatingButton";
+export { default as TFile } from "./TFile";
+export { default as TFloatingButton } from "./TFloatingButton";
 
-export { default as ThisHero } from "./ThisHero";
+export { default as THero } from "./THero";
 
-export { default as ThisIcon } from "./ThisIcon";
-export { default as ThisInput } from "./ThisInput";
+export { default as TIcon } from "./TIcon";
+export { default as TInput } from "./TInput";
 
-export * from "./ThisLayout";
+export * from "./TLayout";
 
-export * from "./ThisLevel";
-export * from "./ThisList";
+export * from "./TLevel";
+export * from "./TList";
 
-export { default as ThisMedia } from "./ThisMedia";
-export { default as ThisMessage } from "./ThisMessage";
-export { default as ThisModal } from "./ThisModal";
+export { default as TMedia } from "./TMedia";
+export { default as TMessage } from "./TMessage";
+export { default as TModal } from "./TModal";
 
-export * from "./ThisNavBar";
-export { default as ThisNavDrawer } from "./ThisNavDrawer";
+export * from "./TNavBar";
+export { default as TNavDrawer } from "./TNavDrawer";
 
-export * from "./ThisNotification";
+export * from "./TNotification";
 
-export * from "./ThisPaginator";
-export * from "./ThisPanel";
+export * from "./TPaginator";
+export * from "./TPanel";
 
-export { default as ThisRadio } from "./ThisRadio";
+export { default as TRadio } from "./TRadio";
 
-export { default as ThisSection } from "./ThisSection";
-export { default as ThisSelect } from "./ThisSelect";
-export { default as ThisSwitch } from "./ThisSwitch";
+export { default as TSection } from "./TSection";
+export { default as TSelect } from "./TSelect";
+export { default as TSwitch } from "./TSwitch";
 
-export * from "./ThisTabs";
-export { default as ThisTable } from "./ThisTable";
-export { default as ThisTextarea } from "./ThisTextarea";
-export * from "./ThisToolbar";
-export * from "./ThisTree";
-export * from "./ThisThumbnail";
-export { default as ThisText } from "./ThisText";
+export * from "./TTabs";
+export { default as TTable } from "./TTable";
+export { default as TTextarea } from "./TTextarea";
+export * from "./TToolbar";
+export * from "./TTree";
+export * from "./TThumbnail";
+export { default as TText } from "./TText";
 
-export { default as ThisImage } from "./ThisImage";
+export { default as TImage } from "./TImage";
 
-export * from "./ThisTag";
-export * from "./ThisColumn";
-export { default as ThisTile } from "./ThisTile";
-export * from "./ThisAnimation";
+export * from "./TTag";
+export * from "./TColumn";
+export { default as TTile } from "./TTile";
+export * from "./TAnimation";

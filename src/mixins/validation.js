@@ -2,7 +2,7 @@ import {
   ValidationBus,
   Rule,
   Result
-} from "../components/ThisValidation/validation-bus.js";
+} from "../components/TValidation/validation-bus.js";
 import utils from "../utils/utils";
 
 export const RULES = Object.freeze({
@@ -94,7 +94,7 @@ export default {
       stateClass: "",
       errors: [],
       rules: [],
-      defaultErrorMessage: "Error in ThisInput"
+      defaultErrorMessage: "Error in TInput"
     };
   },
   computed: {

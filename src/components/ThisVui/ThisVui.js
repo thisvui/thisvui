@@ -1,6 +1,6 @@
 import * as components from "..";
-import { ThisValidate } from "../ThisValidation/validation-bus";
-import { ThisIconLib } from "../ThisIcon/IconLib";
+import { ThisValidate } from "../TValidation/validation-bus";
+import { TIconLib } from "../TIcon/TIconLib";
 import ClickOutside from "../../directives/click-outside";
 import ThisvuiConfig from "./config";
 
@@ -16,8 +16,8 @@ const ThisVui = {
       Vue.component(component.name, component);
     });
     Vue.use(ThisValidate);
-    Vue.use(ThisIconLib);
-    Vue.directive("this-click-outside", ClickOutside);
+    Vue.use(TIconLib);
+    Vue.directive("t-click-outside", ClickOutside);
   }
 };
 

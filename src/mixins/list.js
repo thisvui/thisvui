@@ -103,7 +103,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getSearchClasses: function() {
-      const cssArchitect = new CssArchitect("this-search");
+      const cssArchitect = new CssArchitect("t-search");
       cssArchitect.addClass(
         "is-absolute",
         this.isPaginated && this.isPaginatorAtTop

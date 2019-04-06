@@ -1,4 +1,4 @@
-.this-layout
+.t-layout
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
   font-size: 1rem
@@ -9,7 +9,7 @@
   flex-direction: column
   justify-content: stretch
   position: relative
-  .this-content
+  .t-content
     flex-direction: row /*places the left and right headers above the bottom content*/
     align-items: stretch
     overflow-y: auto
@@ -22,7 +22,7 @@
       $color-invert: nth($pair, 2)
       &.is-#{$name}
         background-color: rgba($color, .9)
-  .this-main-content
+  .t-main-content
     flex-direction: column /*places the left and right headers above the bottom content*/
     align-items: stretch
     overflow-y: auto
@@ -35,7 +35,7 @@
       $color-invert: nth($pair, 2)
       &.is-#{$name}
         background-color: rgba($color, .9)
-  .this-aside
+  .t-aside
     height: 100% /*allows both columns to span the full height of the browser window*/
     min-height: 100%
     flex-direction: column /*places the left and right headers above the bottom content*/
@@ -54,7 +54,7 @@
       $color-invert: nth($pair, 2)
       &.is-#{$name}
         background-color: rgba($color, .9)
-  .this-header, .this-footer
+  .t-header, .t-footer
     width: 100%
     padding: 0
     box-shadow: none

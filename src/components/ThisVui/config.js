@@ -66,7 +66,7 @@ iconsMap.set("fa5", ICONS_FA5);
 iconsMap.set("fa4", ICONS_FA4);
 iconsMap.set("md", ICONS_MATERIAL_DESIGN);
 
-class ThisvuiConfig {
+class ThisVuiConfig {
   constructor(options) {
     this.options = options;
     this.iconLib = options.iconLib || "fa5";
@@ -87,4 +87,4 @@ class ThisvuiConfig {
   }
 }
 
-export default ThisvuiConfig;
+export default ThisVuiConfig;
