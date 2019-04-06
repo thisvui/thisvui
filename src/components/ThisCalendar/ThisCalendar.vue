@@ -68,7 +68,7 @@
             </div>
           </div>
         </div>
-        <div :class="getTimePickerClass" v-if="enableTime">
+        <div :class="getTimePickerClass" v-if="getBoolean(enableTime)">
           <this-input
             ref="hoursInput"
             type="number"
@@ -134,11 +134,15 @@ export default {
     },
     dateFormat: {
       type: String,
-      default: "MM/dd/yyyy"
+      default: function() {
+        return this.$thisvui.dateFormat;
+      }
     },
     enableTime: {
       type: [Boolean, String],
-      default: false
+      default: function() {
+        return this.$thisvui.enableTimePicker;
+      }
     },
     inline: {
       type: [Boolean, String],

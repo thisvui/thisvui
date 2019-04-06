@@ -76,7 +76,9 @@ class ThisvuiConfig {
   getOptions() {
     let options = {
       iconLib: this.iconLib,
-      icons: this.icons
+      icons: this.icons,
+      dateFormat: "MM/dd/yyyy",
+      enableTimePicker: false
     };
     let mergedIcons = { ...options.icons, ...this.options.icons };
     let merged = { ...options, ...this.options };
