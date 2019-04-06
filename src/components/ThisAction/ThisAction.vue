@@ -57,9 +57,9 @@ import ThisModal from "../ThisModal/ThisModal";
 import ThisIcon from "../ThisIcon/ThisIcon";
 
 export default {
+  name: "ThisAction",
   components: { ThisIcon, ThisModal },
   inheritAttrs: false,
-  name: "ThisAction",
   mixins: [common, sizes, colors],
   props: {
     type: {

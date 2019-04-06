@@ -144,7 +144,6 @@
   </div>
 </template>
 <script>
-import Action from "../ThisAction/ThisAction";
 import ThisIcon from "../ThisIcon/ThisIcon";
 import CssArchitect from "../../utils/css-architect";
 import syntax from "../../mixins/syntax";
@@ -160,7 +159,7 @@ const UPDATE_PAGE_EVENT = "update-page";
 
 export default {
   name: "ThisPaginator",
-  components: { ThisSelect, ThisPaginatorControl, ThisIcon, Action },
+  components: { ThisSelect, ThisPaginatorControl, ThisIcon },
   mixins: [common, helpers, syntax, sizes, alignment, pagination],
   props: {
     items: {

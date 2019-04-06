@@ -9,10 +9,7 @@ const ThisVui = {
     let config = new ThisvuiConfig(options);
     const optionsConfig = config.getOptions();
     Vue.prototype.$thisvui = new Vue({
-      data: {
-        iconLib: optionsConfig.iconLib,
-        icons: optionsConfig.icons
-      }
+      data: optionsConfig
     });
 
     Object.values(components).forEach(component => {

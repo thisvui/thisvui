@@ -196,7 +196,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getIconClass: function() {
-      const cssArchitect = new CssArchitect("icon is-small is-left");
+      const cssArchitect = new CssArchitect("is-small is-left");
       cssArchitect.addClass(this.iconClass, this.iconClass !== undefined);
       return cssArchitect.getClasses();
     },
@@ -205,9 +205,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getLabelIconClass: function() {
-      const cssArchitect = new CssArchitect(
-        "icon is-small is-left is-inline-flex"
-      );
+      const cssArchitect = new CssArchitect("is-small is-left is-inline-flex");
       cssArchitect.addClass(
         this.labelIconClass,
         this.labelIconClass !== undefined
@@ -263,10 +261,12 @@ export default {
     }
   },
   mounted() {
-    if (document.getElementById(this.id).form) {
-      this.formId = document.getElementById(this.id).form.id;
-    }
-    this.addValidator(); // Registers the validator
+    this.$nextTick(function() {
+      if (document.getElementById(this.id).form) {
+        this.formId = document.getElementById(this.id).form.id;
+      }
+      this.addValidator(); // Registers the validator
+    });
   },
   /**
    * Removes input validator before component destroys
