@@ -149,13 +149,7 @@ export const ValidationBus = new Vue({
       this.invalidForm();
       if (validateAll) {
         // Executes all validators
-        for (let [key, validator] of formValidator.validators) {
-          const result = validator.component.validate();
-          if (!result.valid) {
-            this.errors.push(result.errorMessage);
-            this.invalidForm();
-          }
-        }
+        this.processValidation(formValidator.validators)
         for (let [key, scope] of formValidator.childrenScopes) {
           this.validateScope(scope);
         }
@@ -173,15 +167,18 @@ export const ValidationBus = new Vue({
      */
     validateScope(scope) {
       if (utils.check.notNull(scope)) {
-        for (let [key, validator] of scope.validators) {
-          const result = validator.component.validate();
-          if (!result.valid) {
-            this.errors.push(result.errorMessage);
-            this.invalidForm();
-          }
-        }
+        this.processValidation(scope.validators)
       } else {
         throw new DOMException("Validation Bus: provided scope is null");
+      }
+    },
+    processValidation(validators){
+      for (let [key, validator] of validators) {
+        const result = validator.component.validate();
+        if (!result.valid) {
+          this.errors.push(result.errorMessage);
+          this.invalidForm();
+        }
       }
     },
     /**

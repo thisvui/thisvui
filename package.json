@@ -31,7 +31,8 @@
   "dependencies": {
     "bulma": "^0.7.2",
     "bulma-checkradio": "^2.1.0",
-    "bulma-switch": "^2.0.0"
+    "bulma-switch": "^2.0.0",
+    "date-fns": "^2.0.0-alpha.27"
   },
   "peerDependencies": {
     "vue": "2.5.x"
@@ -48,7 +49,6 @@
     "babel-loader": "^8.0.5",
     "copy-webpack-plugin": "^5.0.0",
     "css-loader": "^2.1.0",
-    "date-fns": "^2.0.0-alpha.27",
     "eslint": "^5.8.0",
     "eslint-config-prettier": "^4.1.0",
     "eslint-plugin-prettier": "^3.0.1",
