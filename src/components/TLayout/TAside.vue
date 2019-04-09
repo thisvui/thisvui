@@ -9,7 +9,6 @@
     <aside
       :id="id"
       :class="getClasses"
-      :style="`width:${width}px`"
       ref="asidecontainer"
     >
       <slot></slot>

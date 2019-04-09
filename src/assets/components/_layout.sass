@@ -17,6 +17,7 @@
     background: $white-bis
     border-radius: 0
     flex: 1
+    position: relative
     @each $name, $pair in $colors
       $color: nth($pair, 1)
       $color-invert: nth($pair, 2)
@@ -38,6 +39,7 @@
   .t-aside
     height: 100% /*allows both columns to span the full height of the browser window*/
     min-height: 100%
+    width: 100%
     flex-direction: column /*places the left and right headers above the bottom content*/
     align-items: stretch
     align-self: flex-start
@@ -46,7 +48,6 @@
     padding: 0
     margin: 0
     transition: all 0.5s ease-in
-    z-index: 50
     &.is-absolute
       position: absolute
     @each $name, $pair in $colors
@@ -57,7 +58,6 @@
   .t-header, .t-footer
     width: 100%
     padding: 0
-    box-shadow: none
     background-blend-mode: screen
     z-index: 40
     &.is-fixed

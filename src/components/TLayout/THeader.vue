@@ -1,5 +1,5 @@
 <template>
-  <header :id="id" :class="getClasses">
+  <header :id="id" :class="getClasses" :style="getStyle()">
     <slot></slot>
   </header>
 </template>
@@ -16,6 +16,17 @@ export default {
     isFixed: {
       type: [Boolean, String],
       default: false
+    },
+    height: {
+      type: [ String, Number ],
+      default: 52
+    },
+    unity: {
+      type: String,
+      default: "px"
+    },
+    zIndex: {
+      type: Number
     }
   },
   computed: {
@@ -27,11 +38,24 @@ export default {
       const cssArchitect = new CssArchitect("t-header");
       cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass("is-fixed", this.isFixed);
+      cssArchitect.addClass("has-shadow-1");
       return cssArchitect.getClasses();
+    },
+    getHeight: function() {
+      let height = `${this.height}${this.unity}`;
+      return height;
     }
   },
-  data() {
-    return {};
+  methods: {
+    getStyle(){
+      let styleObject = {
+        height: this.getHeight,
+      }
+      if(this.zIndex){
+        styleObject.zIndex = this.zIndex
+      }
+      return styleObject;
+    },
   }
 };
 </script>

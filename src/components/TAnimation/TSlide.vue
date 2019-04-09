@@ -2,7 +2,7 @@
   <div
     ref="slideContainer"
     :class="getClasses"
-    :style="`width:${initialWidth}px`"
+    :style="getStyle()"
     v-t-click-outside="handleOutsideClick"
   >
     <slot />
@@ -26,6 +26,9 @@ export default {
       type: String,
       default: "px"
     },
+    zIndex: {
+      type: Number
+    },
     animationDuration: {
       type: Number,
       default: 300
@@ -47,6 +50,7 @@ export default {
     getClasses: function() {
       const cssArchitect = new CssArchitect("t-animation-container slide");
       cssArchitect.addClass("is-absolute", this.isAbsolute);
+      cssArchitect.addClass("has-shadow-1");
       return cssArchitect.getClasses();
     },
     getWidth: function() {
@@ -65,6 +69,15 @@ export default {
     }
   },
   methods: {
+    getStyle(){
+      let styleObject = {
+        width: `${this.initialWidth}px`,
+      }
+      if(this.zIndex){
+        styleObject.zIndex = this.zIndex
+      }
+      return styleObject;
+    },
     getTarget() {
       let element = this.$refs.slideContainer;
       if (!element) {

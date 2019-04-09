@@ -3,6 +3,7 @@
     :is-open="isOpen"
     :is-absolute="isAbsolute"
     :width="width"
+    :z-index="zIndex"
     :animation-duration="animationDuration"
     :animation-fill="animationFill"
     @clickedOutside="handleOutsideClick"
@@ -13,7 +14,7 @@
       key="nav-drawer-container"
       ref="navdrawercontainer"
     >
-      <aside class="menu" :style="`width:${width}px`">
+      <aside class="menu">
         <template v-for="(menu, index) in model">
           <p
             :key="`ml-${index}`"
@@ -53,11 +54,12 @@ import icons from "../../mixins/icons";
 import CssArchitect from "../../utils/css-architect";
 import TTreeNav from "../TTree/TTreeNav";
 import TSlide from "../TAnimation/TSlide";
+import colors from "../../mixins/colors";
 
 export default {
   name: "t-nav-drawer",
   components: { TSlide, TTreeNav },
-  mixins: [helpers, sizes, tree, common, icons],
+  mixins: [helpers, sizes, tree, common, icons, colors],
   props: {
     model: {
       type: Array,
@@ -85,6 +87,9 @@ export default {
       type: Number,
       default: 300
     },
+    zIndex: {
+      type: Number
+    },
     animationDuration: {
       type: Number,
       default: 300
@@ -108,6 +113,7 @@ export default {
       cssArchitect.addClass("is-nav-opened", this.isOpen);
       cssArchitect.addClass(this.getSizesModifiers);
       cssArchitect.addClass(this.getHelpersModifiers);
+      cssArchitect.addClass(this.getColorsModifiers);
       return cssArchitect.getClasses();
     },
     /**

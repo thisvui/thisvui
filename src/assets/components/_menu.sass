@@ -11,7 +11,6 @@
   background-color: $nav-drawer-background-color
   border-top-right-radius: 6px
   transition: all 0.5s ease-in
-  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.45)
   border-right: 1px solid rgba(0, 0, 0, 0.1)
   .menu
     font-size: 1rem
@@ -58,6 +57,30 @@
       width: 24px
       &:hover
         background: rgba($white, 0.2)
+  @each $name, $pair in $colors
+    $color: nth($pair, 1)
+    $color-invert: nth($pair, 2)
+    &.is-#{$name}
+      background-color: rgba($color, .1)
+      .menu-label
+        background-color: rgba($color, .9)
+        color: $color-invert
+      .menu
+        .menu-list
+          a
+            &.router-link-active
+              color: rgba($color, .9)
+            &.is-active
+              color: rgba($color-invert, .9)
+              background-color: rgba($color, .9)
+              .icon
+                color: rgba($color-invert, .9)
+            &:hover
+              color: rgba($color-invert, .9)
+              background-color: rgba($color, .9)
+          li
+            .icon
+              color: rgba($color, .9)
 .t-tree-view
   height: 100% /*allows both columns to span the full height of the browser window*/
   min-height: 100%

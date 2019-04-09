@@ -17,12 +17,16 @@
 import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
+import colors from "../../mixins/colors";
 
 export default {
   name: "t-navbar-burger",
-  mixins: [common, helper],
+  mixins: [common, helper, colors],
   props: {
     isActive: {
+      type: [String, Boolean]
+    },
+    isMobileOnly: {
       type: [String, Boolean]
     }
   },
@@ -34,6 +38,8 @@ export default {
     getClasses: function() {
       const cssArchitect = new CssArchitect("navbar-burger");
       cssArchitect.addClass("is-active", this.getBoolean(this.isActive));
+      cssArchitect.addClass("is-mobile-only", this.getBoolean(this.isMobileOnly));
+      cssArchitect.addClass(this.getColorsModifiers);
       return cssArchitect.getClasses();
     }
   },

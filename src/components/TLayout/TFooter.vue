@@ -1,5 +1,5 @@
 <template>
-  <footer :id="id" :class="getClasses">
+  <footer :id="id" :class="getClasses" :style="{height:getHeight}">
     <slot></slot>
   </footer>
 </template>
@@ -16,6 +16,14 @@ export default {
     isFixed: {
       type: [Boolean, String],
       default: false
+    },
+    height: {
+      type: [ String, Number ],
+      default: 52
+    },
+    unity: {
+      type: String,
+      default: "px"
     }
   },
   computed: {
@@ -28,6 +36,10 @@ export default {
       cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass("is-fixed", this.isFixed);
       return cssArchitect.getClasses();
+    },
+    getHeight: function() {
+      let height = `${this.height}${this.unity}`;
+      return height;
     }
   },
   data() {
