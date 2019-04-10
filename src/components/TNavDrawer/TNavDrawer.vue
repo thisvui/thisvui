@@ -1,5 +1,7 @@
 <template>
-  <t-slide
+  <t-aside
+    :id="id"
+    :container-class="getContainerClass"
     :is-open="isOpen"
     :is-absolute="isAbsolute"
     :width="width"
@@ -8,41 +10,34 @@
     :animation-fill="animationFill"
     @clickedOutside="handleOutsideClick"
   >
-    <div
-      :id="id"
-      :class="getContainerClass"
-      key="nav-drawer-container"
-      ref="navdrawercontainer"
-    >
-      <aside class="menu">
-        <template v-for="(menu, index) in model">
-          <p
-            :key="`ml-${index}`"
-            :class="getLabelClass"
-            v-if="!getBoolean(hideLabel)"
+    <div class="menu">
+      <template v-for="(menu, index) in model">
+        <p
+          :key="`ml-${index}`"
+          :class="getLabelClass"
+          v-if="!getBoolean(hideLabel)"
+        >
+          {{ menu.name }}
+        </p>
+        <ul class="menu-list" :key="`tree${index}`">
+          <t-tree-nav
+            class="item"
+            :tag-class="tagClass"
+            v-for="(item, index) in menu.children"
+            :key="index"
+            :model="item"
+            :icon-class="getIconClass"
+            :link-class="getLinkClass"
+            :opened-icon="openedIcon"
+            :closed-icon="closedIcon"
+            :icon-lib="iconLib"
+            :override-defaults="overrideDefaults"
           >
-            {{ menu.name }}
-          </p>
-          <ul class="menu-list" :key="`tree${index}`">
-            <t-tree-nav
-              class="item"
-              :tag-class="tagClass"
-              v-for="(item, index) in menu.children"
-              :key="index"
-              :model="item"
-              :icon-class="getIconClass"
-              :link-class="getLinkClass"
-              :opened-icon="openedIcon"
-              :closed-icon="closedIcon"
-              :icon-lib="iconLib"
-              :override-defaults="overrideDefaults"
-            >
-            </t-tree-nav>
-          </ul>
-        </template>
-      </aside>
+          </t-tree-nav>
+        </ul>
+      </template>
     </div>
-  </t-slide>
+  </t-aside>
 </template>
 
 <script>
@@ -55,23 +50,17 @@ import CssArchitect from "../../utils/css-architect";
 import TTreeNav from "../TTree/TTreeNav";
 import TSlide from "../TAnimation/TSlide";
 import colors from "../../mixins/colors";
+import slide from "../../mixins/slide";
+import TAside from "../TLayout/TAside";
 
 export default {
   name: "t-nav-drawer",
-  components: { TSlide, TTreeNav },
-  mixins: [helpers, sizes, tree, common, icons, colors],
+  components: { TAside, TSlide, TTreeNav },
+  mixins: [helpers, sizes, tree, common, icons, colors, slide],
   props: {
     model: {
       type: Array,
       required: true
-    },
-    isOpen: {
-      type: Boolean,
-      default: true
-    },
-    isAbsolute: {
-      type: Boolean,
-      default: false
     },
     hideLabel: {
       type: [Boolean, String],
@@ -82,21 +71,6 @@ export default {
     },
     labelClass: {
       type: String
-    },
-    width: {
-      type: Number,
-      default: 300
-    },
-    zIndex: {
-      type: Number
-    },
-    animationDuration: {
-      type: Number,
-      default: 300
-    },
-    animationFill: {
-      type: String,
-      default: "forwards"
     }
   },
   computed: {

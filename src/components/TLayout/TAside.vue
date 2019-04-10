@@ -5,12 +5,10 @@
     :animation-duration="animationDuration"
     :animation-fill="animationFill"
     :is-absolute="isAbsolute"
+    :z-index="zIndex"
+    @clickedOutside="handleOutsideClick"
   >
-    <aside
-      :id="id"
-      :class="getClasses"
-      ref="asidecontainer"
-    >
+    <aside :id="id" :class="getClasses" ref="asidecontainer">
       <slot></slot>
     </aside>
   </t-slide>
@@ -22,31 +20,15 @@ import common from "../../mixins/common";
 import flex from "../../mixins/flex-direction";
 import CssArchitect from "../../utils/css-architect";
 import TSlide from "../TAnimation/TSlide";
+import slide from "../../mixins/slide";
 
 export default {
   name: "t-aside",
   components: { TSlide },
-  mixins: [common, colors, flex],
+  mixins: [common, colors, flex, slide],
   props: {
-    isOpen: {
-      type: Boolean,
-      default: true
-    },
-    isAbsolute: {
-      type: Boolean,
-      default: false
-    },
-    width: {
-      type: Number,
-      default: 300
-    },
-    animationDuration: {
-      type: Number,
-      default: 300
-    },
-    animationFill: {
-      type: String,
-      default: "forwards"
+    containerClass: {
+      type: String
     }
   },
   computed: {
@@ -58,6 +40,10 @@ export default {
       const cssArchitect = new CssArchitect("t-aside is-flex");
       cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass(this.getFlexModifiers);
+      cssArchitect.addClass(
+        this.containerClass,
+        this.containerClass !== undefined
+      );
       return cssArchitect.getClasses();
     }
   },

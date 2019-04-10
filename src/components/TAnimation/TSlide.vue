@@ -11,37 +11,11 @@
 
 <script>
 import CssArchitect from "../../utils/css-architect";
+import slide from "../../mixins/slide";
 
 export default {
   name: "t-slide",
-  props: {
-    isOpen: {
-      type: Boolean,
-      default: false
-    },
-    width: {
-      type: Number
-    },
-    unity: {
-      type: String,
-      default: "px"
-    },
-    zIndex: {
-      type: Number
-    },
-    animationDuration: {
-      type: Number,
-      default: 300
-    },
-    animationFill: {
-      type: String,
-      default: "forwards"
-    },
-    isAbsolute: {
-      type: Boolean,
-      default: false
-    }
-  },
+  mixins: [slide],
   computed: {
     /**
      * Dynamically build the css classes for the target element
@@ -69,12 +43,12 @@ export default {
     }
   },
   methods: {
-    getStyle(){
+    getStyle() {
       let styleObject = {
-        width: `${this.initialWidth}px`,
-      }
-      if(this.zIndex){
-        styleObject.zIndex = this.zIndex
+        width: `${this.initialWidth}px`
+      };
+      if (this.zIndex) {
+        styleObject.zIndex = parseInt(this.zIndex);
       }
       return styleObject;
     },
@@ -87,9 +61,6 @@ export default {
     },
     toggleSlide() {
       this.changeWidth(this.getWidth);
-    },
-    handleOutsideClick(e) {
-      this.$emit("clickedOutside", e);
     },
     changeWidth(width) {
       this.getTarget().style.width = width;

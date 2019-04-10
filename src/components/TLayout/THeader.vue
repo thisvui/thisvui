@@ -26,7 +26,7 @@ export default {
       default: "px"
     },
     zIndex: {
-      type: Number
+      type: [ String, Number ]
     }
   },
   computed: {
@@ -52,7 +52,7 @@ export default {
         height: this.getHeight,
       }
       if(this.zIndex){
-        styleObject.zIndex = this.zIndex
+        styleObject.zIndex = parseInt(this.zIndex)
       }
       return styleObject;
     },
