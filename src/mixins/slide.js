@@ -28,9 +28,18 @@ export default {
       default: "forwards"
     }
   },
+  data() {
+    return {
+      calculatedWidth: this.width
+    };
+  },
   methods: {
     handleOutsideClick(e) {
       this.$emit("clickedOutside", e);
+    },
+    updateCalculatedWith(width){
+      this.calculatedWidth = width
+      this.$emit("changeWidth", this.calculatedWidth)
     }
   }
 };

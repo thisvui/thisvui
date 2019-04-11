@@ -9,8 +9,9 @@
     :animation-duration="animationDuration"
     :animation-fill="animationFill"
     @clickedOutside="handleOutsideClick"
+    @changeWidth="updateCalculatedWith"
   >
-    <div class="menu">
+    <div class="menu" :style="getStyle()">
       <template v-for="(menu, index) in model">
         <p
           :key="`ml-${index}`"
@@ -124,8 +125,11 @@ export default {
     };
   },
   methods: {
-    handleOutsideClick(e) {
-      this.$emit("clickedOutside", e);
+    getStyle() {
+      let styleObject = {
+        width: `${this.calculatedWidth}px`
+      };
+      return styleObject;
     }
   }
 };

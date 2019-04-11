@@ -26,10 +26,6 @@ export default {
       cssArchitect.addClass("is-absolute", this.isAbsolute);
       cssArchitect.addClass("has-shadow-1");
       return cssArchitect.getClasses();
-    },
-    getWidth: function() {
-      let width = `${this.width}${this.unity}`;
-      return this.isOpen ? width : this.initialWidth;
     }
   },
   data() {
@@ -59,17 +55,32 @@ export default {
       }
       return element;
     },
+    getWidth: function() {
+      let baseWitdh = window.innerWidth < this.width ? window.innerWidth : this.width
+      this.updateCalculatedWith(window.innerWidth < 352 ? baseWitdh - 52 : baseWitdh)
+      let width = `${this.calculatedWidth}${this.unity}`;
+      return this.isOpen ? width : this.initialWidth;
+    },
     toggleSlide() {
-      this.changeWidth(this.getWidth);
+      this.changeWidth(this.getWidth());
     },
     changeWidth(width) {
       this.getTarget().style.width = width;
+    },
+    handleResize(event) {
+      this.changeWidth(this.getWidth())
     }
   },
   mounted() {
     this.$nextTick(function() {
       this.toggleSlide();
     });
+  },
+  created: function() {
+    window.addEventListener("resize", this.handleResize);
+  },
+  beforeDestroy: function() {
+    window.removeEventListener("resize", this.handleResize);
   }
 };
 </script>

@@ -7,8 +7,9 @@
     :is-absolute="isAbsolute"
     :z-index="zIndex"
     @clickedOutside="handleOutsideClick"
+    @changeWidth="updateCalculatedWith"
   >
-    <aside :id="id" :class="getClasses" ref="asidecontainer">
+    <aside :id="id" :class="getClasses" ref="asidecontainer" :style="getStyle()">
       <slot></slot>
     </aside>
   </t-slide>
@@ -47,8 +48,13 @@ export default {
       return cssArchitect.getClasses();
     }
   },
-  data() {
-    return {};
+  methods: {
+    getStyle() {
+      let styleObject = {
+        width: `${this.calculatedWidth}px`
+      };
+      return styleObject;
+    }
   }
 };
 </script>
