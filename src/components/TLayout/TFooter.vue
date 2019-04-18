@@ -1,5 +1,5 @@
 <template>
-  <footer :id="id" :class="getClasses" :style="{height:getHeight}">
+  <footer :id="id" :class="getClasses" :style="{ height: getHeight }">
     <slot></slot>
   </footer>
 </template>
@@ -18,7 +18,7 @@ export default {
       default: false
     },
     height: {
-      type: [ String, Number ],
+      type: [String, Number],
       default: 52
     },
     unity: {

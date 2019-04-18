@@ -56,8 +56,11 @@ export default {
       return element;
     },
     getWidth: function() {
-      let baseWitdh = window.innerWidth < this.width ? window.innerWidth : this.width
-      this.updateCalculatedWith(window.innerWidth < 352 ? baseWitdh - 52 : baseWitdh)
+      let baseWitdh =
+        window.innerWidth < this.width ? window.innerWidth : this.width;
+      this.updateCalculatedWith(
+        window.innerWidth < 352 ? baseWitdh - 52 : baseWitdh
+      );
       let width = `${this.calculatedWidth}${this.unity}`;
       return this.isOpen ? width : this.initialWidth;
     },
@@ -68,7 +71,7 @@ export default {
       this.getTarget().style.width = width;
     },
     handleResize(event) {
-      this.changeWidth(this.getWidth())
+      this.changeWidth(this.getWidth());
     }
   },
   mounted() {

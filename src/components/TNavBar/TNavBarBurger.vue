@@ -38,7 +38,10 @@ export default {
     getClasses: function() {
       const cssArchitect = new CssArchitect("navbar-burger");
       cssArchitect.addClass("is-active", this.getBoolean(this.isActive));
-      cssArchitect.addClass("is-mobile-only", this.getBoolean(this.isMobileOnly));
+      cssArchitect.addClass(
+        "is-mobile-only",
+        this.getBoolean(this.isMobileOnly)
+      );
       cssArchitect.addClass(this.getColorsModifiers);
       return cssArchitect.getClasses();
     }

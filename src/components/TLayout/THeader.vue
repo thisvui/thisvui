@@ -18,7 +18,7 @@ export default {
       default: false
     },
     height: {
-      type: [ String, Number ],
+      type: [String, Number],
       default: 52
     },
     unity: {
@@ -26,7 +26,7 @@ export default {
       default: "px"
     },
     zIndex: {
-      type: [ String, Number ]
+      type: [String, Number]
     }
   },
   computed: {
@@ -47,15 +47,15 @@ export default {
     }
   },
   methods: {
-    getStyle(){
+    getStyle() {
       let styleObject = {
-        height: this.getHeight,
-      }
-      if(this.zIndex){
-        styleObject.zIndex = parseInt(this.zIndex)
+        height: this.getHeight
+      };
+      if (this.zIndex) {
+        styleObject.zIndex = parseInt(this.zIndex);
       }
       return styleObject;
-    },
+    }
   }
 };
 </script>

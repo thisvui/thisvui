@@ -17,7 +17,7 @@ export default {
       default: "px"
     },
     zIndex: {
-      type: [ Number, String ]
+      type: [Number, String]
     },
     animationDuration: {
       type: Number,
@@ -37,9 +37,9 @@ export default {
     handleOutsideClick(e) {
       this.$emit("clickedOutside", e);
     },
-    updateCalculatedWith(width){
-      this.calculatedWidth = width
-      this.$emit("changeWidth", this.calculatedWidth)
+    updateCalculatedWith(width) {
+      this.calculatedWidth = width;
+      this.$emit("changeWidth", this.calculatedWidth);
     }
   }
 };

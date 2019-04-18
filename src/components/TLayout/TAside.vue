@@ -9,7 +9,12 @@
     @clickedOutside="handleOutsideClick"
     @changeWidth="updateCalculatedWith"
   >
-    <aside :id="id" :class="getClasses" ref="asidecontainer" :style="getStyle()">
+    <aside
+      :id="id"
+      :class="getClasses"
+      ref="asidecontainer"
+      :style="getStyle()"
+    >
       <slot></slot>
     </aside>
   </t-slide>

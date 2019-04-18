@@ -50,8 +50,7 @@ export default {
       type: String
     },
     label: {
-      type: String,
-      default: "Confirm"
+      type: String
     },
     labelClass: {
       type: String,
