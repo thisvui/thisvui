@@ -6,7 +6,7 @@
     ref="navdrawercontainer"
   >
     <div class="tree-view">
-      <ul class="tree-view-list" :key="`tree${index}`">
+      <ul class="tree-view-list">
         <t-tree-nav
           class="item"
           :tag-class="tagClass"

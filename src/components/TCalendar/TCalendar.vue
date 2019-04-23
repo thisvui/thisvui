@@ -128,6 +128,9 @@ export default {
     value: {
       type: [String, Date]
     },
+    widgetClass: {
+      type: String
+    },
     startDate: {
       required: false,
       type: Date
@@ -240,6 +243,7 @@ export default {
       const cssArchitect = new CssArchitect("t-calendar-widget");
       cssArchitect.addClass("inline-calendar", this.inline);
       cssArchitect.addClass(this.getSyntaxModifiers);
+      cssArchitect.addClass(this.widgetClass);
       return cssArchitect.getClasses();
     },
     getCalendarClass: function() {

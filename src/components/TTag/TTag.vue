@@ -14,6 +14,9 @@ export default {
   name: "t-tag",
   mixins: [syntax, sizes, check],
   props: {
+    targetClass: {
+      type: String
+    },
     isRounded: {
       type: [String, Boolean]
     },
@@ -30,6 +33,7 @@ export default {
       const cssArchitect = new CssArchitect("tag");
       cssArchitect.addClass(this.getSyntaxModifiers);
       cssArchitect.addClass(this.getSizesModifiers);
+      cssArchitect.addClass(this.targetClass);
       cssArchitect.addClass("is-rounded", this.getBoolean(this.isRounded));
       cssArchitect.addClass("is-delete", this.getBoolean(this.isDelete));
 

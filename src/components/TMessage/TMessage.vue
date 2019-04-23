@@ -50,6 +50,9 @@ export default {
       type: [Boolean, String],
       default: false
     },
+    targetClass: {
+      type: String
+    },
     headerClass: {
       type: String
     },
@@ -69,6 +72,7 @@ export default {
       const cssArchitect = new CssArchitect("message");
       cssArchitect.addClass(this.getSyntaxModifiers);
       cssArchitect.addClass(this.getSizesModifiers);
+      cssArchitect.addClass(this.targetClass);
       cssArchitect.addClass("is-bold", this.getBoolean(this.isBold));
       return cssArchitect.getClasses();
     },

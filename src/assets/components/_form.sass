@@ -19,7 +19,7 @@
       $color: nth($pair, 1)
       $color-invert: nth($pair, 2)
       &.is-#{$name}
-        border-color: rgba($color, .3)
+        border-color: rgba($color, .7)
         -webkit-box-shadow: 0 0 7px rgba($color, .1)
         box-shadow: 0 0 7px rgba($color, .1)
         &+ .icon
@@ -37,6 +37,8 @@
         box-shadow: 1px 1px 1px 1px rgba($input-border-color, 0.2)
   &.is-column
     flex-direction: column
+  .select
+    width: 100%
 .is-block
   .control
     display: block
@@ -235,12 +237,12 @@
       .t-calendar
         &-day
           .day-number
-          &.is-selected
-            border: 2px solid rgba($color, .1)
-            background: rgba($color, .9)
-            color: $color-invert
-          &.is-today
-            border: 2px solid rgba($color, .2)
+            &.is-selected
+              border: 2px solid rgba($color, .1)
+              background: rgba($color, .9)
+              color: $color-invert
+            &.is-today
+              border: 2px solid rgba($color, .2)
       .change-month-arrow
         color: $color
       .t-timepicker
