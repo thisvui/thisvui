@@ -124,7 +124,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getLinkClasses: function() {
-      let className = this.open ? "is-active" : "link";
+      let className = this.open ? "is-active" : "tree-nav-link";
       const cssArchitect = new CssArchitect(className);
       cssArchitect.addClass(this.linkClass, this.linkClass);
       return cssArchitect.getClasses();
