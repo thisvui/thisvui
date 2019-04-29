@@ -19,12 +19,12 @@
       :next-text="nextText"
       :previous-btn-class="previousBtnClass"
       :next-btn-class="nextBtnClass"
-      is-right="true"
-      is-left="true"
-      is-rounded="true"
-      is-shadowless="true"
-      is-paddingless="true"
-      is-small="true"
+      is-right
+      is-left
+      is-rounded
+      is-shadowless
+      is-paddingless
+      is-small
       :show-numbers="showNumbers"
       :link-class="linkClass"
       :current-link-class="currentLinkClass"
@@ -40,7 +40,7 @@
               <div class="col-checkable" v-if="checkable">
                 <t-checkbox
                   class="row-checker"
-                  has-background-color="true"
+                  has-background-color
                   v-model="checkAllItems"
                   @change.native="checkAllRows"
                   @click.native.stop
@@ -149,12 +149,12 @@
       :next-text="nextText"
       :previous-btn-class="previousBtnClass"
       :next-btn-class="nextBtnClass"
-      is-right="true"
-      is-left="true"
-      is-rounded="true"
-      is-shadowless="true"
-      is-paddingless="true"
-      is-small="true"
+      is-right
+      is-left
+      is-rounded
+      is-shadowless
+      is-paddingless
+      is-small
       :show-numbers="showNumbers"
       :link-class="linkClass"
       :current-link-class="currentLinkClass"
@@ -177,7 +177,7 @@ import TExpand from "../TAnimation/TExpand";
 export default {
   name: "t-table",
   components: { TExpand, TPaginator, TCheckbox, TInput },
-  mixins: [common, helpers, list],
+  mixins: [common, list, helpers],
   filters: {
     capitalize: function(str) {
       return str.charAt(0).toUpperCase() + str.slice(1);
@@ -186,7 +186,7 @@ export default {
   props: {
     columns: Array,
     actionColumn: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     actionText: {
@@ -214,30 +214,30 @@ export default {
       }
     },
     isResponsive: {
-      type: [Boolean, String],
+      type: Boolean,
       default: true
     },
     isBordered: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isStriped: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isNarrow: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isHoverable: {
-      type: [Boolean, String],
+      type: Boolean,
       default: true
     },
     isFullwidth: {
-      type: [Boolean, String],
+      type: Boolean,
       default: true
     }
   },
   computed: {
     hasActionColumn() {
-      return this.getBoolean(this.actionColumn);
+      return this.actionColumn;
     },
     /**
      * Dynamically build the css classes for the target element
@@ -245,15 +245,13 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("table");
-      cssArchitect.addClass(
-        "is-responsive",
-        this.getBoolean(this.isResponsive)
-      );
-      cssArchitect.addClass("is-bordered", this.getBoolean(this.isBordered));
-      cssArchitect.addClass("is-striped", this.getBoolean(this.isStriped));
-      cssArchitect.addClass("is-narrow", this.getBoolean(this.isNarrow));
-      cssArchitect.addClass("is-hoverable", this.getBoolean(this.isHoverable));
-      cssArchitect.addClass("is-fullwidth", this.getBoolean(this.isFullwidth));
+      cssArchitect.addClass(this.getHelpersModifiers);
+      cssArchitect.addClass("is-responsive", this.isResponsive);
+      cssArchitect.addClass("is-bordered", this.isBordered);
+      cssArchitect.addClass("is-striped", this.isStriped);
+      cssArchitect.addClass("is-narrow", this.isNarrow);
+      cssArchitect.addClass("is-hoverable", this.isHoverable);
+      cssArchitect.addClass("is-fullwidth", this.isFullwidth);
       return cssArchitect.getClasses();
     },
     getColumns() {

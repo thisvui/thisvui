@@ -28,7 +28,6 @@
 
 <script>
 import helpers from "../../mixins/helpers";
-import sizes from "../../mixins/sizes";
 import tree from "../../mixins/tree";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
@@ -38,20 +37,13 @@ import TTreeNav from "./TTreeNav";
 export default {
   name: "t-tree-view",
   components: { TTreeNav },
-  mixins: [helpers, sizes, tree, common, icons],
+  mixins: [common, tree, icons, helpers],
   props: {
     model: {
       type: Array,
       required: true
     },
-    hideLabel: {
-      type: [Boolean, String],
-      default: false
-    },
     containerClass: {
-      type: String
-    },
-    labelClass: {
       type: String
     }
   },

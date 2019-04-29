@@ -7,10 +7,10 @@
       <t-icon
         :preserve-defaults="!overrideDefaults"
         :icon="icon"
-        v-if="getBoolean(showIcon)"
+        v-if="showIcon"
       ></t-icon>
     </div>
-    <ul :class="getOptionsClasses" v-if="getBoolean(isMenu)">
+    <ul :class="getOptionsClasses" v-if="isMenu">
       <li v-for="(item, index) in items">
         <span :class="getOptionLabelClasses">{{ item.label }}</span>
         <div :class="getOptionBtnClasses">
@@ -47,27 +47,27 @@ export default {
       type: String
     },
     showIcon: {
-      type: [Boolean, String],
+      type: Boolean,
       default: true
     },
     isMenu: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     isTop: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     isBottom: {
-      type: [Boolean, String],
+      type: Boolean,
       default: true
     },
     isLeft: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     isRight: {
-      type: [Boolean, String],
+      type: Boolean,
       default: true
     },
     btnClass: {

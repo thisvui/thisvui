@@ -19,11 +19,11 @@
       :next-text="nextText"
       :previous-btn-class="previousBtnClass"
       :next-btn-class="nextBtnClass"
-      is-right="true"
-      is-left="true"
-      is-rounded="true"
-      is-shadowless="true"
-      is-paddingless="true"
+      is-right
+      is-left
+      is-rounded
+      is-shadowless
+      is-paddingless
       :show-numbers="showNumbers"
       :link-class="linkClass"
       :current-link-class="currentLinkClass"
@@ -34,7 +34,7 @@
       <t-checkbox
         v-if="checkable"
         class="row-checker"
-        has-background-color="true"
+        has-background-color
         v-model="checkAllItems"
         @change.native="checkAllRows"
         @click.native.stop
@@ -66,11 +66,11 @@
       :next-text="nextText"
       :previous-btn-class="previousBtnClass"
       :next-btn-class="nextBtnClass"
-      is-right="true"
-      is-left="true"
-      is-rounded="true"
-      is-shadowless="true"
-      is-paddingless="true"
+      is-right
+      is-left
+      is-rounded
+      is-shadowless
+      is-paddingless
       :show-numbers="showNumbers"
       :link-class="linkClass"
       :current-link-class="currentLinkClass"
@@ -83,7 +83,6 @@
 <script>
 import CssArchitect from "../../utils/css-architect";
 import TPaginator from "../TPaginator/TPaginator";
-import helpers from "../../mixins/helpers";
 import list from "../../mixins/list";
 import responsive from "../../mixins/responsive";
 import dimension from "../../mixins/dimension";
@@ -92,7 +91,7 @@ import common from "../../mixins/common";
 export default {
   name: "t-list",
   components: { TPaginator },
-  mixins: [common, helpers, list, responsive, dimension],
+  mixins: [common, list, responsive, dimension],
   filters: {
     capitalize: function(str) {
       return str.charAt(0).toUpperCase() + str.slice(1);
@@ -100,15 +99,15 @@ export default {
   },
   props: {
     showHeader: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     isResponsive: {
-      type: [Boolean, String],
+      type: Boolean,
       default: true
     },
     isFullwidth: {
-      type: [Boolean, String],
+      type: Boolean,
       default: true
     }
   },
@@ -121,6 +120,7 @@ export default {
       const cssArchitect = new CssArchitect();
       cssArchitect.addClass(this.getResponsiveModifiers);
       cssArchitect.addClass(this.getDimensionModifiers);
+      cssArchitect.addClass(this.getHelpersModifiers);
       return cssArchitect.getClasses();
     }
   }

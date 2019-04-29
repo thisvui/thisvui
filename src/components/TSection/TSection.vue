@@ -5,13 +5,12 @@
 </template>
 
 <script>
-import syntax from "../../mixins/syntax";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
   name: "t-section",
-  mixins: [common, syntax],
+  mixins: [common],
   computed: {
     /**
      * Dynamically build the css classes for the target element

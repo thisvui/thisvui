@@ -7,14 +7,13 @@
 </template>
 
 <script>
-import sizes from "../../mixins/sizes";
 import common from "../../mixins/common";
 import TIcon from "../TIcon/TIcon";
 
 export default {
   name: "t-tab",
   components: { TIcon },
-  mixins: [common, sizes],
+  mixins: [common],
   props: {
     name: {
       type: String,
@@ -54,7 +53,7 @@ export default {
     activate(oldIndex, index, activate) {
       this.transitionClassName =
         index < oldIndex ? this.transitionNext : this.transitionPrev;
-      this.isActive = this.getBoolean(activate);
+      this.isActive = activate;
     }
   }
 };

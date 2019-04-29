@@ -6,14 +6,12 @@
 
 <script>
 import CssArchitect from "../../utils/css-architect";
-import check from "../../mixins/check";
 
 export default {
   name: "t-tags",
-  mixins: [check],
   props: {
     hasAddons: {
-      type: [String, Boolean]
+      type: Boolean
     }
   },
   computed: {
@@ -23,8 +21,7 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("tags");
-      cssArchitect.addClass("has-addons", this.getBoolean(this.hasAddons));
-
+      cssArchitect.addClass("has-addons", this.hasAddons);
       return cssArchitect.getClasses();
     }
   }

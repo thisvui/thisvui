@@ -1,7 +1,7 @@
 import {
-  ValidationBus,
+  Result,
   Rule,
-  Result
+  ValidationBus
 } from "../components/TValidation/validation-bus.js";
 import utils from "../utils/utils";
 
@@ -18,7 +18,7 @@ export const RULES = Object.freeze({
 export default {
   props: {
     required: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     requiredMessage: {
@@ -26,7 +26,7 @@ export default {
       default: "Value is required"
     },
     numeric: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     numericMessage: {
@@ -34,7 +34,7 @@ export default {
       default: "Value must be a number"
     },
     email: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     emailMessage: {
@@ -99,13 +99,13 @@ export default {
   },
   computed: {
     getRequired: function() {
-      return utils.convert.stringToBoolean(this.required);
+      return this.required;
     },
     getNumeric: function() {
-      return utils.convert.stringToBoolean(this.numeric);
+      return this.numeric;
     },
     getEmail: function() {
-      return utils.convert.stringToBoolean(this.email);
+      return this.email;
     },
     hasRules: function() {
       return this.rules.length > 0;

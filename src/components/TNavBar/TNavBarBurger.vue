@@ -24,10 +24,10 @@ export default {
   mixins: [common, helper, colors],
   props: {
     isActive: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isMobileOnly: {
-      type: [String, Boolean]
+      type: Boolean
     }
   },
   computed: {
@@ -37,11 +37,8 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("navbar-burger");
-      cssArchitect.addClass("is-active", this.getBoolean(this.isActive));
-      cssArchitect.addClass(
-        "is-mobile-only",
-        this.getBoolean(this.isMobileOnly)
-      );
+      cssArchitect.addClass("is-active", this.isActive);
+      cssArchitect.addClass("is-mobile-only", this.isMobileOnly);
       cssArchitect.addClass(this.getColorsModifiers);
       return cssArchitect.getClasses();
     }

@@ -2,13 +2,13 @@
   <div :class="getContainerClass">
     <div class="field-label is-normal" v-if="label">
       <t-icon
-        v-if="labelIcon !== undefined && !getBoolean(labelIconRight)"
+        v-if="labelIcon !== undefined && !labelIconRight"
         :icon="labelIcon"
         :class="getLabelIconClass"
       ></t-icon>
       <label v-if="!getRemoveLabel" :class="getLabelClass">{{ label }}</label>
       <t-icon
-        v-if="labelIcon !== undefined && getBoolean(labelIconRight)"
+        v-if="labelIcon !== undefined && labelIconRight"
         :icon="labelIcon"
         :class="getLabelIconClass"
       ></t-icon>
@@ -64,6 +64,9 @@ export default {
   components: { TIcon },
   mixins: [input],
   props: {
+    value: {
+      type: [String, Number]
+    },
     type: {
       type: String,
       default: "text"

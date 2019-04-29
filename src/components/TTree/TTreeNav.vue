@@ -65,7 +65,7 @@ import TExpand from "../TAnimation/TExpand";
 
 export default {
   name: "t-tree-nav",
-  mixins: [common, helpers, tree, icons],
+  mixins: [common, tree, icons, helpers],
   components: {
     TExpand,
     TTag,

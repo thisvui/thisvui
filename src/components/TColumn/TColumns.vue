@@ -6,18 +6,18 @@
 
 <script>
 import CssArchitect from "../../utils/css-architect";
-import responsive from "../../mixins/responsive";
 import common from "../../mixins/common";
+import devices from "../../mixins/devices";
 
 export default {
   name: "t-columns",
-  mixins: [common, responsive],
+  mixins: [common, devices],
   props: {
     isGapless: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isMultiline: {
-      type: [String, Boolean]
+      type: Boolean
     }
   },
   computed: {
@@ -27,9 +27,9 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("columns");
-      cssArchitect.addClass(this.getResponsiveModifiers);
-      cssArchitect.addClass("is-gapless", this.getBoolean(this.isGapless));
-      cssArchitect.addClass("is-multiline", this.getBoolean(this.isMultiline));
+      cssArchitect.addClass(this.getDevicesModifiers);
+      cssArchitect.addClass("is-gapless", this.isGapless);
+      cssArchitect.addClass("is-multiline", this.isMultiline);
 
       return cssArchitect.getClasses();
     }

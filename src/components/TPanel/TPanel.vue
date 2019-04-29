@@ -21,24 +21,24 @@
 </template>
 
 <script>
-import syntax from "../../mixins/syntax";
 import helpers from "../../mixins/helpers";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
 import TPanelHeading from "./TPanelHeading";
 import CssArchitect from "../../utils/css-architect";
 import TExpand from "../TAnimation/TExpand";
+import colors from "../../mixins/colors";
 
 export default {
   name: "t-panel",
-  mixins: [common, helpers, syntax, icons],
+  mixins: [common, colors, icons, helpers],
   components: { TExpand, TPanelHeading },
   props: {
     title: {
       type: String
     },
     isCollapsible: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     headingClass: {
@@ -64,7 +64,8 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("panel");
-      cssArchitect.addClass(this.getSyntaxModifiers);
+      cssArchitect.addClass(this.getColorsModifiers);
+      cssArchitect.addClass(this.getHelpersModifiers);
       return cssArchitect.getClasses();
     },
     /**
@@ -88,7 +89,7 @@ export default {
      * Open or close the panel dynamically
      */
     toggleOpen() {
-      if (this.getBoolean(this.isCollapsible)) {
+      if (this.isCollapsible) {
         this.isOpen = !this.isOpen;
         this.icon =
           this.headingIcon !== undefined && this.isOpen

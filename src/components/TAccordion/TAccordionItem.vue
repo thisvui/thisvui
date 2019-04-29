@@ -31,8 +31,6 @@
 </template>
 
 <script>
-import syntax from "../../mixins/syntax";
-import sizes from "../../mixins/sizes";
 import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
@@ -40,11 +38,12 @@ import CssArchitect from "../../utils/css-architect";
 import TExpand from "../TAnimation/TExpand";
 import TLevel from "../TLevel/TLevel";
 import TIcon from "../TIcon/TIcon";
+import colors from "../../mixins/colors";
 
 export default {
   name: "t-accordion-item",
   components: { TIcon, TLevel, TExpand },
-  mixins: [common, syntax, sizes, helper, icons],
+  mixins: [common, icons, helper, colors],
   props: {
     title: {
       type: String
@@ -71,11 +70,11 @@ export default {
       type: String
     },
     isOpen: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     showIcon: {
-      type: [String, Boolean]
+      type: Boolean
     }
   },
   computed: {
@@ -85,9 +84,9 @@ export default {
      */
     getShowIcon: function() {
       let showIcon = this.showIcon
-        ? this.getBoolean(this.showIcon)
+        ? this.showIcon
         : this.parentProps.showIcon
-        ? this.getBoolean(this.parentProps.showIcon)
+        ? this.parentProps.showIcon
         : false;
       return showIcon;
     },
@@ -97,15 +96,28 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("t-accordion-item");
-      let targetClass = this.targetClass
-        ? this.targetClass
-        : this.parentProps.targetClass
-        ? this.parentProps.targetClass
-        : undefined;
-      cssArchitect.addClass(this.getSyntaxModifiers);
+      let hasClass = this.targetClass !== undefined;
+      let parentHasClass = this.parentProps.targetClass !== undefined;
+      cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass(targetClass, targetClass);
+      cssArchitect.addClass(this.targetClass, hasClass);
+      cssArchitect.addClass(
+        this.parentProps.targetClass,
+        parentHasClass && !hasClass
+      );
+      cssArchitect.addClass(this.getItemClass, this.getItemClass != null);
       return cssArchitect.getClasses();
+    },
+    getItemClass: function() {
+      let itemClass = null;
+      let hasClass = this.targetClass !== undefined;
+      let parentHasClass = this.parentProps.targetClass !== undefined;
+      if (!hasClass && !parentHasClass && !this.hasColorModifier) {
+        itemClass = !this.$parent.hasColorModifier
+          ? "is-primary"
+          : this.$parent.colorModifier;
+      }
+      return itemClass;
     },
     /**
      * Dynamically build the css classes for the header element

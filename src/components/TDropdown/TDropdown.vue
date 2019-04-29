@@ -23,8 +23,6 @@
 
 <script>
 import alignment from "../../mixins/alignment";
-import sizes from "../../mixins/sizes";
-import helpers from "../../mixins/helpers";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
 import CssArchitect from "../../utils/css-architect";
@@ -33,7 +31,7 @@ import TIcon from "../TIcon/TIcon";
 export default {
   name: "t-dropdown",
   components: { TIcon },
-  mixins: [common, alignment, sizes, helpers, icons],
+  mixins: [common, alignment, icons],
   props: {
     text: {
       type: String
@@ -45,15 +43,15 @@ export default {
       }
     },
     isUp: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     isHoverable: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     isActive: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     }
   },
@@ -70,9 +68,8 @@ export default {
     getClasses: function() {
       const cssArchitect = new CssArchitect("dropdown");
       cssArchitect.addClass(this.getAlignmentModifiers);
-      cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass("is-up", this.getBoolean(this.isUp));
-      cssArchitect.addClass("is-hoverable", this.getBoolean(this.isHoverable));
+      cssArchitect.addClass("is-up", this.isUp);
+      cssArchitect.addClass("is-hoverable", this.isHoverable);
       cssArchitect.addClass(
         "is-active",
         this.isActive || this.isDropdownActive

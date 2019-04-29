@@ -14,7 +14,7 @@ export default {
   mixins: [common, colors],
   props: {
     isFixed: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     height: {

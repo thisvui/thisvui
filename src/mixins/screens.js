@@ -2,10 +2,10 @@ import CssArchitect from "../utils/css-architect";
 
 export default {
   props: {
-    isFullheight: {
+    isWidescreen: {
       type: Boolean
     },
-    isFullwidth: {
+    isFullhd: {
       type: Boolean
     }
   },
@@ -14,10 +14,10 @@ export default {
      * Dynamically adds the modifiers css classes based on mixin props
      * @returns { A String with the chained css classes }
      */
-    getDimensionModifiers: function() {
+    getScreensModifiers: function() {
       const cssArchitect = new CssArchitect();
-      cssArchitect.addClass("is-fullheight", this.isFullheight);
-      cssArchitect.addClass("is-fullwidth", this.isFullwidth);
+      cssArchitect.addClass("is-widescreen", this.isWidescreen);
+      cssArchitect.addClass("is-fullhd", this.isFullhd);
       return cssArchitect.getClasses();
     }
   }

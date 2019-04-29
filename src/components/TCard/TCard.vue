@@ -58,7 +58,7 @@ export default {
       type: String
     },
     figure: {
-      type: [String, Boolean]
+      type: Boolean
     },
     figureSrc: {
       type: String

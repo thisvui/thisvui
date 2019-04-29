@@ -52,6 +52,9 @@ export default {
   name: "t-select",
   mixins: [input, helpers],
   props: {
+    value: {
+      type: [String, Number]
+    },
     options: {
       type: Array
     },
@@ -62,7 +65,7 @@ export default {
       type: String
     },
     addEmptyValue: {
-      type: [Boolean, String],
+      type: Boolean,
       default: true
     }
   },
@@ -77,7 +80,7 @@ export default {
       return this.val !== undefined && this.display !== undefined;
     },
     addEmptyField: function() {
-      return this.getBoolean(this.addEmptyValue);
+      return this.addEmptyValue;
     }
   },
   methods: {

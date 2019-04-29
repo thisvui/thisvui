@@ -1,10 +1,10 @@
 <template>
-  <transition :name="this.transition" tag="span">
+  <transition :name="this.transition" tag="span" mode="out-in">
     <article :id="id" :class="getClasses" v-if="!removed">
       <button
         :class="getDeleteClasses"
         aria-label="delete"
-        v-if="getBoolean(showDeleteButton)"
+        v-if="showDeleteButton"
         @click="removeElement"
       ></button>
       <slot></slot>
@@ -14,7 +14,6 @@
 
 <script>
 import syntax from "../../mixins/syntax";
-import sizes from "../../mixins/sizes";
 import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
@@ -23,20 +22,20 @@ import TAction from "../TAction/TAction";
 export default {
   name: "t-notification",
   components: { TAction },
-  mixins: [common, syntax, sizes, helper],
+  mixins: [common, syntax, helper],
   props: {
     targetClass: {
       type: String
     },
     showDeleteButton: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     deleteClass: {
       type: String
     },
     timeout: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     transition: {
@@ -56,10 +55,8 @@ export default {
     getClasses: function() {
       const cssArchitect = new CssArchitect("notification");
       cssArchitect.addClass(this.getSyntaxModifiers);
-      cssArchitect.addClass(this.getSizesModifiers);
+      cssArchitect.addClass(this.getHelpersModifiers);
       cssArchitect.addClass(this.targetClass);
-      cssArchitect.addClass("is-bold", this.getBoolean(this.isBold));
-
       return cssArchitect.getClasses();
     },
     /**

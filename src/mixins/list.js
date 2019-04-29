@@ -17,22 +17,22 @@ export default {
       default: () => []
     },
     paginated: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     paginatorAtBottom: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     filtered: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     checkable: {
-      type: [Boolean, String]
+      type: Boolean
     },
     sortable: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     sortIcon: {
@@ -70,10 +70,10 @@ export default {
       return this.isPaginated ? this.paginatedList : this.getFilteredItems;
     },
     isPaginated() {
-      return this.getBoolean(this.paginated);
+      return this.paginated;
     },
     isPaginatorAtTop() {
-      return this.getBoolean(!this.paginatorAtBottom);
+      return !this.paginatorAtBottom;
     },
     /**
      * Filters and sorts the items

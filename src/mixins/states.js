@@ -1,16 +1,15 @@
-import utils from "../utils/utils";
 import CssArchitect from "../utils/css-architect";
 
 export default {
   props: {
     isHovered: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isFocused: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isLoading: {
-      type: [String, Boolean]
+      type: Boolean
     },
     disabled: {
       type: Boolean
@@ -23,18 +22,9 @@ export default {
      */
     getStateModifiers: function() {
       const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(
-        "is-hovered",
-        utils.convert.stringToBoolean(this.isHovered)
-      );
-      cssArchitect.addClass(
-        "is-focused",
-        utils.convert.stringToBoolean(this.isFocused)
-      );
-      cssArchitect.addClass(
-        "is-loading",
-        utils.convert.stringToBoolean(this.isLoading)
-      );
+      cssArchitect.addClass("is-hovered", this.isHovered);
+      cssArchitect.addClass("is-focused", this.isFocused);
+      cssArchitect.addClass("is-loading", this.isLoading);
       return cssArchitect.getClasses();
     }
   }

@@ -12,13 +12,13 @@ import common from "../../mixins/common";
 
 export default {
   name: "t-buttons",
-  mixins: [common, helpers, alignment],
+  mixins: [common, alignment, helpers],
   props: {
     targetClass: {
       type: String
     },
     hasAddons: {
-      type: [String, Boolean]
+      type: Boolean
     }
   },
   computed: {
@@ -31,7 +31,7 @@ export default {
       cssArchitect.addClass(this.getSizesModifiers);
       cssArchitect.addClass(this.getAlignmentModifiers);
       cssArchitect.addClass(this.targetClass);
-      cssArchitect.addClass("has-addons", this.getBoolean(this.hasAddons));
+      cssArchitect.addClass("has-addons", this.hasAddons);
       return cssArchitect.getClasses();
     }
   }

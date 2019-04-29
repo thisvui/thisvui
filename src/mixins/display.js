@@ -1,22 +1,21 @@
-import utils from "../utils/utils";
 import CssArchitect from "../utils/css-architect";
 
 export default {
   props: {
     isBlock: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isFlex: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isInline: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isInlineBlock: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isInlineFlex: {
-      type: [String, Boolean]
+      type: Boolean
     }
   },
   computed: {
@@ -26,26 +25,11 @@ export default {
      */
     getDisplayModifiers: function() {
       const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(
-        "is-block",
-        utils.convert.stringToBoolean(this.isBlock)
-      );
-      cssArchitect.addClass(
-        "is-flex",
-        utils.convert.stringToBoolean(this.isFlex)
-      );
-      cssArchitect.addClass(
-        "is-inline",
-        utils.convert.stringToBoolean(this.isInline)
-      );
-      cssArchitect.addClass(
-        "is-inline-block",
-        utils.convert.stringToBoolean(this.isInlineBlock)
-      );
-      cssArchitect.addClass(
-        "is-inline-flex",
-        utils.convert.stringToBoolean(this.isInlineFlex)
-      );
+      cssArchitect.addClass("is-block", this.isBlock);
+      cssArchitect.addClass("is-flex", this.isFlex);
+      cssArchitect.addClass("is-inline", this.isInline);
+      cssArchitect.addClass("is-inline-block", this.isInlineBlock);
+      cssArchitect.addClass("is-inline-flex", this.isInlineFlex);
       return cssArchitect.getClasses();
     }
   }

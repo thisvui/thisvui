@@ -25,7 +25,7 @@ export default {
       default: "Image"
     },
     isRounded: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     }
   },
@@ -36,6 +36,7 @@ export default {
      */
     getFigureClass: function() {
       const cssArchitect = new CssArchitect("image");
+      cssArchitect.addClass(this.getHelpersModifiers);
       cssArchitect.addClass(this.size, this.size !== undefined);
       return cssArchitect.getClasses();
     },
@@ -45,7 +46,7 @@ export default {
      */
     getImgClass: function() {
       const cssArchitect = new CssArchitect();
-      cssArchitect.addClass("is-rounded", this.getBoolean(this.isRounded));
+      cssArchitect.addClass("is-rounded", this.isRounded);
       return cssArchitect.getClasses();
     }
   }

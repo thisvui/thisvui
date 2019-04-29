@@ -5,24 +5,21 @@
 </template>
 
 <script>
-import syntax from "../../mixins/syntax";
-import alignment from "../../mixins/alignment";
-import sizes from "../../mixins/sizes";
 import helpers from "../../mixins/helpers";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
 import CssArchitect from "../../utils/css-architect";
+import colors from "../../mixins/colors";
 
 export default {
   name: "t-accordion",
-  mixins: [common, syntax, alignment, sizes, helpers, icons],
+  mixins: [common, icons, colors, helpers],
   props: {
     isBorderless: {
-      type: [String, Boolean]
+      type: Boolean
     },
     targetClass: {
-      type: String,
-      default: "is-primary"
+      type: String
     },
     iconClass: {
       type: String
@@ -40,11 +37,11 @@ export default {
       }
     },
     remainOpen: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     showIcon: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     }
   },
@@ -55,13 +52,9 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("t-accordion");
-      cssArchitect.addClass(this.getSyntaxModifiers);
-      cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass(this.getAlignmentModifiers);
-      cssArchitect.addClass(
-        "is-borderless",
-        this.getBoolean(this.isBorderless)
-      );
+      cssArchitect.addClass(this.getColorsModifiers);
+      cssArchitect.addClass(this.getHelpersModifiers);
+      cssArchitect.addClass("is-borderless", this.isBorderless);
       return cssArchitect.getClasses();
     }
   },

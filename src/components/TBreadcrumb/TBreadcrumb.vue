@@ -1,6 +1,6 @@
 <template>
   <nav :id="id" :class="getClasses" aria-label="breadcrumbs">
-    <ul v-if="!getBoolean(hasCustomContent)">
+    <ul v-if="!hasCustomContent">
       <li
         v-for="(item, index) in items"
         :class="{ 'is-active': item.isActive }"
@@ -25,14 +25,13 @@
         </router-link>
       </li>
     </ul>
-    <slot v-if="getBoolean(hasCustomContent)"></slot>
+    <slot v-if="hasCustomContent"></slot>
   </nav>
 </template>
 
 <script>
 import alignment from "../../mixins/alignment";
 import sizes from "../../mixins/sizes";
-import helpers from "../../mixins/helpers";
 import common from "../../mixins/common";
 import TImage from "../TImage/TImage";
 import CssArchitect from "../../utils/css-architect";
@@ -40,30 +39,30 @@ import TIcon from "../TIcon/TIcon";
 
 export default {
   name: "t-breadcrumb",
-  mixins: [common, alignment, sizes, helpers],
+  mixins: [common, alignment, sizes],
   components: { TIcon, TImage },
   props: {
     model: {
       type: Array
     },
     hasCustomContent: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     hasArrowSeparator: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     hasBulletSeparator: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     hasDotSeparator: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     hasSucceedsSeparator: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     }
   },
@@ -92,21 +91,12 @@ export default {
       const cssArchitect = new CssArchitect("breadcrumb");
       cssArchitect.addClass(this.getAlignmentModifiers);
       cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass(
-        "has-arrow-separator",
-        this.getBoolean(this.hasArrowSeparator)
-      );
-      cssArchitect.addClass(
-        "has-bullet-separator",
-        this.getBoolean(this.hasBulletSeparator)
-      );
-      cssArchitect.addClass(
-        "has-dot-separator",
-        this.getBoolean(this.hasDotSeparator)
-      );
+      cssArchitect.addClass("has-arrow-separator", this.hasArrowSeparator);
+      cssArchitect.addClass("has-bullet-separator", this.hasBulletSeparator);
+      cssArchitect.addClass("has-dot-separator", this.hasDotSeparator);
       cssArchitect.addClass(
         "has-succeeds-separator",
-        this.getBoolean(this.hasSucceedsSeparator)
+        this.hasSucceedsSeparator
       );
       return cssArchitect.getClasses();
     }

@@ -67,7 +67,7 @@ export default {
       default: "button"
     },
     validate: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     formId: {
@@ -77,7 +77,7 @@ export default {
       type: String
     },
     confirm: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     dialogTitle: {
@@ -127,7 +127,7 @@ export default {
       default: "is-danger"
     },
     active: {
-      type: [Boolean, String],
+      type: Boolean,
       default: true
     },
     dataTooltip: {
@@ -143,7 +143,7 @@ export default {
       type: String
     },
     isLoading: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     }
   },
@@ -165,7 +165,7 @@ export default {
       cssArchitect.addClass(this.targetClass, this.targetClass !== undefined);
       cssArchitect.addClass(this.tooltipClass, this.tooltipClass !== undefined);
       cssArchitect.addClass("tooltip", this.dataTooltip !== undefined);
-      cssArchitect.addClass("is-loading", this.getBoolean(this.isLoading));
+      cssArchitect.addClass("is-loading", this.isLoading);
       switch (this.type) {
         case "button":
           cssArchitect.addClass("button");
@@ -215,19 +215,19 @@ export default {
       return cssArchitect.getClasses();
     },
     getActive: function() {
-      return this.getBoolean(this.active);
+      return this.active;
     },
     /**
      * Converts the confirm prop to Boolean
      */
     showConfirmation: function() {
-      return this.getBoolean(this.confirm);
+      return this.confirm;
     },
     /**
      * Determines if validations must be triggered
      */
     getTriggerValidations: function() {
-      const validate = this.getBoolean(this.validate);
+      const validate = this.validate;
       let triggerValidations = this.triggerValidations;
       if (validate || this.formId || this.scope) {
         triggerValidations = true;

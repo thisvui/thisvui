@@ -1,13 +1,12 @@
-import utils from "../utils/utils";
 import CssArchitect from "../utils/css-architect";
 
 export default {
   props: {
     isCentered: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isRight: {
-      type: [String, Boolean]
+      type: Boolean
     }
   },
   computed: {
@@ -17,14 +16,8 @@ export default {
      */
     getAlignmentModifiers: function() {
       const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(
-        "is-centered",
-        utils.convert.stringToBoolean(this.isCentered)
-      );
-      cssArchitect.addClass(
-        "is-right",
-        utils.convert.stringToBoolean(this.isRight)
-      );
+      cssArchitect.addClass("is-centered", this.isCentered);
+      cssArchitect.addClass("is-right", this.isRight);
       return cssArchitect.getClasses();
     }
   }

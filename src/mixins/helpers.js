@@ -1,43 +1,42 @@
-import utils from "../utils/utils";
 import CssArchitect from "../utils/css-architect";
 
 export default {
   props: {
-    isClearfix: {
-      type: [String, Boolean]
-    },
-    isPulledLeft: {
-      type: [String, Boolean]
-    },
-    isPulledRight: {
-      type: [String, Boolean]
-    },
     isMarginless: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isPaddingless: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isOverlay: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isClipped: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isRadiusless: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isShadowless: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isUnselectable: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isInvisible: {
-      type: [String, Boolean]
+      type: Boolean
+    },
+    isClearfix: {
+      type: Boolean
+    },
+    isPulledLeft: {
+      type: Boolean
+    },
+    isPulledRight: {
+      type: Boolean
     },
     isSrOnly: {
-      type: [String, Boolean]
+      type: Boolean
     }
   },
   computed: {
@@ -47,54 +46,18 @@ export default {
      */
     getHelpersModifiers: function() {
       const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(
-        "is-clearfix",
-        utils.convert.stringToBoolean(this.isClearfix)
-      );
-      cssArchitect.addClass(
-        "is-pulled-left",
-        utils.convert.stringToBoolean(this.isPulledLeft)
-      );
-      cssArchitect.addClass(
-        "is-pulled-right",
-        utils.convert.stringToBoolean(this.isPulledRight)
-      );
-      cssArchitect.addClass(
-        "is-marginless",
-        utils.convert.stringToBoolean(this.isMarginless)
-      );
-      cssArchitect.addClass(
-        "is-paddingless",
-        utils.convert.stringToBoolean(this.isPaddingless)
-      );
-      cssArchitect.addClass(
-        "is-overlay",
-        utils.convert.stringToBoolean(this.isOverlay)
-      );
-      cssArchitect.addClass(
-        "is-clipped",
-        utils.convert.stringToBoolean(this.isClipped)
-      );
-      cssArchitect.addClass(
-        "is-radiusless",
-        utils.convert.stringToBoolean(this.isRadiusless)
-      );
-      cssArchitect.addClass(
-        "is-shadowless",
-        utils.convert.stringToBoolean(this.isShadowless)
-      );
-      cssArchitect.addClass(
-        "is-unselectable",
-        utils.convert.stringToBoolean(this.isUnselectable)
-      );
-      cssArchitect.addClass(
-        "is-invisible",
-        utils.convert.stringToBoolean(this.isInvisible)
-      );
-      cssArchitect.addClass(
-        "is-sr-only",
-        utils.convert.stringToBoolean(this.isSrOnly)
-      );
+      cssArchitect.addClass("is-marginless", this.isMarginless);
+      cssArchitect.addClass("is-paddingless", this.isPaddingless);
+      cssArchitect.addClass("is-overlay", this.isOverlay);
+      cssArchitect.addClass("is-clipped", this.isClipped);
+      cssArchitect.addClass("is-radiusless", this.isRadiusless);
+      cssArchitect.addClass("is-shadowless", this.isShadowless);
+      cssArchitect.addClass("is-unselectable", this.isUnselectable);
+      cssArchitect.addClass("is-invisible", this.isInvisible);
+      cssArchitect.addClass("is-clearfix", this.isClearfix);
+      cssArchitect.addClass("is-pulled-left", this.isPulledLeft);
+      cssArchitect.addClass("is-pulled-right", this.isPulledRight);
+      cssArchitect.addClass("is-sr-only", this.isSrOnly);
       return cssArchitect.getClasses();
     }
   }

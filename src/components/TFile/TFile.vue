@@ -101,22 +101,22 @@ export default {
       type: Function
     },
     hasName: {
-      type: [String, Boolean]
+      type: Boolean
     },
     multiple: {
-      type: [Boolean, String],
+      type: Boolean,
       default: true
     },
     showSubmit: {
-      type: [Boolean, String],
+      type: Boolean,
       default: true
     },
     autoSubmit: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     isBoxed: {
-      type: [String, Boolean]
+      type: Boolean
     },
     targetClass: {
       type: String
@@ -174,17 +174,17 @@ export default {
       cssArchitect.addClass(this.getAlignmentModifiers);
       cssArchitect.addClass(this.targetClass);
       cssArchitect.addClass("has-name", this.fileHasName);
-      cssArchitect.addClass("is-boxed", this.getBoolean(this.isBoxed));
+      cssArchitect.addClass("is-boxed", this.isBoxed);
       return cssArchitect.getClasses();
     },
     fileHasName() {
-      return this.getBoolean(this.hasName);
+      return this.hasName;
     },
     showSubmitButton() {
-      return this.getBoolean(this.showSubmit);
+      return this.showSubmit;
     },
     isAutoSubmit() {
-      return this.getBoolean(this.autoSubmit);
+      return this.autoSubmit;
     },
     isInitialUpload() {
       return this.currentStatus === STATUS_INITIAL;

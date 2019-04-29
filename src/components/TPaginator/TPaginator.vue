@@ -39,11 +39,11 @@
           <t-select
             v-model="rowsPerPage"
             :options="sizeOptions"
-            remove-label="true"
+            remove-label
             :add-empty-value="false"
             container-class="size-select-container is-inline-block"
             input-class="size-select"
-            is-small="true"
+            is-small
             @change="onChange"
           />
         </li>
@@ -146,7 +146,6 @@
 <script>
 import TIcon from "../TIcon/TIcon";
 import CssArchitect from "../../utils/css-architect";
-import syntax from "../../mixins/syntax";
 import alignment from "../../mixins/alignment";
 import sizes from "../../mixins/sizes";
 import pagination from "../../mixins/pagination";
@@ -160,7 +159,7 @@ const UPDATE_PAGE_EVENT = "update-page";
 export default {
   name: "t-paginator",
   components: { TSelect, TPaginatorControl, TIcon },
-  mixins: [common, helpers, syntax, sizes, alignment, pagination],
+  mixins: [common, pagination, sizes, alignment, helpers],
   props: {
     items: {
       type: Array
@@ -175,11 +174,11 @@ export default {
       default: "Rows per page"
     },
     controlsOutside: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     isRounded: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     }
   },
@@ -194,7 +193,7 @@ export default {
   },
   computed: {
     isControlsOutside() {
-      return this.getBoolean(this.controlsOutside);
+      return this.controlsOutside;
     },
     /**
      * Dynamically build the css classes for the container element
@@ -210,10 +209,9 @@ export default {
      */
     getTargetClass: function() {
       const cssArchitect = new CssArchitect("pagination");
-      cssArchitect.addClass(this.getSyntaxModifiers);
       cssArchitect.addClass(this.getSizesModifiers);
       cssArchitect.addClass(this.getAlignmentModifiers);
-      cssArchitect.addClass("is-rounded", this.getBoolean(this.isRounded));
+      cssArchitect.addClass("is-rounded", this.isRounded);
       return cssArchitect.getClasses();
     },
     /**
@@ -353,7 +351,7 @@ export default {
      * @returns { A Boolean value }
      */
     getShowNumbers() {
-      return this.getBoolean(this.showNumbers);
+      return this.showNumbers;
     }
   },
   mounted() {

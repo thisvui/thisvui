@@ -36,30 +36,30 @@
 </template>
 
 <script>
-import syntax from "../../mixins/syntax";
 import alignment from "../../mixins/alignment";
 import sizes from "../../mixins/sizes";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
 import TIcon from "../TIcon/TIcon";
+import colors from "../../mixins/colors";
 
 export default {
   name: "t-tabs",
   components: { TIcon },
-  mixins: [common, syntax, alignment, sizes],
+  mixins: [common, colors, alignment, sizes],
   props: {
     selected: Number,
     isToggle: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isToggleRounded: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isBorderless: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isBoxed: {
-      type: [String, Boolean]
+      type: Boolean
     },
     targetClass: {
       type: String
@@ -75,19 +75,16 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("tabs");
-      cssArchitect.addClass(this.getSyntaxModifiers);
+      cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass(this.getSizesModifiers);
       cssArchitect.addClass(this.getAlignmentModifiers);
-      cssArchitect.addClass("is-boxed", this.getBoolean(this.isBoxed));
-      cssArchitect.addClass("is-toggle", this.getBoolean(this.isToggle));
+      cssArchitect.addClass("is-boxed", this.isBoxed);
+      cssArchitect.addClass("is-toggle", this.isToggle);
       cssArchitect.addClass(
         "is-toggle is-toggle-rounded",
-        this.getBoolean(this.isToggleRounded)
+        this.isToggleRounded
       );
-      cssArchitect.addClass(
-        "is-borderless",
-        this.getBoolean(this.isBorderless)
-      );
+      cssArchitect.addClass("is-borderless", this.isBorderless);
       cssArchitect.addClass(this.targetClass);
       return cssArchitect.getClasses();
     },
@@ -97,10 +94,7 @@ export default {
      */
     getBodyClasses: function() {
       const cssArchitect = new CssArchitect("tabs-body");
-      cssArchitect.addClass(
-        "is-borderless",
-        this.getBoolean(this.isBorderless)
-      );
+      cssArchitect.addClass("is-borderless", this.isBorderless);
       cssArchitect.addClass("is-clipped");
       cssArchitect.addClass(this.getSizesModifiers);
       return cssArchitect.getClasses();

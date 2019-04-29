@@ -6,22 +6,21 @@
 
 <script>
 import CssArchitect from "../../utils/css-architect";
-import syntax from "../../mixins/syntax";
 import sizes from "../../mixins/sizes";
-import check from "../../mixins/check";
+import colors from "../../mixins/colors";
 
 export default {
   name: "t-tag",
-  mixins: [syntax, sizes, check],
+  mixins: [colors, sizes],
   props: {
     targetClass: {
       type: String
     },
     isRounded: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isDelete: {
-      type: [String, Boolean]
+      type: Boolean
     }
   },
   computed: {
@@ -31,12 +30,11 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("tag");
-      cssArchitect.addClass(this.getSyntaxModifiers);
+      cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass(this.getSizesModifiers);
       cssArchitect.addClass(this.targetClass);
-      cssArchitect.addClass("is-rounded", this.getBoolean(this.isRounded));
-      cssArchitect.addClass("is-delete", this.getBoolean(this.isDelete));
-
+      cssArchitect.addClass("is-rounded", this.isRounded);
+      cssArchitect.addClass("is-delete", this.isDelete);
       return cssArchitect.getClasses();
     }
   }

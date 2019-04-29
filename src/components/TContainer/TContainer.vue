@@ -6,16 +6,16 @@
 
 <script>
 import helper from "../../mixins/helpers";
-import responsive from "../../mixins/responsive";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
+import screens from "../../mixins/screens";
 
 export default {
   name: "t-container",
-  mixins: [common, helper, responsive],
+  mixins: [common, screens, helper],
   props: {
     isFluid: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     }
   },
@@ -26,8 +26,9 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("container");
-      cssArchitect.addClass("is-fluid", this.getBoolean(this.isFluid));
-      cssArchitect.addClass(this.getResponsiveModifiers);
+      cssArchitect.addClass("is-fluid", this.isFluid);
+      cssArchitect.addClass(this.getScreensModifiers);
+      cssArchitect.addClass(this.getHelpersModifiers);
       return cssArchitect.getClasses();
     }
   },

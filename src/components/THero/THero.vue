@@ -13,17 +13,17 @@
 </template>
 
 <script>
-import syntax from "../../mixins/syntax";
 import sizes from "../../mixins/sizes";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
+import colors from "../../mixins/colors";
 
 export default {
   name: "t-hero",
-  mixins: [common, syntax, sizes],
+  mixins: [common, sizes, colors],
   props: {
     isBold: {
-      type: [String, Boolean]
+      type: Boolean
     },
     headClass: {
       type: String
@@ -44,7 +44,7 @@ export default {
       const cssArchitect = new CssArchitect("hero");
       cssArchitect.addClass(this.getSyntaxModifiers);
       cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass("is-bold", this.getBoolean(this.isBold));
+      cssArchitect.addClass("is-bold", this.isBold);
 
       return cssArchitect.getClasses();
     },

@@ -68,7 +68,7 @@
             </div>
           </div>
         </div>
-        <div :class="getTimePickerClass" v-if="getBoolean(enableTime)">
+        <div :class="getTimePickerClass" v-if="enableTime">
           <t-input
             ref="hoursInput"
             type="number"
@@ -142,17 +142,17 @@ export default {
       }
     },
     enableTime: {
-      type: [Boolean, String],
+      type: Boolean,
       default: function() {
         return this.$thisvui.enableTimePicker;
       }
     },
     inline: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     noCalendar: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     minDate: {

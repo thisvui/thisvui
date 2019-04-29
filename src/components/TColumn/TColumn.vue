@@ -6,13 +6,13 @@
 
 <script>
 import columns from "../../mixins/columns";
-import grid from "../../mixins/12-columns";
+import twelveColumns from "../../mixins/12-columns";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
   name: "t-column",
-  mixins: [common, columns, grid],
+  mixins: [common, columns, twelveColumns],
   computed: {
     /**
      * Dynamically build the css classes for the target element
@@ -21,7 +21,7 @@ export default {
     getClasses: function() {
       const cssArchitect = new CssArchitect("column");
       cssArchitect.addClass(this.getColumnModifiers);
-      cssArchitect.addClass(this.getGridModifiers);
+      cssArchitect.addClass(this.get12ColumnsModifiers);
       return cssArchitect.getClasses();
     }
   },

@@ -2,14 +2,14 @@
   <div :id="id" :class="getContainerClass">
     <div v-if="label" class="is-o">
       <span
-        v-if="labelIcon !== undefined && !getBoolean(labelIconRight)"
+        v-if="labelIcon !== undefined && !labelIconRight"
         :class="getLabelIconClass"
       >
         <t-icon :icon="labelIcon"></t-icon>
       </span>
       <label :class="getLabelClass">{{ label }}</label>
       <span
-        v-if="labelIcon !== undefined && getBoolean(labelIconRight)"
+        v-if="labelIcon !== undefined && labelIconRight"
         :class="getLabelIconClass"
       >
         <t-icon :icon="labelIcon"></t-icon>
@@ -17,14 +17,14 @@
     </div>
     <div v-if="value">
       <span
-        v-if="icon !== undefined && !getBoolean(labelIconRight)"
+        v-if="icon !== undefined && !labelIconRight"
         :class="getLabelIconClass"
       >
         <t-icon :icon="icon"></t-icon>
       </span>
       <label :class="getValueClass">{{ value }}</label>
       <span
-        v-if="icon !== undefined && getBoolean(labelIconRight)"
+        v-if="icon !== undefined && labelIconRight"
         :class="getLabelIconClass"
       >
         <t-icon :icon="icon"></t-icon>
@@ -70,7 +70,7 @@ export default {
       type: String
     },
     labelIconRight: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     iconClass: {
@@ -86,15 +86,15 @@ export default {
       type: String
     },
     transformValue: {
-      type: [Boolean, String],
+      type: Boolean,
       default: true
     },
     center: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     bold: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     }
   },
@@ -109,8 +109,8 @@ export default {
         this.containerClass,
         this.containerClass !== undefined
       );
-      cssArchitect.addClass("is-center", this.getBoolean(this.center));
-      cssArchitect.addClass("is-bold", this.getBoolean(this.bold));
+      cssArchitect.addClass("is-center", this.center);
+      cssArchitect.addClass("is-bold", this.bold);
       return cssArchitect.getClasses();
     },
     /**

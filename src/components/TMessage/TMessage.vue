@@ -1,19 +1,16 @@
 <template>
   <article :id="id" :class="getClasses" v-if="!removed">
-    <div :class="getHeaderClasses" v-if="getBoolean(showHeader)">
+    <div :class="getHeaderClasses" v-if="showHeader">
       <p>{{ title }}</p>
       <button
         :class="getDeleteClasses"
         aria-label="delete"
-        v-if="getBoolean(showDeleteButton)"
+        v-if="showDeleteButton"
         @click="removeElement"
       ></button>
     </div>
     <div :class="getBodyClasses">
-      <div
-        class="has-text-right"
-        v-if="getBoolean(showDeleteButton) && !getBoolean(showHeader)"
-      >
+      <div class="has-text-right" v-if="showDeleteButton && !showHeader">
         <button
           :class="getDeleteClasses"
           aria-label="delete"
@@ -43,11 +40,11 @@ export default {
       type: String
     },
     showHeader: {
-      type: [Boolean, String],
+      type: Boolean,
       default: true
     },
     showDeleteButton: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     targetClass: {
@@ -72,8 +69,9 @@ export default {
       const cssArchitect = new CssArchitect("message");
       cssArchitect.addClass(this.getSyntaxModifiers);
       cssArchitect.addClass(this.getSizesModifiers);
+      cssArchitect.addClass(this.getHelpersModifiers);
       cssArchitect.addClass(this.targetClass);
-      cssArchitect.addClass("is-bold", this.getBoolean(this.isBold));
+      cssArchitect.addClass("is-bold", this.isBold);
       return cssArchitect.getClasses();
     },
     /**

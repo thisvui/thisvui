@@ -19,7 +19,7 @@ export default {
   mixins: [common, helper],
   props: {
     isActive: {
-      type: [String, Boolean]
+      type: Boolean
     }
   },
   computed: {
@@ -29,7 +29,7 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("navbar-menu");
-      cssArchitect.addClass("is-active", this.getBoolean(this.isActive));
+      cssArchitect.addClass("is-active", this.isActive);
       return cssArchitect.getClasses();
     }
   }

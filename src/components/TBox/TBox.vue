@@ -7,12 +7,12 @@
 <script>
 import CssArchitect from "../../utils/css-architect";
 import syntax from "../../mixins/syntax";
-import sizes from "../../mixins/sizes";
 import common from "../../mixins/common";
+import helpers from "../../mixins/helpers";
 
 export default {
   name: "t-box",
-  mixins: [common, syntax, sizes],
+  mixins: [common, syntax, helpers],
   computed: {
     /**
      * Dynamically build the css classes for the target element
@@ -21,7 +21,7 @@ export default {
     getClasses: function() {
       const cssArchitect = new CssArchitect("box");
       cssArchitect.addClass(this.getSyntaxModifiers);
-      cssArchitect.addClass(this.getSizesModifiers);
+      cssArchitect.addClass(this.getHelpersModifiers);
       return cssArchitect.getClasses();
     }
   },

@@ -29,7 +29,7 @@ export default {
       cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass(this.getFlexModifiers);
       cssArchitect.addClass(this.getAlignmentModifiers);
-      cssArchitect.addClass("is-vertical", this.getBoolean(this.isVertical));
+      cssArchitect.addClass("is-vertical", this.isVertical);
       return cssArchitect.getClasses();
     }
   },

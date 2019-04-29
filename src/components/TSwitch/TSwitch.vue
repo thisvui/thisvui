@@ -42,24 +42,27 @@ export default {
   name: "t-switch",
   mixins: [input],
   props: {
+    value: {
+      type: Boolean
+    },
     isRtl: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     isThin: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     isRounded: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     isOutlined: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     hasNoBorder: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     }
   },
@@ -71,11 +74,11 @@ export default {
     getClasses: function() {
       const cssArchitect = new CssArchitect();
       cssArchitect.addClass(this.getSwitchClass);
-      cssArchitect.addClass("is-rtl", this.getBoolean(this.isRtl));
-      cssArchitect.addClass("is-thin", this.getBoolean(this.isThin));
-      cssArchitect.addClass("is-rounded", this.getBoolean(this.isRounded));
-      cssArchitect.addClass("is-outlined", this.getBoolean(this.isOutlined));
-      cssArchitect.addClass("has-no-border", this.getBoolean(this.hasNoBorder));
+      cssArchitect.addClass("is-rtl", this.isRtl);
+      cssArchitect.addClass("is-thin", this.isThin);
+      cssArchitect.addClass("is-rounded", this.isRounded);
+      cssArchitect.addClass("is-outlined", this.isOutlined);
+      cssArchitect.addClass("has-no-border", this.hasNoBorder);
       return cssArchitect.getClasses();
     }
   },

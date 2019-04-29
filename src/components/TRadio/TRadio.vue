@@ -52,15 +52,15 @@ export default {
       type: Array
     },
     isRtl: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     hasNoBorder: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     hasBackgroundColor: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     }
   },
@@ -72,12 +72,9 @@ export default {
     getClasses: function() {
       const cssArchitect = new CssArchitect();
       cssArchitect.addClass(this.getCheckradioClass);
-      cssArchitect.addClass("is-rtl", this.getBoolean(this.isRtl));
-      cssArchitect.addClass("has-no-border", this.getBoolean(this.hasNoBorder));
-      cssArchitect.addClass(
-        "has-background-color",
-        this.getBoolean(this.hasBackgroundColor)
-      );
+      cssArchitect.addClass("is-rtl", this.isRtl);
+      cssArchitect.addClass("has-no-border", this.hasNoBorder);
+      cssArchitect.addClass("has-background-color", this.hasBackgroundColor);
       return cssArchitect.getClasses();
     },
     /**

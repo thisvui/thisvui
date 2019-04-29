@@ -1,7 +1,7 @@
 <template>
   <div :class="getContainerClass">
     <span
-      v-if="labelIcon !== undefined && !getBoolean(labelIconRight)"
+      v-if="labelIcon !== undefined && !labelIconRight"
       :class="getLabelIconClass"
     >
       <t-icon :icon="labelIcon"></t-icon>
@@ -10,7 +10,7 @@
       label
     }}</label>
     <span
-      v-if="labelIcon !== undefined && getBoolean(labelIconRight)"
+      v-if="labelIcon !== undefined && labelIconRight"
       :class="getLabelIconClass"
     >
       <t-icon :icon="labelIcon"></t-icon>
@@ -62,6 +62,9 @@ export default {
   components: { TIcon },
   mixins: [input],
   props: {
+    value: {
+      type: String
+    },
     rows: {
       type: Number
     },

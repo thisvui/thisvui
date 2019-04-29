@@ -13,11 +13,7 @@
   >
     <div class="menu" :style="getStyle()">
       <template v-for="(menu, index) in model">
-        <p
-          :key="`ml-${index}`"
-          :class="getLabelClass"
-          v-if="!getBoolean(hideLabel)"
-        >
+        <p :key="`ml-${index}`" :class="getLabelClass" v-if="!hideLabel">
           {{ menu.name }}
         </p>
         <ul class="menu-list" :key="`tree${index}`">
@@ -43,7 +39,6 @@
 
 <script>
 import helpers from "../../mixins/helpers";
-import sizes from "../../mixins/sizes";
 import tree from "../../mixins/tree";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
@@ -57,14 +52,14 @@ import TAside from "../TLayout/TAside";
 export default {
   name: "t-nav-drawer",
   components: { TAside, TSlide, TTreeNav },
-  mixins: [helpers, sizes, tree, common, icons, colors, slide],
+  mixins: [common, slide, tree, icons, colors, helpers],
   props: {
     model: {
       type: Array,
       required: true
     },
     hideLabel: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     containerClass: {
@@ -86,7 +81,6 @@ export default {
         this.containerClass !== undefined
       );
       cssArchitect.addClass("is-nav-opened", this.isOpen);
-      cssArchitect.addClass(this.getSizesModifiers);
       cssArchitect.addClass(this.getHelpersModifiers);
       cssArchitect.addClass(this.getColorsModifiers);
       return cssArchitect.getClasses();

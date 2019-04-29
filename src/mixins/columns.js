@@ -1,58 +1,57 @@
-import utils from "../utils/utils";
 import CssArchitect from "../utils/css-architect";
 
 export default {
   props: {
     isThreeQuarters: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isTwoThirds: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isHalf: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isOneThird: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isOneQuarter: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isFourFifths: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isThreeFifths: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isTwoFifths: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isOneFifth: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isOffset: {
       type: String
     },
     isNarrow: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isNarrowMobile: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isNarrowTablet: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isNarrowTouch: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isNarrowDesktop: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isNarrowWidescreen: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isNarrowFullhd: {
-      type: [String, Boolean]
+      type: Boolean
     }
   },
   computed: {
@@ -62,70 +61,22 @@ export default {
      */
     getColumnModifiers: function() {
       const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(
-        "is-three-quarters",
-        utils.convert.stringToBoolean(this.isThreeQuarters)
-      );
-      cssArchitect.addClass(
-        "is-two-thirds",
-        utils.convert.stringToBoolean(this.isTwoThirds)
-      );
-      cssArchitect.addClass(
-        "is-half",
-        utils.convert.stringToBoolean(this.isHalf)
-      );
-      cssArchitect.addClass(
-        "is-one-third",
-        utils.convert.stringToBoolean(this.isOneThird)
-      );
-      cssArchitect.addClass(
-        "is-one-quarter",
-        utils.convert.stringToBoolean(this.isOneQuarter)
-      );
-      cssArchitect.addClass(
-        "is-four-fifths",
-        utils.convert.stringToBoolean(this.isFourFifths)
-      );
-      cssArchitect.addClass(
-        "is-three-fifths",
-        utils.convert.stringToBoolean(this.isThreeFifths)
-      );
-      cssArchitect.addClass(
-        "is-two-fifths",
-        utils.convert.stringToBoolean(this.isTwoFifths)
-      );
-      cssArchitect.addClass(
-        "is-one-fifth",
-        utils.convert.stringToBoolean(this.isOneFifth)
-      );
-      cssArchitect.addClass(
-        "is-narrow",
-        utils.convert.stringToBoolean(this.isNarrow)
-      );
-      cssArchitect.addClass(
-        "is-narrow-mobile",
-        utils.convert.stringToBoolean(this.isNarrowMobile)
-      );
-      cssArchitect.addClass(
-        "is-narrow-tablet",
-        utils.convert.stringToBoolean(this.isNarrowTablet)
-      );
-      cssArchitect.addClass(
-        "is-narrow-touch",
-        utils.convert.stringToBoolean(this.isNarrowTouch)
-      );
-      cssArchitect.addClass(
-        "is-narrow-desktop",
-        utils.convert.stringToBoolean(this.isNarrowDesktop)
-      );
-      cssArchitect.addClass(
-        "is-narrow-widescreen",
-        utils.convert.stringToBoolean(this.isNarrowWidescreen)
-      );
-      cssArchitect.addClass(
-        "is-narrow-fullhd",
-        utils.convert.stringToBoolean(this.isNarrowFullhd)
-      );
+      cssArchitect.addClass("is-three-quarters", this.isThreeQuarters);
+      cssArchitect.addClass("is-two-thirds", this.isTwoThirds);
+      cssArchitect.addClass("is-half", this.isHalf);
+      cssArchitect.addClass("is-one-third", this.isOneThird);
+      cssArchitect.addClass("is-one-quarter", this.isOneQuarter);
+      cssArchitect.addClass("is-four-fifths", this.isFourFifths);
+      cssArchitect.addClass("is-three-fifths", this.isThreeFifths);
+      cssArchitect.addClass("is-two-fifths", this.isTwoFifths);
+      cssArchitect.addClass("is-one-fifth", this.isOneFifth);
+      cssArchitect.addClass("is-narrow", this.isNarrow);
+      cssArchitect.addClass("is-narrow-mobile", this.isNarrowMobile);
+      cssArchitect.addClass("is-narrow-tablet", this.isNarrowTablet);
+      cssArchitect.addClass("is-narrow-touch", this.isNarrowTouch);
+      cssArchitect.addClass("is-narrow-desktop", this.isNarrowDesktop);
+      cssArchitect.addClass("is-narrow-widescreen", this.isNarrowWidescreen);
+      cssArchitect.addClass("is-narrow-fullhd", this.isNarrowFullhd);
       cssArchitect.addClass(
         `is-offset-${this.isOffset}`,
         this.isOffset !== undefined

@@ -15,14 +15,13 @@
 </template>
 
 <script>
-import syntax from "../../mixins/syntax";
-import sizes from "../../mixins/sizes";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
+import colors from "../../mixins/colors";
 
 export default {
   name: "t-media",
-  mixins: [common, syntax, sizes],
+  mixins: [common, colors],
   props: {
     image: {
       type: String,
@@ -40,9 +39,7 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("media");
-      cssArchitect.addClass(this.getSyntaxModifiers);
-      cssArchitect.addClass(this.getSizesModifiers);
-
+      cssArchitect.addClass(this.getColorsModifiers);
       return cssArchitect.getClasses();
     },
     /**

@@ -3,7 +3,7 @@
     <t-notification
       v-for="(notification, index) in notifications"
       @close-notification="removeNotification(notification)"
-      show-delete-button="true"
+      show-delete-button
       :key="`Notification${index}`"
       :is-warning="notification.warning"
       :is-info="notification.info"

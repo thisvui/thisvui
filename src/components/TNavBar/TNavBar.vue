@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import helper from "../../mixins/helpers";
 import colors from "../../mixins/colors";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
@@ -14,18 +13,18 @@ import TNavBarItem from "./TNavBarItem";
 export default {
   name: "t-navbar",
   components: { TNavBarItem },
-  mixins: [common, helper, colors],
+  mixins: [common, colors],
   props: {
     isTransparent: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     isFixedTop: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     isFixedBottom: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     }
   },
@@ -37,15 +36,9 @@ export default {
     getClasses: function() {
       const cssArchitect = new CssArchitect("navbar");
       cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass(
-        "is-transparent",
-        this.getBoolean(this.isTransparent)
-      );
-      cssArchitect.addClass("is-fixed-top", this.getBoolean(this.isFixedTop));
-      cssArchitect.addClass(
-        "is-fixed-bottom",
-        this.getBoolean(this.isFixedBottom)
-      );
+      cssArchitect.addClass("is-transparent", this.isTransparent);
+      cssArchitect.addClass("is-fixed-top", this.isFixedTop);
+      cssArchitect.addClass("is-fixed-bottom", this.isFixedBottom);
       return cssArchitect.getClasses();
     }
   }

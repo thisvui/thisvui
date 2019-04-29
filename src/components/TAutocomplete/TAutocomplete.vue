@@ -1,14 +1,14 @@
 <template>
   <div :class="getAutocompleteContainerClass">
     <span
-      v-if="labelIcon !== undefined && !getBoolean(labelIconRight)"
+      v-if="labelIcon !== undefined && !labelIconRight"
       :class="getLabelIconClass"
     >
       <t-icon :icon="labelIcon"></t-icon>
     </span>
     <label v-if="!getRemoveLabel" :class="getLabelClass">{{ label }}</label>
     <span
-      v-if="labelIcon !== undefined && getBoolean(labelIconRight)"
+      v-if="labelIcon !== undefined && labelIconRight"
       :class="getLabelIconClass"
     >
       <t-icon :icon="labelIcon"></t-icon>

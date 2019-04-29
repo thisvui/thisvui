@@ -5,25 +5,25 @@
 </template>
 
 <script>
-import grid from "../../mixins/12-columns";
+import twelveColumns from "../../mixins/12-columns";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
   name: "t-tile",
-  mixins: [common, grid],
+  mixins: [common, twelveColumns],
   props: {
     isAncestor: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isParent: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isChild: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isVertical: {
-      type: [String, Boolean]
+      type: Boolean
     }
   },
   computed: {
@@ -33,12 +33,11 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("tile");
-      cssArchitect.addClass(this.getGridModifiers);
-      cssArchitect.addClass("is-ancestor", this.getBoolean(this.isAncestor));
-      cssArchitect.addClass("is-parent", this.getBoolean(this.isParent));
-      cssArchitect.addClass("is-child", this.getBoolean(this.isChild));
-      cssArchitect.addClass("is-vertical", this.getBoolean(this.isVertical));
-
+      cssArchitect.addClass(this.get12ColumnsModifiers);
+      cssArchitect.addClass("is-ancestor", this.isAncestor);
+      cssArchitect.addClass("is-parent", this.isParent);
+      cssArchitect.addClass("is-child", this.isChild);
+      cssArchitect.addClass("is-vertical", this.isVertical);
       return cssArchitect.getClasses();
     }
   },

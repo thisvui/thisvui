@@ -1,16 +1,15 @@
-import utils from "../utils/utils";
 import CssArchitect from "../utils/css-architect";
 
 export default {
   props: {
     isSmall: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isMedium: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isLarge: {
-      type: [String, Boolean]
+      type: Boolean
     }
   },
   computed: {
@@ -20,18 +19,9 @@ export default {
      */
     getSizesModifiers: function() {
       const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(
-        "is-small",
-        utils.convert.stringToBoolean(this.isSmall)
-      );
-      cssArchitect.addClass(
-        "is-medium",
-        utils.convert.stringToBoolean(this.isMedium)
-      );
-      cssArchitect.addClass(
-        "is-large",
-        utils.convert.stringToBoolean(this.isLarge)
-      );
+      cssArchitect.addClass("is-small", this.isSmall);
+      cssArchitect.addClass("is-medium", this.isMedium);
+      cssArchitect.addClass("is-large", this.isLarge);
       return cssArchitect.getClasses();
     }
   }
