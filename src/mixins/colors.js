@@ -1,49 +1,48 @@
-import utils from "../utils/utils";
 import CssArchitect from "../utils/css-architect";
 
 export default {
   props: {
     isPrimary: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isSecondary: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isLink: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isInfo: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isSuccess: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isWarning: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isModerate: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isDanger: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isDark: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isLight: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isOpaque: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isBlack: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isWhite: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isHappy: {
-      type: [String, Boolean]
+      type: Boolean
     },
     color: {
       type: String
@@ -52,6 +51,12 @@ export default {
       type: String
     }
   },
+  data() {
+    return {
+      hasColorModifier: false,
+      colorModifier: null
+    };
+  },
   computed: {
     /**
      * Dynamically adds the modifiers css classes based on mixin props
@@ -59,68 +64,29 @@ export default {
      */
     getColorsModifiers: function() {
       const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(
-        "is-primary",
-        utils.convert.stringToBoolean(this.isPrimary)
-      );
-      cssArchitect.addClass(
-        "is-secondary",
-        utils.convert.stringToBoolean(this.isSecondary)
-      );
-      cssArchitect.addClass(
-        "is-link",
-        utils.convert.stringToBoolean(this.isLink)
-      );
-      cssArchitect.addClass(
-        "is-info",
-        utils.convert.stringToBoolean(this.isInfo)
-      );
-      cssArchitect.addClass(
-        "is-success",
-        utils.convert.stringToBoolean(this.isSuccess)
-      );
-      cssArchitect.addClass(
-        "is-warning",
-        utils.convert.stringToBoolean(this.isWarning)
-      );
-      cssArchitect.addClass(
-        "is-moderate",
-        utils.convert.stringToBoolean(this.isModerate)
-      );
-      cssArchitect.addClass(
-        "is-danger",
-        utils.convert.stringToBoolean(this.isDanger)
-      );
-      cssArchitect.addClass(
-        "is-dark",
-        utils.convert.stringToBoolean(this.isDark)
-      );
-      cssArchitect.addClass(
-        "is-light",
-        utils.convert.stringToBoolean(this.isLight)
-      );
-      cssArchitect.addClass(
-        "is-opaque",
-        utils.convert.stringToBoolean(this.isOpaque)
-      );
-      cssArchitect.addClass(
-        "is-black",
-        utils.convert.stringToBoolean(this.isBlack)
-      );
-      cssArchitect.addClass(
-        "is-white",
-        utils.convert.stringToBoolean(this.isWhite)
-      );
-      cssArchitect.addClass(
-        "is-happy",
-        utils.convert.stringToBoolean(this.isHappy)
-      );
+      cssArchitect.addClass("is-primary", this.isPrimary);
+      cssArchitect.addClass("is-secondary", this.isSecondary);
+      cssArchitect.addClass("is-link", this.isLink);
+      cssArchitect.addClass("is-info", this.isInfo);
+      cssArchitect.addClass("is-success", this.isSuccess);
+      cssArchitect.addClass("is-warning", this.isWarning);
+      cssArchitect.addClass("is-moderate", this.isModerate);
+      cssArchitect.addClass("is-danger", this.isDanger);
+      cssArchitect.addClass("is-dark", this.isDark);
+      cssArchitect.addClass("is-light", this.isLight);
+      cssArchitect.addClass("is-opaque", this.isOpaque);
+      cssArchitect.addClass("is-black", this.isBlack);
+      cssArchitect.addClass("is-white", this.isWhite);
+      cssArchitect.addClass("is-happy", this.isHappy);
       cssArchitect.addClass(`has-text-${this.color}`, this.color !== undefined);
       cssArchitect.addClass(
         `has-background-${this.background}`,
         this.background !== undefined
       );
-      return cssArchitect.getClasses();
+      let result = cssArchitect.getClasses();
+      this.hasColorModifier = result !== "";
+      this.colorModifier = result;
+      return result;
     }
   }
 };

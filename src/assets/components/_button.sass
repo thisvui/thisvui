@@ -21,11 +21,11 @@
     justify-content: flex-end
   &.add-margin
     margin-bottom: 0.5rem
-.this-floating-btn
+.t-floating-btn
   position: fixed
   z-index: 100
   cursor: pointer
-  .this-floating-btn-icon
+  .t-floating-btn-icon
     width: 60px
     height: 60px
     border-radius: 100%
@@ -33,10 +33,10 @@
     box-shadow: 0 6px 20px $floating-button-shadow-color
     &:hover
       opacity: 0.8
-      &+ .this-floating-btn-options, .this-floating-btn-options:hover
+      &+ .t-floating-btn-options, .t-floating-btn-options:hover
         opacity: 1
         transform: scale(1)
-    .this-floating-btn-label
+    .t-floating-btn-label
       display: flex
       align-items: center
       justify-content: center
@@ -54,7 +54,7 @@
       font-style: normal
       font-size: 25px
       color: $floating-button-color
-  .this-floating-btn-options
+  .t-floating-btn-options
     list-style: none
     margin: 0
     position: absolute
@@ -69,7 +69,7 @@
       display: flex
       justify-content: flex-end
       padding: 5px
-      .this-floating-btn-option
+      .t-floating-btn-option
         width: 50px
         height: 50px
         border-radius: 100%
@@ -84,7 +84,7 @@
           font-style: normal
           font-size: 25px
           color: $floating-button-option-color
-      .this-floating-btn-option-label
+      .t-floating-btn-option-label
         padding: 3px 5px
         align-self: center
         user-select: none
@@ -108,7 +108,7 @@
     $color: nth($pair, 1)
     $color-invert: nth($pair, 2)
     &.is-#{$name}
-      .this-floating-btn-icon
+      .t-floating-btn-icon
         color: $color-invert
         background-color: rgba($color, 0.9)
         .icon

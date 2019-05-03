@@ -1,4 +1,4 @@
-.this-nav-drawer
+.t-nav-drawer
   height: 100% /*allows both columns to span the full height of the browser window*/
   min-height: 100%
   display: flex
@@ -11,7 +11,6 @@
   background-color: $nav-drawer-background-color
   border-top-right-radius: 6px
   transition: all 0.5s ease-in
-  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.45)
   border-right: 1px solid rgba(0, 0, 0, 0.1)
   .menu
     font-size: 1rem
@@ -58,7 +57,31 @@
       width: 24px
       &:hover
         background: rgba($white, 0.2)
-.this-tree-view
+  @each $name, $pair in $colors
+    $color: nth($pair, 1)
+    $color-invert: nth($pair, 2)
+    &.is-#{$name}
+      background-color: rgba($color, .1)
+      .menu-label
+        background-color: rgba($color, .9)
+        color: $color-invert
+      .menu
+        .menu-list
+          a
+            &.router-link-active
+              color: rgba($color, .9)
+            &.is-active
+              color: rgba($color-invert, .9)
+              background-color: rgba($color, .9)
+              .icon
+                color: rgba($color-invert, .9)
+            &:hover
+              color: rgba($color-invert, .9)
+              background-color: rgba($color, .9)
+          li
+            .icon
+              color: rgba($color, .9)
+.t-tree-view
   height: 100% /*allows both columns to span the full height of the browser window*/
   min-height: 100%
   display: flex
@@ -101,7 +124,7 @@
         margin-top: 0
 .dropdown-menu
   z-index: 100
-.this-tree-nav
+.t-tree-nav
   .list-style-none
     list-style: none !important
   .item
@@ -110,7 +133,7 @@
     display: inline-flex
     vertical-align: middle
     transition: 0.5s ease all
-  .link
+  .tree-nav-link
     display: inline-flex
   .tree-children
     height: 0

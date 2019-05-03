@@ -17,9 +17,6 @@ export default {
     label: {
       type: String
     },
-    value: {
-      type: String | Number
-    },
     icon: {
       type: String
     },
@@ -27,7 +24,7 @@ export default {
       type: String
     },
     labelIconRight: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     inputClass: {
@@ -50,7 +47,7 @@ export default {
       type: String
     },
     transformValue: {
-      type: [Boolean, String],
+      type: Boolean,
       default: true
     },
     readonly: {
@@ -66,7 +63,7 @@ export default {
     },
 
     removeLabel: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     isHorizontal: {
@@ -237,7 +234,7 @@ export default {
       return transformClass;
     },
     getRemoveLabel: function() {
-      return this.getBoolean(this.removeLabel);
+      return this.removeLabel;
     }
   },
   methods: {

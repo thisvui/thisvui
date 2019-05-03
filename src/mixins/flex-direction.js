@@ -1,19 +1,18 @@
-import utils from "../utils/utils";
 import CssArchitect from "../utils/css-architect";
 
 export default {
   props: {
     isColumn: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isRow: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isColumnReverse: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isRowReverse: {
-      type: [String, Boolean]
+      type: Boolean
     }
   },
   computed: {
@@ -23,22 +22,10 @@ export default {
      */
     getFlexModifiers: function() {
       const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(
-        "is-column",
-        utils.convert.stringToBoolean(this.isColumn)
-      );
-      cssArchitect.addClass(
-        "is-row",
-        utils.convert.stringToBoolean(this.isRow)
-      );
-      cssArchitect.addClass(
-        "is-column-reverse",
-        utils.convert.stringToBoolean(this.isColumnReverse)
-      );
-      cssArchitect.addClass(
-        "is-row-reverse",
-        utils.convert.stringToBoolean(this.isRowReverse)
-      );
+      cssArchitect.addClass("is-column", this.isColumn);
+      cssArchitect.addClass("is-row", this.isRow);
+      cssArchitect.addClass("is-column-reverse", this.isColumnReverse);
+      cssArchitect.addClass("is-row-reverse", this.isRowReverse);
       return cssArchitect.getClasses();
     }
   }

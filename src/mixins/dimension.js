@@ -1,13 +1,12 @@
-import utils from "../utils/utils";
 import CssArchitect from "../utils/css-architect";
 
 export default {
   props: {
     isFullheight: {
-      type: [String, Boolean]
+      type: Boolean
     },
     isFullwidth: {
-      type: [String, Boolean]
+      type: Boolean
     }
   },
   computed: {
@@ -17,14 +16,8 @@ export default {
      */
     getDimensionModifiers: function() {
       const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(
-        "is-fullheight",
-        utils.convert.stringToBoolean(this.isFullheight)
-      );
-      cssArchitect.addClass(
-        "is-fullwidth",
-        utils.convert.stringToBoolean(this.isFullwidth)
-      );
+      cssArchitect.addClass("is-fullheight", this.isFullheight);
+      cssArchitect.addClass("is-fullwidth", this.isFullwidth);
       return cssArchitect.getClasses();
     }
   }

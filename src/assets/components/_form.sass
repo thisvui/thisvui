@@ -19,7 +19,7 @@
       $color: nth($pair, 1)
       $color-invert: nth($pair, 2)
       &.is-#{$name}
-        border-color: rgba($color, .3)
+        border-color: rgba($color, .7)
         -webkit-box-shadow: 0 0 7px rgba($color, .1)
         box-shadow: 0 0 7px rgba($color, .1)
         &+ .icon
@@ -37,6 +37,8 @@
         box-shadow: 1px 1px 1px 1px rgba($input-border-color, 0.2)
   &.is-column
     flex-direction: column
+  .select
+    width: 100%
 .is-block
   .control
     display: block
@@ -81,10 +83,10 @@
             border-color: $color !important
         &::after
           background-color: $color !important
-.this-autocomplete
+.t-autocomplete
   position: relative
   max-width: 400px
-  .this-autocomplete-results
+  .t-autocomplete-results
     padding: 0.3em
     margin: 0
     border: 1px solid rgba($primary, 0.2)
@@ -94,7 +96,7 @@
     z-index: 50
     border-radius: 0 0 .3rem .3rem
     box-shadow: 1px 1px 3px 2px rgba($black, 0.1)
-    .this-autocomplete-result
+    .t-autocomplete-result
       list-style: none
       text-align: left
       padding: 2px 0.5rem
@@ -142,7 +144,7 @@
       color: rgba($dark, .9)
     & + .preview
       color: rgba($dark, .9)
-.this-text
+.t-text
   display: flex
   align-items: flex-start
   align-content: normal
@@ -156,7 +158,7 @@
     justify-content: center
   &.is-bold
     font-weight: bold
-.this-calendar-widget
+.t-calendar-widget
   display: flex
   flex-direction: column
   position: absolute
@@ -170,7 +172,7 @@
   &.inline-calendar
     position: relative
     z-index: 10
-  .this-calendar
+  .t-calendar
     display: grid
     grid-template-columns: repeat(7, 1fr)
     padding: 0 5px 5px 5px
@@ -213,7 +215,7 @@
           color: $primary-invert
         &.is-today
           border: 2px solid rgba($primary, .2)
-  .this-timepicker
+  .t-timepicker
     display: flex
     flex-direction: row
     padding: 0 1em 0 1em
@@ -232,18 +234,18 @@
       border-color: rgba($color, .3)
       -webkit-box-shadow: 0 0 7px rgba($color, .1)
       box-shadow: 0 0 7px rgba($color, .1)
-      .this-calendar
+      .t-calendar
         &-day
           .day-number
-          &.is-selected
-            border: 2px solid rgba($color, .1)
-            background: rgba($color, .9)
-            color: $color-invert
-          &.is-today
-            border: 2px solid rgba($color, .2)
+            &.is-selected
+              border: 2px solid rgba($color, .1)
+              background: rgba($color, .9)
+              color: $color-invert
+            &.is-today
+              border: 2px solid rgba($color, .2)
       .change-month-arrow
         color: $color
-      .this-timepicker
+      .t-timepicker
         .input
           border: 1px solid rgba($color, .2)
 

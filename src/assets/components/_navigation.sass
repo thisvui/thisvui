@@ -8,5 +8,25 @@
       background-color: rgba($color, .9)
       .navbar-item, h1, h2, h3
         color: $color-invert
+.navbar-burger
+  display: flex
+  position: absolute
+  right: 0
+  left: auto
+  top: 0
+  margin: 0
+  +from($tablet)
+    left: 0
+    right: auto
+    position: relative
+  @each $name, $pair in $colors
+    $color: nth($pair, 1)
+    $color-invert: nth($pair, 2)
+    &.is-#{$name}
+      color: rgba($color, .9)
+  &.is-mobile-only
+    display: none
+    +until($tablet)
+      display: flex
 
 

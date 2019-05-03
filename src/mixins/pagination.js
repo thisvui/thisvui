@@ -4,14 +4,14 @@ export default {
   mixins: [icons],
   props: {
     serverSide: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     totalItems: {
       type: Number
     },
     showNumbers: {
-      type: [Boolean, String],
+      type: Boolean,
       default: false
     },
     showText: {
