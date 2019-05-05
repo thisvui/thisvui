@@ -8,10 +8,10 @@
       :heading-text="title"
       :heading-icon="icon"
       :heading-icon-class="headingIconClass"
-      @click="toggleOpen"
+      v-on="expandable ? { click: () => toggleExpanded() } : {}"
     />
     <t-expand>
-      <div :class="getBodyClasses" v-if="isOpen">
+      <div :class="getBodyClasses" v-if="isExpanded">
         <div class="panel-content">
           <slot />
         </div>
@@ -37,9 +37,13 @@ export default {
     title: {
       type: String
     },
-    isCollapsible: {
+    expandable: {
       type: Boolean,
       default: false
+    },
+    expanded: {
+      type: Boolean,
+      default: true
     },
     headingClass: {
       type: String
@@ -74,30 +78,34 @@ export default {
      */
     getBodyClasses: function() {
       const cssArchitect = new CssArchitect("panel-body");
-      cssArchitect.addClass("is-closed is-shadowless", !this.isOpen);
+      cssArchitect.addClass("is-closed is-shadowless", !this.isExpanded);
       return cssArchitect.getClasses();
+    }
+  },
+  watch: {
+    expanded: function(value, oldValue) {
+      this.toggleExpanded(value)
     }
   },
   data() {
     return {
-      isOpen: true,
+      isExpanded: this.expanded,
       icon: this.headingIcon
     };
   },
   methods: {
     /**
-     * Open or close the panel dynamically
+     * Expands or collapse the panel dynamically
      */
-    toggleOpen() {
-      if (this.isCollapsible) {
-        this.isOpen = !this.isOpen;
-        this.icon =
-          this.headingIcon !== undefined && this.isOpen
-            ? this.headingIcon
-            : this.headingIcon !== undefined && !this.isOpen
-            ? this.collapsedHeadingIcon
-            : undefined;
-      }
+    toggleExpanded(expanded) {
+      this.isExpanded = expanded ? expanded : !this.isExpanded;
+      this.icon =
+        this.headingIcon !== undefined && this.isExpanded
+          ? this.headingIcon
+          : this.headingIcon !== undefined && !this.isExpanded
+          ? this.collapsedHeadingIcon
+          : undefined;
+      this.$emit("update:expanded", this.isExpanded)
     }
   }
 };
