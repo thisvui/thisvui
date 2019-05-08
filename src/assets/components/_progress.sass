@@ -1,9 +1,12 @@
+.t-progress-container
+  position: relative
+  &.circular
+    width: 75px
+    height: 75px
 .t-progress
   margin-bottom: 5px
   &.circular
     &.single
-      width: 75px
-      height: 75px
       margin: 0
       background: transparent
       border-top: 4px solid $primary
@@ -13,8 +16,6 @@
       animation: 1s spin linear infinite
     &.double
       position: absolute
-      width: 75px
-      height: 75px
       border-radius: 50%
       background-color: transparent
       border: 4px solid transparent
@@ -29,8 +30,6 @@
         -webkit-animation: 1s spin linear infinite
         animation: 1s spin linear infinite
     &.triple
-      height: 75px
-      width: 75px
       border: 3px solid transparent
       border-radius: 50%
       border-top: 4px solid $primary

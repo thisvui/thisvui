@@ -1,5 +1,5 @@
 <template>
-  <t-flex :class="containerClass">
+  <t-flex :class="getContainerClasses" :is-full-width="isFullWidth" justify-content="center">
     <div :class="getHelperClasses" ref="colorHelper"></div>
     <canvas
       :id="id"
@@ -48,8 +48,14 @@ export default {
       type: String,
       default: "single"
     },
+    targetClass: {
+      type: String
+    },
     containerClass: {
       type: String
+    },
+    isFullWidth: {
+      type: Boolean
     }
   },
   computed: {
@@ -65,8 +71,9 @@ export default {
         this.spinnerType,
         this.spinnerType !== undefined && this.circular && this.indeterminate
       );
+      cssArchitect.addClass("is-link", !this.hasColorModifier && !this.targetClass);
+      cssArchitect.addClass(this.targetClass);
       cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass("is-link", !this.hasColorModifier);
       return cssArchitect.getClasses();
     },
     getHelperClasses: function() {
@@ -76,7 +83,13 @@ export default {
       cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass("is-link", !this.hasColorModifier);
       return cssArchitect.getClasses();
-    }
+    },
+    getContainerClasses: function() {
+      const cssArchitect = new CssArchitect("t-progress-container");
+      cssArchitect.addClass("circular", this.circular);
+      cssArchitect.addClass(this.containerClass);
+      return cssArchitect.getClasses();
+    },
   },
   watch: {
     value: function(newVal, oldVal) {
