@@ -241,19 +241,19 @@ export default {
     onBlur() {
       let result = this.validateOnEvent("blur");
       if (result && result.valid) {
-        this.$emit("blur");
+        this.$emit(this.$thisvui.events.common.blur);
       }
     },
     onChange() {
       let result = this.validateOnEvent("change");
       if (result && result.valid) {
-        this.$emit("change");
+        this.$emit(this.$thisvui.events.common.change);
       }
     },
     onEnter() {
       let result = this.validateOnEvent("enter");
       if (result && result.valid) {
-        this.$emit("onEnter");
+        this.$emit(this.$thisvui.events.common.onEnter);
       }
     }
   },

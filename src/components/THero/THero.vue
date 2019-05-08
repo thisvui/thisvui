@@ -42,7 +42,7 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("hero");
-      cssArchitect.addClass(this.getSyntaxModifiers);
+      cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass(this.getSizesModifiers);
       cssArchitect.addClass("is-bold", this.isBold);
 

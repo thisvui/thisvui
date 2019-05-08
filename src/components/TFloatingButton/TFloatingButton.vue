@@ -158,7 +158,7 @@ export default {
       if (this.$attrs.disabled || this.$attrs.readOnly) {
         return;
       }
-      this.$emit("click");
+      this.$emit(this.$thisvui.events.common.click);
     }
   }
 };

@@ -74,7 +74,9 @@ export default {
     },
     closeEvent: {
       type: String,
-      default: "closeModal"
+      default: function() {
+        return this.$thisvui.events.modal.close;
+      }
     }
   },
   computed: {

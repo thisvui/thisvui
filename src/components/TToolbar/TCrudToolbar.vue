@@ -272,22 +272,22 @@ export default {
   },
   methods: {
     onAdd() {
-      this.$emit("onAdd");
+      this.$emit(this.$thisvui.events.crud.onAdd);
     },
     onEdit() {
-      this.$emit("onEdit");
+      this.$emit(this.$thisvui.events.crud.onEdit);
     },
     onRemove() {
-      this.$emit("onRemove");
+      this.$emit(this.$thisvui.events.crud.onRemove);
     },
     onActivate() {
-      this.$emit("onActivate");
+      this.$emit(this.$thisvui.events.crud.onActivate);
     },
     onSave() {
-      this.$emit("onSave");
+      this.$emit(this.$thisvui.events.crud.onSave);
     },
     onCancel() {
-      this.$emit("onCancel");
+      this.$emit(this.$thisvui.events.crud.onCancel);
     }
   }
 };

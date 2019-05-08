@@ -87,7 +87,7 @@ export default {
       let value = this.$refs.checkboxField.checked;
       this.validateOnEvent("input");
       this.onChange();
-      this.$emit("input", value);
+      this.$emit(this.$thisvui.events.common.input, value);
     }
   }
 };

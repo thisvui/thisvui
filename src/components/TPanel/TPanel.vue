@@ -105,7 +105,7 @@ export default {
           : this.headingIcon !== undefined && !this.isExpanded
           ? this.collapsedHeadingIcon
           : undefined;
-      this.$emit("update:expanded", this.isExpanded);
+      this.$emit(this.$thisvui.events.panel.updateExpanded, this.isExpanded);
     }
   }
 };

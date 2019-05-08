@@ -79,7 +79,7 @@ export default {
       if (this.transformValue && utils.check.notEmpty(this.transform)) {
         value = utils.text.transform(value, this.transform);
       }
-      this.$emit("input", value);
+      this.$emit(this.$thisvui.events.common.input, value);
     }
   }
 };

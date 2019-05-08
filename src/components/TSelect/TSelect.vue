@@ -85,8 +85,8 @@ export default {
   },
   methods: {
     onChange(value) {
-      this.$emit("input", value);
-      this.$emit("change");
+      this.$emit(this.$thisvui.events.common.input, value);
+      this.$emit(this.$thisvui.events.common.change);
     }
   }
 };

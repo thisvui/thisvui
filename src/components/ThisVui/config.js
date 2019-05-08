@@ -61,6 +61,56 @@ const ICONS_MATERIAL_DESIGN = {
   collapse: "remove_circle"
 };
 
+const EVENTS = {
+  common: {
+    click: "click",
+    input: "input",
+    change: "change",
+    blur: "blur",
+    onEnter: "on-enter"
+  },
+  accordion: {
+    collapseOthers: "collapse-others"
+  },
+  modal: {
+    close: "close-modal"
+  },
+  notification: {
+    close: "close-notification"
+  },
+  paginator: {
+    updatePage: "update-page"
+  },
+  crud: {
+    onAdd: "on-add",
+    onEdit: "on-edit",
+    onRemove: "on-remove",
+    onActivate: "on-activate",
+    onSave: "on-save",
+    onCancel: "on-cancel"
+  },
+  action: {
+    confirmed: "confirmed",
+    notConfirmed: "not-confirmed"
+  },
+  panel: {
+    updateExpanded: "update:expanded"
+  },
+  file: {
+    uploaded: "uploaded",
+    failed: "failed"
+  },
+  slide: {
+    clickedOutside: "clicked-outside",
+    changeWidth: "change-width"
+  },
+  list: {
+    checkRow: "check-row",
+    updateCheckedRows: "update:checked-rows",
+    sort: "on-sort"
+  }
+};
+
 let iconsMap = new Map();
 iconsMap.set("fa5", ICONS_FA5);
 iconsMap.set("fa4", ICONS_FA4);
@@ -78,7 +128,8 @@ class ThisVuiConfig {
       iconLib: this.iconLib,
       icons: this.icons,
       dateFormat: "MM/dd/yyyy",
-      enableTimePicker: false
+      enableTimePicker: false,
+      events: EVENTS
     };
     let mergedIcons = { ...options.icons, ...this.options.icons };
     let merged = { ...options, ...this.options };

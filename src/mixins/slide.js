@@ -35,11 +35,11 @@ export default {
   },
   methods: {
     handleOutsideClick(e) {
-      this.$emit("clickedOutside", e);
+      this.$emit(this.$thisvui.events.slide.clickedOutside, e);
     },
     updateCalculatedWith(width) {
       this.calculatedWidth = width;
-      this.$emit("changeWidth", this.calculatedWidth);
+      this.$emit(this.$thisvui.events.slide.changeWidth, this.calculatedWidth);
     }
   }
 };

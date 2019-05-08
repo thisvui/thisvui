@@ -154,8 +154,6 @@ import common from "../../mixins/common";
 import TPaginatorControl from "./TPaginatorControl";
 import TSelect from "../TSelect/TSelect";
 
-const UPDATE_PAGE_EVENT = "update-page";
-
 export default {
   name: "t-paginator",
   components: { TSelect, TPaginatorControl, TIcon },
@@ -367,7 +365,7 @@ export default {
         page: this.currentPageNumber,
         size: this.rowsPerPage
       };
-      this.$emit(UPDATE_PAGE_EVENT, data);
+      this.$emit(this.$thisvui.events.paginator.updatePage, data);
     },
     /**
      * Goes to the next page and emits the corresponding event

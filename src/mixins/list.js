@@ -2,9 +2,6 @@ import pagination from "./pagination";
 import icons from "./icons";
 import CssArchitect from "../utils/css-architect";
 
-const UPDATE_PAGE_EVENT = "update-page";
-const SORT_EVENT = "onSort";
-
 export default {
   mixins: [pagination, icons],
   props: {
@@ -165,8 +162,15 @@ export default {
       } else {
         this.removeCheckedRow(item);
       }
-      this.$emit("checkRow", this.updatedCheckedRows, item);
-      this.$emit("update:checkedRows", this.updatedCheckedRows);
+      this.$emit(
+        this.$thisvui.events.list.checkRow,
+        this.updatedCheckedRows,
+        item
+      );
+      this.$emit(
+        this.$thisvui.events.list.updateCheckedRows,
+        this.updatedCheckedRows
+      );
     },
     checkAllRows() {
       for (let item of this.getItems) {
@@ -179,7 +183,10 @@ export default {
           this.removeCheckedRow(item);
         }
       }
-      this.$emit("update:checkedRows", this.updatedCheckedRows);
+      this.$emit(
+        this.$thisvui.events.list.updateCheckedRows,
+        this.updatedCheckedRows
+      );
     },
     isCheckable(item) {
       return (
@@ -228,7 +235,7 @@ export default {
         if (this.serverSide) {
           this.updatePage(this.paginationData);
         }
-        this.$emit(SORT_EVENT);
+        this.$emit(this.$thisvui.events.list.sort);
       }
     },
     /**
@@ -242,7 +249,9 @@ export default {
       }
       this.paginationData.sortKey = this.sortKey;
       this.paginationData.sortOrder = this.sortOrders[this.sortKey];
-      this.$emit(UPDATE_PAGE_EVENT, { ...this.paginationData });
+      this.$emit(this.$thisvui.events.paginator.updatePage, {
+        ...this.paginationData
+      });
     }
   }
 };

@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     onClick() {
-      this.$emit("click");
+      this.$emit(this.$thisvui.events.common.click);
     }
   }
 };

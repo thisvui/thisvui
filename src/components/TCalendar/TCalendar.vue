@@ -347,7 +347,7 @@ export default {
     clearSelectedDay() {
       this.selectedDate = null;
       this.inputDate = null;
-      this.$emit("input", this.selectedDate);
+      this.$emit(this.$thisvui.events.common.input, this.selectedDate);
     },
     setSelectedDate(day) {
       this.initSelectedTime();
@@ -364,7 +364,7 @@ export default {
       this.selectedDate = selectedDate;
       let formattedDate = format(this.selectedDate, this.dateFormat);
       this.inputDate = formattedDate;
-      this.$emit("input", this.selectedDate);
+      this.$emit(this.$thisvui.events.common.input, this.selectedDate);
     },
     setSelectedTime(units, value) {
       this.initSelectedTime();
@@ -384,7 +384,7 @@ export default {
     },
     onInput() {
       this.validateOnEvent("input");
-      this.$emit("input", this.selectedDate);
+      this.$emit(this.$thisvui.events.common.input, this.selectedDate);
     },
     onFocus() {
       if (!this.inline) {

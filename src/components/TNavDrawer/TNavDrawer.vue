@@ -8,8 +8,8 @@
     :z-index="zIndex"
     :animation-duration="animationDuration"
     :animation-fill="animationFill"
-    @clickedOutside="handleOutsideClick"
-    @changeWidth="updateCalculatedWith"
+    @clicked-outside="handleOutsideClick"
+    @change-width="updateCalculatedWith"
   >
     <div class="menu" :style="getStyle()">
       <template v-for="(menu, index) in model">

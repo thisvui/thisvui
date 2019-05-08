@@ -1,5 +1,9 @@
 <template>
-  <t-flex :class="getContainerClasses" :is-full-width="isFullWidth" justify-content="center">
+  <t-flex
+    :class="getContainerClasses"
+    :is-full-width="isFullWidth"
+    justify-content="center"
+  >
     <div :class="getHelperClasses" ref="colorHelper"></div>
     <canvas
       :id="id"
@@ -71,7 +75,10 @@ export default {
         this.spinnerType,
         this.spinnerType !== undefined && this.circular && this.indeterminate
       );
-      cssArchitect.addClass("is-link", !this.hasColorModifier && !this.targetClass);
+      cssArchitect.addClass(
+        "is-link",
+        !this.hasColorModifier && !this.targetClass
+      );
       cssArchitect.addClass(this.targetClass);
       cssArchitect.addClass(this.getColorsModifiers);
       return cssArchitect.getClasses();
@@ -89,7 +96,7 @@ export default {
       cssArchitect.addClass("circular", this.circular);
       cssArchitect.addClass(this.containerClass);
       return cssArchitect.getClasses();
-    },
+    }
   },
   watch: {
     value: function(newVal, oldVal) {

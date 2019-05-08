@@ -120,7 +120,7 @@ export default {
       if (event) event.preventDefault();
       if (!this.hasCustomContent) {
         this.toggleActive(name);
-        this.$emit("click", name);
+        this.$emit(this.$thisvui.events.common.click, name);
       }
     }
   },

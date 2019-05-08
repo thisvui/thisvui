@@ -142,7 +142,7 @@ export default {
       this.tabs[index].activate(this.activeTabIndex, index, true);
       this.activeTabIndex = index;
       this.configSlider();
-      this.$emit("change", index);
+      this.$emit(this.$thisvui.events.common.change, index);
     },
     configSlider() {
       let ref = `${this.id}${this.activeTabIndex}`;

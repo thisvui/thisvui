@@ -231,7 +231,7 @@ export default {
     onInput() {
       // Let's warn the parent that a change was made
       this.validateOnEvent("input");
-      this.$emit("input", this.search);
+      this.$emit(this.$thisvui.events.common.input, this.search);
       // Is the data given by an outside ajax request?
       if (this.isAsync) {
         this.isAutocompleteLoading = true;
@@ -254,7 +254,7 @@ export default {
       this.search = this.display === undefined ? result : result[this.display];
       this.selectedValue =
         this.display === undefined ? result : result[this.val];
-      this.$emit("input", this.selectedValue);
+      this.$emit(this.$thisvui.events.common.input, this.selectedValue);
       this.isOpen = false;
     },
     /**

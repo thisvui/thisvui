@@ -259,7 +259,7 @@ export default {
       if (this.showConfirmation) {
         this.showConfirm();
       } else {
-        this.$emit("click");
+        this.$emit(this.$thisvui.events.common.click);
       }
     },
     /**
@@ -280,14 +280,14 @@ export default {
      * Close the confirmation modal
      */
     close() {
-      this.$emit("not-confirmed");
+      this.$emit(this.$thisvui.events.action.notConfirmed);
       this.showConfirmModal = false;
     },
     /**
      * Triggers and event indicating action is confirmed and close the confirmation modal
      */
     confirmed() {
-      this.$emit("confirmed");
+      this.$emit(this.$thisvui.events.action.confirmed);
       this.showConfirmModal = false;
     }
   }

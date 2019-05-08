@@ -82,7 +82,7 @@ export default {
     removeElement() {
       this.removed = true;
       clearTimeout(this.timer);
-      this.$emit("close-notification");
+      this.$emit(this.$thisvui.events.notification.close);
     }
   },
   mounted() {

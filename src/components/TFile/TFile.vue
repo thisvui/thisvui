@@ -226,10 +226,10 @@ export default {
             formData.append("files[" + i + "]", file);
           }
           await this.onUpload(formData);
-          this.$emit("uploaded");
+          this.$emit(this.$thisvui.events.file.uploaded);
         } catch (e) {
           console.error(e);
-          this.$emit("failed");
+          this.$emit(this.$thisvui.events.file.failed);
           this.currentStatus = STATUS_FAILED;
         }
       } else {

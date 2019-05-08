@@ -6,8 +6,8 @@
     :animation-fill="animationFill"
     :is-absolute="isAbsolute"
     :z-index="zIndex"
-    @clickedOutside="handleOutsideClick"
-    @changeWidth="updateCalculatedWith"
+    @clicked-outside="handleOutsideClick"
+    @change-width="updateCalculatedWith"
   >
     <aside
       :id="id"

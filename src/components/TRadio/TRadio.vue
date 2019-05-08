@@ -90,7 +90,7 @@ export default {
   methods: {
     onInput(value) {
       this.validateOnEvent("input");
-      this.$emit("input", value);
+      this.$emit(this.$thisvui.events.common.input, value);
     }
   }
 };
