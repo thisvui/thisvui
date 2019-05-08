@@ -13,11 +13,15 @@
       flex-direction: row
       padding: 0.5rem
       border-bottom: $list-bottom-border
-      .list-item
+      .t-list-item
         display: flex
         padding-left: 0.3rem
         min-width: 10%
         border-bottom: $list-item-bottom-border
+  &.is-compact
+    .t-list-item
+      padding-top: 0
+      padding-bottom: 0
   .paginator
     background-color: $list-background-color
   .t-search
@@ -35,8 +39,9 @@
       margin-top: 7px
       .input
         font-size: 0.9rem
-  .list-header
+  .t-list-header
     display: flex
+    color: $dark
     padding: 0.8rem
     min-width: 10%
     border-bottom: $list-bottom-border

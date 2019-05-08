@@ -30,7 +30,7 @@
       :icon-lib="iconLib"
       :override-defaults="overrideDefaults"
     />
-    <div v-if="showHeader" class="list-header">
+    <div v-if="hasHeader" :class="getHeaderClasses">
       <t-checkbox
         v-if="checkable"
         class="row-checker"
@@ -40,6 +40,7 @@
         @click.native.stop
       >
       </t-checkbox>
+      <h2 v-text="header" v-if="header"></h2>
       <slot name="header"></slot>
     </div>
     <ul :class="getClasses">
@@ -98,6 +99,12 @@ export default {
     }
   },
   props: {
+    header: {
+      type: String
+    },
+    headerClass: {
+      type: String
+    },
     showHeader: {
       type: Boolean,
       default: false
@@ -109,6 +116,9 @@ export default {
     isFullwidth: {
       type: Boolean,
       default: true
+    },
+    compact: {
+      type: Boolean
     }
   },
   computed: {
@@ -121,7 +131,16 @@ export default {
       cssArchitect.addClass(this.getResponsiveModifiers);
       cssArchitect.addClass(this.getDimensionModifiers);
       cssArchitect.addClass(this.getHelpersModifiers);
+      cssArchitect.addClass("is-compact", this.compact);
       return cssArchitect.getClasses();
+    },
+    getHeaderClasses: function() {
+      const cssArchitect = new CssArchitect("t-list-header");
+      cssArchitect.addClass(this.headerClass, this.headerClass !== undefined);
+      return cssArchitect.getClasses();
+    },
+    hasHeader: function(){
+      return this.showHeader || this.header
     }
   }
 };

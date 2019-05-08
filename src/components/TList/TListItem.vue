@@ -18,7 +18,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("list-item");
+      const cssArchitect = new CssArchitect("t-list-item");
       cssArchitect.addClass(this.getSyntaxModifiers);
       return cssArchitect.getClasses();
     }
