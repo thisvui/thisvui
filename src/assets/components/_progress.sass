@@ -1,0 +1,132 @@
+.t-progress
+  margin-bottom: 5px
+  &.circular
+    &.single
+      width: 75px
+      height: 75px
+      margin: 0
+      background: transparent
+      border-top: 4px solid $primary
+      border-right: 4px solid transparent
+      border-radius: 50%
+      -webkit-animation: 1s spin linear infinite
+      animation: 1s spin linear infinite
+    &.double
+      position: absolute
+      width: 75px
+      height: 75px
+      border-radius: 50%
+      background-color: transparent
+      border: 4px solid transparent
+      border-top: 4px solid $opaque
+      border-left: 4px solid $opaque
+      -webkit-animation: 2s spin linear infinite
+      animation: 2s spin linear infinite
+      &:nth-child(2)
+        border: 4px solid transparent
+        border-right: 4px solid $primary
+        border-bottom: 4px solid $primary
+        -webkit-animation: 1s spin linear infinite
+        animation: 1s spin linear infinite
+    &.triple
+      height: 75px
+      width: 75px
+      border: 3px solid transparent
+      border-radius: 50%
+      border-top: 4px solid $primary
+      -webkit-animation: spin 4s linear infinite
+      animation: spin 4s linear infinite
+      position: relative
+      &::before,
+      &::after
+        content: ""
+        position: absolute
+        top: 6px
+        bottom: 6px
+        left: 6px
+        right: 6px
+        border-radius: 50%
+        border: 4px solid transparent
+      &::before
+        border-top-color: rgba($primary, .5)
+        -webkit-animation: 3s spin linear infinite
+        animation: 3s spin linear infinite
+      &::after
+        border-top-color: rgba($primary, .9)
+        -webkit-animation: spin 1.5s linear infinite
+        animation: spin 1.5s linear infinite
+    &.dual-ring
+      width: 75px
+      height: 75px
+      &::after
+        content: " "
+        display: block
+        width: 75px
+        height: 75px
+        margin: 1px
+        border-radius: 50%
+        border: 4px solid $primary
+        border-color: $primary transparent $primary transparent
+        animation: spin 4s linear infinite
+  &::-webkit-progress-bar
+    background-color: $progress-bar-background-color
+  &::-webkit-progress-value
+    background-color: $progress-value-background-color
+  &::-moz-progress-bar
+    background-color: $progress-value-background-color
+  &::-ms-fill
+    background-color: $progress-value-background-color
+    border: none
+  @each $name, $pair in $colors
+    $color: nth($pair, 1)
+    &.is-#{$name}
+      &::-webkit-progress-value
+        background-color: $color
+      &::-moz-progress-bar
+        background-color: $color
+      &::-ms-fill
+        background-color: $color
+      &:indeterminate
+        background-image: linear-gradient(to right, $color 30%, $progress-bar-background-color 30%)
+      &.circular
+        border-top-color: $color
+        &.double
+          border-color: rgba($opaque, .2)
+          &:nth-child(2)
+            border-right-color: $color
+            border-bottom-color: $color
+        &.triple
+          border-top-color: $color
+          &::before
+            border-top-color: rgba($color, .5)
+          &::after
+            border-top-color: rgba($color, .9)
+        &.dual-ring
+          &::after
+            border-color: $color transparent $color transparent
+  &:indeterminate
+    &::-webkit-progress-bar
+      background-color: transparent
+    &::-moz-progress-bar
+      background-color: transparent
+@-webkit-keyframes spin
+  from
+    -webkit-transform: rotate(0deg)
+    transform: rotate(0deg)
+  to
+    -webkit-transform: rotate(360deg)
+    transform: rotate(360deg)
+
+@keyframes spin
+  from
+    -webkit-transform: rotate(0deg)
+    transform: rotate(0deg)
+  to
+    -webkit-transform: rotate(360deg)
+    transform: rotate(360deg)
+
+.p-canvas
+  border-color: blue
+  color: blue
+  background-color: blue
+

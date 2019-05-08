@@ -84,7 +84,7 @@ export default {
   },
   watch: {
     expanded: function(value, oldValue) {
-      this.toggleExpanded(value)
+      this.toggleExpanded(value);
     }
   },
   data() {
@@ -105,7 +105,7 @@ export default {
           : this.headingIcon !== undefined && !this.isExpanded
           ? this.collapsedHeadingIcon
           : undefined;
-      this.$emit("update:expanded", this.isExpanded)
+      this.$emit("update:expanded", this.isExpanded);
     }
   }
 };

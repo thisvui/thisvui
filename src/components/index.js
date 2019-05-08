@@ -15,6 +15,7 @@ export { default as TContainer } from "./TContainer";
 export * from "./TDropdown";
 
 export { default as TFile } from "./TFile";
+export * from "./TFlex";
 export { default as TFloatingButton } from "./TFloatingButton";
 
 export { default as THero } from "./THero";
@@ -38,6 +39,7 @@ export * from "./TNotification";
 
 export * from "./TPaginator";
 export * from "./TPanel";
+export * from "./TProgress";
 
 export { default as TRadio } from "./TRadio";
 

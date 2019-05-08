@@ -18,7 +18,6 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("section");
-      cssArchitect.addClass(this.getSyntaxModifiers);
       return cssArchitect.getClasses();
     }
   },
