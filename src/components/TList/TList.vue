@@ -139,8 +139,8 @@ export default {
       cssArchitect.addClass(this.headerClass, this.headerClass !== undefined);
       return cssArchitect.getClasses();
     },
-    hasHeader: function(){
-      return this.showHeader || this.header
+    hasHeader: function() {
+      return this.showHeader || this.header;
     }
   }
 };

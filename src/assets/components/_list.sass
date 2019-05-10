@@ -1,3 +1,4 @@
+$items-width: 20 30 40 50 60 70 80 90 100
 .t-list-container
   font-size: 0.85rem
   ul:not(.pagination-list)
@@ -14,10 +15,15 @@
       padding: 0.5rem
       border-bottom: $list-bottom-border
       .t-list-item
+        position: relative
         display: flex
         padding-left: 0.3rem
         min-width: 10%
         border-bottom: $list-item-bottom-border
+        @each $item-width in $items-width
+          $width: percentage($item-width/100)
+          &.is-#{$item-width}
+            width: $width
   &.is-compact
     .t-list-item
       padding-top: 0
