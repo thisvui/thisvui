@@ -29,7 +29,7 @@
     "src"
   ],
   "dependencies": {
-    "bulma": "^0.7.2",
+    "bulma": "^0.7.4",
     "bulma-checkradio": "^2.1.0",
     "bulma-switch": "^2.0.0",
     "date-fns": "^2.0.0-alpha.27"
