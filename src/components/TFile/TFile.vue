@@ -73,8 +73,8 @@ import TBox from "../TBox/TBox";
 import TIcon from "../TIcon/TIcon";
 import TThumbnails from "../TThumbnail/TThumbnails";
 import TThumbnail from "../TThumbnail/TThumbnail";
-import TButtons from "../TAction/TButtons";
-import TAction from "../TAction/TAction";
+import TButtons from "../TButton/TButtons";
+import TButton from "../TButton/TButton";
 
 const STATUS_INITIAL = 0;
 const STATUS_SAVING = 1;
@@ -84,7 +84,7 @@ const STATUS_FAILED = 3;
 export default {
   name: "t-file",
   components: {
-    TAction,
+    TButton,
     TButtons,
     TThumbnail,
     TThumbnails,

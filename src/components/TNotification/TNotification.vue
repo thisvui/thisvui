@@ -17,11 +17,11 @@ import syntax from "../../mixins/syntax";
 import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
-import TAction from "../TAction/TAction";
+import TButton from "../TButton/TButton";
 
 export default {
   name: "t-notification",
-  components: { TAction },
+  components: { TButton },
   mixins: [common, syntax, helper],
   props: {
     targetClass: {

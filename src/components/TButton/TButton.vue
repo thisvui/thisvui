@@ -1,5 +1,5 @@
 <template>
-  <span :class="containerClass">
+  <span :class="getContainerClass">
     <span v-if="!getActive">
       <slot />
     </span>
@@ -10,12 +10,18 @@
       v-bind="$attrs"
       :class="getClasses"
       :data-tooltip="dataTooltip"
+      :disabled="disabled"
       @click="onClick"
     >
-      <span>
+      <t-icon
+        v-if="icon && !iconRight"
+        :icon="icon"
+        :class="iconClass"
+      ></t-icon>
+      <span v-if="hasSlot">
         <slot />
       </span>
-      <t-icon v-if="icon" :icon="icon" :class="iconClass"></t-icon>
+      <t-icon v-if="icon && iconRight" :icon="icon" :class="iconClass"></t-icon>
     </a>
     <t-modal
       v-if="showConfirmation"
@@ -49,22 +55,23 @@
 
 <script>
 import { ValidationBus } from "../TValidation/validation-bus.js";
-import sizes from "../../mixins/sizes";
-import colors from "../../mixins/colors";
 import common from "../../mixins/common";
+import sizes from "../../mixins/sizes";
+import states from "../../mixins/states";
+import colors from "../../mixins/colors";
 import CssArchitect from "../../utils/css-architect";
 import TModal from "../TModal/TModal";
 import TIcon from "../TIcon/TIcon";
 
 export default {
-  name: "t-action",
+  name: "t-button",
   components: { TIcon, TModal },
   inheritAttrs: false,
-  mixins: [common, sizes, colors],
+  mixins: [common, sizes, states, colors],
   props: {
-    type: {
-      type: String,
-      default: "button"
+    isText: {
+      type: Boolean,
+      default: false
     },
     validate: {
       type: Boolean,
@@ -79,6 +86,22 @@ export default {
     confirm: {
       type: Boolean,
       default: false
+    },
+    isRounded: {
+      type: Boolean,
+      default: false
+    },
+    isOutlined: {
+      type: Boolean,
+      default: false
+    },
+    isInverted: {
+      type: Boolean,
+      default: false
+    },
+    active: {
+      type: Boolean,
+      default: true
     },
     dialogTitle: {
       type: String,
@@ -126,10 +149,6 @@ export default {
       type: String,
       default: "is-danger"
     },
-    active: {
-      type: Boolean,
-      default: true
-    },
     dataTooltip: {
       type: String
     },
@@ -142,9 +161,11 @@ export default {
     iconClass: {
       type: String
     },
-    isLoading: {
-      type: Boolean,
-      default: false
+    iconRight: {
+      type: Boolean
+    },
+    view: {
+      type: String
     }
   },
   data() {
@@ -154,28 +175,39 @@ export default {
     };
   },
   computed: {
+    hasSlot() {
+      return !!this.$slots.default;
+    },
     /**
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("t-action");
-      cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass(this.getColorsModifiers);
+      const cssArchitect = new CssArchitect("t-button");
+      cssArchitect.addClass("button", !this.isText);
+      cssArchitect.addClass("is-text", this.isText);
+      cssArchitect.addClass("tooltip", this.dataTooltip !== undefined);
+      cssArchitect.addClass("is-rounded", this.isRounded);
+      cssArchitect.addClass("is-outlined", this.isOutlined);
+      cssArchitect.addClass("is-inverted", this.isInverted);
+      cssArchitect.addClass("is-loading", this.isLoading);
       cssArchitect.addClass(this.targetClass, this.targetClass !== undefined);
       cssArchitect.addClass(this.tooltipClass, this.tooltipClass !== undefined);
-      cssArchitect.addClass("tooltip", this.dataTooltip !== undefined);
-      cssArchitect.addClass("is-loading", this.isLoading);
-      switch (this.type) {
-        case "button":
-          cssArchitect.addClass("button");
-          break;
-        case "link":
-          cssArchitect.addClass("link");
-          break;
-        default:
-          throw new DOMException("action type unknown");
-      }
+      cssArchitect.addClass(this.getColorsModifiers);
+      cssArchitect.addClass(this.getSizesModifiers);
+      cssArchitect.addClass(this.getStateModifiers);
+      return cssArchitect.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the confirmation modal component
+     * @returns { A String with the chained css classes }
+     */
+    getContainerClass: function() {
+      const cssArchitect = new CssArchitect("t-button-container");
+      cssArchitect.addClass(
+        this.containerClass,
+        this.containerClass !== undefined
+      );
       return cssArchitect.getClasses();
     },
     /**
@@ -260,6 +292,9 @@ export default {
         this.showConfirm();
       } else {
         this.$emit(this.$thisvui.events.common.click);
+        if (this.view) {
+          this.$router.push({ name: this.view });
+        }
       }
     },
     /**
@@ -289,6 +324,9 @@ export default {
     confirmed() {
       this.$emit(this.$thisvui.events.action.confirmed);
       this.showConfirmModal = false;
+      if (this.view) {
+        this.$router.push({ name: this.view });
+      }
     }
   }
 };

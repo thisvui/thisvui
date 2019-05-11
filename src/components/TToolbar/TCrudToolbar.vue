@@ -1,6 +1,6 @@
 <template>
   <div :id="id" class="t-crud-toolbar">
-    <t-action
+    <t-button
       v-if="edit && !editable"
       :confirm="confirmEdit"
       :class="getEditClasses"
@@ -15,8 +15,8 @@
         :icon="$thisvui.icons.edit"
         tooltip-class="s-tooltip-top"
       />
-    </t-action>
-    <t-action
+    </t-button>
+    <t-button
       v-if="editable"
       :confirm="confirmSave"
       :scope="validateOnSave"
@@ -32,8 +32,8 @@
         :icon="$thisvui.icons.save"
         tooltip-class="is-tooltip-top"
       />
-    </t-action>
-    <t-action
+    </t-button>
+    <t-button
       v-if="editable"
       :confirm="confirmCancel"
       :class="getCancelClasses"
@@ -48,8 +48,8 @@
         :icon="$thisvui.icons.cancel"
         tooltip-class="is-tooltip-top"
       />
-    </t-action>
-    <t-action
+    </t-button>
+    <t-button
       v-if="!editable && remove"
       :confirm="confirmRemove"
       :class="getRemoveClasses"
@@ -64,8 +64,8 @@
         :icon="$thisvui.icons.remove"
         tooltip-class="is-tooltip-top"
       />
-    </t-action>
-    <t-action
+    </t-button>
+    <t-button
       v-if="!editable && activate"
       :confirm="confirmActivate"
       :class="getActivateClasses"
@@ -81,8 +81,8 @@
         class="has-text-success toolbar-button"
         tooltip-class="is-tooltip-top"
       />
-    </t-action>
-    <t-action
+    </t-button>
+    <t-button
       v-if="!editable && add"
       :confirm="confirmAdd"
       :class="getAddClasses"
@@ -98,13 +98,13 @@
         class="has-text-success toolbar-button"
         tooltip-class="is-tooltip-top"
       />
-    </t-action>
+    </t-button>
   </div>
 </template>
 
 <script>
 import common from "../../mixins/common";
-import { TAction } from "../TAction";
+import { TButton } from "../TButton";
 import TIcon from "../TIcon";
 import CssArchitect from "../../utils/css-architect";
 
@@ -112,7 +112,7 @@ let toolbarButtonClass = "is-inline-block toolbar-button";
 
 export default {
   name: "t-crud-toolbar",
-  components: { TIcon, TAction },
+  components: { TIcon, TButton },
   mixins: [common],
   props: {
     editable: {

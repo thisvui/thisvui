@@ -11,6 +11,12 @@ export default {
     isLoading: {
       type: Boolean
     },
+    isActive: {
+      type: Boolean
+    },
+    isStatic: {
+      type: Boolean
+    },
     disabled: {
       type: Boolean
     }
@@ -25,6 +31,8 @@ export default {
       cssArchitect.addClass("is-hovered", this.isHovered);
       cssArchitect.addClass("is-focused", this.isFocused);
       cssArchitect.addClass("is-loading", this.isLoading);
+      cssArchitect.addClass("is-active", this.isActive);
+      cssArchitect.addClass("is-static", this.isStatic);
       return cssArchitect.getClasses();
     }
   }

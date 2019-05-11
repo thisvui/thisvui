@@ -39,21 +39,21 @@
       <div :class="getWidgetClass" v-show="showCalendar">
         <div :class="getCalendarClass" v-if="!noCalendar">
           <header :class="className(`header`)">
-            <t-action
+            <t-button
               :icon="$thisvui.icons.arrowLeft"
               icon-class="change-month-arrow"
               type="link"
               @click="previousMonth"
-            ></t-action>
+            ></t-button>
             <span class="month-name"
               >{{ currentMonthLabel }} {{ currentYear }}</span
             >
-            <t-action
+            <t-button
               :icon="$thisvui.icons.arrowRight"
               icon-class="change-month-arrow"
               type="link"
               @click="nextMonth"
-            ></t-action>
+            ></t-button>
           </header>
           <div :class="className(`headings`)" v-for="dayLabel in dayLabels">
             {{ dayLabel }}

@@ -1,6 +1,6 @@
 export * from "./TAccordion";
 
-export * from "./TAction";
+export * from "./TButton";
 
 export { default as TAutocomplete } from "./TAutocomplete";
 

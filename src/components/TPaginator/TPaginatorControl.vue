@@ -1,6 +1,11 @@
 <template>
   <span :class="getContainerClass">
-    <action type="link" :disabled="disabled" :class="btnClass" @click="onClick">
+    <t-button
+      type="link"
+      :disabled="disabled"
+      :class="btnClass"
+      @click="onClick"
+    >
       <t-icon
         v-if="icon"
         :preserve-defaults="!overrideDefaults"
@@ -10,11 +15,11 @@
         :tooltip-class="iconTooltipClass"
       />
       <span v-if="showText">{{ text }}</span>
-    </action>
+    </t-button>
   </span>
 </template>
 <script>
-import Action from "../TAction/TAction";
+import TButton from "../TButton/TButton";
 import TIcon from "../TIcon/TIcon";
 import CssArchitect from "../../utils/css-architect";
 import helpers from "../../mixins/helpers";
@@ -22,7 +27,7 @@ import icons from "../../mixins/icons";
 
 export default {
   name: "t-paginator-control",
-  components: { TIcon, Action },
+  components: { TIcon, TButton },
   mixins: [helpers, icons],
   props: {
     showText: {
