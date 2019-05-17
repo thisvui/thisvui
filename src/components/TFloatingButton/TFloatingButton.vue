@@ -109,7 +109,7 @@ export default {
      */
     getBtnClasses: function() {
       const cssArchitect = new CssArchitect("t-floating-btn-icon");
-      this.colorize("bg-color", true);
+      this.colorize(cssArchitect, "bg-color", true);
       cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
       cssArchitect.addClass(this.btnClass);
       return cssArchitect.getClasses();
@@ -135,7 +135,7 @@ export default {
         .isCentered()
         .isFullwidth()
         .isFullheight();
-      this.colorize("color-invert", true);
+      this.colorize(cssArchitect, "color-invert", true);
       return cssArchitect.getClasses();
     },
     /**

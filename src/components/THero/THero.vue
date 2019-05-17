@@ -1,26 +1,27 @@
 <template>
-  <section :id="id" :class="getClasses">
-    <div :class="getHeadClasses">
+  <div :id="id" :class="getClasses">
+    <div :class="getHeadClasses" v-if="hasHeadSlot">
       <slot name="head"></slot>
     </div>
     <div :class="getBodyClasses">
       <slot></slot>
     </div>
-    <div :class="getFootClasses">
+    <div :class="getFootClasses" v-if="hasFootSlot">
       <slot name="foot"></slot>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
-import sizes from "../../mixins/sizes";
 import common from "../../mixins/common";
-import CssArchitect from "../../utils/css-architect";
+import dimension from "../../mixins/dimension";
+import sizes from "../../mixins/sizes";
 import colors from "../../mixins/colors";
+import CssArchitect from "../../utils/css-architect";
 
 export default {
   name: "t-hero",
-  mixins: [common, sizes, colors],
+  mixins: [common, sizes, dimension, colors],
   props: {
     isBold: {
       type: Boolean
@@ -36,6 +37,12 @@ export default {
     }
   },
   computed: {
+    hasHeadSlot() {
+      return !!this.$slots.head;
+    },
+    hasFootSlot() {
+      return !!this.$slots.foot;
+    },
     /**
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
@@ -44,8 +51,8 @@ export default {
       const cssArchitect = new CssArchitect("hero");
       cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass(this.getSizesModifiers);
+      cssArchitect.addClass(this.getDimensionModifiers);
       cssArchitect.addClass("is-bold", this.isBold);
-
       return cssArchitect.getClasses();
     },
     /**
