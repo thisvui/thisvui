@@ -38,6 +38,7 @@ export default {
     getClasses: function() {
       const cssArchitect = new CssArchitect("navbar-burger");
       cssArchitect.isFlexible();
+      cssArchitect.addClass("is-fullheight");
       cssArchitect.addClass("is-active", this.isActive);
       cssArchitect.addClass("is-mobile-only", this.isMobileOnly);
       this.colorize(cssArchitect, "color", true);

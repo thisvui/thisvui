@@ -8,18 +8,14 @@
 </template>
 
 <script>
-import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
-  name: "t-navbar-item",
-  mixins: [common, helper],
+  name: "t-navbar-link",
+  mixins: [common],
   props: {
-    view: String,
-    hasDropdown: Boolean,
-    isHoverable: Boolean,
-    isActive: Boolean
+    view: String
   },
   computed: {
     /**
@@ -27,11 +23,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("navbar-item");
-      cssArchitect.addClass(this.getHelpersModifiers);
-      cssArchitect.addClass("has-dropdown", this.hasDropdown);
-      cssArchitect.addClass("is-hoverable", this.isHoverable);
-      cssArchitect.addClass("is-active", this.isActive);
+      const cssArchitect = new CssArchitect("navbar-link");
       return cssArchitect.getClasses();
     }
   }
