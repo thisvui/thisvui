@@ -7,6 +7,7 @@
       <t-icon
         :preserve-defaults="!overrideDefaults"
         :icon="icon"
+        :target-class="getIconClasses"
         v-if="showIcon"
       ></t-icon>
     </div>
@@ -99,6 +100,7 @@ export default {
       cssArchitect.addClass("is-bottom", this.isBottom);
       cssArchitect.addClass("is-right", this.isRight);
       cssArchitect.addClass("is-left", this.isLeft);
+      this.setupColorModifier(cssArchitect);
       return cssArchitect.getClasses();
     },
     /**
@@ -107,6 +109,8 @@ export default {
      */
     getBtnClasses: function() {
       const cssArchitect = new CssArchitect("t-floating-btn-icon");
+      this.colorize("bg-color", true);
+      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
       cssArchitect.addClass(this.btnClass);
       return cssArchitect.getClasses();
     },
@@ -116,7 +120,22 @@ export default {
      */
     getLabelClasses: function() {
       const cssArchitect = new CssArchitect("t-floating-btn-label");
+      cssArchitect
+        .isFlexible()
+        .isCentered()
+        .isFullwidth()
+        .isFullheight();
       cssArchitect.addClass(this.labelClass);
+      return cssArchitect.getClasses();
+    },
+    getIconClasses: function() {
+      const cssArchitect = new CssArchitect();
+      cssArchitect
+        .isFlexible()
+        .isCentered()
+        .isFullwidth()
+        .isFullheight();
+      this.colorize("color-invert", true);
       return cssArchitect.getClasses();
     },
     /**

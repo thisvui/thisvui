@@ -76,6 +76,7 @@ export default {
      */
     getContainerClass: function() {
       const cssArchitect = new CssArchitect("t-nav-drawer");
+      cssArchitect.isFlexible("column", "stretch").isFullheight();
       cssArchitect.addClass(
         this.containerClass,
         this.containerClass !== undefined

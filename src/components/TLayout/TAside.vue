@@ -43,7 +43,12 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("t-aside is-flex");
+      const cssArchitect = new CssArchitect("t-aside");
+      cssArchitect
+        .isFlexible("column", "stretch", false, "start")
+        .isFullwidth()
+        .isFullheight();
+      this.colorize(cssArchitect, "bg", true);
       cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass(this.getFlexModifiers);
       cssArchitect.addClass(

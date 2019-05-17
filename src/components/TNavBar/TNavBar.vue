@@ -15,6 +15,9 @@ export default {
   components: { TNavBarItem },
   mixins: [common, colors],
   props: {
+    targetClass: {
+      type: String
+    },
     isTransparent: {
       type: Boolean,
       default: false
@@ -39,6 +42,8 @@ export default {
       cssArchitect.addClass("is-transparent", this.isTransparent);
       cssArchitect.addClass("is-fixed-top", this.isFixedTop);
       cssArchitect.addClass("is-fixed-bottom", this.isFixedBottom);
+      cssArchitect.addClass(this.targetClass);
+      this.setupColorModifier(cssArchitect);
       return cssArchitect.getClasses();
     }
   }

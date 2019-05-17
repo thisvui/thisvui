@@ -134,12 +134,10 @@ export default {
       default: "140"
     },
     resultsClass: {
-      type: String,
-      default: "is-white"
+      type: String
     },
     resultClass: {
-      type: String,
-      default: "is-white"
+      type: String
     }
   },
   data() {
@@ -174,7 +172,10 @@ export default {
      */
     getAutocompleteResultsClass: function() {
       const cssArchitect = new CssArchitect("t-autocomplete-results message");
+      cssArchitect.isAbsolute().isFullwidth();
       cssArchitect.addClass(this.resultsClass, this.resultsClass !== undefined);
+      this.colorize(cssArchitect, "border-5", true);
+      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
       return cssArchitect.getClasses();
     },
     /**
@@ -182,8 +183,11 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getAutocompleteResultClass: function() {
-      const cssArchitect = new CssArchitect("t-autocomplete-result hero");
+      const cssArchitect = new CssArchitect("t-autocomplete-result");
       cssArchitect.addClass(this.resultClass, this.resultClass !== undefined);
+      this.colorize(cssArchitect, "bg-hover", true);
+      this.colorize(cssArchitect, "color-invert");
+      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
       return cssArchitect.getClasses();
     },
     isPrimitive() {

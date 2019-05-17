@@ -1,5 +1,4 @@
 import validation from "./validation";
-import syntax from "./syntax";
 import states from "./states";
 import sizes from "./sizes";
 import helpers from "./helpers";
@@ -7,9 +6,11 @@ import common from "./common";
 import icons from "./icons";
 import utils from "../utils/utils";
 import CssArchitect from "../utils/css-architect";
+import colors from "./colors";
+import display from "./display";
 
 export default {
-  mixins: [common, validation, syntax, states, sizes, helpers, icons],
+  mixins: [common, validation, display, colors, states, sizes, helpers, icons],
   props: {
     name: {
       type: String
@@ -61,7 +62,6 @@ export default {
       type: String,
       default: ""
     },
-
     removeLabel: {
       type: Boolean,
       default: false
@@ -102,13 +102,18 @@ export default {
     getTargetClass: function() {
       const cssArchitect = new CssArchitect();
       cssArchitect.addClass(this.getTransformClass);
-      cssArchitect.addClass(this.getSyntaxModifiers);
+      cssArchitect.addClass(this.getDisplayModifiers);
       cssArchitect.addClass(this.getSizesModifiers);
       cssArchitect.addClass(
         this.inputClass,
         this.isNotNullOrUndefined(this.inputClass) && this.errors.length === 0
       );
       cssArchitect.addClass(this.stateClass, this.stateClass !== undefined);
+      this.colorize(cssArchitect, "border-5", true);
+      this.colorize(cssArchitect, "shadow");
+      cssArchitect.addClass(this.getColorsModifiers);
+      this.setupColorModifier(cssArchitect);
+      cssArchitect.addClass("is-primary", !this.hasColorModifier);
       return cssArchitect.getClasses();
     },
     /**
@@ -116,7 +121,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getSelectClass: function() {
-      const cssArchitect = new CssArchitect("select");
+      const cssArchitect = new CssArchitect("select is-fullwidth");
       cssArchitect.addClass(this.getSizesModifiers);
       return cssArchitect.getClasses();
     },
@@ -125,7 +130,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getInputClass: function() {
-      const cssArchitect = new CssArchitect("input");
+      const cssArchitect = new CssArchitect("input is-fullwidth");
       cssArchitect.addClass("is-static", this.isStatic);
       cssArchitect.addClass(this.getTargetClass);
       return cssArchitect.getClasses();
@@ -145,13 +150,14 @@ export default {
      */
     getCheckradioClass: function() {
       const cssArchitect = new CssArchitect("is-checkradio");
-      cssArchitect.addClass(this.getSyntaxModifiers);
+      cssArchitect.addClass(this.getDisplayModifiers);
       cssArchitect.addClass(this.getSizesModifiers);
       cssArchitect.addClass(
         this.inputClass,
         this.isNotNullOrUndefined(this.inputClass) && this.errors.length === 0
       );
       cssArchitect.addClass(this.stateClass, this.stateClass !== undefined);
+      cssArchitect.addClass(this.getColorsModifiers);
       return cssArchitect.getClasses();
     },
     /**
@@ -160,13 +166,14 @@ export default {
      */
     getSwitchClass: function() {
       const cssArchitect = new CssArchitect("switch");
-      cssArchitect.addClass(this.getSyntaxModifiers);
+      cssArchitect.addClass(this.getDisplayModifiers);
       cssArchitect.addClass(this.getSizesModifiers);
       cssArchitect.addClass(
         this.inputClass,
         this.isNotNullOrUndefined(this.inputClass) && this.errors.length === 0
       );
       cssArchitect.addClass(this.stateClass, this.stateClass !== undefined);
+      cssArchitect.addClass(this.getColorsModifiers);
       return cssArchitect.getClasses();
     },
     /**
@@ -174,7 +181,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getControlClass: function() {
-      const cssArchitect = new CssArchitect("control has-icons-right");
+      const cssArchitect = new CssArchitect("control t-flex has-icons-right");
       cssArchitect.addClass("has-icons-left", this.icon !== undefined);
       return cssArchitect.getClasses();
     },
@@ -194,6 +201,8 @@ export default {
      */
     getIconClass: function() {
       const cssArchitect = new CssArchitect("is-small is-left");
+      this.colorize(cssArchitect, "color", true);
+      cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass(this.iconClass, this.iconClass !== undefined);
       return cssArchitect.getClasses();
     },

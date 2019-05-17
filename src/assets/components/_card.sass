@@ -1,27 +1,10 @@
 .card
-  display: flex
-  flex-direction: column /*places the left and right headers above the bottom content*/
-  align-items: stretch
   overflow-y: visible
-  margin-top: 0.5em
-  margin-left: 0
-  background: $card-background-color
+  margin: 0.5em 0 0 0
   border-radius: 6px
-  -webkit-box-shadow: $card-shadow
-  box-shadow: $card-shadow
-  color: $card-title-color
-  .level-left
-    flex-direction: column
-    align-items: flex-start
   &.add-margin
     margin: 0.5em
-  @each $name, $pair in $colors
-    $color: nth($pair, 1)
-    $color-invert: nth($pair, 2)
-    &.is-#{$name}
-      background-color: rgba($color, .3)
   .card-title
-    color: $card-title-color
     font-weight: bold
     font-size: $card-font-size
 

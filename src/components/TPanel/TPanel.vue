@@ -70,6 +70,7 @@ export default {
       const cssArchitect = new CssArchitect("panel");
       cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass(this.getHelpersModifiers);
+      this.setupColorModifier(cssArchitect);
       return cssArchitect.getClasses();
     },
     /**
@@ -79,6 +80,8 @@ export default {
     getBodyClasses: function() {
       const cssArchitect = new CssArchitect("panel-body");
       cssArchitect.addClass("is-closed is-shadowless", !this.isExpanded);
+      this.colorize(cssArchitect, "border", true);
+      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
       return cssArchitect.getClasses();
     }
   },

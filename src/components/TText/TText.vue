@@ -1,6 +1,6 @@
 <template>
   <div :id="id" :class="getContainerClass">
-    <div v-if="label" class="is-o">
+    <div v-if="label" class="has-text-weight-normal">
       <span
         v-if="labelIcon !== undefined && !labelIconRight"
         :class="getLabelIconClass"
@@ -105,12 +105,16 @@ export default {
      */
     getContainerClass: function() {
       const cssArchitect = new CssArchitect("t-text");
+      cssArchitect
+        .isFlexible("row", "start", "normal", false, "normal")
+        .isFullwidth()
+        .isFullheight();
       cssArchitect.addClass(
         this.containerClass,
         this.containerClass !== undefined
       );
-      cssArchitect.addClass("is-center", this.center);
-      cssArchitect.addClass("is-bold", this.bold);
+      cssArchitect.addClass("is-centered", this.center);
+      cssArchitect.addClass("has-text-weight-bold", this.bold);
       return cssArchitect.getClasses();
     },
     /**

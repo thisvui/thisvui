@@ -96,28 +96,9 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("t-accordion-item");
-      let hasClass = this.targetClass !== undefined;
-      let parentHasClass = this.parentProps.targetClass !== undefined;
-      cssArchitect.addClass(this.getColorsModifiers);
+      cssArchitect.addClass(this.getColorClasses);
       cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass(this.targetClass, hasClass);
-      cssArchitect.addClass(
-        this.parentProps.targetClass,
-        parentHasClass && !hasClass
-      );
-      cssArchitect.addClass(this.getItemClass, this.getItemClass != null);
       return cssArchitect.getClasses();
-    },
-    getItemClass: function() {
-      let itemClass = null;
-      let hasClass = this.targetClass !== undefined;
-      let parentHasClass = this.parentProps.targetClass !== undefined;
-      if (!hasClass && !parentHasClass && !this.hasColorModifier) {
-        itemClass = !this.$parent.hasColorModifier
-          ? "is-primary"
-          : this.$parent.colorModifier;
-      }
-      return itemClass;
     },
     /**
      * Dynamically build the css classes for the header element
@@ -125,7 +106,25 @@ export default {
      */
     getHeaderClasses: function() {
       const cssArchitect = new CssArchitect("t-accordion-header");
+      this.colorize(cssArchitect, "bg-color", true);
+      cssArchitect.addClass(this.getColorClasses);
       cssArchitect.addClass(this.headerClass, this.headerClass);
+      return cssArchitect.getClasses();
+    },
+    getColorClasses: function() {
+      const cssArchitect = new CssArchitect();
+      cssArchitect.addClass(this.getColorsModifiers);
+      cssArchitect.addClass(this.targetClass, this.targetClass !== undefined);
+      this.setupColorModifier(cssArchitect);
+      cssArchitect.addClass(
+        "is-primary",
+        !this.$parent.hasColorModifier && !this.hasColorModifier
+      );
+      cssArchitect.addClass(
+        this.$parent.colorModifier,
+        this.$parent.hasColorModifier && !this.hasColorModifier
+      );
+      this.setupColorModifier(cssArchitect);
       return cssArchitect.getClasses();
     },
     /**
@@ -144,6 +143,8 @@ export default {
      */
     getIconContainerClasses: function() {
       const cssArchitect = new CssArchitect();
+      this.colorize(cssArchitect, "bg", true);
+      cssArchitect.addClass(this.getColorClasses);
       cssArchitect.addClass(this.iconContainerClass, this.iconContainerClass);
       return cssArchitect.getClasses();
     },

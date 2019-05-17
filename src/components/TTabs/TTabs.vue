@@ -1,7 +1,7 @@
 <template>
   <div :class="getContainerClasses">
     <div :id="id" :class="getClasses">
-      <div class="tab-slider-wrapper">
+      <div class="tab-slider-wrapper is-absolute">
         <span
           class="tab-slider"
           v-bind:style="{ width: sliderWidth + 'px', left: sliderLeft + 'px' }"
@@ -86,6 +86,8 @@ export default {
       );
       cssArchitect.addClass("is-borderless", this.isBorderless);
       cssArchitect.addClass(this.targetClass);
+      this.setupColorModifier(cssArchitect);
+      cssArchitect.addClass("is-primary", !this.hasColorModifier);
       return cssArchitect.getClasses();
     },
     /**

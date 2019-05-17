@@ -6,44 +6,24 @@
   height: 100%
   width: 100%
   min-height: 100vh
-  align-items: stretch
-  flex-direction: column
-  justify-content: stretch
   position: relative
   .t-content
-    flex-direction: row /*places the left and right headers above the bottom content*/
-    align-items: stretch
     overflow-y: auto
     margin: 0
     background: $white-bis
     border-radius: 0
     flex: 1
     position: relative
-    @each $name, $pair in $colors
-      $color: nth($pair, 1)
-      $color-invert: nth($pair, 2)
-      &.is-#{$name}
-        background-color: rgba($color, .9)
   .t-main-content
-    flex-direction: column /*places the left and right headers above the bottom content*/
-    align-items: stretch
     overflow-y: auto
     margin: 0
     background: $white-bis
     border-radius: 0
     flex: 1
-    @each $name, $pair in $colors
-      $color: nth($pair, 1)
-      $color-invert: nth($pair, 2)
-      &.is-#{$name}
-        background-color: rgba($color, .9)
   .t-aside
-    height: 100% /*allows both columns to span the full height of the browser window*/
+    height: 100%
     min-height: 100%
     width: 100%
-    flex-direction: column /*places the left and right headers above the bottom content*/
-    align-items: stretch
-    align-self: flex-start
     overflow-y: auto
     overflow-x: hidden
     padding: 0
@@ -51,11 +31,6 @@
     transition: all 0.5s ease-in
     &.is-absolute
       position: absolute
-    @each $name, $pair in $colors
-      $color: nth($pair, 1)
-      $color-invert: nth($pair, 2)
-      &.is-#{$name}
-        background-color: rgba($color, .9)
   .t-header, .t-footer
     width: 100%
     padding: 0
@@ -63,22 +38,3 @@
     z-index: 40
     &.is-fixed
       position: fixed
-    @each $name, $pair in $colors
-      $color: nth($pair, 1)
-      $color-invert: nth($pair, 2)
-      &.is-#{$name}
-        background-color: rgba($color, .9)
-  @each $name, $pair in $colors
-    $color: nth($pair, 1)
-    $color-invert: nth($pair, 2)
-    &.is-#{$name}
-      background-color: rgba($color, .9)
-.is-flex
-  .is-column
-    flex-direction: column
-  .is-row
-    flex-direction: row
-  .is-column-reverse
-    flex-direction: column-reverse
-  .is-row-reverse
-    flex-direction: row-reverse

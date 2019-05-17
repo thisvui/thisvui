@@ -1,7 +1,7 @@
 <template>
   <t-flex
     :class="getContainerClasses"
-    :is-full-width="isFullWidth"
+    :is-fullwidth="isFullWidth"
     justify-content="center"
   >
     <div :class="getHelperClasses" ref="colorHelper"></div>

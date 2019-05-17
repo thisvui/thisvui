@@ -19,7 +19,9 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("t-content is-flex");
+      const cssArchitect = new CssArchitect("t-content");
+      cssArchitect.isRelative().isFlexible("row", "stretch");
+      this.colorize(cssArchitect, "bg", true);
       cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass(this.getFlexModifiers);
       return cssArchitect.getClasses();

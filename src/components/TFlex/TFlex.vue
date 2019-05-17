@@ -32,7 +32,7 @@ export default {
     flexWrapReverse: {
       type: Boolean
     },
-    isFullWidth: {
+    isFullwidth: {
       type: Boolean
     },
     width: {

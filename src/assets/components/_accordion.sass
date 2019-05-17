@@ -16,13 +16,3 @@
         padding: 0
         .t-accordion-content-body
           padding: 1em
-    @each $name, $pair in $colors
-      $color: nth($pair, 1)
-      $color-invert: nth($pair, 2)
-      &.is-#{$name}
-        .t-accordion-header
-          background-color: rgba($color, .9)
-          border: 1px solid rgba($color, 0.2)
-          color: $color-invert
-          a
-            color: $color-invert

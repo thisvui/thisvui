@@ -55,6 +55,8 @@ export default {
       cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass(this.getHelpersModifiers);
       cssArchitect.addClass("is-borderless", this.isBorderless);
+      cssArchitect.addClass("is-borderless", this.targetClass !== undefined);
+      this.setupColorModifier(cssArchitect);
       return cssArchitect.getClasses();
     }
   },

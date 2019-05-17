@@ -33,6 +33,8 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("t-footer");
+      cssArchitect.isFullwidth();
+      this.colorize(cssArchitect, "bg", true);
       cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass("is-fixed", this.isFixed);
       return cssArchitect.getClasses();

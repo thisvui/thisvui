@@ -1,0 +1,29 @@
+*
+  &.t-colorize
+    @each $name, $pair in $colors
+      $color: nth($pair, 1)
+      $color-invert: nth($pair, 2)
+      &.is-#{$name}
+        $shadow-color: rgba($color, $base-shadow-alpha)
+        &.has-bg
+          background-color: $color
+          &-hover
+            &:hover
+              background-color: $color
+        &.has-bg-color
+          color: $color-invert
+          background-color: $color !important
+          *
+            color: $color-invert
+        &.has-border
+          border-color: $color
+          @for $i from 1 through 9
+            &-#{$i}
+              $alpha: $i/10
+              border-color: rgba($color, $alpha)
+        &.has-color
+          color: $color
+          &-invert
+            color: $color-invert
+        &.has-shadow
+          @include material-shadow($color)

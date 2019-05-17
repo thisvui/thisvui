@@ -27,6 +27,9 @@ export default {
     isRounded: {
       type: Boolean,
       default: false
+    },
+    targetClass: {
+      type: String
     }
   },
   computed: {
@@ -47,6 +50,7 @@ export default {
     getImgClass: function() {
       const cssArchitect = new CssArchitect();
       cssArchitect.addClass("is-rounded", this.isRounded);
+      cssArchitect.addClass(this.targetClass);
       return cssArchitect.getClasses();
     }
   }

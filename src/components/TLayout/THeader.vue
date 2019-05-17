@@ -36,9 +36,11 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("t-header");
-      cssArchitect.addClass(this.getColorsModifiers);
+      cssArchitect.isFullwidth();
       cssArchitect.addClass("is-fixed", this.isFixed);
       cssArchitect.addClass("has-shadow-1");
+      this.colorize(cssArchitect, "bg", true);
+      cssArchitect.addClass(this.getColorsModifiers);
       return cssArchitect.getClasses();
     },
     getHeight: function() {

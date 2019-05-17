@@ -13,16 +13,17 @@
 </template>
 
 <script>
-import syntax from "../../mixins/syntax";
 import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
 import TButton from "../TButton/TButton";
+import display from "../../mixins/display";
+import colors from "../../mixins/colors";
 
 export default {
   name: "t-notification",
   components: { TButton },
-  mixins: [common, syntax, helper],
+  mixins: [common, display, colors, helper],
   props: {
     targetClass: {
       type: String
@@ -54,7 +55,11 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("notification");
-      cssArchitect.addClass(this.getSyntaxModifiers);
+      this.colorize(cssArchitect, "bg-color", true);
+      this.colorize(cssArchitect, "border-color");
+      this.colorize(cssArchitect, "shadow");
+      cssArchitect.addClass(this.getColorsModifiers);
+      cssArchitect.addClass(this.getDisplayModifiers);
       cssArchitect.addClass(this.getHelpersModifiers);
       cssArchitect.addClass(this.targetClass);
       return cssArchitect.getClasses();

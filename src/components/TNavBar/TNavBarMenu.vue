@@ -30,6 +30,7 @@ export default {
     getClasses: function() {
       const cssArchitect = new CssArchitect("navbar-menu");
       cssArchitect.addClass("is-active", this.isActive);
+      cssArchitect.addClass(this.getHelpersModifiers);
       return cssArchitect.getClasses();
     }
   }

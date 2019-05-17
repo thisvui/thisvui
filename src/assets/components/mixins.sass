@@ -1,21 +1,28 @@
-@mixin color-loop
-  @each $name, $pair in $colors
-    $color: nth($pair, 1)
-    $color-invert: nth($pair, 2)
-    &.is-#{$name}
-@mixin color($important)
-  @each $name, $pair in $colors
-    $color: nth($pair, 1)
-    $color-invert: nth($pair, 2)
-    &.is-#{$name}
-      @if $important
-        color: $color !important
-      @else
-        color: $color
-@mixin bg-color
-  @each $name, $pair in $colors
-    $color: nth($pair, 1)
-    $color-invert: nth($pair, 2)
-    &.is-#{$name}
-      background-color: $color
-      color: $color-invert
+@mixin color-props($color: false, $bg: false, $border: false)
+  @if $color
+    color: $color
+  @if $bg
+    background-color: $bg
+  @if $border
+    border-color: $border
+
+@mixin color($color, $alpha: 1)
+  color: rgba($color, $alpha)
+
+@mixin border($border-color, $alpha: 1)
+  border-color: rgba($border-color, $alpha)
+
+@mixin bg($bg-color, $alpha: 1)
+  background-color: rgba($bg-color, $alpha)
+
+@mixin bg-color($color, $bg-color)
+  @include color-props($color, $bg-color, false)
+
+@mixin material-shadow($color)
+  box-shadow: 0 3px 1px -2px rgba($color, 0.2), 0 2px 2px 0 rgba($color, 0.14), 0 1px 5px 0 rgba($color, 0.12)
+
+@mixin margin-padding($margin: false, $padding: false)
+  @if $margin
+    margin: $margin
+  @if $padding
+    padding: $padding

@@ -1,11 +1,6 @@
 <template>
   <span :class="getContainerClass">
-    <t-button
-      type="link"
-      :disabled="disabled"
-      :class="btnClass"
-      @click="onClick"
-    >
+    <t-button is-text :disabled="disabled" :class="btnClass" @click="onClick">
       <t-icon
         v-if="icon"
         :preserve-defaults="!overrideDefaults"
