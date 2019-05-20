@@ -47,6 +47,13 @@
       <slot name="header"></slot>
     </div>
     <ul :class="getClasses">
+      <transition name="fade">
+        <div v-if="isLoading" class="t-loading-block is-absolute">
+          <t-progress indeterminate compact></t-progress>
+          <div class="t-loading-block-ui is-absolute"></div>
+        </div>
+      </transition>
+
       <li v-for="(item, index) in getItems" :key="index">
         <t-list-item v-if="isCheckable(item)">
           <t-checkbox
@@ -132,6 +139,7 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect();
+      cssArchitect.isRelative();
       cssArchitect.addClass(this.getResponsiveModifiers);
       cssArchitect.addClass(this.getDimensionModifiers);
       cssArchitect.addClass(this.getHelpersModifiers);

@@ -80,10 +80,9 @@
       </thead>
       <tbody class="is-relative">
         <transition name="fade">
-          <div v-if="isLoading" class="t-table-loading is-absolute">
+          <div v-if="isLoading" class="t-loading-block is-absolute">
             <t-progress indeterminate compact></t-progress>
-            <div class="t-table-block">
-            </div>
+            <div class="t-loading-block-ui is-absolute"></div>
           </div>
         </transition>
 
@@ -229,9 +228,6 @@ export default {
       default: function() {
         return this.$thisvui.icons.arrowRight;
       }
-    },
-    isLoading: {
-      type: Boolean
     },
     isResponsive: {
       type: Boolean,
