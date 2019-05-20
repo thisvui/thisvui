@@ -78,7 +78,15 @@
           />
         </tr>
       </thead>
-      <tbody>
+      <tbody class="is-relative">
+        <transition name="fade">
+          <div v-if="isLoading" class="t-table-loading is-absolute">
+            <t-progress indeterminate compact></t-progress>
+            <div class="t-table-block">
+            </div>
+          </div>
+        </transition>
+
         <slot name="items" v-if="simple"> </slot>
         <template v-for="(item, index) in getItems" v-if="!simple">
           <tr
@@ -181,10 +189,11 @@ import TCheckbox from "../TCheckbox/TCheckbox";
 import TPaginator from "../TPaginator/TPaginator";
 import TExpand from "../TAnimation/TExpand";
 import colors from "../../mixins/colors";
+import TProgress from "../TProgress/TProgress";
 
 export default {
   name: "t-table",
-  components: { TExpand, TPaginator, TCheckbox, TInput },
+  components: { TProgress, TExpand, TPaginator, TCheckbox, TInput },
   mixins: [common, list, colors, helpers],
   filters: {
     capitalize: function(str) {
@@ -220,6 +229,9 @@ export default {
       default: function() {
         return this.$thisvui.icons.arrowRight;
       }
+    },
+    isLoading: {
+      type: Boolean
     },
     isResponsive: {
       type: Boolean,

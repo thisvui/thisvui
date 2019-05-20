@@ -101,11 +101,16 @@
         &.dual-ring
           &::after
             border-color: $color transparent $color transparent
+  &.compact
+    height: 2px
   &:indeterminate
     &::-webkit-progress-bar
       background-color: transparent
     &::-moz-progress-bar
       background-color: transparent
+  &-container
+    &.compact
+      height: 2px
 @-webkit-keyframes spin
   from
     -webkit-transform: rotate(0deg)

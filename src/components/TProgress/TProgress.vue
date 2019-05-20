@@ -41,12 +41,13 @@ export default {
   props: {
     value: Number,
     circular: {
-      type: Boolean,
-      default: false
+      type: Boolean
     },
     indeterminate: {
-      type: Boolean,
-      default: false
+      type: Boolean
+    },
+    compact: {
+      type: Boolean
     },
     spinnerType: {
       type: String,
@@ -71,6 +72,7 @@ export default {
       const cssArchitect = new CssArchitect("t-progress");
       cssArchitect.addClass("progress", !this.circular);
       cssArchitect.addClass("circular", this.circular);
+      cssArchitect.addClass("compact", this.compact);
       cssArchitect.addClass(
         this.spinnerType,
         this.spinnerType !== undefined && this.circular && this.indeterminate
@@ -94,6 +96,7 @@ export default {
     getContainerClasses: function() {
       const cssArchitect = new CssArchitect("t-progress-container");
       cssArchitect.addClass("circular", this.circular);
+      cssArchitect.addClass("compact", this.compact);
       cssArchitect.addClass(this.containerClass);
       return cssArchitect.getClasses();
     }
