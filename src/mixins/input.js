@@ -104,6 +104,7 @@ export default {
       cssArchitect.addClass(this.getTransformClass);
       cssArchitect.addClass(this.getDisplayModifiers);
       cssArchitect.addClass(this.getSizesModifiers);
+      cssArchitect.addClass(this.getHelpersModifiers);
       cssArchitect.addClass(
         this.inputClass,
         this.isNotNullOrUndefined(this.inputClass) && this.errors.length === 0

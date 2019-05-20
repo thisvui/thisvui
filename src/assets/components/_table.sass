@@ -1,9 +1,8 @@
 .t-table-container
   .table
-    -webkit-box-shadow: 0 4px 15px rgba(0,0,0,.05)
-    box-shadow: 0 4px 15px rgba(0,0,0,.05)
     font-size: 0.85rem
     border-radius: 6px
+    @include material-shadow($dark)
     td,
     th
       border-color: $table-cell-border-color
@@ -26,8 +25,8 @@
     .row-checker
       .is-checkradio[type="checkbox"] + label
         &::before
-          border: 2px solid rgba($table-search-border-color, .5)
-          border-color: $table-search-border-color
+          color: $table-cell-border-color
+          border: 2px solid $table-cell-border-color
           outline: none
   .t-table
     &-functions-col
@@ -39,6 +38,7 @@
       &-col
         padding: 0
         border-bottom: none
+        width: 1px
       &-container
         border-bottom: 1px solid rgba($table-cell-border-color, 0.2)
       &-content

@@ -186,7 +186,6 @@ export default {
       const cssArchitect = new CssArchitect("t-autocomplete-result");
       cssArchitect.addClass(this.resultClass, this.resultClass !== undefined);
       this.colorize(cssArchitect, "bg-hover", true);
-      this.colorize(cssArchitect, "color-invert");
       cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
       return cssArchitect.getClasses();
     },

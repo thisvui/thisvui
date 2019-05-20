@@ -6,6 +6,8 @@
       v-model="searchKey"
       :override-defaults="overrideDefaults"
       :icon="$thisvui.icons.search"
+      is-shadowless
+      is-opaque
     >
     </t-input>
     <t-paginator
@@ -24,6 +26,7 @@
       is-rounded
       is-shadowless
       is-paddingless
+      is-small
       :show-numbers="showNumbers"
       :link-class="linkClass"
       :current-link-class="currentLinkClass"
@@ -72,6 +75,7 @@
       is-rounded
       is-shadowless
       is-paddingless
+      is-small
       :show-numbers="showNumbers"
       :link-class="linkClass"
       :current-link-class="currentLinkClass"

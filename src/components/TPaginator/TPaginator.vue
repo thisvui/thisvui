@@ -44,6 +44,7 @@
             container-class="size-select-container is-inline-block"
             input-class="size-select"
             is-small
+            is-shadowless
             @change="onChange"
           />
         </li>
@@ -198,7 +199,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getContainerClass: function() {
-      const cssArchitect = new CssArchitect("paginator");
+      const cssArchitect = new CssArchitect("t-paginator");
       return cssArchitect.getClasses();
     },
     /**

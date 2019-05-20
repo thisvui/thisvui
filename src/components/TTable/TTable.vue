@@ -6,6 +6,8 @@
       v-model="searchKey"
       :override-defaults="overrideDefaults"
       :icon="$thisvui.icons.search"
+      is-shadowless
+      is-opaque
     >
     </t-input>
     <t-paginator
@@ -53,7 +55,7 @@
             <th
               v-for="column in mappedColumns"
               :key="column.name"
-              :class="{ active: sortKey == column.name }"
+              :class="getThClasses"
               @click="sortBy(column)"
             >
               <span>
@@ -69,7 +71,11 @@
             </th>
           </template>
           <slot name="header" />
-          <th v-if="hasActionColumn" v-text="actionText" />
+          <th
+            v-if="hasActionColumn"
+            v-text="actionText"
+            :class="getThClasses"
+          />
         </tr>
       </thead>
       <tbody>
@@ -77,6 +83,7 @@
         <template v-for="(item, index) in getItems" v-if="!simple">
           <tr
             v-on="isExpandable(item) ? { click: () => toggleExpand(item) } : {}"
+            :class="getTrClasses"
           >
             <td
               v-if="isCheckable(item) || isExpandable(item)"
@@ -173,11 +180,12 @@ import TInput from "../TInput/TInput";
 import TCheckbox from "../TCheckbox/TCheckbox";
 import TPaginator from "../TPaginator/TPaginator";
 import TExpand from "../TAnimation/TExpand";
+import colors from "../../mixins/colors";
 
 export default {
   name: "t-table",
   components: { TExpand, TPaginator, TCheckbox, TInput },
-  mixins: [common, list, helpers],
+  mixins: [common, list, colors, helpers],
   filters: {
     capitalize: function(str) {
       return str.charAt(0).toUpperCase() + str.slice(1);
@@ -233,6 +241,9 @@ export default {
     isFullwidth: {
       type: Boolean,
       default: true
+    },
+    targetClass: {
+      type: String
     }
   },
   computed: {
@@ -252,6 +263,21 @@ export default {
       cssArchitect.addClass("is-narrow", this.isNarrow);
       cssArchitect.addClass("is-hoverable", this.isHoverable);
       cssArchitect.addClass("is-fullwidth", this.isFullwidth);
+      cssArchitect.addClass(this.targetClass);
+      this.colorize(cssArchitect, false, true);
+      cssArchitect.addClass(this.getColorsModifiers);
+      this.setupColorModifier(cssArchitect);
+      return cssArchitect.getClasses();
+    },
+    getThClasses: function() {
+      const cssArchitect = new CssArchitect();
+      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
+      return cssArchitect.getClasses();
+    },
+    getTrClasses: function() {
+      const cssArchitect = new CssArchitect();
+      this.colorize(cssArchitect, "bg-hover", true);
+      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
       return cssArchitect.getClasses();
     },
     getColumns() {
