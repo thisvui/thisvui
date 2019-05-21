@@ -37,7 +37,8 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("navbar");
+      const cssArchitect = new CssArchitect("t-navbar navbar");
+      this.colorize(cssArchitect, "bg", true)
       cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass("is-transparent", this.isTransparent);
       cssArchitect.addClass("is-fixed-top", this.isFixedTop);

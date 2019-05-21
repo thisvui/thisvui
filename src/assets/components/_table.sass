@@ -14,6 +14,7 @@
           cursor: pointer
     tbody
       tr
+        --bg-hover-alpha: .5
         &:hover
           cursor: pointer
       td
@@ -22,7 +23,7 @@
         .active
           .arrow
             opacity: 1
-    .row-checker
+    .t-row-checker
       .is-checkradio[type="checkbox"] + label
         &::before
           color: $table-cell-border-color
