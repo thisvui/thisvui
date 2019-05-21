@@ -4,26 +4,22 @@
       $color: nth($pair, 1)
       $color-invert: nth($pair, 2)
       &.is-#{$name}
-        $shadow-color: rgba($color, $base-shadow-alpha)
+        $shadow-color: rgba($color, var(--shadow-alpha))
         &.has-bg
-          background-color: $color
+          background-color: rgba($color, var(--bg-alpha))
           &-hover
             &:hover
               color: $color-invert
-              background-color: rgba($color, .7) !important
+              background-color: rgba($color, var(--bg-hover-alpha)) !important
         &.has-bg-color
           color: $color-invert
           background-color: $color !important
           *
             color: $color-invert
         &.has-border
-          border-color: $color
-          @for $i from 1 through 9
-            &-#{$i}
-              $alpha: $i/10
-              border-color: rgba($color, $alpha)
+          border-color: rgba($color, var(--border-alpha))
         &.has-color
-          color: $color
+          color: rgba($color, var(--color-alpha))
           &-invert
             color: $color-invert
         &.has-shadow
