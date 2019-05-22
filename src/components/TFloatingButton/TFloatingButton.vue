@@ -109,6 +109,7 @@ export default {
      */
     getBtnClasses: function() {
       const cssArchitect = new CssArchitect("t-floating-btn-icon");
+      cssArchitect.isFlexible().isCentered();
       this.colorize(cssArchitect, "bg-color", true);
       cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
       cssArchitect.addClass(this.btnClass);

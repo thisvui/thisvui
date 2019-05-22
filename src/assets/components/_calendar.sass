@@ -31,7 +31,7 @@
         border-radius: 50%
         font-size: 0.9rem
         transition: background-color linear .1s
-        width: 80%
+        width: 82%
         padding: 5px
         color: $opaque
         text-align: center
@@ -64,10 +64,10 @@
       .t-calendar
         &-day
           .day-number
-            &.is-selected
-              @include color-props($color-invert, rgba($color, .9), rgba($color, .1))
             &.is-today
-              @include color-props(false, rgba($color, .1), rgba($color, .3))
+              @include color-props($color-invert, rgba($color, .7), rgba($color-invert, .1))
+            &.is-selected
+              @include color-props($color-invert, rgba($color, .9), rgba($color-invert, .2))
       .change-month-arrow
         color: $color
       .t-timepicker
