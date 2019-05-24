@@ -7,7 +7,7 @@
       >
         <t-icon :icon="labelIcon"></t-icon>
       </span>
-      <label :class="getLabelClass">{{ label }}</label>
+      <span :class="getLabelClass">{{ label }}</span>
       <span
         v-if="labelIcon !== undefined && labelIconRight"
         :class="getLabelIconClass"
@@ -22,7 +22,7 @@
       >
         <t-icon :icon="icon"></t-icon>
       </span>
-      <label :class="getValueClass">{{ value }}</label>
+      <span :class="getValueClass">{{ value }}</span>
       <span
         v-if="icon !== undefined && labelIconRight"
         :class="getLabelIconClass"
@@ -40,11 +40,12 @@ import helpers from "../../mixins/helpers";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
 import TIcon from "../TIcon/TIcon";
+import dimension from "../../mixins/dimension";
 
 export default {
   name: "t-text",
   components: { TIcon },
-  mixins: [common, helpers, icons],
+  mixins: [common, helpers, icons, dimension],
   props: {
     name: {
       type: String
@@ -106,15 +107,15 @@ export default {
     getContainerClass: function() {
       const cssArchitect = new CssArchitect("t-text");
       cssArchitect
-        .isFlexible("row", "start", "normal", false, "normal")
-        .isFullwidth()
-        .isFullheight();
+        .isFlexible("row", "start", "normal", false, "normal");
       cssArchitect.addClass(
         this.containerClass,
         this.containerClass !== undefined
       );
       cssArchitect.addClass("is-centered", this.center);
       cssArchitect.addClass("has-text-weight-bold", this.bold);
+      cssArchitect.addClass(this.getHelpersModifiers)
+      cssArchitect.addClass(this.getDimensionModifiers)
       return cssArchitect.getClasses();
     },
     /**
@@ -122,7 +123,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getLabelClass: function() {
-      const cssArchitect = new CssArchitect("label");
+      const cssArchitect = new CssArchitect("t-text-label");
       cssArchitect.addClass(this.labelClass, this.labelClass !== undefined);
       cssArchitect.addClass("is-inline-flex", this.labelIcon !== undefined);
       return cssArchitect.getClasses();
