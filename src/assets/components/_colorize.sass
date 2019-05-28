@@ -9,18 +9,20 @@
           background-color: rgba($color, var(--bg-alpha))
           &-hover
             &:hover
-              color: $color-invert
+              color: $color-invert !important
               background-color: rgba($color, var(--bg-hover-alpha)) !important
         &.has-bg-color
-          color: $color-invert
+          color: $color-invert !important
           background-color: rgba($color, var(--bg-alpha)) !important
           *
             color: $color-invert
         &.has-border
-          border-color: rgba($color, var(--border-alpha))
+          border-color: rgba($color, var(--border-alpha)) !important
         &.has-color
-          color: rgba($color, var(--color-alpha))
+          color: rgba($color, var(--color-alpha)) !important
           &-invert
             color: $color-invert
         &.has-shadow
           @include material-shadow($color)
+        .router-link-active
+          color: rgba($color, var(--color-alpha)) !important

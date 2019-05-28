@@ -106,16 +106,15 @@ export default {
      */
     getContainerClass: function() {
       const cssArchitect = new CssArchitect("t-text");
-      cssArchitect
-        .isFlexible("row", "start", "normal", false, "normal");
+      cssArchitect.isFlexible("row", "start", "normal", false, "normal");
       cssArchitect.addClass(
         this.containerClass,
         this.containerClass !== undefined
       );
       cssArchitect.addClass("is-centered", this.center);
       cssArchitect.addClass("has-text-weight-bold", this.bold);
-      cssArchitect.addClass(this.getHelpersModifiers)
-      cssArchitect.addClass(this.getDimensionModifiers)
+      cssArchitect.addClass(this.getHelpersModifiers);
+      cssArchitect.addClass(this.getDimensionModifiers);
       return cssArchitect.getClasses();
     },
     /**

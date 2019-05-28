@@ -36,7 +36,7 @@ export default {
     flexWrapReverse: {
       type: Boolean
     },
-    flexGrow:{
+    flexGrow: {
       type: Number
     },
     width: {
@@ -83,9 +83,9 @@ export default {
       return cssArchitect.getClasses();
     },
     getStyles: function() {
-      let styles
-      if(this.flexGrow){
-        styles = `--flex-grow: ${this.flexGrow}`
+      let styles;
+      if (this.flexGrow) {
+        styles = `--flex-grow: ${this.flexGrow}`;
       }
       return styles;
     }

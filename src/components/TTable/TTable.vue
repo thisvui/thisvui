@@ -81,7 +81,11 @@
       <tbody class="is-relative">
         <transition name="fade">
           <div v-if="isLoading" class="t-loading-block is-absolute">
-            <t-progress indeterminate compact :target-class="getProgressClasses"></t-progress>
+            <t-progress
+              indeterminate
+              compact
+              :target-class="getProgressClasses"
+            ></t-progress>
             <div class="t-loading-block-ui is-absolute"></div>
           </div>
         </transition>
@@ -302,7 +306,8 @@ export default {
     },
     getCheckAllClasses: function() {
       const cssArchitect = new CssArchitect();
-      let isLight = this.colorModifier == "is-light" || this.colorModifier == "is-white"
+      let isLight =
+        this.colorModifier == "is-light" || this.colorModifier == "is-white";
       cssArchitect.addClass("is-light", this.hasColorModifier && !isLight);
       cssArchitect.addClass("is-dark", isLight);
       cssArchitect.addClass("has-background-color", this.hasColorModifier);

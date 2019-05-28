@@ -213,7 +213,7 @@ export default {
      */
     getConfirmClass: function() {
       const cssArchitect = new CssArchitect();
-      cssArchitect.addClass("is-small")
+      cssArchitect.addClass("is-small");
       cssArchitect.addClass(this.confirmDialogClass);
       return cssArchitect.getClasses();
     },
