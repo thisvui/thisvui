@@ -23,7 +23,7 @@
 <script>
 import colors from "../../mixins/colors";
 import common from "../../mixins/common";
-import flex from "../../mixins/flex-direction";
+import flex from "../../mixins/flex";
 import CssArchitect from "../../utils/css-architect";
 import TSlide from "../TAnimation/TSlide";
 import slide from "../../mixins/slide";

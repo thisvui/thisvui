@@ -6,7 +6,7 @@
 <script>
 import colors from "../../mixins/colors";
 import common from "../../mixins/common";
-import flex from "../../mixins/flex-direction";
+import flex from "../../mixins/flex";
 import alignment from "../../mixins/alignment";
 import CssArchitect from "../../utils/css-architect";
 
