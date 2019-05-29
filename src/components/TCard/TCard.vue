@@ -9,19 +9,23 @@
           </t-icon>
         </div>
         <div class="media-content">
-          <t-level>
-            <template slot="level-left">
+          <t-flex is-fullwidth align-self="baseline">
+            <t-flex
+              flex-direction="column"
+              align-self="start"
+              justify-content="start"
+            >
               <p v-if="title" :class="getTitleClasses" v-text="title" />
               <p
                 v-if="subtitle"
                 :class="getSubtitleClasses"
                 v-text="subtitle"
               />
-            </template>
-            <template slot="level-right">
+            </t-flex>
+            <t-flex align-self="baseline" justify-content="end">
               <slot name="title" />
-            </template>
-          </t-level>
+            </t-flex>
+          </t-flex>
         </div>
       </div>
       <div class="content">
@@ -39,10 +43,11 @@ import TLevel from "../TLevel/TLevel";
 
 import colors from "../../mixins/colors";
 import common from "../../mixins/common";
+import TFlex from "../TFlex/TFlex";
 
 export default {
   name: "t-card",
-  components: { TLevel, TIcon, TImage },
+  components: { TFlex, TLevel, TIcon, TImage },
   mixins: [common, colors],
   props: {
     title: {
@@ -76,7 +81,10 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("card");
+      const cssArchitect = new CssArchitect(
+        "card t-flex flex-direction-column align-items-stretch"
+      );
+      this.colorize(cssArchitect, "bg-color", true);
       cssArchitect.addClass(this.getColorsModifiers);
       return cssArchitect.getClasses();
     },

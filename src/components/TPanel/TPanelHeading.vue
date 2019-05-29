@@ -19,10 +19,11 @@
 import icons from "../../mixins/icons";
 import CssArchitect from "../../utils/css-architect";
 import TIcon from "../TIcon/TIcon";
+import colors from "../../mixins/colors";
 
 export default {
   name: "t-panel-heading",
-  mixins: [icons],
+  mixins: [icons, colors],
   components: { TIcon },
   props: {
     headingText: {
@@ -52,6 +53,13 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("panel-heading level");
+      this.colorize(cssArchitect, "bg-color", true);
+      this.colorize(cssArchitect, "border");
+      cssArchitect.addClass(this.getColorsModifiers);
+      cssArchitect.addClass(
+        this.$parent.colorModifier,
+        this.$parent.hasColorModifier && !this.hasColorModifier
+      );
       return cssArchitect.getClasses();
     },
     /**

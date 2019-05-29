@@ -30,21 +30,6 @@ $items-width: 20 30 40 50 60 70 80 90 100
       padding-bottom: 0
   .paginator
     background-color: $list-background-color
-  .t-search
-    position: relative
-    margin-left: 0.5em
-    margin-right: 0.5em
-    margin-top: 0px
-    .input
-      border: 2px solid rgba($table-search-border-color, .5)
-      font-size: 0.95rem
-      &:hover
-        border-color: rgba($table-search-border-color, .7)
-    &.is-absolute
-      position: absolute
-      margin-top: 7px
-      .input
-        font-size: 0.9rem
   .t-list-header
     display: flex
     color: $dark
@@ -63,4 +48,26 @@ $items-width: 20 30 40 50 60 70 80 90 100
     h1, h2, h3, h4, h5
       margin-top: 0
       margin-bottom: 0
-
+.t-search
+  position: relative
+  margin: 0 0.5em 0 0.5em
+  .input
+    border: 2px solid rgba($table-search-border-color, .5)
+    font-size: 0.95rem
+    &:hover
+      border-color: rgba($table-search-border-color, .7)
+  &.is-absolute
+    position: absolute
+    margin-top: 5px
+    .input
+      font-size: 0.9rem
+.t-loading-block
+  width: 100%
+  height: 100%
+  padding: 0 !important
+  z-index: 40
+  .t-loading-block-ui
+    width: 100%
+    height: 100%
+    background: rgba($dark, 0.1)
+    border-radius: 0 0 5px 5px

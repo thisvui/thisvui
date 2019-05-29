@@ -1,8 +1,5 @@
 <template>
   <div :class="getContainerClass">
-    <label v-if="!getRemoveLabel" class="label has-text-left">{{
-      label
-    }}</label>
     <div :class="getClasses">
       <label class="file-label file-label-container">
         <input
@@ -14,7 +11,7 @@
           @change="handleFilesUpload()"
           :accept="accept"
         />
-        <span class="file-content is-size-6">
+        <span class="file-cta">
           <span class="file-icon">
             <t-icon
               :preserve-defaults="!overrideDefaults"
@@ -23,30 +20,32 @@
           </span>
           <span class="file-label">
             <p v-if="isInitialUpload">
-              Choose your file(s)
+              {{ label }}
             </p>
             <p v-if="isUploading">Uploading {{ fileCount }} files...</p>
           </span>
-          <span class="file-name" v-if="fileHasName"> </span>
         </span>
+        <span class="file-name" v-if="fileHasName"> {{ fileName }}</span>
       </label>
+      <t-buttons has-addons v-if="hasFiles" :class="getButtonContainerClasses">
+        <span @click="reset()" v-if="!isUploading" :class="getClearClasses">
+          <t-icon :icon="clearIcon"></t-icon
+          ><span v-if="!hideButtonsLabels">{{ clearText }}</span>
+        </span>
+        <span
+          @click="submitFiles()"
+          v-if="showSubmitButton"
+          :class="getSubmitClasses"
+        >
+          <t-icon :icon="submitIcon"></t-icon
+          ><span v-if="!hideButtonsLabels">{{ submitText }}</span>
+        </span>
+      </t-buttons>
     </div>
-    <div class="preview" v-if="showPreview">
+    <div :class="getPreviewClasses" v-if="showPreview && hasPreview">
       <h2 v-if="isUploadSuccess" class="is-size-6">
         Uploaded {{ files.length }} file(s) successfully.
       </h2>
-      <t-buttons>
-        <button @click="reset()" :class="`button ${clearClass}`">
-          <t-icon :icon="clearIcon"></t-icon><span>{{ clearText }}</span>
-        </button>
-        <button
-          @click="submitFiles()"
-          v-if="!isAutoSubmit && showSubmitButton"
-          :class="`button ${submitClass}`"
-        >
-          <t-icon :icon="submitIcon"></t-icon><span>{{ submitText }}</span>
-        </button>
-      </t-buttons>
       <t-thumbnails>
         <t-thumbnail v-for="(file, key) in files" :key="key">
           <img class="image is-128x128" v-bind:ref="`image${parseInt(key)}`" />
@@ -75,6 +74,7 @@ import TThumbnails from "../TThumbnail/TThumbnails";
 import TThumbnail from "../TThumbnail/TThumbnail";
 import TButtons from "../TButton/TButtons";
 import TButton from "../TButton/TButton";
+import TTags from "../TTag/TTags";
 
 const STATUS_INITIAL = 0;
 const STATUS_SAVING = 1;
@@ -84,6 +84,7 @@ const STATUS_FAILED = 3;
 export default {
   name: "t-file",
   components: {
+    TTags,
     TButton,
     TButtons,
     TThumbnail,
@@ -97,11 +98,15 @@ export default {
       type: String,
       default: "*"
     },
-    onUpload: {
+    onSubmit: {
       type: Function
     },
     hasName: {
       type: Boolean
+    },
+    hasPreview: {
+      type: Boolean,
+      default: true
     },
     multiple: {
       type: Boolean,
@@ -112,14 +117,16 @@ export default {
       default: true
     },
     autoSubmit: {
-      type: Boolean,
-      default: false
+      type: Boolean
     },
     isBoxed: {
       type: Boolean
     },
     targetClass: {
       type: String
+    },
+    hideButtonsLabels: {
+      type: Boolean
     },
     chooseText: {
       type: String,
@@ -137,7 +144,7 @@ export default {
     },
     submitClass: {
       type: String,
-      default: "is-success"
+      default: "is-light has-text-link"
     },
     clearText: {
       type: String,
@@ -151,7 +158,7 @@ export default {
     },
     clearClass: {
       type: String,
-      default: "is-danger"
+      default: "is-light has-text-danger"
     }
   },
   data() {
@@ -159,7 +166,9 @@ export default {
       files: [],
       uploadError: null,
       currentStatus: null,
-      showPreview: false
+      showPreview: false,
+      fileName: null,
+      fileName: 0
     };
   },
   computed: {
@@ -168,23 +177,51 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("file");
+      const cssArchitect = new CssArchitect("t-file file");
       cssArchitect.addClass(this.getSyntaxModifiers);
       cssArchitect.addClass(this.getColorsModifiers);
+      cssArchitect.addClass(this.getSizesModifiers);
       cssArchitect.addClass(this.getAlignmentModifiers);
       cssArchitect.addClass(this.targetClass);
       cssArchitect.addClass("has-name", this.fileHasName);
       cssArchitect.addClass("is-boxed", this.isBoxed);
+      this.setupColorModifier(cssArchitect);
+      return cssArchitect.getClasses();
+    },
+    getPreviewClasses: function() {
+      const cssArchitect = new CssArchitect("t-file-preview");
+      cssArchitect.isFlexible("column");
+      this.colorize(cssArchitect, "border", true);
+      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
+      return cssArchitect.getClasses();
+    },
+    getClearClasses: function() {
+      const cssArchitect = new CssArchitect(
+        "button is-shadowless is-radiusless"
+      );
+      cssArchitect.addClass(this.clearClass);
+      cssArchitect.addClass(this.getSizesModifiers);
+      return cssArchitect.getClasses();
+    },
+    getSubmitClasses: function() {
+      const cssArchitect = new CssArchitect("button is-shadowless");
+      cssArchitect.addClass(this.submitClass);
+      cssArchitect.addClass(this.getSizesModifiers);
+      return cssArchitect.getClasses();
+    },
+    getButtonContainerClasses: function() {
+      const cssArchitect = new CssArchitect();
+      cssArchitect.addClass("t-flex align-self-end", this.isBoxed);
       return cssArchitect.getClasses();
     },
     fileHasName() {
-      return this.hasName;
+      return this.hasName && this.fileName !== null;
     },
     showSubmitButton() {
-      return this.showSubmit;
+      return this.showSubmit && !this.autoSubmit && !this.isUploading;
     },
-    isAutoSubmit() {
-      return this.autoSubmit;
+    hasFiles() {
+      return this.files && this.files.length > 0;
     },
     isInitialUpload() {
       return this.currentStatus === STATUS_INITIAL;
@@ -208,24 +245,28 @@ export default {
       this.files = [];
       this.uploadError = null;
       this.showPreview = false;
+      this.fileName = null;
+      this.fileCount = 0;
     },
     /**
-     * Builds the form data and execute the onUpload function
+     * Builds the form data and execute the onSubmit function
      */
     async submitFiles() {
       this.currentStatus = STATUS_SAVING;
-      if (this.onUpload) {
+      if (this.onSubmit) {
         try {
           let formData = new FormData();
 
           // Iterate over any file sent over appending the files
           // to the form data.
-          for (var i = 0; i < this.files.length; i++) {
+
+          for (let i = 0; i < this.files.length; i++) {
             let file = this.files[i];
 
             formData.append("files[" + i + "]", file);
           }
-          await this.onUpload(formData);
+          await this.onSubmit(formData, this.files);
+          this.reset();
           this.$emit(this.$thisvui.events.file.uploaded);
         } catch (e) {
           console.error(e);
@@ -234,7 +275,7 @@ export default {
         }
       } else {
         throw new Error(
-          "You should provide an upload function trough the onUpload prop"
+          "You should provide an upload function trough the onSubmit prop"
         );
       }
     },
@@ -249,7 +290,8 @@ export default {
       for (let i = 0; i < uploadedFiles.length; i++) {
         this.files.push(uploadedFiles[i]);
       }
-
+      this.fileName = uploadedFiles[0].name;
+      this.fileCount = this.files.length;
       // Generate image previews for the uploaded files
       this.showPreview = true;
       this.getImagePreviews();

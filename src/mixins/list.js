@@ -14,23 +14,22 @@ export default {
       default: () => []
     },
     paginated: {
-      type: Boolean,
-      default: false
+      type: Boolean
     },
     paginatorAtBottom: {
-      type: Boolean,
-      default: false
+      type: Boolean
     },
     filtered: {
-      type: Boolean,
-      default: false
+      type: Boolean
     },
     checkable: {
       type: Boolean
     },
     sortable: {
-      type: Boolean,
-      default: false
+      type: Boolean
+    },
+    isLoading: {
+      type: Boolean
     },
     sortIcon: {
       type: String,

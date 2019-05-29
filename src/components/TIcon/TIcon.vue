@@ -1,9 +1,13 @@
 <template>
-  <span :class="getContainerClass" :key="`${id}-${icon}`">
-    <i :class="getMaterialIconsClass" :data-tooltip="dataTooltip" v-if="isMd">
+  <span
+    :class="getContainerClass"
+    :key="`${id}-${icon}`"
+    :data-tooltip="dataTooltip"
+  >
+    <i :class="getMaterialIconsClass" v-if="isMd">
       {{ icon }}
     </i>
-    <i :class="getClasses" :data-tooltip="dataTooltip" v-if="!isMd" />
+    <i :class="getClasses" v-if="!isMd" />
   </span>
 </template>
 
@@ -68,12 +72,14 @@ export default {
      */
     getContainerClass: function() {
       const cssArchitect = new CssArchitect("t-icon icon");
+      this.colorize(cssArchitect, "color", true);
       cssArchitect.addClass(this.getSyntaxModifiers);
       cssArchitect.addClass(this.getSizesModifiers);
       cssArchitect.addClass(
         this.containerClass,
         this.containerClass !== undefined
       );
+      cssArchitect.addClass(this.getTooltipClass);
       return cssArchitect.getClasses();
     },
     /**
@@ -89,7 +95,6 @@ export default {
     getMaterialIconsClass: function() {
       const cssArchitect = new CssArchitect("material-icons");
       cssArchitect.addClass(this.targetClass, this.targetClass !== undefined);
-      cssArchitect.addClass(this.getTooltipClass);
       return cssArchitect.getClasses();
     }
   },

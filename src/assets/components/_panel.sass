@@ -5,15 +5,6 @@
     border-bottom: 1px solid rgba($panel-border-color, 0.125)
     cursor: pointer
     margin-bottom: 0
-  @each $name, $pair in $colors
-    $color: nth($pair, 1)
-    $color-invert: nth($pair, 2)
-    &.is-#{$name}
-      .panel-heading
-        color: $color-invert
-        background-color: rgba($color, 0.9)
-        border-top: 1px solid rgba($color, 0.055)
-        border-bottom: 1px solid rgba($color, 0.125)
   .panel-body
     box-shadow: 0 0px 1px 0px rgba(0, 0, 0, 0.1), 0 1px 1px 0px rgba(0, 0, 0, 0.14), 0 3px 3px 0 rgba(0, 0, 0, 0.12)
     padding: 0

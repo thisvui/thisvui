@@ -38,11 +38,11 @@
     <transition name="fade">
       <div :class="getWidgetClass" v-show="showCalendar">
         <div :class="getCalendarClass" v-if="!noCalendar">
-          <header :class="className(`header`)">
+          <header :class="getHeaderClass">
             <t-button
               :icon="$thisvui.icons.arrowLeft"
               icon-class="change-month-arrow"
-              type="link"
+              is-text
               @click="previousMonth"
             ></t-button>
             <span class="month-name"
@@ -51,7 +51,7 @@
             <t-button
               :icon="$thisvui.icons.arrowRight"
               icon-class="change-month-arrow"
-              type="link"
+              is-text
               @click="nextMonth"
             ></t-button>
           </header>
@@ -60,7 +60,7 @@
           </div>
           <div v-for="day in daysArray" :class="getDayClass">
             <div
-              type="link"
+              is-text
               @click="setSelectedDate(day)"
               :class="getDayNumberClass(day)"
             >
@@ -241,6 +241,7 @@ export default {
     },
     getWidgetClass: function() {
       const cssArchitect = new CssArchitect("t-calendar-widget");
+      cssArchitect.isFlexible("column").isAbsolute();
       cssArchitect.addClass("inline-calendar", this.inline);
       cssArchitect.addClass(this.getSyntaxModifiers);
       cssArchitect.addClass(this.widgetClass);
@@ -250,8 +251,14 @@ export default {
       const cssArchitect = new CssArchitect("t-calendar");
       return cssArchitect.getClasses();
     },
+    getHeaderClass: function() {
+      const cssArchitect = new CssArchitect("t-calendar-header");
+      cssArchitect.isFlexible().isCentered();
+      return cssArchitect.getClasses();
+    },
     getTimePickerClass: function() {
       const cssArchitect = new CssArchitect("t-timepicker");
+      cssArchitect.isFlexible();
       return cssArchitect.getClasses();
     },
     getDayClass() {
@@ -333,6 +340,7 @@ export default {
     },
     getDayNumberClass(day) {
       const cssArchitect = new CssArchitect("day-number");
+      cssArchitect.isFullheight();
       cssArchitect.addClass("is-today", day.isToday);
       cssArchitect.addClass("is-current", day.isCurrentMonth);
       cssArchitect.addClass("is-selected", day.isSelected);

@@ -1,25 +1,19 @@
 <template>
-  <div :id="id" :class="getClasses">
-    <slot></slot>
-  </div>
+  <hr :class="getClasses" />
 </template>
 
 <script>
-import helper from "../../mixins/helpers";
-import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
-  name: "t-navbar-brand",
-  mixins: [common, helper],
+  name: "t-navbar-divider",
   computed: {
     /**
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("navbar-brand");
-      cssArchitect.addClass(this.getHelpersModifiers);
+      const cssArchitect = new CssArchitect("navbar-divider");
       return cssArchitect.getClasses();
     }
   }

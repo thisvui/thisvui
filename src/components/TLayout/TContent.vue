@@ -7,7 +7,7 @@
 <script>
 import colors from "../../mixins/colors";
 import common from "../../mixins/common";
-import flex from "../../mixins/flex-direction";
+import flex from "../../mixins/flex";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
@@ -19,7 +19,9 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("t-content is-flex");
+      const cssArchitect = new CssArchitect("t-content");
+      cssArchitect.isRelative().isFlexible("row", "stretch");
+      this.colorize(cssArchitect, "bg", true);
       cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass(this.getFlexModifiers);
       return cssArchitect.getClasses();

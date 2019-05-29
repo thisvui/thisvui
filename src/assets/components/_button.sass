@@ -11,6 +11,7 @@
     color: $button-color
     text-decoration: none !important
 .buttons
+  line-height: 0
   &.has-addons
     .t-button-container
       &:not(:first-child)
@@ -34,37 +35,32 @@
     margin-bottom: 0.5rem
 .t-button
   &.is-text
-    @include color(true)
+    @each $name, $pair in $colors
+      $color: nth($pair, 1)
+      $color-invert: nth($pair, 2)
+      &.is-#{$name}
+        color: $color !important
 .t-floating-btn
   position: fixed
   z-index: 100
   cursor: pointer
   .t-floating-btn-icon
+    --bg-alpha: .95
     width: 60px
     height: 60px
     border-radius: 100%
     background: $floating-button-background-color
     box-shadow: 0 6px 20px $floating-button-shadow-color
     &:hover
-      opacity: 0.8
+      opacity: 0.9
       &+ .t-floating-btn-options, .t-floating-btn-options:hover
         opacity: 1
         transform: scale(1)
     .t-floating-btn-label
-      display: flex
-      align-items: center
-      justify-content: center
-      height: 100%
-      width: 100%
       font-style: normal
       font-size: 25px
       color: $floating-button-color
     .icon
-      display: flex
-      align-items: center
-      justify-content: center
-      height: 100%
-      width: 100%
       font-style: normal
       font-size: 25px
       color: $floating-button-color
@@ -118,12 +114,3 @@
     right: $floating-button-right
   &.is-left
     left: $floating-button-left
-  @each $name, $pair in $colors
-    $color: nth($pair, 1)
-    $color-invert: nth($pair, 2)
-    &.is-#{$name}
-      .t-floating-btn-icon
-        color: $color-invert
-        background-color: rgba($color, 0.9)
-        .icon
-          color: $color-invert

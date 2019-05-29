@@ -1,12 +1,7 @@
 <template>
-  <div :id="id" :class="getClasses">
-    <div class="navbar-start">
-      <slot name="navbar-start"></slot>
-    </div>
-    <div class="navbar-end">
-      <slot name="navbar-end"></slot>
-    </div>
-  </div>
+  <a :id="id" :class="getClasses">
+    <slot></slot>
+  </a>
 </template>
 
 <script>
@@ -15,12 +10,10 @@ import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
-  name: "t-navbar-menu",
+  name: "t-navbar-dropdown",
   mixins: [common, helper],
   props: {
-    isActive: {
-      type: Boolean
-    }
+    isBoxed: Boolean
   },
   computed: {
     /**
@@ -28,9 +21,8 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("navbar-menu");
-      cssArchitect.addClass("is-active", this.isActive);
-      cssArchitect.addClass(this.getHelpersModifiers);
+      const cssArchitect = new CssArchitect("navbar-dropdown");
+      cssArchitect.addClass("is-boxed", this.isBoxed);
       return cssArchitect.getClasses();
     }
   }

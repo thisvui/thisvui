@@ -4,7 +4,7 @@
       <div class="modal-background" />
       <transition :name="animationType">
         <div :class="getClasses" v-show="showModal">
-          <header :class="getHeaderClass">
+          <header :class="getHeaderClass" v-if="showHeader">
             <p v-if="title != undefined" :class="getTitleClass">{{ title }}</p>
             <button
               v-if="showClose"
@@ -41,6 +41,10 @@ export default {
     showModal: {
       type: Boolean,
       default: false
+    },
+    showHeader: {
+      type: Boolean,
+      default: true
     },
     showFooter: {
       type: Boolean,
@@ -90,6 +94,7 @@ export default {
       cssArchitect.addClass(this.width);
       cssArchitect.addClass(this.getSizesModifiers);
       cssArchitect.addClass(this.getColorsModifiers);
+      this.setupColorModifier(cssArchitect);
       return cssArchitect.getClasses();
     },
     /**
@@ -98,6 +103,8 @@ export default {
      */
     getHeaderClass: function() {
       const cssArchitect = new CssArchitect("modal-card-head");
+      this.colorize(cssArchitect, "bg-color", true);
+      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
       cssArchitect.addClass(this.headerClass, this.headerClass);
       return cssArchitect.getClasses();
     },
@@ -107,6 +114,8 @@ export default {
      */
     getTitleClass: function() {
       const cssArchitect = new CssArchitect("modal-card-title");
+      this.colorize(cssArchitect, "color-invert", true);
+      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
       cssArchitect.addClass(this.titleClass, this.titleClass);
       return cssArchitect.getClasses();
     },

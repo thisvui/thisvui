@@ -12,6 +12,12 @@ export default {
     linkClass: {
       type: String
     },
+    controlIconClass: {
+      type: String
+    },
+    linkOpenedClass: {
+      type: String
+    },
     openedIcon: {
       type: String,
       default: function() {

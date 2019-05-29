@@ -1,14 +1,18 @@
 <template>
-  <div :class="getClasses">
+  <div :class="getClasses" :style="getStyles">
     <slot></slot>
   </div>
 </template>
 
 <script>
 import CssArchitect from "../../utils/css-architect";
+import dimension from "../../mixins/dimension";
+import flex from "../../mixins/flex";
+import alignment from "../../mixins/alignment";
 
 export default {
   name: "t-flex",
+  mixins: [flex, dimension, alignment],
   props: {
     flexDirection: {
       type: String,
@@ -32,8 +36,8 @@ export default {
     flexWrapReverse: {
       type: Boolean
     },
-    isFullWidth: {
-      type: Boolean
+    flexGrow: {
+      type: Number
     },
     width: {
       type: Number,
@@ -73,8 +77,17 @@ export default {
       cssArchitect.addClass(`flex-wrap`, this.flexWrap);
       cssArchitect.addClass(`flex-wrap-nowrap`, this.flexNoWrap);
       cssArchitect.addClass(`flex-wrap-reverse`, this.flexWrapReverse);
-      cssArchitect.addClass(`is-fullwidth`, this.isFullWidth);
+      cssArchitect.addClass(this.getFlexModifiers);
+      cssArchitect.addClass(this.getDimensionModifiers);
+      cssArchitect.addClass(this.getAlignmentModifiers);
       return cssArchitect.getClasses();
+    },
+    getStyles: function() {
+      let styles;
+      if (this.flexGrow) {
+        styles = `--flex-grow: ${this.flexGrow}`;
+      }
+      return styles;
     }
   },
   data: function() {

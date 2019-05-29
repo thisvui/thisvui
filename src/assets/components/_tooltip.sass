@@ -1,6 +1,3 @@
-$tooltip-background-color: $grey-dark !default
-$tooltip-max-width: 24rem !default
-
 .tooltip
   position: relative
   &:hover,
@@ -33,7 +30,7 @@ $tooltip-max-width: 24rem !default
       transform: translate(-50%, 1rem)
       background: rgba($tooltip-background-color, 0.9)
       border-radius: $radius
-      color: $white
+      color: $tooltip-color
       max-width: $tooltip-max-width
   &.is-always-visible
     &:not(.is-loading)
@@ -51,8 +48,7 @@ $tooltip-max-width: 24rem !default
         bottom: auto
         left: 50%
         opacity: 1
-        margin-left: -.5rem
-        margin-top: -.5rem
+        margin: -.5rem 0 0 -.5rem
         border-color: rgba($tooltip-background-color, 0.9) transparent transparent transparent
     &::before
       top: auto
@@ -60,7 +56,6 @@ $tooltip-max-width: 24rem !default
       left: 50%
       opacity: 1
       transform: translate(-50%, -0.5rem)
-
   &.is-tooltip-right
     &::before
       top: auto
@@ -80,7 +75,6 @@ $tooltip-max-width: 24rem !default
           border-color: transparent rgba($tooltip-background-color, 0.9) transparent transparent
       &::before
         transform: translate(0.5rem, 50%)
-
   &.is-tooltip-bottom
     &::before
       top: 100%
@@ -101,7 +95,6 @@ $tooltip-max-width: 24rem !default
           border-color: transparent transparent rgba($tooltip-background-color, 0.9) transparent
       &::before
         transform: translate(-50%, 0.5rem)
-
   &.is-tooltip-left
     &::before
       top: auto
@@ -128,7 +121,6 @@ $tooltip-max-width: 24rem !default
       text-overflow: clip
       white-space: normal
       word-break: break-word
-
   @each $name, $pair in $colors
     $color: nth($pair, 1)
     $color-invert: nth($pair, 2)

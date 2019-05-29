@@ -1,22 +1,19 @@
 .t-nav-drawer
-  height: 100% /*allows both columns to span the full height of the browser window*/
+  --bg-alpha: .03
   min-height: 100%
-  display: flex
-  flex-direction: column /*places the left and right headers above the bottom content*/
-  align-items: stretch
   overflow-y: auto
   overflow-x: hidden
-  padding: 0
-  margin-top: 0.5em
   background-color: $nav-drawer-background-color
   border-top-right-radius: 6px
   transition: all 0.5s ease-in
   border-right: 1px solid rgba(0, 0, 0, 0.1)
+  @include margin-padding(0.5em 0 0 0, 0)
   .menu
     font-size: 1rem
     padding: 1em 2em 1em 1em
     .menu-list
       a
+        --bg-alpha: .7
         padding: 0.4em 0.4em 0.2em 1em
         font-size: $nav-drawer-font-size
         font-weight: $nav-drawer-font-weight
@@ -26,6 +23,7 @@
         &.is-active
           background-color: $nav-drawer-active-background-color
         &:hover
+          --bg-hover-alpha: .7
           background-color: $nav-drawer-hover-background-color
       li
         padding-top: 7px
@@ -39,59 +37,20 @@
         margin-top: 0
     .menu-label
       background: $nav-drawer-label-background-color
-      padding: 0.5rem
-      margin: 1rem 0rem
       color: $nav-drawer-label-color
       text-align: center
       border-radius: $nav-drawer-label-border-radius
       -webkit-box-shadow: $nav-drawer-label-shadow
       box-shadow: $nav-drawer-label-shadow
-    .menu-icon
-      background: transparent
-      border-radius: 50%
-      -webkit-box-pack: center
-      -ms-flex-pack: center
-      justify-content: center
-      min-width: 0
-      padding: 0.5em
-      width: 24px
-      &:hover
-        background: rgba($white, 0.2)
-  @each $name, $pair in $colors
-    $color: nth($pair, 1)
-    $color-invert: nth($pair, 2)
-    &.is-#{$name}
-      background-color: rgba($color, .1)
-      .menu-label
-        background-color: rgba($color, .9)
-        color: $color-invert
-      .menu
-        .menu-list
-          a
-            &.router-link-active
-              color: rgba($color, .9)
-            &.is-active
-              color: rgba($color-invert, .9)
-              background-color: rgba($color, .9)
-              .icon
-                color: rgba($color-invert, .9)
-            &:hover
-              color: rgba($color-invert, .9)
-              background-color: rgba($color, .9)
-          li
-            .icon
-              color: rgba($color, .9)
+      @include margin-padding(1rem 0rem, 0.5rem)
+    .icon
+      --color-alpha: .9
 .t-tree-view
-  height: 100% /*allows both columns to span the full height of the browser window*/
   min-height: 100%
-  display: flex
-  flex-direction: column /*places the left and right headers above the bottom content*/
-  align-items: stretch
   overflow-y: auto
   overflow-x: hidden
-  padding: 0
-  margin-top: 0
   transition: all 0.5s ease-in
+  @include margin-padding(0, 0)
   .tree-view
     font-size: 1rem
     padding: 1em 2em 1em 1em
@@ -109,14 +68,12 @@
         &:hover
           background-color: $tree-view-hover-background-color
       li
-        padding-top: 7px
-        padding-bottom: 1px
+        padding: 7px 0 1px 0
         list-style: none
         margin-top: 0
         ul
           border-left: 1px solid #dbdbdb
-          margin: 0
-          margin-left: 0.55em
+          margin: 0 0 0 0.55em
           padding-left: 0.75em
         .icon
           color: $tree-view-icon-color

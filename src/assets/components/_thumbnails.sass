@@ -16,18 +16,18 @@
     width: 192px
     height: 192px
     padding: 0.2rem
-    border: 3px solid rgba(42, 181, 211, 0.8)
+    border: 3px solid rgba($dark, 0.8)
     border-radius: 2px
     margin: 0.2rem
     font-size: 0.85rem
     font-weight: bold
-    color: rgba(42, 181, 211, 0.7) !important
-    box-shadow: 0 0px 5px 0px rgba(42, 181, 211, 0.1), 0 1px 1px 0px rgba(42, 181, 211, 0.14), 0 3px 3px 0 rgba(42, 181, 211, 0.12)
+    color: rgba($dark, 0.7) !important
     cursor: pointer
     transition: all ease-in 0.5s
     position: relative
+    @include material-shadow($dark)
     &:hover
-      box-shadow: 0 0px 7px 0px rgba(42, 181, 211, 0.3), 0 1px 1px 0px rgba(42, 181, 211, 0.24), 0 3px 3px 0 rgba(42, 181, 211, 0.22)
+      @include material-shadow($dark)
     a
       height: 100%
       width: 100%
@@ -39,10 +39,10 @@
         height: 98%
         width: 98%
         margin: 1%
-        background-color: rgba(42, 181, 211, 0.2)
+        background-color: rgba($dark, 0.2)
       &:hover > h1
-        color: rgba(244, 244, 255, 0.9)
-        background-color: rgba(42, 181, 211, 0.5)
+        color: rgba($white-bis, 0.9)
+        background-color: rgba($dark, 0.5)
     img
       height: 100%
       width: 100%
@@ -53,8 +53,8 @@
       padding: 0.2rem
       bottom: 0
       font-size: 0.85rem !important
-      background-color: rgba(255, 255, 255, 0.9)
-      color: rgba(42, 181, 211, 0.8)
+      background-color: rgba($white-bis, 0.9)
+      color: rgba($dark, 0.8)
       -webkit-transition: all ease-in 0.3s
       transition: all ease-in 0.3s
       width: 100%

@@ -53,6 +53,23 @@ export default {
   },
   data() {
     return {
+      modifiers: [
+        "is-primary",
+        "is-secondary",
+        "is-link",
+        "is-info",
+        "is-warning",
+        "is-moderate",
+        "is-danger",
+        "is-success",
+        "is-happy",
+        "is-dark",
+        "is-light",
+        "is-opaque",
+        "is-black",
+        "is-white"
+      ],
+      componentName: this.$options.name,
       hasColorModifier: false,
       colorModifier: null,
       hexDigits: [
@@ -101,13 +118,25 @@ export default {
         `has-background-${this.background}`,
         this.background !== undefined
       );
-      let result = cssArchitect.getClasses();
-      this.hasColorModifier = result !== "";
-      this.colorModifier = result;
-      return result;
+      return cssArchitect.getClasses();
     }
   },
   methods: {
+    checkColorModifier(classes) {
+      return this.modifiers.some(modifier => classes.includes(modifier));
+    },
+    setupColorModifier(cssArchitect) {
+      this.hasColorModifier = this.checkColorModifier(
+        cssArchitect.getClasses()
+      );
+      this.colorModifier = cssArchitect
+        .getClassesArray()
+        .filter(this.checkColorModifier);
+    },
+    colorize(cssArchitect, type, addColorClass = false) {
+      cssArchitect.addClass(`t-colorize`, addColorClass);
+      cssArchitect.addClass(`has-${type}`);
+    },
     rgb2hex(rgb) {
       rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
       return "#" + this.hex(rgb[1]) + this.hex(rgb[2]) + this.hex(rgb[3]);

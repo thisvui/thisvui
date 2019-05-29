@@ -25,8 +25,7 @@
     </a>
     <t-modal
       v-if="showConfirmation"
-      :class="getConfirmClass"
-      target-class="is-small"
+      :target-class="getConfirmClass"
       :header-class="confirmHeaderClass"
       :title-class="confirmTitleClass"
       body-class="is-size-6"
@@ -134,12 +133,10 @@ export default {
       default: "has-text-left"
     },
     confirmHeaderClass: {
-      type: String,
-      default: "is-primary"
+      type: String
     },
     confirmTitleClass: {
-      type: String,
-      default: "has-text-white"
+      type: String
     },
     confirmBtnClass: {
       type: String,
@@ -216,6 +213,7 @@ export default {
      */
     getConfirmClass: function() {
       const cssArchitect = new CssArchitect();
+      cssArchitect.addClass("is-small");
       cssArchitect.addClass(this.confirmDialogClass);
       return cssArchitect.getClasses();
     },

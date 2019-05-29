@@ -1,15 +1,12 @@
-.t-progress-container
-  position: relative
-  &.circular
-    width: 75px
-    height: 75px
 .t-progress
   margin-bottom: 5px
   &.circular
+    width: 75px
+    height: 75px
     &.single
       margin: 0
       background: transparent
-      border-top: 4px solid $primary
+      border-top: 4px solid #03A9F4
       border-right: 4px solid transparent
       border-radius: 50%
       -webkit-animation: 1s spin linear infinite
@@ -19,20 +16,20 @@
       border-radius: 50%
       background-color: transparent
       border: 4px solid transparent
-      border-top: 4px solid $opaque
-      border-left: 4px solid $opaque
+      border-top: 4px solid #777
+      border-left: 4px solid #777
       -webkit-animation: 2s spin linear infinite
       animation: 2s spin linear infinite
       &:nth-child(2)
         border: 4px solid transparent
-        border-right: 4px solid $primary
-        border-bottom: 4px solid $primary
+        border-right: 4px solid #03A9F4
+        border-bottom: 4px solid #03A9F4
         -webkit-animation: 1s spin linear infinite
         animation: 1s spin linear infinite
     &.triple
       border: 3px solid transparent
       border-radius: 50%
-      border-top: 4px solid $primary
+      border-top: 4px solid #f15e41
       -webkit-animation: spin 4s linear infinite
       animation: spin 4s linear infinite
       position: relative
@@ -47,11 +44,11 @@
         border-radius: 50%
         border: 4px solid transparent
       &::before
-        border-top-color: rgba($primary, .5)
+        border-top-color: #bad375
         -webkit-animation: 3s spin linear infinite
         animation: 3s spin linear infinite
       &::after
-        border-top-color: rgba($primary, .9)
+        border-top-color: #26a9e0
         -webkit-animation: spin 1.5s linear infinite
         animation: spin 1.5s linear infinite
     &.dual-ring
@@ -76,6 +73,7 @@
   &::-ms-fill
     background-color: $progress-value-background-color
     border: none
+  // Colors
   @each $name, $pair in $colors
     $color: nth($pair, 1)
     &.is-#{$name}
@@ -103,11 +101,16 @@
         &.dual-ring
           &::after
             border-color: $color transparent $color transparent
+  &.compact
+    height: 2px
   &:indeterminate
     &::-webkit-progress-bar
       background-color: transparent
     &::-moz-progress-bar
       background-color: transparent
+  &-container
+    &.compact
+      height: 2px
 @-webkit-keyframes spin
   from
     -webkit-transform: rotate(0deg)
@@ -123,9 +126,3 @@
   to
     -webkit-transform: rotate(360deg)
     transform: rotate(360deg)
-
-.p-canvas
-  border-color: blue
-  color: blue
-  background-color: blue
-

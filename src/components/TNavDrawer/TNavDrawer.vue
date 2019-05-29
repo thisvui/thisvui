@@ -25,6 +25,8 @@
             :model="item"
             :icon-class="getIconClass"
             :link-class="getLinkClass"
+            :link-opened-class="getLinkOpenedClass"
+            :control-icon-class="getControlIconClass"
             :opened-icon="openedIcon"
             :closed-icon="closedIcon"
             :icon-lib="iconLib"
@@ -76,6 +78,7 @@ export default {
      */
     getContainerClass: function() {
       const cssArchitect = new CssArchitect("t-nav-drawer");
+      cssArchitect.isFlexible("column", "stretch").isFullheight();
       cssArchitect.addClass(
         this.containerClass,
         this.containerClass !== undefined
@@ -83,6 +86,7 @@ export default {
       cssArchitect.addClass("is-nav-opened", this.isOpen);
       cssArchitect.addClass(this.getHelpersModifiers);
       cssArchitect.addClass(this.getColorsModifiers);
+      this.setupColorModifier(cssArchitect);
       return cssArchitect.getClasses();
     },
     /**
@@ -91,7 +95,9 @@ export default {
      */
     getLabelClass: function() {
       const cssArchitect = new CssArchitect("menu-label");
+      this.colorize(cssArchitect, "bg-color", true);
       cssArchitect.addClass(this.labelClass, this.labelClass !== undefined);
+      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
       return cssArchitect.getClasses();
     },
     /**
@@ -101,6 +107,7 @@ export default {
     getIconClass: function() {
       const cssArchitect = new CssArchitect("is-inline-block");
       cssArchitect.addClass(this.iconClass, this.iconClass !== undefined);
+      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
       return cssArchitect.getClasses();
     },
     /**
@@ -109,7 +116,19 @@ export default {
      */
     getLinkClass: function() {
       const cssArchitect = new CssArchitect("is-inline-block");
+      this.colorize(cssArchitect, "bg-hover", true);
       cssArchitect.addClass(this.linkClass, this.linkClass !== undefined);
+      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
+      return cssArchitect.getClasses();
+    },
+    getControlIconClass: function() {
+      const cssArchitect = new CssArchitect();
+      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
+      return cssArchitect.getClasses();
+    },
+    getLinkOpenedClass: function() {
+      const cssArchitect = new CssArchitect();
+      this.colorize(cssArchitect, "bg-color");
       return cssArchitect.getClasses();
     }
   },

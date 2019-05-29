@@ -28,10 +28,18 @@
       >
       <span v-if="isFolder">
         <div v-show="!open" class="icon">
-          <t-icon :preserve-defaults="!overrideDefaults" :icon="closedIcon" />
+          <t-icon
+            :preserve-defaults="!overrideDefaults"
+            :icon="closedIcon"
+            :container-class="controlIconClass"
+          />
         </div>
         <div v-show="open" class="icon">
-          <t-icon :preserve-defaults="!overrideDefaults" :icon="openedIcon" />
+          <t-icon
+            :preserve-defaults="!overrideDefaults"
+            :icon="openedIcon"
+            :container-class="controlIconClass"
+          />
         </div>
       </span>
     </a>
@@ -46,6 +54,8 @@
             :tag-class="tagClass"
             :icon-class="iconClass"
             :link-class="linkClass"
+            :link-opened-class="linkOpenedClass"
+            :control-icon-class="controlIconClass"
           />
         </ul>
       </div>
@@ -124,9 +134,11 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getLinkClasses: function() {
-      let className = this.open ? "is-active" : "tree-nav-link";
-      const cssArchitect = new CssArchitect(className);
+      const cssArchitect = new CssArchitect();
+      cssArchitect.addClass("is-active", this.open);
+      cssArchitect.addClass("tree-nav-link", !this.open);
       cssArchitect.addClass(this.linkClass, this.linkClass);
+      cssArchitect.addClass(this.linkOpenedClass, this.open);
       return cssArchitect.getClasses();
     }
   },

@@ -1,96 +1,63 @@
 .hero
   .tabs
     ul
-      border-bottom-style: solid
-      border-bottom-width: 1px
-      border-color: rgba($tabs-body-border-color, 0.3)
+      border-bottom: 1px solid
 .tabs-container
   width: 100%
 .tabs
   margin: 0
   position: relative
-  &.is-boxed, &.is-toggle
-    a
-      border-color: rgba($tabs-body-border-color, 0.3)
-      &:hover
-        border-color: rgba($tabs-body-border-color, 0.3)
-        background: rgba($primary, .7) radial-gradient(circle, transparent 1%, $primary 1%) center/15000%
-        border-bottom-color: rgba($tabs-head-border-bottom-color, .3)
-      &:active
-        border-color: rgba($tabs-body-border-color, 0.3)
-        background-color: rgba($primary, .5)
-  .is-tab-active
-    a
-      background-color: rgba($primary, 0.9)
-      color: $primary-invert
   ul
     align-items: center
-    border-bottom-color: rgba($tabs-head-border-bottom-color, .3)
-    border-bottom-style: solid
-    border-bottom-width: 1px
+    border-bottom: 1px solid
     display: flex
     flex-grow: 1
     flex-shrink: 0
     justify-content: flex-start
     margin-left: 0
     li
-      margin-top: 0.25em
+      margin-top: 0
       .hero
         flex-direction: unset
     a
-      border-color: rgba($tabs-body-border-color, 0.3)
       background-position: center
       transition: background 0.5s
-      //transition: all 0.075s cubic-bezier(0.25, 0.8, 0.5, 1) 0.1s
-      &:hover
-        color: $primary-invert
-        background: rgba($primary, .7) radial-gradient(circle, transparent 1%, $primary 1%) center/15000%
-        border-bottom-color: rgba($tabs-head-border-bottom-color, .3)
       &:active
-        color: $primary-invert
-        background-color: rgba($primary, .5)
-        background-size: 100%
         transition: background 0s
   .tab-slider
     display: flex
     position: relative
-    height: 0.2em
+    height: 2px
     background-color: rgba($primary-invert, 0.7)
     transition: all 0.075s cubic-bezier(0.25, 0.8, 0.5, 1) 0s
     &-wrapper
       bottom: 0
       margin: 0 !important
       width: 100%
-      position: absolute
   &:not(:last-child)
     margin-bottom: 0rem
-  @each $name, $pair in $colors
-    $color: nth($pair, 1)
-    $color-invert: nth($pair, 2)
-    &.is-#{$name}
-      ul
-        align-items: center
-        border-color: rgba($color, .3)
-      .is-tab-active
+    @each $name, $pair in $colors
+      $color: nth($pair, 1)
+      $color-invert: nth($pair, 2)
+      &.is-#{$name}
+        ul
+          border-color: rgba($color, .3)
+        .is-tab-active
+          a
+            @include color-props($color-invert, rgba($color, 0.9), false)
         a
-          background-color: rgba($color, 0.9)
-          color: $color-invert
-      a
-        color: rgba($dark, 0.7)
-        border-color: rgba($color, 0.3)
-        &:hover
-          color: $color-invert
-          background: rgba($color, .7) radial-gradient(circle, transparent 1%, $color 1%) center/15000%
-          border-bottom-color: rgba($color, .3)
-        &:active
-          color: $color-invert
-          background-color: rgba($color, .5)
-          background-size: 100%
-          transition: background 0s
-      &+ .tabs-body
-        border-color: rgba($color, 0.3)
-      .tab-slider
-        background-color: rgba($color-invert, 0.7)
+          @include color-props(rgba($dark, 0.7), false, rgba($color, 0.3))
+          &:hover
+            @include color-props($color-invert, false, false)
+            background: rgba($color, .7) radial-gradient(circle, transparent 1%, $color 1%) center/15000%
+            border-bottom-color: rgba($color, .3)
+          &:active
+            @include color-props($color-invert, rgba($color, 0.5), false)
+            background-size: 100%
+        &+ .tabs-body
+          border-color: rgba($color, 0.3)
+        .tab-slider
+          background-color: rgba($color-invert, 0.7)
 .tabs-body
   position: relative
   display: flex
@@ -107,8 +74,3 @@
     border: none
     box-shadow: none
     -webkit-box-shadow: none
-  @each $name, $pair in $colors
-    $color: nth($pair, 1)
-    $color-invert: nth($pair, 2)
-    &.is-#{$name}
-      border-color: rgba($color, .3)

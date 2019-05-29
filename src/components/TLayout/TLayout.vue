@@ -6,7 +6,7 @@
 
 <script>
 import colors from "../../mixins/colors";
-import flex from "../../mixins/flex-direction";
+import flex from "../../mixins/flex";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
 
@@ -19,7 +19,9 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("t-layout is-flex");
+      const cssArchitect = new CssArchitect("t-layout");
+      cssArchitect.isFlexible("column", "stretch", "stretch");
+      this.colorize(cssArchitect, "bg", true);
       cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass(this.getFlexModifiers);
       return cssArchitect.getClasses();

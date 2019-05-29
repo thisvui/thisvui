@@ -6,6 +6,8 @@
       v-model="searchKey"
       :override-defaults="overrideDefaults"
       :icon="$thisvui.icons.search"
+      is-shadowless
+      is-opaque
     >
     </t-input>
     <t-paginator
@@ -34,13 +36,13 @@
     <table :id="id" :class="getClasses">
       <thead>
         <tr>
-          <th v-if="checkable || expandable" class="t-table-functions-col">
+          <th v-if="checkable || expandable" :class="getTableFunctionsClasses">
             <div class="is-flex">
               <div class="col-expandable" v-if="expandable"></div>
               <div class="col-checkable" v-if="checkable">
                 <t-checkbox
-                  class="row-checker"
-                  has-background-color
+                  class="t-row-checker"
+                  :input-class="getCheckAllClasses"
                   v-model="checkAllItems"
                   @change.native="checkAllRows"
                   @click.native.stop
@@ -53,7 +55,7 @@
             <th
               v-for="column in mappedColumns"
               :key="column.name"
-              :class="{ active: sortKey == column.name }"
+              :class="getThClasses"
               @click="sortBy(column)"
             >
               <span>
@@ -69,14 +71,30 @@
             </th>
           </template>
           <slot name="header" />
-          <th v-if="hasActionColumn" v-text="actionText" />
+          <th
+            v-if="hasActionColumn"
+            v-text="actionText"
+            :class="getThClasses"
+          />
         </tr>
       </thead>
-      <tbody>
+      <tbody class="is-relative">
+        <transition name="fade">
+          <div v-if="isLoading" class="t-loading-block is-absolute">
+            <t-progress
+              indeterminate
+              compact
+              :target-class="getProgressClasses"
+            ></t-progress>
+            <div class="t-loading-block-ui is-absolute"></div>
+          </div>
+        </transition>
+
         <slot name="items" v-if="simple"> </slot>
         <template v-for="(item, index) in getItems" v-if="!simple">
           <tr
             v-on="isExpandable(item) ? { click: () => toggleExpand(item) } : {}"
+            :class="getTrClasses"
           >
             <td
               v-if="isCheckable(item) || isExpandable(item)"
@@ -99,10 +117,12 @@
                 </span>
                 <div class="col-checkable" v-if="isCheckable(item)">
                   <t-checkbox
-                    class="row-checker"
+                    class="t-row-checker"
+                    :input-class="getRowCheckerClasses"
                     :value="isRowChecked(item)"
                     @change.native="checkRow(item)"
                     @click.native.stop
+                    has-background-color
                   >
                   </t-checkbox>
                 </div>
@@ -173,11 +193,13 @@ import TInput from "../TInput/TInput";
 import TCheckbox from "../TCheckbox/TCheckbox";
 import TPaginator from "../TPaginator/TPaginator";
 import TExpand from "../TAnimation/TExpand";
+import colors from "../../mixins/colors";
+import TProgress from "../TProgress/TProgress";
 
 export default {
   name: "t-table",
-  components: { TExpand, TPaginator, TCheckbox, TInput },
-  mixins: [common, list, helpers],
+  components: { TProgress, TExpand, TPaginator, TCheckbox, TInput },
+  mixins: [common, list, colors, helpers],
   filters: {
     capitalize: function(str) {
       return str.charAt(0).toUpperCase() + str.slice(1);
@@ -233,6 +255,9 @@ export default {
     isFullwidth: {
       type: Boolean,
       default: true
+    },
+    targetClass: {
+      type: String
     }
   },
   computed: {
@@ -252,6 +277,45 @@ export default {
       cssArchitect.addClass("is-narrow", this.isNarrow);
       cssArchitect.addClass("is-hoverable", this.isHoverable);
       cssArchitect.addClass("is-fullwidth", this.isFullwidth);
+      cssArchitect.addClass(this.targetClass);
+      this.colorize(cssArchitect, false, true);
+      cssArchitect.addClass(this.getColorsModifiers);
+      this.setupColorModifier(cssArchitect);
+      return cssArchitect.getClasses();
+    },
+    getTableFunctionsClasses: function() {
+      const cssArchitect = new CssArchitect("t-table-functions-col");
+      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
+      return cssArchitect.getClasses();
+    },
+    getThClasses: function() {
+      const cssArchitect = new CssArchitect();
+      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
+      return cssArchitect.getClasses();
+    },
+    getTrClasses: function() {
+      const cssArchitect = new CssArchitect();
+      this.colorize(cssArchitect, "bg-hover", true);
+      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
+      return cssArchitect.getClasses();
+    },
+    getRowCheckerClasses: function() {
+      const cssArchitect = new CssArchitect();
+      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
+      return cssArchitect.getClasses();
+    },
+    getCheckAllClasses: function() {
+      const cssArchitect = new CssArchitect();
+      let isLight =
+        this.colorModifier == "is-light" || this.colorModifier == "is-white";
+      cssArchitect.addClass("is-light", this.hasColorModifier && !isLight);
+      cssArchitect.addClass("is-dark", isLight);
+      cssArchitect.addClass("has-background-color", this.hasColorModifier);
+      return cssArchitect.getClasses();
+    },
+    getProgressClasses: function() {
+      const cssArchitect = new CssArchitect();
+      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
       return cssArchitect.getClasses();
     },
     getColumns() {

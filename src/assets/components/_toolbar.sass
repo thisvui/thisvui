@@ -1,27 +1,11 @@
 .t-toolbar
-  -webkit-font-smoothing: antialiased
-  -moz-osx-font-smoothing: grayscale
+  position: relative
   font-size: 1rem
   padding: 0.5em
   height: 100%
   width: 100%
-  align-items: flex-start
-  justify-content: flex-start
-  flex-direction: row
-  position: relative
-  @each $name, $pair in $colors
-    $color: nth($pair, 1)
-    $color-invert: nth($pair, 2)
-    &.is-#{$name}
-      background-color: rgba($color, .9)
-  &.is-vertical
-    flex-direction: column
-  &.is-right
-    align-items: flex-end
-    justify-content: flex-end
-  &.is-centered
-    align-items: center
-    justify-content: center
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
 .t-crud-toolbar
   display: flex
   align-items: center
