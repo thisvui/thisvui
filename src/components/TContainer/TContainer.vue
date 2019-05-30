@@ -9,10 +9,11 @@ import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
 import screens from "../../mixins/screens";
+import background from "../../mixins/background";
 
 export default {
   name: "t-container",
-  mixins: [common, screens, helper],
+  mixins: [common, screens, background, helper],
   props: {
     isFluid: {
       type: Boolean,
@@ -29,6 +30,7 @@ export default {
       cssArchitect.addClass("is-fluid", this.isFluid);
       cssArchitect.addClass(this.getScreensModifiers);
       cssArchitect.addClass(this.getHelpersModifiers);
+      cssArchitect.addClass(this.getBackgroundModifiers);
       return cssArchitect.getClasses();
     }
   },

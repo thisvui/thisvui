@@ -1,6 +1,8 @@
 import CssArchitect from "../utils/css-architect";
+import background from "./background";
 
 export default {
+  mixins: [background],
   props: {
     isPrimary: {
       type: Boolean
@@ -45,9 +47,6 @@ export default {
       type: Boolean
     },
     color: {
-      type: String
-    },
-    background: {
       type: String
     }
   },
@@ -114,10 +113,7 @@ export default {
       cssArchitect.addClass("is-white", this.isWhite);
       cssArchitect.addClass("is-happy", this.isHappy);
       cssArchitect.addClass(`has-text-${this.color}`, this.color !== undefined);
-      cssArchitect.addClass(
-        `has-background-${this.background}`,
-        this.background !== undefined
-      );
+      cssArchitect.addClass(this.getBackgroundModifiers);
       return cssArchitect.getClasses();
     }
   },

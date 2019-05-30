@@ -8,10 +8,11 @@
 import CssArchitect from "../../utils/css-architect";
 import common from "../../mixins/common";
 import devices from "../../mixins/devices";
+import background from "../../mixins/background";
 
 export default {
   name: "t-columns",
-  mixins: [common, devices],
+  mixins: [common, devices, background],
   props: {
     isGapless: {
       type: Boolean
@@ -27,10 +28,10 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("columns");
-      cssArchitect.addClass(this.getDevicesModifiers);
       cssArchitect.addClass("is-gapless", this.isGapless);
       cssArchitect.addClass("is-multiline", this.isMultiline);
-
+      cssArchitect.addClass(this.getDevicesModifiers);
+      cssArchitect.addClass(this.getBackgroundModifiers);
       return cssArchitect.getClasses();
     }
   },

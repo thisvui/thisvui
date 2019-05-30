@@ -9,10 +9,11 @@ import columns from "../../mixins/columns";
 import twelveColumns from "../../mixins/12-columns";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
+import background from "../../mixins/background";
 
 export default {
   name: "t-column",
-  mixins: [common, columns, twelveColumns],
+  mixins: [common, columns, twelveColumns, background],
   computed: {
     /**
      * Dynamically build the css classes for the target element
@@ -22,6 +23,7 @@ export default {
       const cssArchitect = new CssArchitect("column");
       cssArchitect.addClass(this.getColumnModifiers);
       cssArchitect.addClass(this.get12ColumnsModifiers);
+      cssArchitect.addClass(this.getBackgroundModifiers);
       return cssArchitect.getClasses();
     }
   },

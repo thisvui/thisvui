@@ -7,10 +7,12 @@
 <script>
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
+import sizes from "../../mixins/sizes";
+import background from "../../mixins/background";
 
 export default {
   name: "t-section",
-  mixins: [common],
+  mixins: [common, sizes, background],
   computed: {
     /**
      * Dynamically build the css classes for the target element
@@ -18,6 +20,8 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("section");
+      cssArchitect.addClass(this.getSizesModifiers);
+      cssArchitect.addClass(this.getBackgroundModifiers);
       return cssArchitect.getClasses();
     }
   },

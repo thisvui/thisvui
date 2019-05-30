@@ -16,10 +16,11 @@
 import responsive from "../../mixins/responsive";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
+import background from "../../mixins/background";
 
 export default {
   name: "t-level",
-  mixins: [common, responsive],
+  mixins: [common, responsive, background],
   props: {
     suppressLr: {
       type: Boolean
@@ -33,6 +34,7 @@ export default {
     getClasses: function() {
       const cssArchitect = new CssArchitect("level");
       cssArchitect.addClass(this.getResponsiveModifiers);
+      cssArchitect.addClass(this.getBackgroundModifiers);
       return cssArchitect.getClasses();
     }
   },

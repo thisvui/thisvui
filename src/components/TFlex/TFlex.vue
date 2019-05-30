@@ -9,10 +9,11 @@ import CssArchitect from "../../utils/css-architect";
 import dimension from "../../mixins/dimension";
 import flex from "../../mixins/flex";
 import alignment from "../../mixins/alignment";
+import background from "../../mixins/background";
 
 export default {
   name: "t-flex",
-  mixins: [flex, dimension, alignment],
+  mixins: [flex, dimension, alignment, background],
   props: {
     flexDirection: {
       type: String,
@@ -80,6 +81,7 @@ export default {
       cssArchitect.addClass(this.getFlexModifiers);
       cssArchitect.addClass(this.getDimensionModifiers);
       cssArchitect.addClass(this.getAlignmentModifiers);
+      cssArchitect.addClass(this.getBackgroundModifiers);
       return cssArchitect.getClasses();
     },
     getStyles: function() {
