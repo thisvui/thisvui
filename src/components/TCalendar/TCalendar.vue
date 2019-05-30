@@ -100,23 +100,23 @@ import CssArchitect from "../../utils/css-architect";
 import TIcon from "../TIcon/TIcon";
 
 import format from "date-fns/format";
-import startOfMonth from "date-fns/startOfMonth";
-import endOfMonth from "date-fns/endOfMonth";
-import lastDayOfMonth from "date-fns/lastDayOfMonth";
-import isSameMonth from "date-fns/isSameMonth";
-import isSameDay from "date-fns/isSameDay";
-import addMonths from "date-fns/addMonths";
-import getDay from "date-fns/getDay";
-import addDays from "date-fns/addDays";
-import eachDayOfInterval from "date-fns/eachDayOfInterval";
-import setDate from "date-fns/setDate";
-import setHours from "date-fns/setHours";
-import getHours from "date-fns/getHours";
-import setMinutes from "date-fns/setMinutes";
-import getMinutes from "date-fns/getMinutes";
-import setSeconds from "date-fns/setSeconds";
-import getSeconds from "date-fns/getSeconds";
-import getTime from "date-fns/getTime";
+import startOfMonth from "date-fns/start_of_month";
+import endOfMonth from "date-fns/end_of_month";
+import lastDayOfMonth from "date-fns/last_day_of_month";
+import isSameMonth from "date-fns/is_same_month";
+import isSameDay from "date-fns/is_same_day";
+import addMonths from "date-fns/add_months";
+import getDay from "date-fns/get_day";
+import addDays from "date-fns/add_days";
+import eachDay from "date-fns/each_day";
+import setDate from "date-fns/set_date";
+import setHours from "date-fns/set_hours";
+import getHours from "date-fns/get_hours";
+import setMinutes from "date-fns/set_minutes";
+import getMinutes from "date-fns/get_minutes";
+import setSeconds from "date-fns/set_seconds";
+import getSeconds from "date-fns/get_seconds";
+import getTime from "date-fns/get_time";
 
 const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -177,10 +177,7 @@ export default {
       const startOfMonthDate = startOfMonth(date);
       const endOfMonthDate = endOfMonth(date);
 
-      const days = eachDayOfInterval({
-        start: startOfMonthDate,
-        end: endOfMonthDate
-      }).map(day => ({
+      const days = eachDay(startOfMonthDate, endOfMonthDate).map(day => ({
         date: day,
         isCurrentMonth: isSameMonth(
           new Date(this.currentYear, this.currentMonth),
@@ -243,7 +240,7 @@ export default {
       const cssArchitect = new CssArchitect("t-calendar-widget");
       cssArchitect.isFlexible("column").isAbsolute();
       cssArchitect.addClass("inline-calendar", this.inline);
-      cssArchitect.addClass(this.getSyntaxModifiers);
+      cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass(this.widgetClass);
       return cssArchitect.getClasses();
     },
@@ -321,7 +318,7 @@ export default {
   },
   filters: {
     formatDateToDay(val) {
-      return format(val, "d");
+      return format(val, "D");
     }
   },
   methods: {

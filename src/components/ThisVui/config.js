@@ -127,7 +127,7 @@ class ThisVuiConfig {
     let options = {
       iconLib: this.iconLib,
       icons: this.icons,
-      dateFormat: "MM/dd/yyyy",
+      dateFormat: "MM/DD/YYYY",
       enableTimePicker: false,
       events: EVENTS
     };
