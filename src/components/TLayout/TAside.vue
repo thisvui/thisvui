@@ -49,6 +49,7 @@ export default {
         .isFullwidth()
         .isFullheight();
       this.colorize(cssArchitect, "bg", true);
+      this.colorize(cssArchitect, "router-link");
       cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass(this.getFlexModifiers);
       cssArchitect.addClass(

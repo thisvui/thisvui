@@ -24,5 +24,6 @@
             color: $color-invert
         &.has-shadow
           @include material-shadow($color)
-        .router-link-active
-          color: rgba($color, var(--color-alpha)) !important
+        &.has-router-link
+          .router-link-active
+            color: rgba($color, var(--color-alpha)) !important
