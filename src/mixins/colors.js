@@ -114,7 +114,10 @@ export default {
       cssArchitect.addClass("is-white", this.isWhite);
       cssArchitect.addClass("is-happy", this.isHappy);
       cssArchitect.addClass(`has-text-${this.color}`, this.color !== undefined);
-      cssArchitect.addClass(this.getBackgroundModifiers, this.includeBgModifiers);
+      cssArchitect.addClass(
+        this.getBackgroundModifiers,
+        this.includeBgModifiers
+      );
       return cssArchitect.getClasses();
     }
   },

@@ -57,8 +57,7 @@ export default {
     },
     getWidth: function() {
       let width = parseInt(this.width);
-      let baseWitdh =
-        window.innerWidth < width ? window.innerWidth : width;
+      let baseWitdh = window.innerWidth < width ? window.innerWidth : width;
       this.updateCalculatedWith(
         window.innerWidth < 352 ? baseWitdh - 52 : baseWitdh
       );
