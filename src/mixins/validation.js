@@ -78,11 +78,11 @@ export default {
     },
     errorClass: {
       type: String,
-      default: " is-danger"
+      default: "is-danger"
     },
     successClass: {
       type: String,
-      default: " is-success"
+      default: "is-success"
     },
     msgPosition: {
       type: String,
@@ -143,7 +143,7 @@ export default {
       if (this.maxLength && !utils.check.maxLength(this.maxLength)) {
         return this.getValidationResult(RULES.MAXLENGTH, event);
       }
-      this.stateClass = this.successClass; // Changes the element css class to success when all validations passed
+      this.stateClass = ""; // Changes the element css class to success when all validations passed
       return new Result(true, "success");
     },
     /**

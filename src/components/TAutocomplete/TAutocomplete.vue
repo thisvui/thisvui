@@ -174,7 +174,7 @@ export default {
       const cssArchitect = new CssArchitect("t-autocomplete-results message");
       cssArchitect.isAbsolute().isFullwidth();
       cssArchitect.addClass(this.resultsClass, this.resultsClass !== undefined);
-      this.colorize(cssArchitect, "border-5", true);
+      this.colorize(cssArchitect, "border", true);
       cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
       return cssArchitect.getClasses();
     },

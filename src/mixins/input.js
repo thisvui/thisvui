@@ -113,6 +113,7 @@ export default {
       this.colorize(cssArchitect, "border-5", true);
       this.colorize(cssArchitect, "shadow");
       cssArchitect.addClass(this.getColorsModifiers);
+      cssArchitect.addClass(this.getBackgroundModifiers);
       this.setupColorModifier(cssArchitect);
       cssArchitect.addClass("is-primary", !this.hasColorModifier);
       return cssArchitect.getClasses();
@@ -274,6 +275,7 @@ export default {
       }
       this.addValidator(); // Registers the validator
     });
+    this.includeBgModifiers = false;
   },
   /**
    * Removes input validator before component destroys

@@ -70,6 +70,7 @@ export default {
       ],
       componentName: this.$options.name,
       hasColorModifier: false,
+      includeBgModifiers: true,
       colorModifier: null,
       hexDigits: [
         "0",
@@ -113,7 +114,7 @@ export default {
       cssArchitect.addClass("is-white", this.isWhite);
       cssArchitect.addClass("is-happy", this.isHappy);
       cssArchitect.addClass(`has-text-${this.color}`, this.color !== undefined);
-      cssArchitect.addClass(this.getBackgroundModifiers);
+      cssArchitect.addClass(this.getBackgroundModifiers, this.includeBgModifiers);
       return cssArchitect.getClasses();
     }
   },
