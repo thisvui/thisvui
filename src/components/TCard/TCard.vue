@@ -22,7 +22,7 @@
                 v-text="subtitle"
               />
             </t-flex>
-            <t-flex align-self="baseline" justify-content="end">
+            <t-flex align-self="baseline" justify-content="end" :flex-grow="1">
               <slot name="title" />
             </t-flex>
           </t-flex>

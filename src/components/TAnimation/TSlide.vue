@@ -56,13 +56,14 @@ export default {
       return element;
     },
     getWidth: function() {
+      let width = parseInt(this.width);
       let baseWitdh =
-        window.innerWidth < this.width ? window.innerWidth : this.width;
+        window.innerWidth < width ? window.innerWidth : width;
       this.updateCalculatedWith(
         window.innerWidth < 352 ? baseWitdh - 52 : baseWitdh
       );
-      let width = `${this.calculatedWidth}${this.unity}`;
-      return this.isOpen ? width : this.initialWidth;
+      let resultWidth = `${this.calculatedWidth}${this.unity}`;
+      return this.isOpen ? resultWidth : this.initialWidth;
     },
     toggleSlide() {
       this.changeWidth(this.getWidth());

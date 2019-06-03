@@ -9,7 +9,7 @@ export default {
       default: false
     },
     width: {
-      type: Number,
+      type: [Number, String],
       default: 300
     },
     unity: {
@@ -30,7 +30,7 @@ export default {
   },
   data() {
     return {
-      calculatedWidth: this.width
+      calculatedWidth: parseInt(this.width)
     };
   },
   methods: {
