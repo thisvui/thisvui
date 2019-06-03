@@ -110,6 +110,9 @@ export default {
           : undefined;
       this.$emit(this.$thisvui.events.panel.updateExpanded, this.isExpanded);
     }
+  },
+  mounted() {
+    this.includeBgModifiers = false;
   }
 };
 </script>

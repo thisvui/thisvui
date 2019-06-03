@@ -55,6 +55,9 @@ export default {
         index < oldIndex ? this.transitionNext : this.transitionPrev;
       this.isActive = activate;
     }
+  },
+  mounted() {
+    this.includeBgModifiers = false;
   }
 };
 </script>

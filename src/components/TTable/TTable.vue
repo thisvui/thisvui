@@ -381,6 +381,7 @@ export default {
   },
   mounted() {
     this.mappedColumns = this.getColumns;
+    this.includeBgModifiers = false;
   }
 };
 </script>

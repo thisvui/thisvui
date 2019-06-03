@@ -79,6 +79,9 @@ export default {
         });
       }
     }
+  },
+  mounted() {
+    this.includeBgModifiers = false;
   }
 };
 </script>

@@ -164,6 +164,7 @@ export default {
       // entire view has been rendered
       this.configSlider();
     });
+    this.includeBgModifiers = false;
   }
 };
 </script>

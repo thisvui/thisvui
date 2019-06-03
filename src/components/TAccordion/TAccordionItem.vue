@@ -211,6 +211,9 @@ export default {
         this.$parent.$emit("close-others", this.id);
       }
     }
+  },
+  mounted() {
+    this.includeBgModifiers = false;
   }
 };
 </script>
