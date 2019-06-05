@@ -27,6 +27,9 @@
       padding: 2px 0.5rem
       cursor: pointer
 .t-text
+  +until($tablet)
+    flex-direction: column !important
+    word-break: break-all
   .t-text-label
     margin-right: 0.5rem
 .t-file-preview

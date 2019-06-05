@@ -69,7 +69,7 @@
             :override-defaults="overrideDefaults"
           />
         </li>
-        <li>
+        <li class="is-hidden-mobile">
           <a
             v-if="getShowNumbers && addFirstPage"
             :class="`${isFirstPage ? getCurrentLinkClass : getLinkClass}`"
@@ -79,7 +79,7 @@
             {{ 1 }}
           </a>
         </li>
-        <li>
+        <li class="is-hidden-mobile">
           <span
             class="pagination-ellipsis"
             v-if="getShowNumbers && addFirstPage"
@@ -90,6 +90,7 @@
           :v-if="getShowNumbers"
           v-for="page in activePagesScope"
           :key="page.number"
+          class="is-hidden-mobile"
         >
           <a
             v-if="page.isCurrent && getShowNumbers"
@@ -108,12 +109,12 @@
             {{ page.number }}
           </a>
         </li>
-        <li>
+        <li class="is-hidden-mobile">
           <span class="pagination-ellipsis" v-if="getShowNumbers && addLastPage"
             >&hellip;</span
           >
         </li>
-        <li>
+        <li class="is-hidden-mobile">
           <a
             v-if="getShowNumbers && addLastPage"
             :class="`${isLastPage ? getCurrentLinkClass : getLinkClass}`"

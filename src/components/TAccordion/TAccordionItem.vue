@@ -1,7 +1,7 @@
 <template>
   <article :id="id" :class="getClasses">
     <div :class="getHeaderClasses" @click="toggleOpen">
-      <t-level>
+      <t-level class="is-flex-mobile" right-class="is-marginless">
         <template slot="level-left">
           <span>{{ title }}</span>
         </template>
