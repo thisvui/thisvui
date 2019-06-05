@@ -142,10 +142,20 @@ export default {
       return cssArchitect.getClasses();
     }
   },
+  created() {
+    this.$parent.$on("close-children", id => {
+      if (this.id !== id) {
+        this.open = false;
+      }
+    });
+  },
   methods: {
     toggle: function() {
       if (this.isFolder) {
         this.open = !this.open;
+        if (this.open && this.exclusive) {
+          this.$parent.$emit("close-siblings", this.id);
+        }
       }
       if (this.model.action) {
         this.model.action();

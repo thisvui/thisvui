@@ -33,6 +33,9 @@ export default {
     removeListStyle: {
       type: Boolean,
       default: true
+    },
+    exclusive: {
+      type: Boolean
     }
   }
 };

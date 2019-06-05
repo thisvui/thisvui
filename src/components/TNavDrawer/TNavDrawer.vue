@@ -31,6 +31,7 @@
             :closed-icon="closedIcon"
             :icon-lib="iconLib"
             :override-defaults="overrideDefaults"
+            :exclusive="exclusive"
           >
           </t-tree-nav>
         </ul>

@@ -81,6 +81,9 @@ export default {
   },
   created: function() {
     window.addEventListener("resize", this.handleResize);
+    this.$on("close-siblings", id => {
+      this.$emit("close-children", id);
+    });
   },
   beforeDestroy: function() {
     window.removeEventListener("resize", this.handleResize);
