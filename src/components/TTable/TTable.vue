@@ -1,5 +1,5 @@
 <template>
-  <div class="t-table-container">
+  <div :class="getContainerClasses">
     <t-input
       v-if="filtered"
       :container-class="getSearchClasses"
@@ -195,10 +195,11 @@ import TPaginator from "../TPaginator/TPaginator";
 import TExpand from "../TAnimation/TExpand";
 import colors from "../../mixins/colors";
 import TProgress from "../TProgress/TProgress";
+import TIcon from "../TIcon/TIcon";
 
 export default {
   name: "t-table",
-  components: { TProgress, TExpand, TPaginator, TCheckbox, TInput },
+  components: { TIcon, TProgress, TExpand, TPaginator, TCheckbox, TInput },
   mixins: [common, list, colors, helpers],
   filters: {
     capitalize: function(str) {
@@ -270,6 +271,7 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("table");
+      cssArchitect.isRelative()
       cssArchitect.addClass(this.getHelpersModifiers);
       cssArchitect.addClass("is-responsive", this.isResponsive);
       cssArchitect.addClass("is-bordered", this.isBordered);
@@ -277,10 +279,17 @@ export default {
       cssArchitect.addClass("is-narrow", this.isNarrow);
       cssArchitect.addClass("is-hoverable", this.isHoverable);
       cssArchitect.addClass("is-fullwidth", this.isFullwidth);
+      cssArchitect.addClass("is-clipped");
       cssArchitect.addClass(this.targetClass);
       this.colorize(cssArchitect, false, true);
       cssArchitect.addClass(this.getColorsModifiers);
       this.setupColorModifier(cssArchitect);
+      return cssArchitect.getClasses();
+    },
+    getContainerClasses: function() {
+      const cssArchitect = new CssArchitect("t-table-container");
+      cssArchitect.isRelative();
+      cssArchitect.addClass("is-fullwidth", this.isFullwidth);
       return cssArchitect.getClasses();
     },
     getTableFunctionsClasses: function() {
@@ -373,11 +382,6 @@ export default {
       }
       return width;
     }
-  },
-  beforeCreate: function() {
-    this.$options.components.TInput = require("../TInput/TInput").default;
-    this.$options.components.TPaginator = require("../TPaginator/TPaginator").default;
-    this.$options.components.TCheckbox = require("../TCheckbox/TCheckbox").default;
   },
   mounted() {
     this.mappedColumns = this.getColumns;

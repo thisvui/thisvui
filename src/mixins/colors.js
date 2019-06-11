@@ -68,7 +68,6 @@ export default {
         "is-black",
         "is-white"
       ],
-      componentName: this.$options.name,
       hasColorModifier: false,
       includeBgModifiers: true,
       colorModifier: null,
