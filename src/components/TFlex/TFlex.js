@@ -18,6 +18,9 @@ export default {
     alignSelf: {
       type: String
     },
+    alignContent: {
+      type: String
+    },
     justifyContent: {
       type: String
     },
@@ -73,6 +76,7 @@ export default {
       cssArchitect.addStyle("--align-items", this.alignItems, this.alignItems)
       cssArchitect.addStyle("--align-self", this.alignSelf, this.alignSelf)
       cssArchitect.addStyle("--justify-content", this.justifyContent, this.justifyContent)
+      cssArchitect.addStyle("--align-content", this.alignContent, this.alignContent)
       return cssArchitect.getStyles();
     }
   },
