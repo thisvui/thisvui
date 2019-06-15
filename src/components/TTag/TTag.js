@@ -1,10 +1,3 @@
-<template>
-  <span :class="getClasses">
-    <slot></slot>
-  </span>
-</template>
-
-<script>
 import CssArchitect from "../../utils/css-architect";
 import sizes from "../../mixins/sizes";
 import colors from "../../mixins/colors";
@@ -37,6 +30,14 @@ export default {
       cssArchitect.addClass("is-delete", this.isDelete);
       return cssArchitect.getClasses();
     }
+  },
+  render: function(createElement) {
+    return createElement(
+      "span",
+      {
+        class: this.getClasses
+      },
+      this.$slots.default
+    );
   }
 };
-</script>

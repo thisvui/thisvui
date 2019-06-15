@@ -1,10 +1,3 @@
-<template>
-  <span :class="getClasses">
-    <slot></slot>
-  </span>
-</template>
-
-<script>
 import CssArchitect from "../../utils/css-architect";
 
 export default {
@@ -24,6 +17,14 @@ export default {
       cssArchitect.addClass("has-addons", this.hasAddons);
       return cssArchitect.getClasses();
     }
+  },
+  render: function(createElement) {
+    return createElement(
+      "span",
+      {
+        class: this.getClasses
+      },
+      this.$slots.default
+    );
   }
 };
-</script>
