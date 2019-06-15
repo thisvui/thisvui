@@ -1,23 +1,9 @@
-<template>
-  <div :id="id" :class="getClasses">
-    <div :class="getHeadClasses" v-if="hasHeadSlot">
-      <slot name="head"></slot>
-    </div>
-    <div :class="getBodyClasses">
-      <slot></slot>
-    </div>
-    <div :class="getFootClasses" v-if="hasFootSlot">
-      <slot name="foot"></slot>
-    </div>
-  </div>
-</template>
-
-<script>
 import common from "../../mixins/common";
 import dimension from "../../mixins/dimension";
 import sizes from "../../mixins/sizes";
 import colors from "../../mixins/colors";
 import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-hero",
@@ -85,6 +71,26 @@ export default {
   },
   data() {
     return {};
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "div", this.getClasses);
+    root.setId(this.id);
+
+    // Creating the head element
+    let head = root.createDiv(this.getHeadClasses);
+    head.setSlot("head").setChildren(this.$slots.head);
+
+    // Creating the body element
+    let body = root.createDiv(this.getBodyClasses);
+    body.setChildren(this.$slots.default);
+
+    // Creating the foot element
+    let foot = root.createDiv(this.getFootClasses);
+    foot.setSlot("foot").setChildren(this.$slots.foot);
+
+    root.addChild(head, this.hasHeadSlot); // only if head slot is present
+    root.addChild(body);
+    root.addChild(foot, this.hasFootSlot); // only if foot slot is present
+    return root.create();
   }
 };
-</script>
