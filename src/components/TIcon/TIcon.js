@@ -1,17 +1,3 @@
-<template>
-  <span
-    :class="getContainerClass"
-    :key="`${id}-${icon}`"
-    :data-tooltip="dataTooltip"
-  >
-    <i :class="getMaterialIconsClass" v-if="isMd">
-      {{ icon }}
-    </i>
-    <i :class="getClasses" v-if="!isMd" />
-  </span>
-</template>
-
-<script>
 import syntax from "../../mixins/syntax";
 import sizes from "../../mixins/sizes";
 import common from "../../mixins/common";
@@ -58,7 +44,7 @@ export default {
       return "md" === this.iconLibrary;
     },
     /**
-     * Dynamically build the css classes for the icon container element
+     * Dynamically build the css classes for the icon element when icon lib is not material design
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
@@ -92,6 +78,10 @@ export default {
       cssArchitect.addClass(this.tooltipClass);
       return cssArchitect.getClasses();
     },
+    /**
+     * Dynamically build the css classes for the icon element when icon lib is material design
+     * @returns { A String with the chained css classes }
+     */
     getMaterialIconsClass: function() {
       const cssArchitect = new CssArchitect("material-icons");
       cssArchitect.addClass(this.targetClass, this.targetClass !== undefined);
@@ -99,6 +89,9 @@ export default {
     }
   },
   methods: {
+    /**
+     * Determines what icon library to use based on global and local props
+     */
     configureIconLib() {
       if (this.preserveDefaults) {
         this.iconLibrary = this.$thisvui.iconLib;
@@ -113,8 +106,22 @@ export default {
       }
     }
   },
+  render: function(createElement) {
+    let icon = createElement("i", {
+      class: this.isMd ? this.getMaterialIconsClass : this.getClasses,
+      domProps: {
+        innerHTML: this.isMd ? this.icon : null
+      }
+    });
+    return createElement("span", {
+      class: this.getContainerClass,
+      attrs: {
+        key: `${this.id}-${this.icon}`,
+        "data-tooltip": this.dataTooltip
+      }
+    }, [icon]);
+  },
   mounted() {
     this.configureIconLib();
   }
 };
-</script>
