@@ -1,6 +1,6 @@
 <template>
   <div :id="id" :class="getClasses">
-    <div class="card-content">
+    <div :class="getContentClasses">
       <div v-if="renderMedia" class="media">
         <div v-if="figure" class="media-left">
           <t-image v-if="figureSrc" :src="figureSrc" :size="figureSize">
@@ -86,6 +86,11 @@ export default {
       );
       this.colorize(cssArchitect, "bg-color", true);
       cssArchitect.addClass(this.getColorsModifiers);
+      return cssArchitect.getClasses();
+    },
+    getContentClasses: function() {
+      const cssArchitect = new CssArchitect("card-content");
+      cssArchitect.addClass("is-fullwidth");
       return cssArchitect.getClasses();
     },
     /**
