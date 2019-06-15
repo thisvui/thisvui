@@ -1,14 +1,8 @@
-<template>
-  <div :id="id" :class="getClasses">
-    <slot></slot>
-  </div>
-</template>
-
-<script>
-import CssArchitect from "../../utils/css-architect";
 import syntax from "../../mixins/syntax";
 import common from "../../mixins/common";
 import helpers from "../../mixins/helpers";
+import ElementArchitect from "../../utils/element-architect";
+import CssArchitect from "../../utils/css-architect";
 
 export default {
   name: "t-box",
@@ -25,8 +19,9 @@ export default {
       return cssArchitect.getClasses();
     }
   },
-  data() {
-    return {};
+  render: function(h) {
+    let root = new ElementArchitect(h, "div", this.getClasses);
+    root.setId(this.id).setChildren(this.$slots.default);
+    return root.create();
   }
 };
-</script>
