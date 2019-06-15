@@ -33,9 +33,6 @@ export default {
       cssArchitect.addClass(this.getBackgroundModifiers);
       return cssArchitect.getClasses();
     }
-  },
-  data() {
-    return {};
   }
 };
 </script>

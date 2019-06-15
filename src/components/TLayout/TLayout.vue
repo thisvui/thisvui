@@ -26,9 +26,6 @@ export default {
       cssArchitect.addClass(this.getFlexModifiers);
       return cssArchitect.getClasses();
     }
-  },
-  data() {
-    return {};
   }
 };
 </script>

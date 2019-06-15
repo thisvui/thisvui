@@ -25,9 +25,6 @@ export default {
 
       return cssArchitect.getClasses();
     }
-  },
-  data() {
-    return {};
   }
 };
 </script>

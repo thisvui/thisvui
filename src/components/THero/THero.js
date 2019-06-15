@@ -69,9 +69,6 @@ export default {
       return cssArchitect.getClasses();
     }
   },
-  data() {
-    return {};
-  },
   render: function(h) {
     let root = new ElementArchitect(h, "div", this.getClasses);
     root.setId(this.id);

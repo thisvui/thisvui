@@ -94,10 +94,10 @@ export default class CssArchitect {
     alignContent = false
   ) {
     this.addClass(`t-flex is-${direction}`);
-    this.addStyle("--align-items", alignItems, alignItems)
-    this.addStyle("--align-self", alignSelf, alignSelf)
-    this.addStyle("--align-content", alignContent, alignContent)
-    this.addStyle("--justify-content", justifyContent, justifyContent)
+    this.addStyle("--align-items", alignItems, alignItems);
+    this.addStyle("--align-self", alignSelf, alignSelf);
+    this.addStyle("--align-content", alignContent, alignContent);
+    this.addStyle("--justify-content", justifyContent, justifyContent);
     return this;
   }
 }

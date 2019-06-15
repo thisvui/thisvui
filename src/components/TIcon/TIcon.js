@@ -113,13 +113,17 @@ export default {
         innerHTML: this.isMd ? this.icon : null
       }
     });
-    return createElement("span", {
-      class: this.getContainerClass,
-      attrs: {
-        key: `${this.id}-${this.icon}`,
-        "data-tooltip": this.dataTooltip
-      }
-    }, [icon]);
+    return createElement(
+      "span",
+      {
+        class: this.getContainerClass,
+        attrs: {
+          key: `${this.id}-${this.icon}`,
+          "data-tooltip": this.dataTooltip
+        }
+      },
+      [icon]
+    );
   },
   mounted() {
     this.configureIconLib();

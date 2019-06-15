@@ -49,9 +49,6 @@ export default {
       cssArchitect.addClass(this.rightClass, this.rightClass !== undefined);
       return cssArchitect.getClasses();
     }
-  },
-  data() {
-    return {};
   }
 };
 </script>

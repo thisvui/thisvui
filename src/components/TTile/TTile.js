@@ -21,9 +21,6 @@ export default {
       type: Boolean
     }
   },
-  data() {
-    return {};
-  },
   computed: {
     /**
      * Dynamically build the css classes for the target element

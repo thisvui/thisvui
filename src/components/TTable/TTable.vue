@@ -271,7 +271,7 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("table");
-      cssArchitect.isRelative()
+      cssArchitect.isRelative();
       cssArchitect.addClass(this.getHelpersModifiers);
       cssArchitect.addClass("is-responsive", this.isResponsive);
       cssArchitect.addClass("is-bordered", this.isBordered);

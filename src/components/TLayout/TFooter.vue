@@ -43,9 +43,6 @@ export default {
       let height = `${this.height}${this.unity}`;
       return height;
     }
-  },
-  data() {
-    return {};
   }
 };
 </script>

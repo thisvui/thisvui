@@ -51,9 +51,6 @@ export default {
       cssArchitect.addClass(this.imageClass, this.imageClass);
       return cssArchitect.getClasses();
     }
-  },
-  data() {
-    return {};
   }
 };
 </script>
