@@ -1,14 +1,8 @@
-<template>
-  <section :id="id" :class="getClasses">
-    <slot></slot>
-  </section>
-</template>
-
-<script>
-import twelveColumns from "../../mixins/12-columns";
 import common from "../../mixins/common";
-import CssArchitect from "../../utils/css-architect";
+import twelveColumns from "../../mixins/12-columns";
 import background from "../../mixins/background";
+import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-tile",
@@ -27,6 +21,9 @@ export default {
       type: Boolean
     }
   },
+  data() {
+    return {};
+  },
   computed: {
     /**
      * Dynamically build the css classes for the target element
@@ -43,8 +40,9 @@ export default {
       return cssArchitect.getClasses();
     }
   },
-  data() {
-    return {};
+  render: function(h) {
+    let root = new ElementArchitect(h, "section", this.getClasses);
+    root.setId(this.id).setChildren(this.$slots.default);
+    return root.create();
   }
 };
-</script>
