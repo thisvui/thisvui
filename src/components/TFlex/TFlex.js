@@ -1,10 +1,3 @@
-<template>
-  <div :class="getClasses" :style="getStyles">
-    <slot></slot>
-  </div>
-</template>
-
-<script>
 import CssArchitect from "../../utils/css-architect";
 import dimension from "../../mixins/dimension";
 import flex from "../../mixins/flex";
@@ -52,6 +45,11 @@ export default {
       type: [Number, String]
     }
   },
+  data: function() {
+    return {
+      targetClass: ""
+    };
+  },
   computed: {
     /**
      * Dynamically build the css classes for the target element
@@ -59,22 +57,6 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("t-flex");
-      cssArchitect.addClass(
-        `flex-direction-${this.flexDirection}`,
-        this.flexDirection !== undefined
-      );
-      cssArchitect.addClass(
-        `align-items-${this.alignItems}`,
-        this.alignItems !== undefined
-      );
-      cssArchitect.addClass(
-        `align-self-${this.alignSelf}`,
-        this.alignSelf !== undefined
-      );
-      cssArchitect.addClass(
-        `justify-content-${this.justifyContent}`,
-        this.justifyContent !== undefined
-      );
       cssArchitect.addClass(`flex-wrap`, this.flexWrap);
       cssArchitect.addClass(`flex-wrap-nowrap`, this.flexNoWrap);
       cssArchitect.addClass(`flex-wrap-reverse`, this.flexWrapReverse);
@@ -85,17 +67,19 @@ export default {
       return cssArchitect.getClasses();
     },
     getStyles: function() {
-      let styles;
-      if (this.flexGrow) {
-        styles = `--flex-grow: ${this.flexGrow}`;
-      }
-      return styles;
+      const cssArchitect = new CssArchitect();
+      cssArchitect.addStyle("--flex-grow", this.flexGrow, this.flexGrow)
+      cssArchitect.addStyle("--flex-direction", this.flexDirection, this.flexDirection)
+      cssArchitect.addStyle("--align-items", this.alignItems, this.alignItems)
+      cssArchitect.addStyle("--align-self", this.alignSelf, this.alignSelf)
+      cssArchitect.addStyle("--justify-content", this.justifyContent, this.justifyContent)
+      return cssArchitect.getStyles();
     }
   },
-  data: function() {
-    return {
-      targetClass: ""
-    };
-  }
+  render: function(createElement) {
+    return createElement("div", {
+      class: this.getClasses,
+      style: this.getStyles,
+    }, this.$slots.default);
+  },
 };
-</script>

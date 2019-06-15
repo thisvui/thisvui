@@ -3,14 +3,16 @@
  */
 export default class CssArchitect {
   constructor(mainClass) {
-    this.mainClass = mainClass || "";
+    this.mainClass = mainClass;
     this.classes = [];
+    this.styles = [];
   }
 
   /**
    * Add class value to the array
    * @param cssClass
-   * @param condition
+   * @param conditionStatement
+   * @param unlessClass
    */
   addClass(cssClass, condition, unlessClass = false) {
     let conditionStatement = condition !== undefined ? condition : true;
@@ -22,16 +24,36 @@ export default class CssArchitect {
   }
 
   /**
+   * Add style value to the array
+   * @param cssStyle
+   * @param conditionStatement
+   * @param unlessStyle
+   */
+  addStyle(name, value, conditionStatement = true) {
+    if (name !== undefined && value !== undefined && conditionStatement) {
+      let cssStyle = `${name}: ${value}`;
+      this.styles.push(cssStyle);
+    }
+  }
+
+  /**
    * Returns a String of the chained css classes
    * @returns {string}
    */
   getClasses() {
-    let resultClass = this.mainClass;
-    for (let cssClass of this.classes) {
-      if (cssClass) {
-        resultClass += " " + cssClass;
-      }
+    if (this.mainClass) {
+      this.classes.push(this.mainClass);
     }
+    let resultClass = this.classes.join(" ");
+    return resultClass.trim();
+  }
+
+  /**
+   * Returns a String of the chained css styles
+   * @returns {string}
+   */
+  getStyles() {
+    let resultClass = this.styles.join("; ");
     return resultClass.trim();
   }
 
