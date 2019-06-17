@@ -9,6 +9,7 @@ export default class ElementArchitect {
     this.styles = [];
     this.children = [];
     this.attrs = {};
+    this.props = {};
   }
 
   /**
@@ -48,6 +49,20 @@ export default class ElementArchitect {
     return this;
   }
 
+  setProps(props) {
+    if (props) {
+      this.props = props;
+    }
+    return this;
+  }
+
+  addProp(name, value, conditionStatement = true) {
+    if (name !== undefined && value !== undefined && conditionStatement) {
+      this.props[name] = value;
+    }
+    return this;
+  }
+
   setSlot(slot) {
     this.slot = slot;
     return this;
@@ -79,6 +94,9 @@ export default class ElementArchitect {
     if (this.attrs) {
       element.attrs = this.attrs;
     }
+    if (this.props) {
+      element.props = this.props;
+    }
     if (this.styles) {
       element.style = this.styles;
     }
@@ -90,5 +108,13 @@ export default class ElementArchitect {
 
   createDiv(classes) {
     return new ElementArchitect(this.createFunction, "div", classes);
+  }
+
+  createSpan(classes) {
+    return new ElementArchitect(this.createFunction, "span", classes);
+  }
+
+  createImg(classes) {
+    return new ElementArchitect(this.createFunction, "img", classes);
   }
 }
