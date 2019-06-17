@@ -1,6 +1,9 @@
 /**
  * Helper class for building elements dynamically
  */
+import { TButton } from "../components/TButton";
+import { TIcon } from "../components/TIcon";
+
 export default class ElementArchitect {
   constructor(createFunction, type, classes) {
     this.createFunction = createFunction;
@@ -8,8 +11,6 @@ export default class ElementArchitect {
     this.classes = classes;
     this.styles = [];
     this.children = [];
-    this.attrs = {};
-    this.props = {};
   }
 
   /**
@@ -43,6 +44,9 @@ export default class ElementArchitect {
   }
 
   addAttr(name, value, conditionStatement = true) {
+    if (!this.attrs) {
+      this.attrs = {};
+    }
     if (name !== undefined && value !== undefined && conditionStatement) {
       this.attrs[name] = value;
     }
@@ -57,8 +61,52 @@ export default class ElementArchitect {
   }
 
   addProp(name, value, conditionStatement = true) {
+    if (!this.props) {
+      this.props = {};
+    }
     if (name !== undefined && value !== undefined && conditionStatement) {
       this.props[name] = value;
+    }
+    return this;
+  }
+
+  setDomProps(domProps) {
+    if (domProps) {
+      this.domProps = domProps;
+    }
+    return this;
+  }
+
+  addDomProp(name, value, conditionStatement = true) {
+    if (!this.domProps) {
+      this.domProps = {};
+    }
+    if (name !== undefined && value !== undefined && conditionStatement) {
+      this.domProps[name] = value;
+    }
+    return this;
+  }
+
+  setEvents(events) {
+    if (events) {
+      this.events = events;
+    }
+    return this;
+  }
+
+  addEvent(name, value, conditionStatement = true, native = false) {
+    if (!native && !this.events) {
+      this.events = {};
+    }
+    if (native && !this.native) {
+      this.native = {};
+    }
+    if (name !== undefined && value !== undefined && conditionStatement) {
+      if (native) {
+        this.native[name] = value;
+      } else {
+        this.events[name] = value;
+      }
     }
     return this;
   }
@@ -82,6 +130,23 @@ export default class ElementArchitect {
     return this;
   }
 
+  setDirectives(directives) {
+    if (directives) {
+      this.directives = directives;
+    }
+    return this;
+  }
+
+  addDirective(directive, conditionStatement = true) {
+    if (!this.directives) {
+      this.directives = [];
+    }
+    if (directive && conditionStatement) {
+      this.directives.push(directive);
+    }
+    return this;
+  }
+
   /**
    * Returns a String of the chained css classes
    * @returns {string}
@@ -97,11 +162,23 @@ export default class ElementArchitect {
     if (this.props) {
       element.props = this.props;
     }
+    if (this.domProps) {
+      element.domProps = this.domProps;
+    }
     if (this.styles) {
       element.style = this.styles;
     }
     if (this.slot) {
       element.slot = this.slot;
+    }
+    if (this.events) {
+      element.on = this.events;
+    }
+    if (this.native) {
+      element.nativeOn = this.native;
+    }
+    if (this.directives) {
+      element.directives = this.directives;
     }
     return this.createFunction(this.type, element, this.children);
   }
@@ -116,5 +193,13 @@ export default class ElementArchitect {
 
   createImg(classes) {
     return new ElementArchitect(this.createFunction, "img", classes);
+  }
+
+  createButton(classes) {
+    return new ElementArchitect(this.createFunction, TButton, classes);
+  }
+
+  createIcon(classes) {
+    return new ElementArchitect(this.createFunction, TIcon, classes);
   }
 }
