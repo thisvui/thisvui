@@ -1,28 +1,11 @@
-<template>
-  <span :class="getContainerClass">
-    <t-button is-text :disabled="disabled" :class="btnClass" @click="onClick">
-      <t-icon
-        v-if="icon"
-        :preserve-defaults="!overrideDefaults"
-        :icon="icon"
-        :class="getIconClass"
-        :data-tooltip="iconTooltip"
-        :tooltip-class="iconTooltipClass"
-      />
-      <span v-if="showText">{{ text }}</span>
-    </t-button>
-  </span>
-</template>
-<script>
-import TButton from "../TButton/TButton";
-import TIcon from "../TIcon/TIcon";
-import CssArchitect from "../../utils/css-architect";
 import helpers from "../../mixins/helpers";
 import icons from "../../mixins/icons";
 
+import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
+
 export default {
   name: "t-paginator-control",
-  components: { TIcon, TButton },
   mixins: [helpers, icons],
   props: {
     showText: {
@@ -90,6 +73,34 @@ export default {
     onClick() {
       this.$emit(this.$thisvui.events.common.click);
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "span", this.getContainerClass);
+    root.setId(this.id);
+
+    // Creating the button element
+    let button = root.createButton(this.btnClass);
+    let buttonProps = { isText: true, disabled: this.disabled };
+    button.setProps(buttonProps);
+    button.addEvent("click", this.onClick);
+
+    // Creating the icon element
+    let icon = root.createIcon(this.getIconClass);
+    let iconProps = {
+      preserveDefaults: !this.overrideDefaults,
+      icon: this.icon,
+      dataTooltip: this.iconTooltip,
+      tooltipClass: this.iconTooltipClass
+    };
+    icon.setProps(iconProps);
+
+    // Creating the text element
+    let text = root.createSpan();
+    text.addDomProp("innerHTML", this.text);
+
+    button.addChild(icon, this.icon);
+    button.addChild(text, this.showText);
+    root.addChild(button);
+    return root.create();
   }
 };
-</script>
