@@ -1,13 +1,7 @@
-<template>
-  <figure :id="id" :class="getFigureClass">
-    <img :src="src" :alt="alt" :class="getImgClass" />
-  </figure>
-</template>
-
-<script>
-import CssArchitect from "../../utils/css-architect";
 import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
+import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-image",
@@ -53,6 +47,17 @@ export default {
       cssArchitect.addClass(this.targetClass);
       return cssArchitect.getClasses();
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "figure", this.getFigureClass);
+    root.setId(this.id);
+
+    // Creating the img element
+    let img = root.createImg(this.getImgClass);
+    img.addAttr("src", this.src);
+    img.addAttr("alt", this.alt);
+
+    root.addChild(img);
+    return root.create();
   }
 };
-</script>
