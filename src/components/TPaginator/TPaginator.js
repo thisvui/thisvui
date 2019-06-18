@@ -1,160 +1,15 @@
-<template>
-  <div :id="id" :class="getContainerClass">
-    <nav :class="getTargetClass" role="navigation" aria-label="pagination">
-      <t-paginator-control
-        v-if="isControlsOutside"
-        :disabled="isFirstPage"
-        :container-class="getPreviousClass"
-        :btn-class="previousBtnClass"
-        @click="prevPage"
-        :icon="previousIcon"
-        :icon-class="previousIconClass"
-        :icon-data-tooltip="previousIconTooltip"
-        :icon-tooltip-class="previousIconTooltipClass"
-        :is-paddingless="isPaddingless"
-        :is-shadowless="isShadowless"
-        :icon-lib="iconLib"
-        :override-defaults="overrideDefaults"
-      />
-      <t-paginator-control
-        v-if="isControlsOutside"
-        :disabled="isLastPage"
-        :container-class="getNextClass"
-        :btn-class="nextBtnClass"
-        @click="nextPage"
-        :icon="nextIcon"
-        :icon-class="nextIconClass"
-        :icon-data-tooltip="nextIconTooltip"
-        :icon-tooltip-class="nextIconTooltipClass"
-        :is-paddingless="isPaddingless"
-        :is-shadowless="isShadowless"
-        :icon-lib="iconLib"
-        :override-defaults="overrideDefaults"
-      />
-      <ul :class="getListClass">
-        <li>
-          <span class="is-inline-block size-label has-text-weight-bold"
-            >{{ sizeLabel }}:</span
-          >
-          <t-select
-            v-model="rowsPerPage"
-            :options="sizeOptions"
-            remove-label
-            :add-empty-value="false"
-            container-class="size-select-container is-inline-block"
-            input-class="size-select"
-            is-small
-            is-shadowless
-            @change="onChange"
-          />
-        </li>
-        <li>
-          <span class="is-inline-block pages-count-label">{{
-            getItemsCount
-          }}</span>
-        </li>
-        <li :v-if="!isControlsOutside" key="left-controls">
-          <t-paginator-control
-            :disabled="isFirstPage"
-            :container-class="getPreviousClass"
-            :btn-class="previousBtnClass"
-            @click="prevPage"
-            :icon="previousIcon"
-            :icon-class="previousIconClass"
-            :icon-data-tooltip="previousIconTooltip"
-            :icon-tooltip-class="previousIconTooltipClass"
-            :is-paddingless="isPaddingless"
-            :is-shadowless="isShadowless"
-            :icon-lib="iconLib"
-            :override-defaults="overrideDefaults"
-          />
-        </li>
-        <li class="is-hidden-mobile">
-          <a
-            v-if="getShowNumbers && addFirstPage"
-            :class="`${isFirstPage ? getCurrentLinkClass : getLinkClass}`"
-            :aria-label="`Goto page 1`"
-            @click="goTo(1)"
-          >
-            {{ 1 }}
-          </a>
-        </li>
-        <li class="is-hidden-mobile">
-          <span
-            class="pagination-ellipsis"
-            v-if="getShowNumbers && addFirstPage"
-            >&hellip;</span
-          >
-        </li>
-        <li
-          :v-if="getShowNumbers"
-          v-for="page in activePagesScope"
-          :key="page.number"
-          class="is-hidden-mobile"
-        >
-          <a
-            v-if="page.isCurrent && getShowNumbers"
-            :class="`${getLinkClass} ${getCurrentLinkClass}`"
-            :aria-label="`Goto page ${page.number}`"
-            @click="goTo(page.number)"
-          >
-            {{ page.number }}
-          </a>
-          <a
-            v-if="!page.isCurrent && getShowNumbers"
-            :class="getLinkClass"
-            :aria-label="`Goto page ${page.number}`"
-            @click="goTo(page.number)"
-          >
-            {{ page.number }}
-          </a>
-        </li>
-        <li class="is-hidden-mobile">
-          <span class="pagination-ellipsis" v-if="getShowNumbers && addLastPage"
-            >&hellip;</span
-          >
-        </li>
-        <li class="is-hidden-mobile">
-          <a
-            v-if="getShowNumbers && addLastPage"
-            :class="`${isLastPage ? getCurrentLinkClass : getLinkClass}`"
-            :aria-label="`Goto page 1`"
-            @click="goTo(numberOfPages)"
-          >
-            {{ numberOfPages }}
-          </a>
-        </li>
-        <li :v-if="!isControlsOutside" key="right-controls">
-          <t-paginator-control
-            :disabled="isLastPage"
-            :container-class="getNextClass"
-            :btn-class="nextBtnClass"
-            @click="nextPage"
-            :icon="nextIcon"
-            :icon-class="nextIconClass"
-            :icon-data-tooltip="nextIconTooltip"
-            :icon-tooltip-class="nextIconTooltipClass"
-            :is-paddingless="isPaddingless"
-            :is-shadowless="isShadowless"
-            :icon-lib="iconLib"
-            :override-defaults="overrideDefaults"
-          />
-        </li>
-      </ul>
-    </nav>
-    <slot />
-  </div>
-</template>
-<script>
 import TIcon from "../TIcon/TIcon";
-import CssArchitect from "../../utils/css-architect";
+import TPaginatorControl from "./TPaginatorControl";
+import TSelect from "../TSelect/TSelect";
+
 import alignment from "../../mixins/alignment";
 import sizes from "../../mixins/sizes";
 import pagination from "../../mixins/pagination";
 import helpers from "../../mixins/helpers";
 import common from "../../mixins/common";
-import TPaginatorControl from "./TPaginatorControl";
-import TSelect from "../TSelect/TSelect";
+
+import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-paginator",
@@ -309,10 +164,11 @@ export default {
      */
     numberOfPages() {
       let dividend = this.serverSide
-        ? this.totalItems + parseInt(this.rowsPerPage)
-        : parseInt(this.items.length) + parseInt(this.rowsPerPage);
+        ? this.totalItems
+        : parseInt(this.items.length);
       let pages = dividend / parseInt(this.rowsPerPage);
-      return parseInt(pages);
+      pages = pages > parseInt(pages) ? parseInt(pages) + 1 : parseInt(pages);
+      return pages;
     },
     /**
      * Returns the current pages scope to build the range of links to be shown
@@ -351,14 +207,8 @@ export default {
      * @returns { A Boolean value }
      */
     getShowNumbers() {
-      return this.showNumbers;
+      return this.showNumbers && this.numberOfPages > 1;
     }
-  },
-  mounted() {
-    this.updateData();
-  },
-  updated() {
-    this.updateData();
   },
   methods: {
     updateData() {
@@ -398,7 +248,202 @@ export default {
      */
     goTo(page) {
       this.currentPageNumber = page > 0 ? page - 1 : 0;
+    },
+    /**
+     * Creates the size selection element
+     */
+    createSizeSelect(architect) {
+      let root = architect.createLi();
+      let sizeLabel = root.createSpan(
+        "is-inline-block size-label has-text-weight-bold"
+      );
+      sizeLabel.addDomProp("innerHTML", this.sizeLabel);
+
+      let sizeSelect = root.createElement(TSelect);
+      let sizeSelectProps = {
+        options: this.sizeOptions,
+        removeLabel: true,
+        addEmptyValue: false,
+        containerClass: "size-select-container is-inline-block",
+        inputClass: "size-select",
+        isSmall: true,
+        isShadowless: true,
+        value: this.rowsPerPage
+      };
+      sizeSelect.setProps(sizeSelectProps);
+      sizeSelect.addEvent("change", this.onChange);
+      sizeSelect.addEvent("input", value => {
+        this.rowsPerPage = value;
+      }); // Emulates v-model
+      root.addChild(sizeLabel);
+      root.addChild(sizeSelect);
+      architect.addChild(root);
+    },
+    /**
+     * Creates the items count label
+     */
+    createItemsCount(architect) {
+      let root = architect.createLi();
+
+      let itemsCount = root.createSpan("is-inline-block pages-count-label");
+      itemsCount.addDomProp("innerHTML", this.getItemsCount);
+
+      root.addChild(itemsCount);
+      architect.addChild(root);
+    },
+    /**
+     * Creates the first Page element
+     */
+    createFirstPage(architect) {
+      let pageEllipsis = this.createPageEllipsis(architect);
+      let root = architect.createLi("is-hidden-mobile");
+
+      let firstNumber = root.createA(
+        `${this.isFirstPage ? this.getCurrentLinkClass : this.getLinkClass}`
+      );
+      firstNumber.addAttr("aria-label", "Goto page 1");
+      firstNumber.addDomProp("innerHTML", 1);
+      firstNumber.addEvent("click", () => {
+        this.goTo(1);
+      });
+
+      root.addChild(firstNumber, this.getShowNumbers && this.addFirstPage);
+      architect.addChild(root);
+      architect.addChild(
+        pageEllipsis,
+        this.getShowNumbers && this.addFirstPage
+      );
+    },
+    /**
+     * Creates the last Page element
+     */
+    createLastPage(architect) {
+      let pageEllipsis = this.createPageEllipsis(architect);
+      let root = architect.createLi("is-hidden-mobile");
+
+      let lastNumber = root.createA(
+        `${this.isLastPage ? this.getCurrentLinkClass : this.getLinkClass}`
+      );
+      lastNumber.addAttr("aria-label", "Goto last page");
+      lastNumber.addDomProp("innerHTML", this.numberOfPages);
+      lastNumber.addEvent("click", () => {
+        this.goTo(this.numberOfPages);
+      });
+
+      root.addChild(lastNumber, this.getShowNumbers && this.addLastPage);
+      architect.addChild(pageEllipsis, this.getShowNumbers && this.addLastPage);
+      architect.addChild(root);
+    },
+    /**
+     * Creates the page numbers
+     */
+    createPageNumbers(architect) {
+      for (let page of this.activePagesScope) {
+        let root = architect.createLi("is-hidden-mobile");
+        let classes = page.isCurrent
+          ? [this.getLinkClass, this.getCurrentLinkClass].join(" ")
+          : this.getLinkClass;
+        let pageEl = root.createA(classes);
+        pageEl.addAttr("aria-label", `Goto page ${page.number}`);
+        pageEl.addDomProp("innerHTML", page.number);
+        pageEl.addEvent("click", () => {
+          this.goTo(page.number);
+        });
+        root.addChild(pageEl);
+        architect.addChild(root);
+      }
+    },
+    /**
+     * Creates a Page ellipsis
+     */
+    createPageEllipsis(architect) {
+      let root = architect.createLi("is-hidden-mobile");
+
+      let ellipsis = root.createSpan(`pagination-ellipsis`);
+      ellipsis.addDomProp("innerHTML", "&hellip;");
+
+      root.addChild(ellipsis);
+      return root;
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "div", this.getContainerClass);
+    root.setId(this.id);
+
+    // Creating the nav element
+    let nav = root.createNav(this.getTargetClass);
+    nav.addAttr("role", "navigation");
+    nav.addAttr("aria-label", "pagination");
+
+    // Creating the previous button
+    let previous = root.createElement(TPaginatorControl);
+    let previousProps = {
+      disabled: this.isFirstPage,
+      containerClass: this.getPreviousClass,
+      btnClass: this.previousBtnClass,
+      icon: this.previousIcon,
+      iconClass: this.previousIconClass,
+      iconDataTooltip: this.previousIconTooltip,
+      iconTooltipClass: this.previousIconTooltipClass,
+      isPaddingless: this.isPaddingless,
+      isShadowless: this.isShadowless,
+      iconLib: this.iconLib,
+      overrideDefaults: this.overrideDefaults
+    };
+    previous.setProps(previousProps);
+    previous.addEvent("click", this.prevPage);
+
+    // Creating the next button
+    let next = root.createElement(TPaginatorControl);
+    let nextProps = {
+      disabled: this.isFirstPage,
+      containerClass: this.getNextClass,
+      btnClass: this.nextBtnClass,
+      icon: this.nextIcon,
+      iconClass: this.nextIconClass,
+      iconDataTooltip: this.nextIconTooltip,
+      iconTooltipClass: this.nextIconTooltipClass,
+      isPaddingless: this.isPaddingless,
+      isShadowless: this.isShadowless,
+      iconLib: this.iconLib,
+      overrideDefaults: this.overrideDefaults
+    };
+    next.setProps(nextProps);
+    next.addEvent("click", this.nextPage);
+
+    root.addChild(previous, this.controlsOutside && this.numberOfPages > 1);
+    root.addChild(next, this.controlsOutside && this.numberOfPages > 1);
+    // Creating the list element
+    let list = root.createUl(this.getListClass);
+
+    // Creating list children elements
+    this.createSizeSelect(list);
+    this.createItemsCount(list);
+    if (!this.controlsOutside) {
+      let insidePrevious = root.createLi();
+      insidePrevious.addAttr("key", "left-controls");
+      insidePrevious.addChild(previous);
+      list.addChild(insidePrevious, this.numberOfPages > 1);
+    }
+    if (this.getShowNumbers) {
+      this.createFirstPage(list);
+      this.createPageNumbers(list);
+      this.createLastPage(list);
+    }
+    if (!this.controlsOutside) {
+      let insideNext = root.createLi();
+      insideNext.addAttr("key", "right-controls");
+      insideNext.addChild(next);
+      list.addChild(insideNext, this.numberOfPages > 1);
+    }
+    nav.addChild(list);
+    root.addChild(nav);
+    return root.create();
+  },
+  mounted() {
+    this.updateData();
+  },
+  updated() {
+    this.updateData();
   }
 };
-</script>
