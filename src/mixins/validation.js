@@ -91,6 +91,7 @@ export default {
   },
   data() {
     return {
+      validationPassed: false,
       stateClass: "",
       errors: [],
       rules: [],
@@ -109,6 +110,9 @@ export default {
     },
     hasRules: function() {
       return this.rules.length > 0;
+    },
+    getValidationPassed: function() {
+      return this.validationPassed;
     }
   },
   methods: {
@@ -144,6 +148,7 @@ export default {
         return this.getValidationResult(RULES.MAXLENGTH, event);
       }
       this.stateClass = ""; // Changes the element css class to success when all validations passed
+      this.validationPassed = true;
       return new Result(true, "success");
     },
     /**
@@ -155,7 +160,7 @@ export default {
       if (this.hasRules && validate) {
         return this.validate(event);
       }
-      return false;
+      return new Result(true, "success");
     },
     /**
      * Retrieves the validation result
@@ -169,8 +174,9 @@ export default {
       );
       this.stateClass = this.errorClass; // Changes the element css class to error when validation failed
       if (event !== undefined) {
-        this.$emit(event, this.valid);
+        this.$emit(event, false);
       }
+      this.validationPassed = false;
       return new Result(false, errorMessage);
     },
     /**
