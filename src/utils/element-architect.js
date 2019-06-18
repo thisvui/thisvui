@@ -36,6 +36,20 @@ export default class ElementArchitect {
     return this;
   }
 
+  setKey(key) {
+    if (key) {
+      this.key = key;
+    }
+    return this;
+  }
+
+  setRef(ref) {
+    if (ref) {
+      this.ref = ref;
+    }
+    return this;
+  }
+
   setAttrs(attrs) {
     if (attrs) {
       this.attrs = attrs;
@@ -153,6 +167,12 @@ export default class ElementArchitect {
    */
   create() {
     let element = {};
+    if (this.key) {
+      element.key = this.key;
+    }
+    if (this.ref) {
+      element.ref = this.ref;
+    }
     if (this.classes) {
       element.class = this.classes;
     }
@@ -213,6 +233,18 @@ export default class ElementArchitect {
 
   createLi(classes) {
     return this.createElement("li", classes);
+  }
+
+  createLabel(classes) {
+    return this.createElement("label", classes);
+  }
+
+  createInput(classes) {
+    return this.createElement("input", classes);
+  }
+
+  createP(classes) {
+    return this.createElement("p", classes);
   }
 
   createButton(classes) {
