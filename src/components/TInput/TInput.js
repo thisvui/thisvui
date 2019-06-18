@@ -58,29 +58,8 @@ export default {
       input.addEvent("keyup", this.onKeyup);
       control.addChild(input);
 
-      // Creating the icon for the input
-      if (this.icon) {
-        let inputIcon = architect.createIcon(this.getIconClass);
-        inputIcon.addProp("icon", this.icon);
-        control.addChild(inputIcon, this.icon);
-      }
-
-      // Creating the icon to display when validation passed
-      if (this.showValidStateIcon) {
-        let inputIconRight = architect.createIcon(this.getValidStateIconClass);
-        inputIconRight.addProp("icon", this.$thisvui.icons.check);
-        inputIconRight.addProp("preserveDefaults", !this.overrideDefaults);
-        control.addChild(inputIconRight);
-      }
-
-      // Creating the error message helpers
-      for (let error of this.errors) {
-        let help = architect.createP("help is-danger");
-        help.setKey(error);
-        help.addAttr("msg", error);
-        help.addAttr("msg-position", this.msgPosition);
-        control.addChild(help);
-      }
+      this.createIcons(control);
+      this.createErrorHelpers(control);
 
       field.addChild(control);
       root.addChild(field);

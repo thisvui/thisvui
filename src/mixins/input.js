@@ -296,10 +296,10 @@ export default {
      * Creates the field label section
      */
     createLabel(architect) {
-      let classes = ["field-label", "is-normal", "t-flex"]
-      if(this.labelIconRight){
-        classes.push("is-row-reverse")
-        classes.push("is-right")
+      let classes = ["field-label", "is-normal", "t-flex"];
+      if (this.labelIconRight) {
+        classes.push("is-row-reverse");
+        classes.push("is-right");
       }
       let root = architect.createDiv(classes.join(" "));
       if (this.labelIcon) {
@@ -312,6 +312,37 @@ export default {
 
       root.addChild(label);
       architect.addChild(root, this.label);
+    },
+    /**
+     * Creates the input icons
+     */
+    createIcons(architect) {
+      // Creating the icon for the input
+      if (this.icon) {
+        let inputIcon = architect.createIcon(this.getIconClass);
+        inputIcon.addProp("icon", this.icon);
+        architect.addChild(inputIcon, this.icon);
+      }
+
+      // Creating the icon to display when validation passed
+      if (this.showValidStateIcon) {
+        let inputIconRight = architect.createIcon(this.getValidStateIconClass);
+        inputIconRight.addProp("icon", this.$thisvui.icons.check);
+        inputIconRight.addProp("preserveDefaults", !this.overrideDefaults);
+        architect.addChild(inputIconRight);
+      }
+    },
+    /**
+     * Creates the error message helpers
+     */
+    createErrorHelpers(architect) {
+      for (let error of this.errors) {
+        let help = architect.createP("help is-danger");
+        help.setKey(error);
+        help.addAttr("msg", error);
+        help.addAttr("msg-position", this.msgPosition);
+        architect.addChild(help);
+      }
     }
   },
   mounted() {
