@@ -5,9 +5,10 @@ import helpers from "./helpers";
 import common from "./common";
 import icons from "./icons";
 import utils from "../utils/utils";
-import CssArchitect from "../utils/css-architect";
 import colors from "./colors";
 import display from "./display";
+
+import CssArchitect from "../utils/css-architect";
 
 export default {
   mixins: [common, validation, display, colors, states, sizes, helpers, icons],
@@ -77,7 +78,6 @@ export default {
   },
   data() {
     return {
-      valid: false,
       formId: ""
     };
   },
@@ -209,11 +209,22 @@ export default {
       return cssArchitect.getClasses();
     },
     /**
+     * Dynamically build the css classes for the icon when value is valid
+     * @returns { A String with the chained css classes }
+     */
+    getValidStateIconClass: function() {
+      const cssArchitect = new CssArchitect("is-small is-right");
+      this.colorize(cssArchitect, "color", true);
+      cssArchitect.addClass(this.getColorsModifiers);
+      cssArchitect.addClass(this.iconClass, this.iconClass !== undefined);
+      return cssArchitect.getClasses();
+    },
+    /**
      * Dynamically build the css classes for the label icon element
      * @returns { A String with the chained css classes }
      */
     getLabelIconClass: function() {
-      const cssArchitect = new CssArchitect("is-small is-left is-inline-flex");
+      const cssArchitect = new CssArchitect("is-left is-inline-flex");
       cssArchitect.addClass(
         this.labelIconClass,
         this.labelIconClass !== undefined
@@ -246,6 +257,12 @@ export default {
     },
     getRemoveLabel: function() {
       return this.removeLabel;
+    },
+    showValidStateIcon: function() {
+      if (!this.hasRules) {
+        return false;
+      }
+      return this.getValidationPassed;
     }
   },
   methods: {
@@ -266,6 +283,35 @@ export default {
       if (result && result.valid) {
         this.$emit(this.$thisvui.events.common.onEnter);
       }
+    },
+    onKeyup(event) {
+      if (event.keyCode === 13) {
+        let result = this.validateOnEvent("enter");
+        if (result && result.valid) {
+          this.$emit(this.$thisvui.events.common.onEnter);
+        }
+      }
+    },
+    /**
+     * Creates the field label section
+     */
+    createLabel(architect) {
+      let classes = ["field-label", "is-normal", "t-flex"]
+      if(this.labelIconRight){
+        classes.push("is-row-reverse")
+        classes.push("is-right")
+      }
+      let root = architect.createDiv(classes.join(" "));
+      if (this.labelIcon) {
+        let icon = root.createIcon(this.getLabelIconClass);
+        icon.addProp("icon", this.labelIcon);
+        root.addChild(icon, this.labelIcon);
+      }
+      let label = root.createLabel(this.getLabelClass);
+      label.addDomProp("innerHTML", this.label);
+
+      root.addChild(label);
+      architect.addChild(root, this.label);
     }
   },
   mounted() {
