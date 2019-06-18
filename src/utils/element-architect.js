@@ -183,23 +183,43 @@ export default class ElementArchitect {
     return this.createFunction(this.type, element, this.children);
   }
 
+  createElement(element, classes) {
+    return new ElementArchitect(this.createFunction, element, classes);
+  }
+
   createDiv(classes) {
-    return new ElementArchitect(this.createFunction, "div", classes);
+    return this.createElement("div", classes);
   }
 
   createSpan(classes) {
-    return new ElementArchitect(this.createFunction, "span", classes);
+    return this.createElement("span", classes);
+  }
+
+  createA(classes) {
+    return this.createElement("a", classes);
   }
 
   createImg(classes) {
-    return new ElementArchitect(this.createFunction, "img", classes);
+    return this.createElement("img", classes);
+  }
+
+  createNav(classes) {
+    return this.createElement("nav", classes);
+  }
+
+  createUl(classes) {
+    return this.createElement("ul", classes);
+  }
+
+  createLi(classes) {
+    return this.createElement("li", classes);
   }
 
   createButton(classes) {
-    return new ElementArchitect(this.createFunction, TButton, classes);
+    return this.createElement(TButton, classes);
   }
 
   createIcon(classes) {
-    return new ElementArchitect(this.createFunction, TIcon, classes);
+    return this.createElement(TIcon, classes);
   }
 }
