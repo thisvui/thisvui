@@ -421,7 +421,7 @@ export default {
     this.createItemsCount(list);
     if (!this.controlsOutside) {
       let insidePrevious = root.createLi();
-      insidePrevious.addAttr("key", "left-controls");
+      insidePrevious.setKey("left-controls");
       insidePrevious.addChild(previous);
       list.addChild(insidePrevious, this.numberOfPages > 1);
     }
@@ -432,7 +432,7 @@ export default {
     }
     if (!this.controlsOutside) {
       let insideNext = root.createLi();
-      insideNext.addAttr("key", "right-controls");
+      insideNext.setKey("right-controls");
       insideNext.addChild(next);
       list.addChild(insideNext, this.numberOfPages > 1);
     }
