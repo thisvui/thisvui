@@ -243,6 +243,10 @@ export default class ElementArchitect {
     return this.createElement("input", classes);
   }
 
+  createSelect(classes) {
+    return this.createElement("select", classes);
+  }
+
   createP(classes) {
     return this.createElement("p", classes);
   }
