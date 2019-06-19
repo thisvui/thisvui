@@ -24,6 +24,15 @@ export default class ElementArchitect {
     return this;
   }
 
+  addClass(clazz) {
+    if(!this.classes){
+      this.classes = ""
+    }
+    let classes = [this.classes, clazz]
+    this.setClasses(classes.join(" "))
+    return this;
+  }
+
   setStyles(styles) {
     this.styles = styles;
     return this;
