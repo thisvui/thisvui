@@ -347,8 +347,9 @@ export default {
   },
   mounted() {
     this.$nextTick(function() {
-      if (document.getElementById(this.id).form) {
-        this.formId = document.getElementById(this.id).form.id;
+      let el = document.getElementById(this.id)
+      if (el && el.form) {
+        this.formId = el.form.id;
       }
       this.addValidator(); // Registers the validator
     });
