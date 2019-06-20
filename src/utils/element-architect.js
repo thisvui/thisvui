@@ -25,11 +25,11 @@ export default class ElementArchitect {
   }
 
   addClass(clazz) {
-    if(!this.classes){
-      this.classes = ""
+    if (!this.classes) {
+      this.classes = "";
     }
-    let classes = [this.classes, clazz]
-    this.setClasses(classes.join(" "))
+    let classes = [this.classes, clazz];
+    this.setClasses(classes.join(" "));
     return this;
   }
 
@@ -60,8 +60,11 @@ export default class ElementArchitect {
   }
 
   setAttrs(attrs) {
+    if (!this.attrs) {
+      this.attrs = {};
+    }
     if (attrs) {
-      this.attrs = attrs;
+      this.attrs = { ...attrs, ...this.attrs };
     }
     return this;
   }
@@ -77,8 +80,11 @@ export default class ElementArchitect {
   }
 
   setProps(props) {
+    if (!this.props) {
+      this.props = {};
+    }
     if (props) {
-      this.props = props;
+      this.props = { ...props, ...this.props };
     }
     return this;
   }
@@ -94,8 +100,11 @@ export default class ElementArchitect {
   }
 
   setDomProps(domProps) {
+    if (!this.domProps) {
+      this.domProps = {};
+    }
     if (domProps) {
-      this.domProps = domProps;
+      this.domProps = { ...domProps, ...this.domProps };
     }
     return this;
   }
@@ -110,9 +119,16 @@ export default class ElementArchitect {
     return this;
   }
 
+  innerHtml(value, conditionStatement = true) {
+    return this.addDomProp("innerHTML", value, conditionStatement);
+  }
+
   setEvents(events) {
+    if (!this.events) {
+      this.events = {};
+    }
     if (events) {
-      this.events = events;
+      this.events = { ...events, ...this.events };
     }
     return this;
   }
@@ -132,6 +148,10 @@ export default class ElementArchitect {
       }
     }
     return this;
+  }
+
+  addClick(method, conditionStatement = true) {
+    return this.addEvent("click", method, conditionStatement);
   }
 
   setSlot(slot) {
@@ -266,5 +286,11 @@ export default class ElementArchitect {
 
   createIcon(classes) {
     return this.createElement(TIcon, classes);
+  }
+
+  createTransition(name) {
+    let transition = this.createElement("transition");
+    transition.setProps({ name: name });
+    return transition;
   }
 }
