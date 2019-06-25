@@ -78,7 +78,7 @@ export default {
     hideStateIcon: {
       type: Boolean,
       default: false
-    },
+    }
   },
   data() {
     return {
@@ -312,6 +312,7 @@ export default {
         root.addChild(icon, this.labelIcon);
       }
       let label = root.createLabel(this.getLabelClass);
+      label.addAttr("for", this.id);
       label.addDomProp("innerHTML", this.label);
 
       root.addChild(label);
@@ -320,7 +321,7 @@ export default {
     /**
      * Creates the input icons
      */
-    createIcons(architect) {
+    createIcons(architect, createStateIcon = true) {
       // Creating the icon for the input
       if (this.icon) {
         let inputIcon = architect.createIcon(this.getIconClass);
@@ -329,7 +330,7 @@ export default {
       }
 
       // Creating the icon to display when validation passed
-      if (this.showValidStateIcon && !this.hideStateIcon) {
+      if (this.showValidStateIcon && !this.hideStateIcon && createStateIcon) {
         let inputIconRight = architect.createIcon(this.getValidStateIconClass);
         inputIconRight.addProp("icon", this.$thisvui.icons.check);
         inputIconRight.addProp("preserveDefaults", !this.overrideDefaults);
@@ -351,7 +352,7 @@ export default {
   },
   mounted() {
     this.$nextTick(function() {
-      let el = document.getElementById(this.id)
+      let el = document.getElementById(this.id);
       if (el && el.form) {
         this.formId = el.form.id;
       }
