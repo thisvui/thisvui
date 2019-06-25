@@ -43,7 +43,7 @@ export default {
     },
     height: {
       type: String,
-      default: "140"
+      default: "270"
     },
     resultsClass: {
       type: String
@@ -111,21 +111,10 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getAutocompleteResultsClass: function() {
-      const cssArchitect = new CssArchitect("t-autocomplete-results message");
+      const cssArchitect = new CssArchitect("t-autocomplete-results");
       cssArchitect.isAbsolute().isFullwidth();
       cssArchitect.addClass(this.resultsClass, this.resultsClass !== undefined);
       this.colorize(cssArchitect, "border", true);
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
-      return cssArchitect.getClasses();
-    },
-    /**
-     * Dynamically build the css classes for each individual result item
-     * @returns { A String with the chained css classes }
-     */
-    getAutocompleteResultClass: function() {
-      const cssArchitect = new CssArchitect("t-autocomplete-result");
-      cssArchitect.addClass(this.resultClass, this.resultClass !== undefined);
-      this.colorize(cssArchitect, "bg-hover", true);
       cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
       return cssArchitect.getClasses();
     },
@@ -163,10 +152,21 @@ export default {
   },
   methods: {
     /**
+     * Dynamically build the css classes for each individual result item
+     * @returns { A String with the chained css classes }
+     */
+    getAutocompleteResultClass: function(isActive = false) {
+      const cssArchitect = new CssArchitect("t-autocomplete-result");
+      cssArchitect.addClass(this.resultClass, this.resultClass !== undefined);
+      this.colorize(cssArchitect, "bg-hover", true);
+      cssArchitect.addClass("has-bg-color", isActive);
+      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
+      return cssArchitect.getClasses();
+    },
+    /**
      * Executed on input
      */
     onInput(event) {
-      console.log("input");
       // Let's warn the parent that a change was made
       this.search = event.target.value;
       this.validateOnEvent("input");
@@ -186,9 +186,9 @@ export default {
       this.search = "";
       this.selectedValue = null;
       this.$emit(this.$thisvui.events.common.input, this.selectedValue);
+      this.isOpen = false;
     },
     setSelected() {
-      console.log("setSelected: ", this.selectedValue);
       if (this.selectedValue) {
         this.$refs.inputField.value =
           this.display === undefined
@@ -214,7 +214,6 @@ export default {
      */
     setAutocompleteResult(result) {
       this.selectedValue = result;
-      console.log("setAutocompleteResult", this.selectedValue);
       this.isOpen = false;
       this.setSelected();
     },
@@ -257,14 +256,21 @@ export default {
       }
       return match;
     },
+    fixScrolling() {
+      const liHeight = this.$refs.results.children[this.arrowCounter]
+        .clientHeight;
+      this.$refs.results.scrollTop = liHeight * this.arrowCounter;
+    },
     onArrowDown() {
-      if (this.arrowCounter < this.results.length) {
+      if (this.arrowCounter < this.results.length - 1) {
         this.arrowCounter = this.arrowCounter + 1;
+        this.fixScrolling();
       }
     },
     onArrowUp() {
       if (this.arrowCounter > 0) {
         this.arrowCounter = this.arrowCounter - 1;
+        this.fixScrolling();
       }
     },
     onEnter() {
@@ -280,7 +286,6 @@ export default {
      * Close the results container when clicked outside
      */
     handleClickOutside(evt) {
-      console.log("handleClickOutside");
       if (!this.$el.contains(evt.target)) {
         this.isOpen = false;
         this.arrowCounter = -1;
@@ -309,7 +314,7 @@ export default {
     createResults(architect) {
       let results = architect.createUl(this.getAutocompleteResultsClass);
       results.setStyles(this.getAutocompleteContainerStyles);
-
+      results.setRef("results");
       let loading = architect.createLi("loading");
 
       results.addChild(loading, this.isAutocompleteLoading);
@@ -322,9 +327,7 @@ export default {
           let result = this.results[index];
 
           let resultEl = architect.createLi(
-            index === this.arrowCounter
-              ? `${this.getAutocompleteResultClass} is-active`
-              : this.getAutocompleteResultClass
+            this.getAutocompleteResultClass(index == this.arrowCounter)
           );
           resultEl.setKey(index);
           resultEl.addEvent("click", () => {
@@ -363,7 +366,7 @@ export default {
       let input = architect.createInput(this.getInputClass);
       input.addClass("is-radiusless is-shadowless");
       input.setId(this.id);
-      let inputProps = {
+      let inputAttrs = {
         placeholder: this.placeholder,
         value: this.search,
         disabled: this.disabled,
@@ -373,13 +376,29 @@ export default {
         min: this.min,
         max: this.max
       };
-      input.setProps(inputProps);
+      input.setAttrs(inputAttrs);
       input.setRef("inputField");
       input.addEvent("change", this.onChange);
       input.addEvent("input", this.onInput);
       input.addEvent("blur", this.onBlur);
       input.addEvent("focus", this.onFocus);
-      input.addEvent("keyup", this.onKeyup);
+
+      input.addKeydown({
+        key: architect.keycode.downArrow,
+        handler: this.onArrowDown
+      });
+      input.addKeydown({
+        key: architect.keycode.upArrow,
+        handler: this.onArrowUp
+      });
+      input.addKeydown({
+        key: architect.keycode.enter,
+        handler: this.onEnter
+      });
+      input.addKeydown({
+        key: architect.keycode.delete,
+        handler: this.empty
+      });
       control.addChild(input);
 
       this.createIcons(control);
