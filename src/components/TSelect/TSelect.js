@@ -73,7 +73,7 @@ export default {
       // Creating the html input element
       let input = architect.createSelect(this.getInputClass);
       input.setId(this.id);
-      let inputProps = {
+      let inputAttrs = {
         placeholder: this.placeholder,
         value: this.selected,
         disabled: this.disabled,
@@ -82,7 +82,7 @@ export default {
         min: this.min,
         max: this.max
       };
-      input.setProps(inputProps);
+      input.setAttrs(inputAttrs);
       input.setRef("inputField");
       input.addEvent("change", this.onChange);
       input.addEvent("blur", this.onBlur);

@@ -40,7 +40,7 @@ export default {
       // Creating the html input element
       let input = architect.createInput(this.getInputClass);
       input.setId(this.id);
-      let inputProps = {
+      let inputAttrs = {
         placeholder: this.placeholder,
         value: this.value,
         disabled: this.disabled,
@@ -50,7 +50,7 @@ export default {
         min: this.min,
         max: this.max
       };
-      input.setProps(inputProps);
+      input.setAttrs(inputAttrs);
       input.setRef("inputField");
       input.addEvent("change", this.onChange);
       input.addEvent("input", this.onInput);
