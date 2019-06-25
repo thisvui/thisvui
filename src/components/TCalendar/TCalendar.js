@@ -1,6 +1,7 @@
 import input from "../../mixins/input";
 
 import TIcon from "../TIcon/TIcon";
+import { TInput } from "../TInput";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
@@ -273,6 +274,7 @@ export default {
       this.selectedDate = selectedDate;
       let formattedDate = format(this.selectedDate, this.dateFormat);
       this.inputDate = formattedDate;
+      // this.$refs.inputField.focus();
       this.$emit(this.$thisvui.events.common.input, this.selectedDate);
     },
     setSelectedTime(units, value) {
@@ -298,6 +300,19 @@ export default {
     onFocus() {
       if (!this.inline) {
         this.showCalendar = true;
+      }
+    },
+    onTimeInput(type, value) {
+      switch (type) {
+        case "h":
+          this.hours = value;
+          break;
+        case "m":
+          this.minutes = value;
+          break;
+        case "s":
+          this.seconds = value;
+          break;
       }
     },
     hideCalendar() {
@@ -373,31 +388,45 @@ export default {
       // Creating time picker
       if (this.enableTime) {
         let timePicker = architect.createDiv(this.getTimePickerClass);
-        let hoursInput = architect.createInput();
+        let hoursInput = architect.createElement(TInput);
         hoursInput.setRef("hoursInput");
-        hoursInput.addAttr("type", "number");
         hoursInput.setProps({
+          type: "number",
           value: this.hours,
           disabled: this.disabled,
-          max: 12
+          max: 12,
+          min: 0,
+          hideStateIcon: true
         });
-        let minutesInput = architect.createInput();
+        hoursInput.addEvent("input", value => {
+          this.onTimeInput("h", value);
+        });
+        let minutesInput = architect.createElement(TInput);
         minutesInput.setRef("minutesInput");
-        minutesInput.addAttr("type", "number");
         minutesInput.setProps({
+          type: "number",
           value: this.minutes,
           disabled: this.disabled,
-          max: 60
+          max: 60,
+          min: 0,
+          hideStateIcon: true
         });
-        let secondsInput = architect.createInput();
+        minutesInput.addEvent("input", value => {
+          this.onTimeInput("m", value);
+        });
+        let secondsInput = architect.createElement(TInput);
         secondsInput.setRef("secondsInput");
-        secondsInput.addAttr("type", "number");
         secondsInput.setProps({
+          type: "number",
           value: this.seconds,
           disabled: this.disabled,
-          max: 60
+          max: 60,
+          min: 0,
+          hideStateIcon: true
         });
-
+        secondsInput.addEvent("input", value => {
+          this.onTimeInput("s", value);
+        });
         timePicker.addChild(hoursInput);
         timePicker.addChild(minutesInput);
         timePicker.addChild(secondsInput);
@@ -417,7 +446,7 @@ export default {
       // Creating the html input element
       let input = architect.createInput(this.getInputClass);
       input.setId(this.id);
-      let inputProps = {
+      let inputAttrs = {
         placeholder: this.placeholder,
         value: this.inputDate,
         disabled: this.disabled,
@@ -427,13 +456,16 @@ export default {
         min: this.min,
         max: this.max
       };
-      input.setAttrs(inputProps);
+      input.setAttrs(inputAttrs);
       input.setRef("inputField");
       input.addEvent("change", this.onChange);
       input.addEvent("input", this.onInput);
       input.addEvent("blur", this.onBlur);
       input.addEvent("focus", this.onFocus);
-      input.addEvent("keyup", this.onKeyup);
+      input.addKeyup({
+        key: architect.keycode.delete,
+        handler: this.clearSelectedDay
+      });
       control.addChild(input);
 
       this.createIcons(control);

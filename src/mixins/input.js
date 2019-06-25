@@ -74,7 +74,11 @@ export default {
     isStatic: {
       type: Boolean,
       default: false
-    }
+    },
+    hideStateIcon: {
+      type: Boolean,
+      default: false
+    },
   },
   data() {
     return {
@@ -325,7 +329,7 @@ export default {
       }
 
       // Creating the icon to display when validation passed
-      if (this.showValidStateIcon) {
+      if (this.showValidStateIcon && !this.hideStateIcon) {
         let inputIconRight = architect.createIcon(this.getValidStateIconClass);
         inputIconRight.addProp("icon", this.$thisvui.icons.check);
         inputIconRight.addProp("preserveDefaults", !this.overrideDefaults);
