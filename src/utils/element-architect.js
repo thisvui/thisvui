@@ -3,6 +3,7 @@
  */
 import { TButton } from "../components/TButton";
 import { TIcon } from "../components/TIcon";
+import keycodes from "./keycodes";
 
 export default class ElementArchitect {
   constructor(createFunction, type, classes) {
@@ -11,6 +12,7 @@ export default class ElementArchitect {
     this.classes = classes;
     this.styles = [];
     this.children = [];
+    this.keycode = keycodes;
   }
 
   /**
@@ -133,25 +135,57 @@ export default class ElementArchitect {
     return this;
   }
 
-  addEvent(name, value, conditionStatement = true, native = false) {
+  addEvent(name, handler, conditionStatement = true, native = false) {
     if (!native && !this.events) {
       this.events = {};
     }
     if (native && !this.native) {
       this.native = {};
     }
-    if (name !== undefined && value !== undefined && conditionStatement) {
+    if (name !== undefined && handler !== undefined && conditionStatement) {
       if (native) {
-        this.native[name] = value;
+        this.native[name] = handler;
       } else {
-        this.events[name] = value;
+        this.events[name] = handler;
       }
     }
     return this;
   }
 
-  addClick(method, conditionStatement = true) {
-    return this.addEvent("click", method, conditionStatement);
+  addKeyup(config, conditionStatement = true) {
+    if (!config || !config.key || !config.handler) {
+      console.error(`Config error: `, config);
+      throw new Error(
+        "keyup event needs a key code and a handler in order to work!"
+      );
+    }
+    if (!this.keyup) {
+      this.keyup = [];
+    }
+    if (conditionStatement) {
+      this.keyup.push(config);
+    }
+    return this;
+  }
+
+  addKeydown(config, conditionStatement = true) {
+    if (!config || !config.key || !config.handler) {
+      console.error(`Config error: `, config);
+      throw new Error(
+        "keydown event needs a key code and a handler in order to work!"
+      );
+    }
+    if (!this.keydown) {
+      this.keydown = [];
+    }
+    if (conditionStatement) {
+      this.keydown.push(config);
+    }
+    return this;
+  }
+
+  addClick(handler, conditionStatement = true) {
+    return this.addEvent("click", handler, conditionStatement);
   }
 
   setSlot(slot) {
@@ -228,6 +262,52 @@ export default class ElementArchitect {
     }
     if (this.directives) {
       element.directives = this.directives;
+    }
+    if (this.keyup) {
+      let keyup = event => {
+        // Abort if the element emitting the event is not
+        // the element the event is bound to
+        if (event.target !== event.currentTarget) return;
+
+        for (let config of this.keyup) {
+          let shiftKey =
+            config.shiftKey && config.shiftKey === true ? event.shiftKey : true;
+          let ctrlKey =
+            config.ctrlKey && config.ctrlKey === true ? event.ctrlKey : true;
+          if (shiftKey && ctrlKey && event.keyCode === config.key) {
+            // Prevent the default keyup handler for this element
+            event.preventDefault();
+            config.handler();
+          }
+        }
+      };
+      if (!element.on) {
+        element.on = {};
+      }
+      element.on.keyup = keyup;
+    }
+    if (this.keydown) {
+      let keydown = event => {
+        // Abort if the element emitting the event is not
+        // the element the event is bound to
+        if (event.target !== event.currentTarget) return;
+
+        for (let config of this.keydown) {
+          let shiftKey =
+            config.shiftKey && config.shiftKey === true ? event.shiftKey : true;
+          let ctrlKey =
+            config.ctrlKey && config.ctrlKey === true ? event.ctrlKey : true;
+          if (shiftKey && ctrlKey && event.keyCode === config.key) {
+            // Prevent the default keyup handler for this element
+            event.preventDefault();
+            config.handler();
+          }
+        }
+      };
+      if (!element.on) {
+        element.on = {};
+      }
+      element.on.keydown = keydown;
     }
     return this.createFunction(this.type, element, this.children);
   }
