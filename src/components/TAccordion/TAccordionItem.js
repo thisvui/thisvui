@@ -1,44 +1,13 @@
-<template>
-  <article :id="id" :class="getClasses">
-    <div :class="getHeaderClasses" @click="toggleOpen">
-      <t-level class="is-flex-mobile" right-class="is-marginless">
-        <template slot="level-left">
-          <span>{{ title }}</span>
-        </template>
-        <template slot="level-right">
-          <a :class="getIconContainerClasses" v-if="getShowIcon">
-            <t-icon
-              v-if="itemIcon"
-              :icon="itemIcon"
-              :class="iconClass"
-              :icon-lib="iconLib"
-              :preserve-defaults="!overrideDefaults"
-            ></t-icon>
-          </a>
-        </template>
-      </t-level>
-    </div>
-    <div :class="getBodyClasses">
-      <t-expand>
-        <div class="t-accordion-content" v-show="isItemOpen">
-          <div class="t-accordion-content-body">
-            <slot></slot>
-          </div>
-        </div>
-      </t-expand>
-    </div>
-  </article>
-</template>
-
-<script>
 import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
-import CssArchitect from "../../utils/css-architect";
 import TExpand from "../TAnimation/TExpand";
 import TLevel from "../TLevel/TLevel";
 import TIcon from "../TIcon/TIcon";
 import colors from "../../mixins/colors";
+
+import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-accordion-item",
@@ -212,8 +181,48 @@ export default {
       }
     }
   },
+  render: function(h) {
+    let root = new ElementArchitect(h, "article", this.getClasses);
+    root.setId(this.id);
+
+    let header = root.createDiv(this.getHeaderClasses);
+    header.addEvent("click", this.toggleOpen);
+
+    let level = root.createElement(TLevel, "is-flex-mobile");
+    level.addProp("rightClass", "is-marginless");
+    let title = root.createSpan();
+    title.addDomProp("innerHTML", this.title);
+    let iconContainer = root.createA(this.getIconContainerClasses);
+    let icon = root.createIcon(this.iconClass);
+    icon.setProps({
+      icon: this.itemIcon,
+      iconLib: this.iconLib,
+      preserveDefaults: !this.overrideDefaults
+    });
+    iconContainer.addChild(icon);
+
+    title.setSlot("level-left");
+    iconContainer.setSlot("level-right", this.getShowIcon);
+
+    level.addChild(title);
+    level.addChild(iconContainer, this.getShowIcon);
+
+    header.addChild(level);
+
+    let body = root.createDiv(this.getBodyClasses);
+    let expand = root.createElement(TExpand);
+    let content = root.createDiv("t-accordion-content");
+    let contentBody = root.createDiv("t-accordion-content-body");
+    contentBody.setChildren(this.$slots.default);
+    content.addChild(contentBody);
+    expand.addChild(content, this.isItemOpen);
+    body.addChild(expand);
+
+    root.addChild(header);
+    root.addChild(body);
+    return root.create();
+  },
   mounted() {
     this.includeBgModifiers = false;
   }
 };
-</script>

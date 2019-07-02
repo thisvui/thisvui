@@ -1,15 +1,10 @@
-<template>
-  <div :id="id" :class="getClasses">
-    <slot></slot>
-  </div>
-</template>
-
-<script>
 import helpers from "../../mixins/helpers";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
-import CssArchitect from "../../utils/css-architect";
 import colors from "../../mixins/colors";
+
+import ElementArchitect from "../../utils/element-architect";
+import CssArchitect from "../../utils/css-architect";
 
 export default {
   name: "t-accordion",
@@ -80,8 +75,12 @@ export default {
       }
     }
   },
+  render: function(h) {
+    let root = new ElementArchitect(h, "div", this.getClasses);
+    root.setId(this.id).setChildren(this.$slots.default);
+    return root.create();
+  },
   mounted() {
     this.includeBgModifiers = false;
   }
 };
-</script>
