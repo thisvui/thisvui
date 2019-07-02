@@ -43,7 +43,7 @@ export default {
 
     let left = root.createDiv(this.getLeftClasses);
     left.setSlot("level-left").setChildren(this.$slots["level-left"]);
-    
+
     let right = root.createDiv(this.getRightClasses);
     right.setSlot("level-right").setChildren(this.$slots["level-right"]);
 
