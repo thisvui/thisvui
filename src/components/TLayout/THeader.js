@@ -1,13 +1,7 @@
-<template>
-  <header :id="id" :class="getClasses" :style="getStyle()">
-    <slot></slot>
-  </header>
-</template>
-
-<script>
 import colors from "../../mixins/colors";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-header",
@@ -58,6 +52,12 @@ export default {
       }
       return styleObject;
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "div", this.getClasses);
+    root.setId(this.id);
+    root.setStyles(this.getStyle());
+    root.setChildren(this.$slots.default);
+    return root.create();
   }
 };
-</script>

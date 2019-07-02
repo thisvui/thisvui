@@ -1,17 +1,11 @@
-<template>
-  <div :id="id" :class="getClasses">
-    <slot></slot>
-  </div>
-</template>
-
-<script>
 import colors from "../../mixins/colors";
-import common from "../../mixins/common";
 import flex from "../../mixins/flex";
+import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
-  name: "t-content",
+  name: "t-layout",
   mixins: [common, colors, flex],
   computed: {
     /**
@@ -19,13 +13,18 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("t-content");
-      cssArchitect.isRelative().isFlexible("row", "stretch");
+      const cssArchitect = new CssArchitect("t-layout");
+      cssArchitect.isFlexible("column", "stretch", "stretch");
       this.colorize(cssArchitect, "bg", true);
       cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass(this.getFlexModifiers);
       return cssArchitect.getClasses();
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "div", this.getClasses);
+    root.setId(this.id);
+    root.setChildren(this.$slots.default);
+    return root.create();
   }
 };
-</script>

@@ -1,13 +1,7 @@
-<template>
-  <footer :id="id" :class="getClasses" :style="{ height: getHeight }">
-    <slot></slot>
-  </footer>
-</template>
-
-<script>
 import colors from "../../mixins/colors";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-footer",
@@ -24,6 +18,9 @@ export default {
     unity: {
       type: String,
       default: "px"
+    },
+    zIndex: {
+      type: [String, Number]
     }
   },
   computed: {
@@ -43,6 +40,23 @@ export default {
       let height = `${this.height}${this.unity}`;
       return height;
     }
+  },
+  methods: {
+    getStyle() {
+      let styleObject = {
+        height: this.getHeight
+      };
+      if (this.zIndex) {
+        styleObject.zIndex = parseInt(this.zIndex);
+      }
+      return styleObject;
+    }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "div", this.getClasses);
+    root.setId(this.id);
+    root.setStyles(this.getStyle());
+    root.setChildren(this.$slots.default);
+    return root.create();
   }
 };
-</script>

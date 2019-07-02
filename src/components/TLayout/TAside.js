@@ -1,32 +1,10 @@
-<template>
-  <t-slide
-    :is-open="isOpen"
-    :width="width"
-    :animation-duration="animationDuration"
-    :animation-fill="animationFill"
-    :is-absolute="isAbsolute"
-    :z-index="zIndex"
-    @clicked-outside="handleOutsideClick"
-    @change-width="updateCalculatedWith"
-  >
-    <aside
-      :id="id"
-      :class="getClasses"
-      ref="asidecontainer"
-      :style="getStyle()"
-    >
-      <slot></slot>
-    </aside>
-  </t-slide>
-</template>
-
-<script>
 import colors from "../../mixins/colors";
 import common from "../../mixins/common";
 import flex from "../../mixins/flex";
 import CssArchitect from "../../utils/css-architect";
 import TSlide from "../TAnimation/TSlide";
 import slide from "../../mixins/slide";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-aside",
@@ -66,6 +44,26 @@ export default {
       };
       return styleObject;
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, TSlide);
+    let rootProps = {
+      isOpen: this.isOpen,
+      width: this.width,
+      animationDuration: this.animationDuration,
+      animationFill: this.animationFill,
+      isAbsolute: this.isAbsolute,
+      zIndex: this.zIndex
+    };
+    root.setProps(rootProps);
+    root.addEvent("clicked-outside", this.handleOutsideClick);
+    root.addEvent("change-width", this.updateCalculatedWith);
+    let aside = root.createElement("aside", this.getClasses);
+    aside.setId(this.id);
+    aside.setRef("asidecontainer");
+    aside.setStyles(this.getStyle());
+    aside.setChildren(this.$slots.default);
+    root.addChild(aside);
+    return root.create();
   }
 };
-</script>
