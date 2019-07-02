@@ -63,7 +63,6 @@ export default {
      * Creates the checkbox input section
      */
     createCheckbox(architect) {
-      // Creating the html input element
       let input = architect.createInput(this.getClasses);
       input.setId(this.id);
       let inputAttrs = {

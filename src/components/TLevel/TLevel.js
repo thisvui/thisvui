@@ -1,20 +1,3 @@
-//
-//
-// <template>
-//   <div :id="id" :class="getClasses">
-//     <slot></slot>
-//     <!-- Left side -->
-//     <div v-if="!suppressLr" :class="getLeftClasses">
-//       <slot name="level-left"></slot>
-//     </div>
-//     <!-- Right side -->
-//     <div v-if="!suppressLr" :class="getRightClasses">
-//       <slot name="level-right"></slot>
-//     </div>
-//   </div>
-// </template>
-//
-// <script>
 import responsive from "../../mixins/responsive";
 import common from "../../mixins/common";
 import background from "../../mixins/background";
@@ -58,11 +41,9 @@ export default {
     let root = new ElementArchitect(h, "div", this.getClasses);
     root.setId(this.id);
 
-    // Creating the head element
     let left = root.createDiv(this.getLeftClasses);
     left.setSlot("level-left").setChildren(this.$slots["level-left"]);
-
-    // Creating the head element
+    
     let right = root.createDiv(this.getRightClasses);
     right.setSlot("level-right").setChildren(this.$slots["level-right"]);
 
