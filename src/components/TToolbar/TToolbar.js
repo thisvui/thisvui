@@ -1,14 +1,10 @@
-<template>
-  <div :id="id" :class="getClasses">
-    <slot></slot>
-  </div>
-</template>
-<script>
 import colors from "../../mixins/colors";
 import common from "../../mixins/common";
 import flex from "../../mixins/flex";
 import alignment from "../../mixins/alignment";
+
 import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-toolbar",
@@ -18,6 +14,9 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+  data: function() {
+    return {};
   },
   computed: {
     /**
@@ -36,8 +35,9 @@ export default {
       return cssArchitect.getClasses();
     }
   },
-  data: function() {
-    return {};
+  render: function(h) {
+    let root = new ElementArchitect(h, "div", this.getClasses);
+    root.setId(this.id).setChildren(this.$slots.default);
+    return root.create();
   }
 };
-</script>
