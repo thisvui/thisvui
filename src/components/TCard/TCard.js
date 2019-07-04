@@ -1,49 +1,12 @@
-<template>
-  <div :id="id" :class="getClasses">
-    <div :class="getContentClasses">
-      <div v-if="renderMedia" class="media">
-        <div v-if="figure" class="media-left">
-          <t-image v-if="figureSrc" :src="figureSrc" :size="figureSize">
-          </t-image>
-          <t-icon v-if="figureIcon" :icon="figureIcon" :class="figureSize">
-          </t-icon>
-        </div>
-        <div class="media-content">
-          <t-flex is-fullwidth align-self="baseline">
-            <t-flex
-              flex-direction="column"
-              align-self="start"
-              justify-content="start"
-            >
-              <p v-if="title" :class="getTitleClasses" v-text="title" />
-              <p
-                v-if="subtitle"
-                :class="getSubtitleClasses"
-                v-text="subtitle"
-              />
-            </t-flex>
-            <t-flex align-self="baseline" justify-content="end" :flex-grow="1">
-              <slot name="title" />
-            </t-flex>
-          </t-flex>
-        </div>
-      </div>
-      <div class="content">
-        <slot />
-      </div>
-    </div>
-  </div>
-</template>
-
-<script>
 import TImage from "../TImage/TImage";
 import TIcon from "../TIcon/TIcon";
-import CssArchitect from "../../utils/css-architect";
 import TLevel from "../TLevel/TLevel";
-
 import colors from "../../mixins/colors";
 import common from "../../mixins/common";
 import TFlex from "../TFlex/TFlex";
+
+import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-card",
@@ -117,6 +80,70 @@ export default {
     renderMedia: function() {
       return this.figure || this.title;
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "div", this.getClasses);
+    root.setId(this.id);
+
+    let content = root.createDiv(this.getContentClasses);
+    let contentBody = root.createDiv("content");
+    contentBody.setChildren(this.$slots.default);
+
+    // Creating the media element
+    if (this.renderMedia) {
+      let media = root.createDiv("media");
+      let figure = root.createDiv("media-left");
+
+      if (this.figureSrc) {
+        let img = root.createElement(TImage);
+        img.setProps({ src: this.figureSrc, size: this.figureSize });
+        figure.addChild(img);
+      }
+
+      if (this.figureIcon) {
+        let icon = root.createIcon(this.figureSize);
+        icon.setProps({ icon: this.figureIcon });
+        figure.addChild(icon);
+      }
+
+      let mediaContent = root.createDiv("media-content");
+      let flex = root
+        .createElement(TFlex)
+        .setProps({ isFullwidth: true, alignSelf: "baseline" });
+      let start = root.createElement(TFlex).setProps({
+        isColumn: true,
+        alignSelf: "start",
+        justifyContent: "start"
+      });
+
+      if (this.title) {
+        let title = root.createP(this.getTitleClasses);
+        title.innerHtml(this.title);
+        start.addChild(title);
+      }
+
+      if (this.subtitle) {
+        let subtitle = root.createP(this.getSubtitleClasses);
+        subtitle.innerHtml(this.subtitle);
+        start.addChild(subtitle);
+      }
+      let end = root.createElement(TFlex).setProps({
+        alignSelf: "baseline",
+        justifyContent: "end",
+        flexGrow: 1
+      });
+      end.setChildren(this.$slots["title"]);
+
+      flex.addChild(start);
+      flex.addChild(end);
+      mediaContent.addChild(flex);
+      media.addChild(figure, this.figure);
+      media.addChild(mediaContent);
+      content.addChild(media);
+    }
+
+    content.addChild(contentBody);
+    root.addChild(content);
+    return root.create();
   }
 };
-</script>
