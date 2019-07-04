@@ -26,12 +26,14 @@ export default class ElementArchitect {
     return this;
   }
 
-  addClass(clazz) {
-    if (!this.classes) {
-      this.classes = "";
+  addClass(clazz, condition = true) {
+    if(condition) {
+      if (!this.classes) {
+        this.classes = "";
+      }
+      let classes = [this.classes, clazz];
+      this.setClasses(classes.join(" "));
     }
-    let classes = [this.classes, clazz];
-    this.setClasses(classes.join(" "));
     return this;
   }
 
