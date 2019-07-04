@@ -1,41 +1,10 @@
-<template>
-  <nav :id="id" :class="getClasses" aria-label="breadcrumbs">
-    <ul v-if="!hasCustomContent">
-      <li
-        v-for="(item, index) in items"
-        :class="{ 'is-active': item.isActive }"
-        :key="`bcrumb${index}`"
-      >
-        <a v-if="!item.url && !item.view" @click="onClick(item.name, $event)">
-          <t-icon v-if="item.icon" :icon="item.icon"></t-icon>
-          <span>{{ item.name }}</span>
-        </a>
-        <a :href="item.url" v-if="item.url" @click="onClick(item.name, $event)">
-          <t-icon v-if="item.icon" :icon="item.icon"></t-icon>
-          <span>{{ item.name }}</span>
-        </a>
-        <router-link
-          v-if="item.view"
-          :to="{ name: item.view }"
-          class="link"
-          @click="onClick(item.name, $event)"
-        >
-          <t-icon v-if="item.icon" :icon="item.icon"></t-icon>
-          {{ item.name }}
-        </router-link>
-      </li>
-    </ul>
-    <slot v-if="hasCustomContent"></slot>
-  </nav>
-</template>
-
-<script>
 import alignment from "../../mixins/alignment";
 import sizes from "../../mixins/sizes";
 import common from "../../mixins/common";
 import TImage from "../TImage/TImage";
-import CssArchitect from "../../utils/css-architect";
 import TIcon from "../TIcon/TIcon";
+import ElementArchitect from "../../utils/element-architect";
+import CssArchitect from "../../utils/css-architect";
 
 export default {
   name: "t-breadcrumb",
@@ -64,6 +33,10 @@ export default {
     hasSucceedsSeparator: {
       type: Boolean,
       default: false
+    },
+    preventUrlNavigation: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -117,12 +90,57 @@ export default {
      * Executed when a breadcrumb item is clicked
      */
     onClick(name, event) {
-      if (event) event.preventDefault();
+      if (event && this.preventUrlNavigation) {
+        event.preventDefault();
+      }
       if (!this.hasCustomContent) {
         this.toggleActive(name);
         this.$emit(this.$thisvui.events.common.click, name);
       }
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "nav", this.getClasses);
+    root.setId(this.id)
+    root.addAttr("aria-label", "breadcrumbs");
+
+    if (!this.hasCustomContent) {
+      let ul = root.createUl();
+      for (let index in this.items) {
+        let item = this.items[index];
+        let li = root.createLi();
+        li.setKey(`breadcrumb-item${index}`);
+        li.addClass("is-active", item.isActive);
+
+        let name = root.createSpan();
+        name.innerHtml(item.name);
+
+        // Creating the link element. if item.view is present creates a router-link
+        let link = root.createElement(
+          item.url || (!item.url && !item.view) ? "a" : "router-link"
+        );
+        link.addAttr("href", item.url, item.url);
+        link.addProp("to", { name: item.view }, item.view);
+        link.addClick(event => {
+          this.onClick(item.name, event);
+        });
+
+        // Creating the icon element if present
+        if (item.icon) {
+          let icon = root.createIcon();
+          icon.addProp("icon", item.icon);
+          link.addChild(icon);
+        }
+
+        link.addChild(name);
+        li.addChild(link);
+        ul.addChild(li);
+      }
+      root.addChild(ul);
+    } else {
+      root.setChildren(this.$slots.default);
+    }
+    return root.create();
   },
   created() {
     if (!this.hasCustomContent) {
@@ -133,4 +151,3 @@ export default {
     }
   }
 };
-</script>
