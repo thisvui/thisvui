@@ -1,5 +1,5 @@
 /**
- * Helper class for building elements dynamically
+ * Helper class for building elements dynamically in render functions
  */
 import { TButton } from "../components/TButton";
 import { TIcon } from "../components/TIcon";
@@ -27,7 +27,7 @@ export default class ElementArchitect {
   }
 
   addClass(clazz, condition = true) {
-    if(condition) {
+    if (condition) {
       if (!this.classes) {
         this.classes = "";
       }
@@ -56,10 +56,11 @@ export default class ElementArchitect {
     return this;
   }
 
-  setRef(ref) {
+  setRef(ref, refInFor = false) {
     if (ref) {
       this.ref = ref;
     }
+    this.refInFor = refInFor;
     return this;
   }
 
@@ -202,9 +203,10 @@ export default class ElementArchitect {
     return this;
   }
 
-  addChild(child, conditionStatement = true) {
+  addChild(child, conditionStatement = true, raw = false) {
     if (child && conditionStatement) {
-      this.children.push(child.create());
+      let childEl = raw ? child : child.create();
+      this.children.push(childEl);
     }
     return this;
   }
@@ -237,6 +239,9 @@ export default class ElementArchitect {
     }
     if (this.ref) {
       element.ref = this.ref;
+    }
+    if (this.refInFor) {
+      element.refInFor = true;
     }
     if (this.classes) {
       element.class = this.classes;
@@ -324,6 +329,10 @@ export default class ElementArchitect {
 
   createSpan(classes) {
     return this.createElement("span", classes);
+  }
+
+  createH(classes, level = 1) {
+    return this.createElement(`h${level}`, classes);
   }
 
   createA(classes) {
