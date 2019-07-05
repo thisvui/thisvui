@@ -1,14 +1,9 @@
-<template>
-  <div :id="id" :class="getClasses">
-    <slot></slot>
-  </div>
-</template>
-
-<script>
-import CssArchitect from "../../utils/css-architect";
 import helpers from "../../mixins/helpers";
 import alignment from "../../mixins/alignment";
 import common from "../../mixins/common";
+
+import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-buttons",
@@ -34,6 +29,10 @@ export default {
       cssArchitect.addClass("has-addons", this.hasAddons);
       return cssArchitect.getClasses();
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "div", this.getClasses);
+    root.setId(this.id).setChildren(this.$slots.default);
+    return root.create();
   }
 };
-</script>

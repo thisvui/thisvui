@@ -1,66 +1,14 @@
-<template>
-  <span :class="getContainerClass">
-    <span v-if="!getActive">
-      <slot />
-    </span>
-    <a
-      :id="id"
-      v-if="getActive"
-      ref="actionLink"
-      v-bind="$attrs"
-      :class="getClasses"
-      :data-tooltip="dataTooltip"
-      :disabled="disabled"
-      @click="onClick"
-    >
-      <t-icon
-        v-if="icon && !iconRight"
-        :icon="icon"
-        :class="iconClass"
-      ></t-icon>
-      <span v-if="hasSlot">
-        <slot />
-      </span>
-      <t-icon v-if="icon && iconRight" :icon="icon" :class="iconClass"></t-icon>
-    </a>
-    <t-modal
-      v-if="showConfirmation"
-      :target-class="getConfirmClass"
-      :header-class="confirmHeaderClass"
-      :title-class="confirmTitleClass"
-      body-class="is-size-6"
-      :title="dialogTitle"
-      :show-modal="showConfirmModal"
-      :show-footer="true"
-      :show-close="false"
-    >
-      <p v-if="message" :class="getMessageClass">{{ message }}</p>
-      <slot name="message" />
-      <template slot="footer">
-        <button
-          :class="getConfirmBtnClass"
-          @click="confirmed"
-          v-text="confirmText"
-        ></button>
-        <button
-          :class="getCancelBtnClass"
-          @click="close"
-          v-text="cancelText"
-        ></button>
-      </template>
-    </t-modal>
-  </span>
-</template>
-
-<script>
-import { ValidationBus } from "../TValidation/validation-bus.js";
 import common from "../../mixins/common";
 import sizes from "../../mixins/sizes";
 import states from "../../mixins/states";
 import colors from "../../mixins/colors";
-import CssArchitect from "../../utils/css-architect";
 import TModal from "../TModal/TModal";
 import TIcon from "../TIcon/TIcon";
+
+import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
+
+import { ValidationBus } from "../TValidation/validation-bus.js";
 
 export default {
   name: "t-button",
@@ -299,7 +247,7 @@ export default {
      * Finds the closest parent form and return the DOM element if exist
      */
     getParentForm() {
-      const actionLink = this.$refs.actionLink;
+      const actionLink = this.$refs.button;
       let form = actionLink.closest("form");
       return form ? form.id : undefined;
     },
@@ -325,7 +273,105 @@ export default {
       if (this.view) {
         this.$router.push({ name: this.view });
       }
+    },
+    /**
+     * Creates the button icon
+     */
+    createButtonIcon(architect, condition = false) {
+      if (this.icon && condition) {
+        let icon = architect.createIcon(this.iconClass);
+        icon.setProps({ icon: this.icon });
+        architect.addChild(icon);
+      }
+    },
+    /**
+     * Creates the button element
+     */
+    createButton(architect) {
+      let button = architect.createElement(
+        this.getActive ? "a" : "span",
+        this.getClasses
+      );
+      button.setId(this.id);
+
+      if (this.getActive) {
+        button.setRef("button");
+        button.setAttrs(this.$attrs);
+        button.addAttr("data-tooltip", this.dataTooltip);
+        button.addAttr("disabled", this.disabled);
+        button.addClick(this.onClick);
+
+        this.createButtonIcon(button, !this.iconRight);
+        if (this.hasSlot) {
+          let slot = architect.createSpan().setChildren(this.$slots.default);
+          button.addChild(slot);
+        }
+        this.createButtonIcon(button, this.iconRight);
+      } else {
+        if (this.hasSlot) {
+          button.setChildren(this.$slots.default);
+        }
+      }
+      architect.addChild(button);
+    },
+    /**
+     * Creates the confirmation modal
+     */
+    createModal(architect) {
+      if (this.showConfirmation) {
+        let modal = architect.createElement(TModal);
+        modal.setProps({
+          targetClass: this.getConfirmClass,
+          headerClass: this.confirmHeaderClass,
+          titleClass: this.confirmTitleClass,
+          bodyClass: "is-size-6",
+          title: this.dialogTitle,
+          showModal: this.showConfirmModal,
+          showFooter: true,
+          showClose: false
+        });
+
+        if (this.message) {
+          let message = architect.createP(this.getMessageClass);
+          message.innerHtml(this.message);
+          modal.addChild(message);
+        }
+        if (this.$slots["message"]) {
+          let messageSlot = architect.createSpan();
+          messageSlot.setChildren(this.$slots["message"]);
+          modal.addChild(messageSlot);
+        }
+
+        let modalFoot = architect.createSpan();
+        modalFoot.setSlot("footer");
+
+        let confirmBtn = architect.createElement(
+          "button",
+          this.getConfirmBtnClass
+        );
+        confirmBtn.innerHtml(this.confirmText);
+        confirmBtn.addClick(this.confirmed);
+        let cancelBtn = architect.createElement(
+          "button",
+          this.getCancelBtnClass
+        );
+        cancelBtn.innerHtml(this.cancelText);
+        cancelBtn.addClick(this.close);
+
+        modalFoot.addChild(confirmBtn);
+        modalFoot.addChild(cancelBtn);
+        modal.addChild(modalFoot);
+
+        architect.addChild(modal);
+      }
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "span", this.getContainerClasses);
+
+    this.createButton(root);
+    this.createModal(root);
+
+    return root.create();
   }
 };
-</script>
