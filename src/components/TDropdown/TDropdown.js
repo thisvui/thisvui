@@ -1,32 +1,10 @@
-<template>
-  <div :id="id" ref="dropdown" :class="getClasses">
-    <div class="dropdown-trigger">
-      <button
-        class="button"
-        aria-haspopup="true"
-        aria-controls="dropdown-menu"
-        @click="toggleActive"
-      >
-        <span>{{ text }}</span>
-        <span class="icon is-small">
-          <t-icon :preserve-defaults="!overrideDefaults" :icon="icon"></t-icon>
-        </span>
-      </button>
-    </div>
-    <div class="dropdown-menu" id="dropdown-menu" role="menu">
-      <div class="dropdown-content">
-        <slot></slot>
-      </div>
-    </div>
-  </div>
-</template>
-
-<script>
 import alignment from "../../mixins/alignment";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
-import CssArchitect from "../../utils/css-architect";
 import TIcon from "../TIcon/TIcon";
+
+import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-dropdown",
@@ -83,6 +61,34 @@ export default {
         this.isDropdownActive = !this.isDropdownActive;
       }
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "span", this.getClasses);
+    root.setId(this.id);
+    root.setRef("dropdown");
+
+    let trigger = root.createDiv("dropdown-trigger");
+    let btn = root.createDiv("button");
+    btn.addAttr("aria-haspopup", true);
+    btn.addAttr("aria-controls", "dropdown-menu");
+    btn.addClick(this.toggleActive);
+
+    let text = root.createSpan().innerHtml(this.text);
+    let icon = root
+      .createIcon()
+      .setProps({ icon: this.icon, preserveDefaults: !this.overrideDefaults });
+    btn.addChild(text).addChild(icon);
+    trigger.addChild(btn);
+
+    let menu = root.createDiv("dropdown-menu");
+    menu.addAttr("role", "menu");
+    let content = root.createDiv("dropdown-content");
+    content.setChildren(this.$slots.default);
+    menu.addChild(content);
+
+    root.addChild(trigger);
+    root.addChild(menu);
+
+    return root.create();
   }
 };
-</script>
