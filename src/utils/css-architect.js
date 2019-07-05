@@ -6,6 +6,9 @@ export default class CssArchitect {
     this.mainClass = mainClass;
     this.classes = [];
     this.styles = [];
+    if (this.mainClass) {
+      this.classes.push(this.mainClass);
+    }
   }
 
   /**
@@ -41,9 +44,6 @@ export default class CssArchitect {
    * @returns {string}
    */
   getClasses() {
-    if (this.mainClass) {
-      this.classes.push(this.mainClass);
-    }
     let resultClass = this.classes.join(" ");
     return resultClass.trim();
   }
