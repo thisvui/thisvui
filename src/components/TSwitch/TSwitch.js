@@ -79,6 +79,7 @@ export default {
         max: this.max,
         type: "checkbox"
       };
+      input.value(this.value);
       input.setAttrs(inputAttrs);
       input.setRef("inputField");
       input.addEvent("change", this.onInput);

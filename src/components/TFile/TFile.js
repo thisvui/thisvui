@@ -356,7 +356,7 @@ export default {
       if (this.showPreview && this.hasPreview) {
         let root = architect.createDiv(this.getPreviewClasses);
 
-        let h2 = architect.createH("is-size-6", 2);
+        let h2 = architect.createH(2, "is-size-6");
         h2.innerHtml(`Uploaded ${this.files.length} file(s) successfully.`);
 
         // Creating the reset button
@@ -389,7 +389,7 @@ export default {
       if (this.isUploadFailed) {
         let root = architect.createElement(TBox);
 
-        let h2 = architect.createH("is-size-6", 2);
+        let h2 = architect.createH(2, "is-size-6");
         h2.innerHtml(`Upload failed.`);
 
         // Creating the reset button

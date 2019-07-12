@@ -376,6 +376,7 @@ export default {
         min: this.min,
         max: this.max
       };
+      input.value(this.search);
       input.setAttrs(inputAttrs);
       input.setRef("inputField");
       input.addEvent("change", this.onChange);

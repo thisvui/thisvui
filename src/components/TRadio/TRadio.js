@@ -72,6 +72,7 @@ export default {
         max: this.max,
         type: "radio"
       };
+      input.value(item.value);
       input.setAttrs(inputAttrs);
       input.addEvent("change", () => {
         this.onInput(item);
