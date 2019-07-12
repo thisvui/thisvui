@@ -8,8 +8,7 @@ export default {
   mixins: [common, colors],
   props: {
     image: {
-      type: String,
-      required: true
+      type: String
     },
     imageClass: {
       type: String,
@@ -41,11 +40,13 @@ export default {
     root.setId(this.id);
 
     let left = root.createDiv("media-left");
-    let leftChildren = root.createP(this.getImgClasses);
-    let img = root.createImg();
-    img.addAttr("src", this.image)
-    leftChildren.addChild(img)
-    left.addChild(leftChildren)
+    if(this.image){
+      let leftChildren = root.createP(this.getImgClasses);
+      let img = root.createImg();
+      img.addAttr("src", this.image)
+      leftChildren.addChild(img)
+      left.addChild(leftChildren)
+    }
 
     let content = root.createDiv("media-content");
     content.setChildren(this.$slots.default);
