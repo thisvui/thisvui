@@ -1,13 +1,8 @@
-<template>
-  <div :id="id" :class="getClasses">
-    <slot> </slot>
-  </div>
-</template>
-
-<script>
-import CssArchitect from "../../utils/css-architect";
 import syntax from "../../mixins/syntax";
 import common from "../../mixins/common";
+
+import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-list-item",
@@ -42,6 +37,10 @@ export default {
       cssArchitect.addClass("is-100", this.is100);
       return cssArchitect.getClasses();
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "div", this.getClasses);
+    root.setId(this.id).setChildren(this.$slots.default);
+    return root.create();
   }
 };
-</script>
