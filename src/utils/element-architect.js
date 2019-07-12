@@ -128,6 +128,10 @@ export default class ElementArchitect {
     return this.addDomProp("innerHTML", value, conditionStatement);
   }
 
+  value(value, conditionStatement = true) {
+    return this.addDomProp("value", value, conditionStatement);
+  }
+
   setEvents(events) {
     if (!this.events) {
       this.events = {};
@@ -187,8 +191,20 @@ export default class ElementArchitect {
     return this;
   }
 
-  addClick(handler, conditionStatement = true) {
-    return this.addEvent("click", handler, conditionStatement);
+  addClick(handler, conditionStatement = true, native = false) {
+    return this.addEvent("click", handler, conditionStatement, native);
+  }
+
+  addChange(handler, conditionStatement = true, native = false) {
+    return this.addEvent("change", handler, conditionStatement, native);
+  }
+
+  addBlur(handler, conditionStatement = true, native = false) {
+    return this.addEvent("blur", handler, conditionStatement, native);
+  }
+
+  addInput(handler, conditionStatement = true) {
+    return this.addEvent("input", handler, conditionStatement);
   }
 
   setSlot(slot) {
@@ -209,6 +225,10 @@ export default class ElementArchitect {
       this.children.push(childEl);
     }
     return this;
+  }
+
+  addChildren(children, conditionStatement = true){
+    Array.prototype.push.apply(this.children, children);
   }
 
   setDirectives(directives) {
@@ -331,7 +351,7 @@ export default class ElementArchitect {
     return this.createElement("span", classes);
   }
 
-  createH(classes, level = 1) {
+  createH(level = 1, classes) {
     return this.createElement(`h${level}`, classes);
   }
 
