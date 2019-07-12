@@ -46,6 +46,11 @@ export default {
       addLastPage: true
     };
   },
+  watch: {
+    items: function(newVal, oldVal) {
+      this.updateData(!this.serverSide);
+    }
+  },
   computed: {
     isControlsOutside() {
       return this.controlsOutside;
@@ -211,13 +216,15 @@ export default {
     }
   },
   methods: {
-    updateData() {
+    updateData(emitEvent = true) {
       let data = {
         items: this.paginatedItems,
         page: this.currentPageNumber,
         size: this.rowsPerPage
       };
-      this.$emit(this.$thisvui.events.paginator.updatePage, data);
+      if (emitEvent) {
+        this.$emit(this.$thisvui.events.paginator.updatePage, data);
+      }
     },
     /**
      * Goes to the next page and emits the corresponding event
@@ -226,6 +233,7 @@ export default {
       if (!this.isLastPage) {
         this.currentPageNumber++;
       }
+      this.updateData();
     },
     /**
      * Goes to the prev page and emits the corresponding event
@@ -234,6 +242,7 @@ export default {
       if (!this.isFirstPage) {
         this.currentPageNumber--;
       }
+      this.updateData();
     },
     /**
      * Sets the current page number when page changes
@@ -242,12 +251,14 @@ export default {
       if (this.currentPageNumber > this.numberOfPages - 1) {
         this.currentPageNumber = this.numberOfPages - 1;
       }
+      this.updateData();
     },
     /**
      * Goes to specific page number
      */
     goTo(page) {
       this.currentPageNumber = page > 0 ? page - 1 : 0;
+      this.updateData();
     },
     /**
      * Creates the size selection element
@@ -396,7 +407,7 @@ export default {
     // Creating the next button
     let next = root.createElement(TPaginatorControl);
     let nextProps = {
-      disabled: this.isFirstPage,
+      disabled: this.isLastPage,
       containerClass: this.getNextClass,
       btnClass: this.nextBtnClass,
       icon: this.nextIcon,
@@ -441,9 +452,6 @@ export default {
     return root.create();
   },
   mounted() {
-    this.updateData();
-  },
-  updated() {
     this.updateData();
   }
 };
