@@ -1,39 +1,13 @@
-<template>
-  <article :id="id" :class="getClasses" v-if="!removed">
-    <div :class="getHeaderClasses" v-if="showHeader">
-      <p>{{ title }}</p>
-      <button
-        :class="getDeleteClasses"
-        aria-label="delete"
-        v-if="showDeleteButton"
-        @click="removeElement"
-      ></button>
-    </div>
-    <div :class="getBodyClasses">
-      <div class="has-text-right" v-if="showDeleteButton && !showHeader">
-        <button
-          :class="getDeleteClasses"
-          aria-label="delete"
-          @click="removeElement"
-        ></button>
-      </div>
-      <slot></slot>
-    </div>
-  </article>
-</template>
-
-<script>
 import syntax from "../../mixins/syntax";
 import sizes from "../../mixins/sizes";
 import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
+
 import CssArchitect from "../../utils/css-architect";
-import TLevel from "../TLevel/TLevel";
-import TLevelItem from "../TLevel/TLevelItem";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-message",
-  components: { TLevelItem, TLevel },
   mixins: [common, syntax, sizes, helper],
   props: {
     title: {
@@ -110,7 +84,48 @@ export default {
   methods: {
     removeElement() {
       this.removed = true;
+    },
+    createDeleteButton(architect) {
+      if (this.showDeleteButton) {
+        let deleteBtn = architect.createButton();
+        deleteBtn.setProps({
+          isText: true,
+          targetClass: this.getDeleteClasses
+        });
+        deleteBtn.addClick(this.removeElement);
+        architect.addChild(deleteBtn);
+      }
+    },
+    createHeader(architect) {
+      if (this.showHeader) {
+        let header = architect.createDiv(this.getHeaderClasses);
+        let title = architect.createP();
+        title.innerHtml(this.title);
+        header.addChild(title);
+        this.createDeleteButton(header);
+        architect.addChild(header);
+      }
+    },
+    createBody(architect) {
+      let body = architect.createDiv(this.getBodyClasses);
+      if (!this.showHeader) {
+        let deleteContainer = architect.createDiv("has-text-right");
+        this.createDeleteButton(deleteContainer);
+        body.addChild(deleteContainer);
+      }
+      body.addChildren(this.$slots.default);
+      architect.addChild(body);
+    }
+  },
+  render: function(h) {
+    if (!this.removed) {
+      let root = new ElementArchitect(h, "div", this.getClasses);
+      root.setId(this.id);
+
+      this.createHeader(root);
+      this.createBody(root);
+
+      return root.create();
     }
   }
 };
-</script>
