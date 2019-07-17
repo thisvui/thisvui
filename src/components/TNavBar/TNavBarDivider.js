@@ -1,8 +1,4 @@
-<template>
-  <hr :class="getClasses" />
-</template>
-
-<script>
+import ElementArchitect from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
@@ -16,6 +12,9 @@ export default {
       const cssArchitect = new CssArchitect("navbar-divider");
       return cssArchitect.getClasses();
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "hr", this.getClasses);
+    return root.create();
   }
 };
-</script>

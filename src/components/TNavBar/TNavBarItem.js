@@ -1,16 +1,7 @@
-<template>
-  <router-link v-if="view" :to="{ name: view }" :class="getClasses">
-    <slot></slot>
-  </router-link>
-  <a :id="id" :class="getClasses" v-else>
-    <slot></slot>
-  </a>
-</template>
-
-<script>
 import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-navbar-item",
@@ -34,6 +25,15 @@ export default {
       cssArchitect.addClass("is-active", this.isActive);
       return cssArchitect.getClasses();
     }
+  },
+  render: function(h) {
+    let hasView = this.view !== undefined;
+    let elementType = hasView ? "router-link" : "a";
+    let root = new ElementArchitect(h, elementType, this.getClasses);
+    root.setId(this.id).setChildren(this.$slots.default);
+    if (hasView) {
+      root.setProps({ to: { name: this.view } });
+    }
+    return root.create();
   }
 };
-</script>

@@ -1,13 +1,7 @@
-<template>
-  <a :id="id" :class="getClasses">
-    <slot></slot>
-  </a>
-</template>
-
-<script>
 import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-navbar-dropdown",
@@ -25,6 +19,10 @@ export default {
       cssArchitect.addClass("is-boxed", this.isBoxed);
       return cssArchitect.getClasses();
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "a", this.getClasses);
+    root.setId(this.id).setChildren(this.$slots.default);
+    return root.create();
   }
 };
-</script>

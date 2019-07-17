@@ -1,38 +1,25 @@
-<template>
-  <div :id="id" :class="getClasses">
-    <div class="navbar-start">
-      <slot name="navbar-start"></slot>
-    </div>
-    <div class="navbar-end">
-      <slot name="navbar-end"></slot>
-    </div>
-  </div>
-</template>
-
-<script>
 import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
-  name: "t-navbar-menu",
+  name: "t-navbar-brand",
   mixins: [common, helper],
-  props: {
-    isActive: {
-      type: Boolean
-    }
-  },
   computed: {
     /**
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("navbar-menu");
-      cssArchitect.addClass("is-active", this.isActive);
+      const cssArchitect = new CssArchitect("navbar-brand");
       cssArchitect.addClass(this.getHelpersModifiers);
       return cssArchitect.getClasses();
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "div", this.getClasses);
+    root.setId(this.id).setChildren(this.$slots.default);
+    return root.create();
   }
 };
-</script>

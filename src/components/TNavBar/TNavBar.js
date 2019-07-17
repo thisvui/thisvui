@@ -1,18 +1,11 @@
-<template>
-  <nav :id="id" :class="getClasses" role="navigation">
-    <slot></slot>
-  </nav>
-</template>
-
-<script>
 import colors from "../../mixins/colors";
 import common from "../../mixins/common";
+
 import CssArchitect from "../../utils/css-architect";
-import TNavBarItem from "./TNavBarItem";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-navbar",
-  components: { TNavBarItem },
   mixins: [common, colors],
   props: {
     targetClass: {
@@ -47,6 +40,10 @@ export default {
       this.setupColorModifier(cssArchitect);
       return cssArchitect.getClasses();
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "nav", this.getClasses);
+    root.setId(this.id).setChildren(this.$slots.default);
+    return root.create();
   }
 };
-</script>

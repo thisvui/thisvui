@@ -1,23 +1,9 @@
-<template>
-  <a
-    :id="id"
-    role="button"
-    :class="getClasses"
-    aria-label="menu"
-    aria-expanded="false"
-    @click="onClick"
-  >
-    <span aria-hidden="true"></span>
-    <span aria-hidden="true"></span>
-    <span aria-hidden="true"></span>
-  </a>
-</template>
-
-<script>
 import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
-import CssArchitect from "../../utils/css-architect";
 import colors from "../../mixins/colors";
+
+import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-navbar-burger",
@@ -49,7 +35,24 @@ export default {
   methods: {
     onClick() {
       this.$emit(this.$thisvui.events.common.click);
+    },
+    createLine(architect) {
+      let line = architect.createSpan();
+      line.addAttr("aria-hidden", "true");
+      architect.addChild(line);
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "a", this.getClasses);
+    root.setId(this.id);
+    root.addAttr("role", "button");
+    root.addAttr("aria-label", "menu");
+    root.addAttr("aria-expanded", "false");
+    root.addClick(this.onClick);
+
+    this.createLine(root);
+    this.createLine(root);
+    this.createLine(root);
+    return root.create();
   }
 };
-</script>
