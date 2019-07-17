@@ -1,35 +1,9 @@
-<template>
-  <transition name="fade">
-    <div :id="id" class="modal is-active" v-show="showModal">
-      <div class="modal-background" />
-      <transition :name="animationType">
-        <div :class="getClasses" v-show="showModal">
-          <header :class="getHeaderClass" v-if="showHeader">
-            <p v-if="title != undefined" :class="getTitleClass">{{ title }}</p>
-            <button
-              v-if="showClose"
-              class="delete"
-              aria-label="close"
-              @click="$emit(closeEvent)"
-            />
-          </header>
-          <section :class="getBodyClass">
-            <slot />
-          </section>
-          <footer :class="getFootClass" v-if="showFooter">
-            <slot name="footer" />
-          </footer>
-        </div>
-      </transition>
-    </div>
-  </transition>
-</template>
-
-<script>
 import sizes from "../../mixins/sizes";
 import colors from "../../mixins/colors";
 import common from "../../mixins/common";
+
 import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-modal",
@@ -101,7 +75,7 @@ export default {
      * Dynamically build the css classes for the modal header
      * @returns { A String with the chained css classes }
      */
-    getHeaderClass: function() {
+    getHeaderClasses: function() {
       const cssArchitect = new CssArchitect("modal-card-head");
       this.colorize(cssArchitect, "bg-color", true);
       cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
@@ -112,7 +86,7 @@ export default {
      * Dynamically build the css classes for the modal header title
      * @returns { A String with the chained css classes }
      */
-    getTitleClass: function() {
+    getTitleClasses: function() {
       const cssArchitect = new CssArchitect("modal-card-title");
       this.colorize(cssArchitect, "color-invert", true);
       cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
@@ -123,7 +97,7 @@ export default {
      * Dynamically build the css classes for the modal body
      * @returns { A String with the chained css classes }
      */
-    getBodyClass: function() {
+    getBodyClasses: function() {
       const cssArchitect = new CssArchitect("modal-card-body");
       cssArchitect.addClass(this.bodyClass, this.bodyClass);
       return cssArchitect.getClasses();
@@ -132,12 +106,69 @@ export default {
      * Dynamically build the css classes for the modal foot
      * @returns { A String with the chained css classes }
      */
-    getFootClass: function() {
+    getFootClasses: function() {
       const cssArchitect = new CssArchitect("modal-card-foot");
       cssArchitect.addClass(this.footClass, this.footClass);
       return cssArchitect.getClasses();
     }
   },
-  methods: {}
+  methods: {
+    createDeleteButton(architect) {
+      if (this.showClose) {
+        let deleteBtn = architect.createElement("button", "delete");
+        deleteBtn.addClick(() => {
+          this.$emit(this.closeEvent);
+        });
+        architect.addChild(deleteBtn);
+      }
+    },
+    createHeader(architect) {
+      if (this.showHeader) {
+        let header = architect.createElement("header", this.getHeaderClasses);
+        if (this.title) {
+          let title = architect.createP(this.getTitleClasses);
+          title.innerHtml(this.title);
+          header.addChild(title);
+        }
+        this.createDeleteButton(header);
+        architect.addChild(header);
+      }
+    },
+    createBody(architect) {
+      let body = architect.createElement("section", this.getBodyClasses);
+      body.setChildren(this.$slots.default);
+      architect.addChild(body);
+    },
+    createFooter(architect) {
+      if (this.showFooter && this.$slots["footer"]) {
+        let footer = architect.createElement("footer", this.getFootClasses);
+        footer.setChildren(this.$slots["footer"]);
+        architect.addChild(footer);
+      }
+    },
+    createModal(architect) {
+      let transition = architect.createTransition(this.animationType);
+      if (this.showModal) {
+        let modal = architect.createDiv(this.getClasses);
+        this.createHeader(modal);
+        this.createBody(modal);
+        this.createFooter(modal);
+        transition.addChild(modal);
+      }
+      architect.addChild(transition);
+    }
+  },
+  render: function(h) {
+    if (!this.removed) {
+      let root = new ElementArchitect(h, "transition", this.getClasses);
+      root.setProps({ name: "fade" });
+
+      let modal = root.createDiv("modal is-active");
+      let bg = root.createDiv("modal-background");
+      modal.addChild(bg);
+      this.createModal(modal);
+      root.addChild(modal, this.showModal);
+      return root.create();
+    }
+  }
 };
-</script>
