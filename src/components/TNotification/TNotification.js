@@ -1,28 +1,13 @@
-<template>
-  <transition :name="this.transition" tag="span" mode="out-in">
-    <article :id="id" :class="getClasses" v-if="!removed">
-      <button
-        :class="getDeleteClasses"
-        aria-label="delete"
-        v-if="showDeleteButton"
-        @click="removeElement"
-      ></button>
-      <slot></slot>
-    </article>
-  </transition>
-</template>
-
-<script>
 import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
-import CssArchitect from "../../utils/css-architect";
-import TButton from "../TButton/TButton";
 import display from "../../mixins/display";
 import colors from "../../mixins/colors";
 
+import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
+
 export default {
   name: "t-notification",
-  components: { TButton },
   mixins: [common, display, colors, helper],
   props: {
     targetClass: {
@@ -88,6 +73,35 @@ export default {
       this.removed = true;
       clearTimeout(this.timer);
       this.$emit(this.$thisvui.events.notification.close);
+    },
+    createDeleteButton(architect) {
+      if (this.showDeleteButton) {
+        let deleteBtn = architect.createElement(
+          "button",
+          this.getDeleteClasses
+        );
+        deleteBtn.addClick(this.removeElement);
+        architect.addChild(deleteBtn);
+      }
+    },
+    createBody(architect) {
+      if (!this.removed) {
+        let body = architect.createElement("article", this.getClasses);
+        body.setId(this.id);
+        this.createDeleteButton(body);
+        body.addChildren(this.$slots.default);
+        architect.addChild(body);
+      }
+    }
+  },
+  render: function(h) {
+    if (!this.removed) {
+      let root = new ElementArchitect(h, "transition", this.getClasses);
+      root.setProps({ name: this.transition, tag: "span", mode: "out-in" });
+
+      this.createBody(root);
+
+      return root.create();
     }
   },
   mounted() {
@@ -101,4 +115,3 @@ export default {
     }
   }
 };
-</script>
