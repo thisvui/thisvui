@@ -326,7 +326,7 @@ export default {
       if (this.icon) {
         let inputIcon = architect.createIcon(this.getIconClass);
         inputIcon.addProp("icon", this.icon);
-        architect.addChild(inputIcon, this.icon);
+        architect.addChild(inputIcon, this.icon !== undefined);
       }
 
       // Creating the icon to display when validation passed

@@ -113,7 +113,7 @@ export default {
         li.addClass("is-active", item.isActive);
 
         let name = root.createSpan();
-        name.innerHtml(item.name);
+        name.innerHTML(item.name);
 
         // Creating the link element. if item.view is present creates a router-link
         let link = root.createElement(

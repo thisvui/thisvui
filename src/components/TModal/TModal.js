@@ -127,7 +127,7 @@ export default {
         let header = architect.createElement("header", this.getHeaderClasses);
         if (this.title) {
           let title = architect.createP(this.getTitleClasses);
-          title.innerHtml(this.title);
+          title.innerHTML(this.title);
           header.addChild(title);
         }
         this.createDeleteButton(header);

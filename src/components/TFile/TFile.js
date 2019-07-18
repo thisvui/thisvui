@@ -298,13 +298,13 @@ export default {
       });
       let fileLabel = architect.createSpan("file-label");
       let label = architect.createP();
-      label.innerHtml(
+      label.innerHTML(
         this.isInitialUpload
           ? this.label
           : `Uploading ${this.fileCount} files...`
       );
       let filename = architect.createSpan("file-name");
-      filename.innerHtml(this.fileName);
+      filename.innerHTML(this.fileName);
 
       fileIcon.addChild(icon);
       fileLabel.addChild(label);
@@ -357,7 +357,7 @@ export default {
         let root = architect.createDiv(this.getPreviewClasses);
 
         let h2 = architect.createH(2, "is-size-6");
-        h2.innerHtml(`Uploaded ${this.files.length} file(s) successfully.`);
+        h2.innerHTML(`Uploaded ${this.files.length} file(s) successfully.`);
 
         // Creating the reset button
         let thumbnails = architect.createElement(TThumbnails);
@@ -370,7 +370,7 @@ export default {
           img.setRef(`${this.id}-image-${index}`, true);
 
           let name = architect.createH();
-          name.innerHtml(file.name);
+          name.innerHTML(file.name);
 
           thumbnail.addChild(img);
           thumbnail.addChild(name);
@@ -390,16 +390,16 @@ export default {
         let root = architect.createElement(TBox);
 
         let h2 = architect.createH(2, "is-size-6");
-        h2.innerHtml(`Upload failed.`);
+        h2.innerHTML(`Upload failed.`);
 
         // Creating the reset button
         let resetBtn = architect.createButton(this.getClearClasses);
         resetBtn.setProps({ icon: this.clearIcon });
-        resetBtn.innerHtml(this.clearText, !this.hideButtonsLabels);
+        resetBtn.innerHTML(this.clearText, !this.hideButtonsLabels);
         resetBtn.addClick(this.reset);
 
         let error = architect.createElement("pre");
-        error.innerHtml(this.uploadError);
+        error.innerHTML(this.uploadError);
 
         root.addChild(h2);
         root.addChild(resetBtn);

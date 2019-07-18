@@ -357,7 +357,7 @@ export default {
           this.nextMonth
         ); // The right arrow
         let monthName = architect.createSpan("month-name");
-        monthName.innerHtml(`${this.currentMonthLabel} ${this.currentYear}`);
+        monthName.innerHTML(`${this.currentMonthLabel} ${this.currentYear}`);
 
         header.addChild(arrowLeft);
         header.addChild(monthName);
@@ -367,7 +367,7 @@ export default {
         // Creating days labels
         for (let dayLabel of this.dayLabels) {
           let dayLabelEl = architect.createDiv(this.className("headings"));
-          dayLabelEl.innerHtml(dayLabel);
+          dayLabelEl.innerHTML(dayLabel);
           calendar.addChild(dayLabelEl);
         }
 
@@ -378,7 +378,7 @@ export default {
           dayNumber.addClick(() => {
             this.setSelectedDate(day);
           });
-          dayNumber.innerHtml(this.formatDateToDay(day.date));
+          dayNumber.innerHTML(this.formatDateToDay(day.date));
           dayEl.addChild(dayNumber);
           calendar.addChild(dayEl);
         }

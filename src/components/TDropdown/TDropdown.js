@@ -73,7 +73,7 @@ export default {
     btn.addAttr("aria-controls", "dropdown-menu");
     btn.addClick(this.toggleActive);
 
-    let text = root.createSpan().innerHtml(this.text);
+    let text = root.createSpan().innerHTML(this.text);
     let icon = root
       .createIcon()
       .setProps({ icon: this.icon, preserveDefaults: !this.overrideDefaults });

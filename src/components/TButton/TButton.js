@@ -333,7 +333,7 @@ export default {
 
         if (this.message) {
           let message = architect.createP(this.getMessageClass);
-          message.innerHtml(this.message);
+          message.innerHTML(this.message);
           modal.addChild(message);
         }
         if (this.$slots["message"]) {
@@ -349,13 +349,13 @@ export default {
           "button",
           this.getConfirmBtnClass
         );
-        confirmBtn.innerHtml(this.confirmText);
+        confirmBtn.innerHTML(this.confirmText);
         confirmBtn.addClick(this.confirmed);
         let cancelBtn = architect.createElement(
           "button",
           this.getCancelBtnClass
         );
-        cancelBtn.innerHtml(this.cancelText);
+        cancelBtn.innerHTML(this.cancelText);
         cancelBtn.addClick(this.close);
 
         modalFoot.addChild(confirmBtn);

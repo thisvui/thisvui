@@ -209,7 +209,7 @@ export default {
 
         let content = architect.createSpan();
         let text = architect.createSpan();
-        text.innerHtml(
+        text.innerHTML(
           this.$options.filters.capitalize(column.display || column.name)
         );
         let icon = architect.createIcon("sort-icon").setProps({
@@ -250,7 +250,7 @@ export default {
       }
       if (this.hasActionColumn) {
         let actionColumn = architect.createElement("th", this.getThClasses);
-        actionColumn.innerHtml(this.actionText);
+        actionColumn.innerHTML(this.actionText);
         tr.addChild(actionColumn);
       }
       thead.addChild(thead);

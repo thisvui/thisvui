@@ -118,13 +118,13 @@ export default {
 
       if (this.title) {
         let title = root.createP(this.getTitleClasses);
-        title.innerHtml(this.title);
+        title.innerHTML(this.title);
         start.addChild(title);
       }
 
       if (this.subtitle) {
         let subtitle = root.createP(this.getSubtitleClasses);
-        subtitle.innerHtml(this.subtitle);
+        subtitle.innerHTML(this.subtitle);
         start.addChild(subtitle);
       }
       let end = root.createElement(TFlex).setProps({

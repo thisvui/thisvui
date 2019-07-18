@@ -124,7 +124,7 @@ export default class ElementArchitect {
     return this;
   }
 
-  innerHtml(value, conditionStatement = true) {
+  innerHTML(value, conditionStatement = true) {
     return this.addDomProp("innerHTML", value, conditionStatement);
   }
 
