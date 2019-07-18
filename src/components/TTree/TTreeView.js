@@ -1,38 +1,12 @@
-<template>
-  <div
-    :id="id"
-    :class="getContainerClass"
-    key="tree-view-container"
-    ref="navdrawercontainer"
-  >
-    <div class="tree-view">
-      <ul class="tree-view-list">
-        <t-tree-nav
-          class="item"
-          :tag-class="tagClass"
-          v-for="(item, index) in model"
-          :key="index"
-          :model="item"
-          :icon-class="getIconClass"
-          :link-class="getLinkClass"
-          :opened-icon="openedIcon"
-          :closed-icon="closedIcon"
-          :icon-lib="iconLib"
-          :override-defaults="overrideDefaults"
-        >
-        </t-tree-nav>
-      </ul>
-    </div>
-  </div>
-</template>
-
-<script>
 import helpers from "../../mixins/helpers";
 import tree from "../../mixins/tree";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
-import CssArchitect from "../../utils/css-architect";
+
 import TTreeNav from "./TTreeNav";
+
+import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-tree-view",
@@ -52,7 +26,7 @@ export default {
      * Dynamically build the css classes for the main container
      * @returns { A String with the chained css classes }
      */
-    getContainerClass: function() {
+    getContainerClasses: function() {
       const cssArchitect = new CssArchitect("t-tree-view");
       cssArchitect.isFlexible("column", "stretch").isFullheight();
       cssArchitect.addClass(
@@ -87,15 +61,46 @@ export default {
     return {
       parentProps: this.$parent.$props
     };
+  },
+  methods: {
+    /**
+     * Creates the tree items
+     * @param architect
+     */
+    createItems(architect) {
+      let treeItems = architect.createUl("tree-view-list");
+      let css = new CssArchitect();
+      css.addStyle("margin-top", 0);
+      treeItems.setStyles(css.getStyles());
+      for (let index in this.model) {
+        let item = this.model[index];
+
+        let treeItem = architect.createElement(TTreeNav, "item");
+        treeItem.setKey(`${this.id}${index}`);
+        treeItem.setProps({
+          model: item,
+          tagClass: this.tagClass,
+          iconClass: this.getIconClass,
+          linkClass: this.getLinkClass,
+          openedIcon: this.openedIcon,
+          cloedIcon: this.cloedIcon,
+          iconLib: this.iconLib,
+          overrideDefaults: this.overrideDefaults
+        });
+
+        treeItems.addChild(treeItem);
+      }
+      architect.addChild(treeItems);
+    }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "div", this.getContainerClasses);
+    root.setId(this.id);
+    root.setKey(`${this.id}-tree-view-container`);
+
+    let tree = root.createDiv("tree-view");
+    this.createItems(tree);
+    root.addChild(tree);
+    return root.create();
   }
 };
-</script>
-
-<style scoped>
-.content ul {
-  margin-top: 0;
-}
-.content ul ul {
-  margin-top: 0;
-}
-</style>
