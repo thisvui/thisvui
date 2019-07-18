@@ -1,30 +1,12 @@
-<template>
-  <div :class="getClasses" @click="onClick">
-    <slot v-if="!alignContentRight" />
-    <span v-if="headingText !== undefined" class="is-size-6">{{
-      headingText
-    }}</span>
-    <t-icon
-      v-if="icon !== undefined"
-      :preserve-defaults="!overrideDefaults"
-      :icon="icon"
-      :class="getIconClasses"
-    >
-    </t-icon>
-    <slot v-if="alignContentRight" />
-  </div>
-</template>
-
-<script>
 import icons from "../../mixins/icons";
-import CssArchitect from "../../utils/css-architect";
-import TIcon from "../TIcon/TIcon";
 import colors from "../../mixins/colors";
+
+import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-panel-heading",
   mixins: [icons, colors],
-  components: { TIcon },
   props: {
     headingText: {
       type: String
@@ -35,14 +17,13 @@ export default {
     headingIconClass: {
       type: String
     },
-    alignContentRight: {
+    alignContentToRight: {
       type: Boolean,
       default: false
     }
   },
   watch: {
     headingIcon: function(newVal, oldVal) {
-      // watch it
       this.icon = newVal;
     }
   },
@@ -73,13 +54,6 @@ export default {
         this.headingIconClass !== undefined
       );
       return cssArchitect.getClasses();
-    },
-    alignContentToTheRight: function() {
-      if (typeof this.alignContentRight === "string") {
-        const alignContentToTheRight = this.alignContentRight !== "false";
-        return alignContentToTheRight;
-      }
-      return this.alignContentRight;
     }
   },
   data() {
@@ -91,6 +65,27 @@ export default {
     onClick() {
       this.$emit(this.$thisvui.events.common.click);
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "div", this.getClasses);
+    root.addClick(this.onClick);
+
+    root.addChildren(this.$slots.default, !this.alignContentToRight);
+    if (this.headingText) {
+      let headingText = root.createSpan("is-size-6");
+      headingText.innerHTML(this.headingText);
+      root.addChild(headingText);
+    }
+
+    if (this.icon) {
+      let headingIcon = root.createIcon(this.getIconClasses);
+      headingIcon.setProps({
+        icon: this.icon,
+        preserveDefaults: !this.overrideDefaults
+      });
+      root.addChild(headingIcon);
+    }
+    root.addChildren(this.$slots.default, this.alignContentToRight);
+    return root.create();
   }
 };
-</script>

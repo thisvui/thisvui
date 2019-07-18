@@ -1,33 +1,12 @@
-<template>
-  <nav :id="id" :class="getClasses">
-    <t-panel-heading
-      v-if="title !== undefined"
-      :icon-lib="iconLib"
-      :override-defaults="overrideDefaults"
-      :class="headingClass"
-      :heading-text="title"
-      :heading-icon="icon"
-      :heading-icon-class="headingIconClass"
-      v-on="expandable ? { click: () => toggleExpanded() } : {}"
-    />
-    <t-expand>
-      <div :class="getBodyClasses" v-if="isExpanded">
-        <div class="panel-content">
-          <slot />
-        </div>
-      </div>
-    </t-expand>
-  </nav>
-</template>
-
-<script>
 import helpers from "../../mixins/helpers";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
 import TPanelHeading from "./TPanelHeading";
-import CssArchitect from "../../utils/css-architect";
 import TExpand from "../TAnimation/TExpand";
 import colors from "../../mixins/colors";
+
+import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-panel",
@@ -111,8 +90,34 @@ export default {
       this.$emit(this.$thisvui.events.panel.updateExpanded, this.isExpanded);
     }
   },
+  render: function(h) {
+    let root = new ElementArchitect(h, "div", this.getClasses);
+    root.setId(this.id);
+
+    if (this.title) {
+      let heading = root.createElement(TPanelHeading, this.headingClass);
+      heading.setProps({
+        iconLib: this.iconLib,
+        overrideDefaults: this.overrideDefaults,
+        headingText: this.title,
+        headingIcon: this.icon,
+        headingIconClass: this.headingIconClass
+      });
+      root.addClick(() => this.toggleExpanded(), this.expandable);
+      root.addChild(heading);
+    }
+
+    let expand = root.createElement(TExpand);
+    let body = root.createDiv(this.getBodyClasses);
+    let content = root.createDiv("panel-content");
+
+    content.setChildren(this.$slots.default);
+    body.addChild(content);
+    expand.addChild(body, this.isExpanded);
+    root.addChild(expand);
+    return root.create();
+  },
   mounted() {
     this.includeBgModifiers = false;
   }
 };
-</script>
