@@ -1,38 +1,8 @@
-<template>
-  <t-flex
-    :class="getContainerClasses"
-    :is-fullwidth="isFullWidth"
-    justify-content="center"
-  >
-    <div :class="getHelperClasses" ref="colorHelper"></div>
-    <canvas
-      :id="id"
-      width="70"
-      height="70"
-      v-if="circular && !indeterminate"
-      ref="circular"
-      :class="getClasses"
-    ></canvas>
-    <div
-      ref="circular"
-      :class="getClasses"
-      v-if="circular && indeterminate"
-    ></div>
-    <div
-      :class="getClasses"
-      v-if="circular && indeterminate && spinnerType === 'double'"
-    ></div>
-    <progress :id="id" :class="getClasses" ref="linear" v-if="!circular">
-      <slot></slot>
-    </progress>
-  </t-flex>
-</template>
-
-<script>
 import TFlex from "../TFlex";
 import colors from "../../mixins/colors";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-progress",
@@ -59,7 +29,7 @@ export default {
     containerClass: {
       type: String
     },
-    isFullWidth: {
+    isFullwidth: {
       type: Boolean
     }
   },
@@ -182,7 +152,42 @@ export default {
         false
       );
       this.ctx.stroke();
+    },
+    createLinearProgress(architect) {
+      if (!this.circular) {
+        let progress = architect.createElement("progress", this.getClasses);
+        progress.setId(this.id);
+        progress.setRef("linear");
+        progress.setChildren(this.$slots.default);
+        architect.addChild(progress);
+      }
+    },
+    createCircularProgress(architect) {
+      if (this.circular) {
+        let elementType = this.indeterminate ? "div" : "canvas";
+        let progress = architect.createElement(elementType, this.getClasses);
+        progress.setRef("circular");
+        progress.setId(this.id);
+        progress.addAttr("width", 70, !this.indeterminate);
+        progress.addAttr("height", 70, !this.indeterminate);
+        architect.addChild(progress);
+        if (this.spinnerType === "double") {
+          let double = architect.createDiv(this.getClasses);
+          architect.addChild(double);
+        }
+      }
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, TFlex, this.getContainerClasses);
+    root.setProps({ isFullwidth: this.isFullwidth, justifyContent: "center" });
+
+    let color = root.createDiv(this.getHelperClasses);
+    color.setRef("colorHelper");
+    root.addChild(color);
+    this.createLinearProgress(root);
+    this.createCircularProgress(root);
+    return root.create();
   },
   mounted() {
     this.$nextTick(function() {
@@ -193,4 +198,3 @@ export default {
     });
   }
 };
-</script>
