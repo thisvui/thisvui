@@ -1,52 +1,17 @@
-<template>
-  <div :class="getContainerClasses">
-    <div :id="id" :class="getClasses">
-      <div class="tab-slider-wrapper is-absolute">
-        <span
-          class="tab-slider"
-          v-bind:style="{ width: sliderWidth + 'px', left: sliderLeft + 'px' }"
-        ></span>
-      </div>
-      <ul>
-        <li
-          v-for="(tab, index) in tabs"
-          v-bind:class="{ 'is-tab-active': tab.isActive }"
-          :key="`${id}${index}`"
-        >
-          <a
-            @click="selectTab(index)"
-            :class="tab.isActive ? getLinkClasses : ''"
-            :ref="`${id}${index}`"
-          >
-            <span
-              v-if="tab.icon"
-              :class="tab.isActive ? `icon` : `icon ${tab.iconClass}`"
-            >
-              <t-icon :icon="tab.icon"></t-icon>
-            </span>
-            <span v-if="tab.name" v-text="tab.name"></span>
-          </a>
-        </li>
-      </ul>
-    </div>
-    <div :class="`${getBodyClasses}`">
-      <slot></slot>
-    </div>
-  </div>
-</template>
-
-<script>
 import alignment from "../../mixins/alignment";
 import sizes from "../../mixins/sizes";
 import common from "../../mixins/common";
-import CssArchitect from "../../utils/css-architect";
 import TIcon from "../TIcon/TIcon";
 import colors from "../../mixins/colors";
+import icons from "../../mixins/icons";
+
+import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-tabs",
   components: { TIcon },
-  mixins: [common, colors, alignment, sizes],
+  mixins: [common, colors, alignment, sizes, icons],
   props: {
     selected: Number,
     isToggle: {
@@ -153,7 +118,92 @@ export default {
         this.isBoxed || this.isToggle || this.isToggleRounded ? 2 : 0;
       this.sliderWidth = currentLi.scrollWidth + borderWidth;
       this.sliderLeft = currentLi.offsetLeft;
+    },
+    /**
+     * Creates the tabs slider
+     * @param architect
+     */
+    createSlider(architect) {
+      let tabSliderWrapper = architect.createDiv(
+        "tab-slider-wrapper is-absolute"
+      );
+      let tabSlider = architect.createSpan("tab-slider");
+      let css = new CssArchitect();
+      css.addStyle("width", `${this.sliderWidth}px`);
+      css.addStyle("left", `${this.sliderLeft}px`);
+      tabSlider.setStyles(css.getStyles());
+      tabSliderWrapper.addChild(tabSlider);
+      architect.addChild(tabSliderWrapper);
+    },
+    /**
+     * Creates the tab items
+     * @param architect
+     */
+    createItems(architect) {
+      let items = architect.createUl();
+      for (let index in this.tabs) {
+        let tab = this.tabs[index];
+
+        let item = architect.createLi();
+        item.addClass("is-tab-active", tab.isActive);
+        item.setKey(`${this.id}${index}`);
+
+        let link = architect.createA();
+        link.addClass(this.getLinkClasses, tab.isActive);
+        link.setRef(`${this.id}${index}`, true);
+        link.addClick(() => {
+          this.selectTab(index);
+        });
+
+        if (tab.icon) {
+          let iconContainer = architect.createSpan(
+            this.getIconContainerClasses
+          );
+          let icon = architect.createIcon(this.iconClass);
+          icon.addClass("icon", tab.isActive);
+          icon.addClass(`icon ${tab.iconClass}`, !tab.isActive);
+          icon.setProps({
+            icon: this.tab.icon,
+            iconLib: this.iconLib,
+            preserveDefaults: !this.overrideDefaults
+          });
+          iconContainer.addChild(icon);
+          link.addChild(iconContainer);
+        }
+
+        if (tab.name) {
+          let name = architect.createSpan();
+          name.innerHTML(tab.name);
+          link.addChild(name);
+        }
+
+        item.addChild(link);
+        items.addChild(item);
+      }
+      architect.addChild(items);
+    },
+    /**
+     * Creates the tabs body
+     * @param architect
+     */
+    createBody(architect) {
+      let body = architect.createDiv(this.getBodyClasses);
+      body.setChildren(this.$slots.default);
+      architect.addChild(body);
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "div", this.getContainerClasses);
+
+    let tabsHeader = root.createDiv(this.getClasses);
+    tabsHeader.setId(this.id);
+
+    this.createSlider(tabsHeader);
+    this.createItems(tabsHeader);
+    root.addChild(tabsHeader);
+    this.createBody(root);
+
+    return root.create();
   },
   mounted() {
     if (this.activeTabIndex < this.tabs.length) {
@@ -167,4 +217,3 @@ export default {
     this.includeBgModifiers = false;
   }
 };
-</script>

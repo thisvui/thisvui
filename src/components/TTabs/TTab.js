@@ -1,14 +1,7 @@
-<template>
-  <transition :name="transitionClassName">
-    <div :id="id" v-show="isActive" class="tab-pane">
-      <slot></slot>
-    </div>
-  </transition>
-</template>
-
-<script>
 import common from "../../mixins/common";
 import TIcon from "../TIcon/TIcon";
+
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-tab",
@@ -56,8 +49,17 @@ export default {
       this.isActive = activate;
     }
   },
+  render: function(h) {
+    let root = new ElementArchitect(h, "transition");
+    root.setProps({name: this.transitionClassName})
+
+    let tab = root.createDiv("tab-pane")
+    tab.setId(this.id).setChildren(this.$slots.default);
+
+    root.addChild(tab, this.isActive)
+    return root.create();
+  },
   mounted() {
     this.includeBgModifiers = false;
   }
 };
-</script>
