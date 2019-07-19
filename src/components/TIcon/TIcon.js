@@ -2,6 +2,7 @@ import syntax from "../../mixins/syntax";
 import sizes from "../../mixins/sizes";
 import common from "../../mixins/common";
 import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-icon",
@@ -106,24 +107,18 @@ export default {
       }
     }
   },
-  render: function(createElement) {
-    let icon = createElement("i", {
-      class: this.isMd ? this.getMaterialIconsClass : this.getClasses,
-      domProps: {
-        innerHTML: this.isMd ? this.icon : null
-      }
-    });
-    return createElement(
-      "span",
-      {
-        class: this.getContainerClass,
-        attrs: {
-          key: `${this.id}-${this.icon}`,
-          "data-tooltip": this.dataTooltip
-        }
-      },
-      [icon]
-    );
+  render: function(h) {
+    let root = new ElementArchitect(h, "span", this.getContainerClass);
+    root.setId(this.id);
+    root.setKey(`${this.id}-${this.icon}`);
+    root.addAttr("data-tooltip", this.dataTooltip);
+
+    let icon = root.createElement("i");
+    icon.addClass(this.isMd ? this.getMaterialIconsClass : this.getClasses);
+    icon.innerHTML(this.icon, this.isMd);
+
+    root.addChild(icon);
+    return root.create();
   },
   mounted() {
     this.configureIconLib();
