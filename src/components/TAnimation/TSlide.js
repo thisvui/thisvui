@@ -1,17 +1,7 @@
-<template>
-  <div
-    ref="slideContainer"
-    :class="getClasses"
-    :style="getStyle()"
-    v-t-click-outside="handleOutsideClick"
-  >
-    <slot />
-  </div>
-</template>
-
-<script>
-import CssArchitect from "../../utils/css-architect";
 import slide from "../../mixins/slide";
+
+import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-slide",
@@ -40,13 +30,14 @@ export default {
   },
   methods: {
     getStyle() {
-      let styleObject = {
-        width: `${this.initialWidth}px`
-      };
-      if (this.zIndex) {
-        styleObject.zIndex = parseInt(this.zIndex);
-      }
-      return styleObject;
+      const cssArchitect = new CssArchitect();
+      cssArchitect.addStyle("width", `${this.initialWidth}px`);
+      cssArchitect.addStyle(
+        "zIndex",
+        parseInt(this.zIndex),
+        this.zIndex !== undefined
+      );
+      return cssArchitect.getStyles();
     },
     getTarget() {
       let element = this.$refs.slideContainer;
@@ -74,6 +65,17 @@ export default {
       this.changeWidth(this.getWidth());
     }
   },
+  render: function(h) {
+    let root = new ElementArchitect(h, "div", this.getClasses);
+    root.setRef("slideContainer");
+    root.setStyles(this.getStyle());
+    root.addDirective({
+      name: "t-click-outside",
+      value: this.handleOutsideClick
+    });
+    root.setChildren(this.$slots.default);
+    return root.create();
+  },
   mounted() {
     this.$nextTick(function() {
       this.toggleSlide();
@@ -89,4 +91,3 @@ export default {
     window.removeEventListener("resize", this.handleResize);
   }
 };
-</script>
