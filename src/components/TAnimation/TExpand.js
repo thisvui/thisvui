@@ -1,15 +1,6 @@
-<template>
-  <transition
-    name="expand"
-    @enter="enter"
-    @after-enter="afterEnter"
-    @leave="leave"
-  >
-    <slot />
-  </transition>
-</template>
+import ElementArchitect from "../../utils/element-architect";
+import CssArchitect from "../../utils/css-architect";
 
-<script>
 export default {
   name: "t-expand",
   methods: {
@@ -48,15 +39,23 @@ export default {
         element.style.height = "0";
       });
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "transition", this.getClasses);
+    root.setProps({ name: "expand" });
+
+    root.addEvent("enter", this.enter);
+    root.addEvent("after-enter", this.afterEnter);
+    root.addEvent("leave", this.leave);
+    root.setChildren(this.$slots.default);
+
+    let css = new CssArchitect();
+    css.addStyle("will-change", "height");
+    css.addStyle("transform", "translateZ(0)");
+    css.addStyle("backface-visibility", "hidden");
+    css.addStyle("perspective", "1000px");
+
+    root.setStyles(css.getStyles());
+    return root.create();
   }
 };
-</script>
-
-<style scoped>
-* {
-  will-change: height;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000px;
-}
-</style>
