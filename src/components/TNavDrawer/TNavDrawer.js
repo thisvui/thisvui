@@ -1,56 +1,16 @@
-<template>
-  <t-aside
-    :id="id"
-    :container-class="getContainerClass"
-    :is-open="isOpen"
-    :is-absolute="isAbsolute"
-    :width="width"
-    :z-index="zIndex"
-    :animation-duration="animationDuration"
-    :animation-fill="animationFill"
-    @clicked-outside="handleOutsideClick"
-    @change-width="updateCalculatedWith"
-  >
-    <div class="menu" :style="getStyle()">
-      <template v-for="(menu, index) in model">
-        <p :key="`ml-${index}`" :class="getLabelClass" v-if="!hideLabel">
-          {{ menu.name }}
-        </p>
-        <ul class="menu-list" :key="`tree${index}`">
-          <t-tree-nav
-            class="item"
-            :tag-class="tagClass"
-            v-for="(item, index) in menu.children"
-            :key="index"
-            :model="item"
-            :icon-class="getIconClass"
-            :link-class="getLinkClass"
-            :link-opened-class="getLinkOpenedClass"
-            :control-icon-class="getControlIconClass"
-            :opened-icon="openedIcon"
-            :closed-icon="closedIcon"
-            :icon-lib="iconLib"
-            :override-defaults="overrideDefaults"
-            :exclusive="exclusive"
-          >
-          </t-tree-nav>
-        </ul>
-      </template>
-    </div>
-  </t-aside>
-</template>
-
-<script>
 import helpers from "../../mixins/helpers";
 import tree from "../../mixins/tree";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
-import CssArchitect from "../../utils/css-architect";
-import TTreeNav from "../TTree/TTreeNav";
-import TSlide from "../TAnimation/TSlide";
 import colors from "../../mixins/colors";
 import slide from "../../mixins/slide";
+
+import TTreeNav from "../TTree/TTreeNav";
+import TSlide from "../TAnimation/TSlide";
 import TAside from "../TLayout/TAside";
+
+import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-nav-drawer",
@@ -140,11 +100,71 @@ export default {
   },
   methods: {
     getStyle() {
-      let styleObject = {
-        width: `${this.calculatedWidth}px`
-      };
-      return styleObject;
+      const cssArchitect = new CssArchitect();
+      cssArchitect.addStyle("width", `${this.calculatedWidth}px`);
+      return cssArchitect.getStyles();
+    },
+    /**
+     * Creates the menu items
+     * @param architect
+     */
+    createMenuItems(architect) {
+      let menuItems = architect.createDiv("menu");
+      menuItems.setStyles(this.getStyle());
+
+      for (let $index in this.model) {
+        let $menu = this.model[$index];
+
+        if (!this.hideLabel) {
+          let label = architect.createP(this.getLabelClass);
+          label.setKey(`${this.id}-ml-${$index}`);
+          label.innerHTML($menu.name);
+          menuItems.addChild(label);
+        }
+
+        let treeContainer = architect.createUl("menu-list");
+        treeContainer.setKey(`${this.id}-ml-tree${$index}`);
+
+        for (let $treeIndex in $menu.children) {
+          let $treeItem = $menu.children[$treeIndex];
+
+          let treeNav = architect.createElement(TTreeNav, "item");
+          treeNav.setKey(`${this.id}-ml-tree-item${$treeIndex}`);
+          treeNav.setProps({
+            tagClass: this.tagClass,
+            model: $treeItem,
+            iconClass: this.getIconClass,
+            linkClass: this.getLinkClass,
+            linkOpenedClass: this.getLinkOpenedClass,
+            controlIconClass: this.getControlIconClass,
+            openedIcon: this.openedIcon,
+            closedIcon: this.closedIcon,
+            iconLib: this.iconLib,
+            overrideDefaults: this.overrideDefaults,
+            exclusive: this.exclusive
+          });
+          treeContainer.addChild(treeNav);
+        }
+        menuItems.addChild(treeContainer);
+      }
+      architect.addChild(menuItems);
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, TAside);
+    root.setId(this.id);
+    root.setProps({
+      containerClass: this.getContainerClass,
+      isOpen: this.isOpen,
+      isAbsolute: this.isAbsolute,
+      width: this.width,
+      zIndex: this.zIndex,
+      animationDuration: this.animationDuration,
+      animationFill: this.animationFill
+    });
+    root.addEvent("clicked-outside", this.handleOutsideClick);
+    root.addEvent("change-width", this.updateCalculatedWith);
+    this.createMenuItems(root);
+    return root.create();
   }
 };
-</script>
