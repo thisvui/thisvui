@@ -1,34 +1,12 @@
-<template>
-  <div :class="getClasses">
-    <div :class="getBtnClasses" @click="onClick">
-      <span :class="getLabelClasses" v-if="label && !showIcon">{{
-        label
-      }}</span>
-      <t-icon
-        :preserve-defaults="!overrideDefaults"
-        :icon="icon"
-        :target-class="getIconClasses"
-        v-if="showIcon"
-      ></t-icon>
-    </div>
-    <ul :class="getOptionsClasses" v-if="isMenu">
-      <li v-for="(item, index) in items">
-        <span :class="getOptionLabelClasses">{{ item.label }}</span>
-        <div :class="getOptionBtnClasses">
-          <t-icon :icon="item.icon"></t-icon>
-        </div>
-      </li>
-    </ul>
-  </div>
-</template>
-
-<script>
 import sizes from "../../mixins/sizes";
 import colors from "../../mixins/colors";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
-import CssArchitect from "../../utils/css-architect";
+
 import TIcon from "../TIcon/TIcon";
+
+import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-floating-button",
@@ -179,7 +157,72 @@ export default {
         return;
       }
       this.$emit(this.$thisvui.events.common.click);
+    },
+    /**
+     * Creates the icon
+     * @param architect
+     */
+    createIcon(architect) {
+      if (this.showIcon) {
+        let icon = architect.createIcon();
+        icon.setProps({
+          icon: this.icon,
+          preserveDefaults: !this.overrideDefaults,
+          targetClass: this.getIconClasses
+        });
+        architect.addChild(icon);
+      }
+    },
+    /**
+     * Creates the menu button
+     * @param architect
+     */
+    createMenuBtn(architect) {
+      let btn = architect.createDiv(this.getBtnClasses);
+      btn.addClick(this.onClick);
+      if (this.label && !this.showIcon) {
+        let label = architect.createSpan(this.getLabelClasses);
+        label.innerHTML(this.label);
+        btn.addChild(label);
+      }
+
+      this.createIcon(btn);
+      architect.addChild(btn);
+    },
+    /**
+     * Creates the menu options
+     * @param architect
+     */
+    createMenuItems(architect) {
+      if (this.isMenu) {
+        let options = architect.createUl();
+        for (let $index in this.items) {
+          let $item = this.items[$index];
+
+          let option = architect.createLi();
+          let label = architect.createSpan(this.getOptionLabelClasses);
+          label.innerHTML($item.label);
+
+          let btn = architect.createDiv(this.getOptionBtnClasses);
+          let icon = architect.createIcon();
+          icon.setProps({
+            icon: this.icon
+          });
+          btn.addChild(icon);
+          option.addChild(label);
+          option.addChild(btn);
+          options.addChild(option);
+        }
+
+        architect.addChild(options);
+      }
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "div", this.getClasses);
+    root.setId(this.id);
+    this.createMenuBtn(root);
+    this.createMenuItems(root);
+    return root.create();
   }
 };
-</script>
