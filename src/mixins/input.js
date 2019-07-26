@@ -111,7 +111,7 @@ export default {
       cssArchitect.addClass(this.getHelpersModifiers);
       cssArchitect.addClass(
         this.inputClass,
-        this.isNotNullOrUndefined(this.inputClass) && this.errors.length === 0
+        this.isNotNull(this.inputClass) && this.errors.length === 0
       );
       cssArchitect.addClass(this.stateClass, this.stateClass !== undefined);
       this.colorize(cssArchitect, "border-5", true);
@@ -160,7 +160,7 @@ export default {
       cssArchitect.addClass(this.getSizesModifiers);
       cssArchitect.addClass(
         this.inputClass,
-        this.isNotNullOrUndefined(this.inputClass) && this.errors.length === 0
+        this.isNotNull(this.inputClass) && this.errors.length === 0
       );
       cssArchitect.addClass(this.stateClass, this.stateClass !== undefined);
       cssArchitect.addClass(this.getColorsModifiers);
@@ -176,7 +176,7 @@ export default {
       cssArchitect.addClass(this.getSizesModifiers);
       cssArchitect.addClass(
         this.inputClass,
-        this.isNotNullOrUndefined(this.inputClass) && this.errors.length === 0
+        this.isNotNull(this.inputClass) && this.errors.length === 0
       );
       cssArchitect.addClass(this.stateClass, this.stateClass !== undefined);
       cssArchitect.addClass(this.getColorsModifiers);
