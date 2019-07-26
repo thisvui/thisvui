@@ -30,7 +30,7 @@ export default {
     },
     delay: {
       type: Number,
-      default: 3000
+      default: 5000
     }
   },
   computed: {
@@ -88,6 +88,7 @@ export default {
       if (!this.removed) {
         let body = architect.createElement("article", this.getClasses);
         body.setId(this.id);
+        body.setKey(`${this.id}-notification-body`);
         this.createDeleteButton(body);
         body.addChildren(this.$slots.default);
         architect.addChild(body);
@@ -97,10 +98,10 @@ export default {
   render: function(h) {
     if (!this.removed) {
       let root = new ElementArchitect(h, "transition", this.getClasses);
+      root.setId(this.id);
       root.setProps({ name: this.transition, tag: "span", mode: "out-in" });
-
+      root.setKey(`${this.id}-notification`);
       this.createBody(root);
-
       return root.create();
     }
   },

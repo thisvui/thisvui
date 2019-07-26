@@ -57,6 +57,43 @@ export default class CssArchitect {
     return resultClass.trim();
   }
 
+  /**
+   * Attach a unit to int value
+   * @returns {string}
+   */
+  addUnit(number, unit = "px") {
+    if(number){
+      if(Number.isNaN(number)){
+        throw new Error(`To attach a ${unit} unit value must be a valid number`)
+      }
+      return `${number}px`;
+    }
+  }
+
+  /**
+   * Attach px unit to int value
+   * @returns {string}
+   */
+  addPx(number) {
+    return this.addUnit(number);
+  }
+
+  /**
+   * Attach em unit to int value
+   * @returns {string}
+   */
+  addEm(number) {
+    return this.addUnit(number, "em");
+  }
+
+  /**
+   * Attach percentage unit to int value
+   * @returns {string}
+   */
+  addPercent(number) {
+    return this.addUnit(number, "%");
+  }
+
   getClassesArray() {
     return this.classes;
   }
