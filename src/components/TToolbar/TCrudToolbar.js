@@ -1,118 +1,10 @@
-<template>
-  <div :id="id" class="t-crud-toolbar">
-    <t-button
-      v-if="edit && !editable"
-      :confirm="confirmEdit"
-      :class="getEditClasses"
-      message="Are you sure?"
-      @click="onEdit"
-      @confirmed="onEdit"
-    >
-      <t-icon
-        :key="id + 'edit'"
-        :data-tooltip="editTooltip"
-        :preserve-defaults="!overrideDefaults"
-        :icon="$thisvui.icons.edit"
-        tooltip-class="s-tooltip-top"
-      />
-    </t-button>
-    <t-button
-      v-if="editable"
-      :confirm="confirmSave"
-      :scope="validateOnSave"
-      :class="getSaveClasses"
-      message="Are you sure?"
-      @click="onSave"
-      @confirmed="onSave"
-    >
-      <t-icon
-        :key="id + 'save'"
-        :data-tooltip="saveTooltip"
-        :preserve-defaults="!overrideDefaults"
-        :icon="$thisvui.icons.save"
-        tooltip-class="is-tooltip-top"
-      />
-    </t-button>
-    <t-button
-      v-if="editable"
-      :confirm="confirmCancel"
-      :class="getCancelClasses"
-      message="Are you sure?"
-      @click="onCancel"
-      @confirmed="onCancel"
-    >
-      <t-icon
-        :key="id + 'cancel'"
-        :data-tooltip="cancelTooltip"
-        :preserve-defaults="!overrideDefaults"
-        :icon="$thisvui.icons.cancel"
-        tooltip-class="is-tooltip-top"
-      />
-    </t-button>
-    <t-button
-      v-if="!editable && remove"
-      :confirm="confirmRemove"
-      :class="getRemoveClasses"
-      message="Are you sure?"
-      @click="onRemove"
-      @confirmed="onRemove"
-    >
-      <t-icon
-        :key="id + 'remove'"
-        :data-tooltip="removeTooltip"
-        :preserve-defaults="!overrideDefaults"
-        :icon="$thisvui.icons.remove"
-        tooltip-class="is-tooltip-top"
-      />
-    </t-button>
-    <t-button
-      v-if="!editable && activate"
-      :confirm="confirmActivate"
-      :class="getActivateClasses"
-      message="Are you sure?"
-      @click="onActivate"
-      @confirmed="onActivate"
-    >
-      <t-icon
-        :key="id + 'remove'"
-        :data-tooltip="activateTooltip"
-        :preserve-defaults="!overrideDefaults"
-        :icon="$thisvui.icons.check"
-        class="has-text-success toolbar-button"
-        tooltip-class="is-tooltip-top"
-      />
-    </t-button>
-    <t-button
-      v-if="!editable && add"
-      :confirm="confirmAdd"
-      :class="getAddClasses"
-      message="Are you sure?"
-      @click="onAdd"
-      @confirmed="onAdd"
-    >
-      <t-icon
-        :key="id + 'add'"
-        :data-tooltip="addTooltip"
-        :preserve-defaults="!overrideDefaults"
-        :icon="$thisvui.icons.add"
-        class="has-text-success toolbar-button"
-        tooltip-class="is-tooltip-top"
-      />
-    </t-button>
-  </div>
-</template>
-
-<script>
 import common from "../../mixins/common";
-import { TButton } from "../TButton";
-import TIcon from "../TIcon";
-import CssArchitect from "../../utils/css-architect";
 
-let toolbarButtonClass = "is-inline-block toolbar-button";
+import CssArchitect from "../../utils/css-architect";
+import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-crud-toolbar",
-  components: { TIcon, TButton },
   mixins: [common],
   props: {
     editable: {
@@ -212,15 +104,15 @@ export default {
     }
   },
   computed: {
-    getDisabled: function() {
-      return !this.editable;
+    getToolbarBtnClass: function() {
+      return "is-inline-block toolbar-button";
     },
     /**
      * Dynamically build the css classes for the edit button
      * @returns { A String with the chained css classes }
      */
     getEditClasses: function() {
-      const cssArchitect = new CssArchitect(toolbarButtonClass);
+      const cssArchitect = new CssArchitect(this.getToolbarBtnClass);
       cssArchitect.addClass(this.editClass);
       return cssArchitect.getClasses();
     },
@@ -229,7 +121,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getSaveClasses: function() {
-      const cssArchitect = new CssArchitect(toolbarButtonClass);
+      const cssArchitect = new CssArchitect(this.getToolbarBtnClass);
       cssArchitect.addClass(this.saveClass);
       return cssArchitect.getClasses();
     },
@@ -238,7 +130,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getCancelClasses: function() {
-      const cssArchitect = new CssArchitect(toolbarButtonClass);
+      const cssArchitect = new CssArchitect(this.getToolbarBtnClass);
       cssArchitect.addClass(this.cancelClass);
       return cssArchitect.getClasses();
     },
@@ -247,7 +139,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getAddClasses: function() {
-      const cssArchitect = new CssArchitect(toolbarButtonClass);
+      const cssArchitect = new CssArchitect(this.getToolbarBtnClass);
       cssArchitect.addClass(this.addClass);
       return cssArchitect.getClasses();
     },
@@ -256,7 +148,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getActivateClasses: function() {
-      const cssArchitect = new CssArchitect(toolbarButtonClass);
+      const cssArchitect = new CssArchitect(this.getToolbarBtnClass);
       cssArchitect.addClass(this.activateClass);
       return cssArchitect.getClasses();
     },
@@ -265,7 +157,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getRemoveClasses: function() {
-      const cssArchitect = new CssArchitect(toolbarButtonClass);
+      const cssArchitect = new CssArchitect(this.getToolbarBtnClass);
       cssArchitect.addClass(this.removeClass);
       return cssArchitect.getClasses();
     }
@@ -288,8 +180,97 @@ export default {
     },
     onCancel() {
       this.$emit(this.$thisvui.events.crud.onCancel);
+    },
+    /**
+     * Creates a button
+     * @param architect
+     */
+    createButton(
+      architect,
+      conditionStatement,
+      { classes, icon, confirm, message, click, confirmed, tooltip, scope }
+    ) {
+      let btn = architect.createButton(classes);
+      btn.setKey(`${this.id}-btn-${icon}`);
+      btn.setProps({
+        isText: true,
+        confirm: confirm,
+        message: message,
+        dataTooltip: tooltip,
+        preserveDefaults: !this.overrideDefaults,
+        icon: icon
+      });
+      btn.addProp("scope", scope, scope !== undefined);
+      btn.addClick(click, click !== undefined);
+      btn.addEvent("confirmed", confirmed, confirmed !== undefined);
+      architect.addChild(btn);
     }
+  },
+  render: function(h) {
+    let root = new ElementArchitect(h, "div", "t-crud-toolbar");
+    root.setId(this.id);
+    // Creating the edit button
+    this.createButton(root, this.edit && !this.editable, {
+      classes: this.getEditClasses,
+      icon: this.$thisvui.icons.edit,
+      confirm: this.confirmEdit,
+      message: "Are you sure?",
+      click: this.onEdit,
+      confirmed: this.onEdit,
+      tooltip: this.editTooltip
+    });
+    // Creating the save button
+    this.createButton(root, this.editable, {
+      classes: this.getSaveClasses,
+      icon: this.$thisvui.icons.save,
+      confirm: this.confirmSave,
+      scope: this.validateOnSave,
+      message: "Are you sure?",
+      click: this.onSave,
+      confirmed: this.onSave,
+      tooltip: this.saveTooltip
+    });
+    // Creating the cancel button
+    this.createButton(root, this.editable, {
+      classes: this.getCancelClasses,
+      icon: this.$thisvui.icons.cancel,
+      confirm: this.confirmCancel,
+      message: "Are you sure?",
+      click: this.onCancel,
+      confirmed: this.onCancel,
+      tooltip: this.cancelTooltip
+    });
+    // Creating the remove button
+    this.createButton(root, !this.editable && this.remove, {
+      classes: this.getRemoveClasses,
+      icon: this.$thisvui.icons.remove,
+      confirm: this.confirmRemove,
+      message: "Are you sure?",
+      click: this.onRemove,
+      confirmed: this.onRemove,
+      tooltip: this.removeTooltip
+    });
+    // Creating the activate button
+    this.createButton(root, !this.editable && this.activate, {
+      classes: this.getActivateClasses,
+      icon: this.$thisvui.icons.check,
+      confirm: this.confirmActivate,
+      message: "Are you sure?",
+      click: this.onActivate,
+      confirmed: this.onActivate,
+      tooltip: this.activateTooltip
+    });
+    // Creating the add button
+    this.createButton(root, !this.editable && this.add, {
+      classes: this.getAddClasses,
+      icon: this.$thisvui.icons.add,
+      confirm: this.confirmAdd,
+      message: "Are you sure?",
+      click: this.onAdd,
+      confirmed: this.onAdd,
+      tooltip: this.addTooltip
+    });
+    this.createMenuItems(root);
+    return root.create();
   }
 };
-</script>
-<style></style>
