@@ -280,6 +280,7 @@ export default {
     createButtonIcon(architect, condition = false) {
       if (this.icon && condition) {
         let icon = architect.createIcon(this.iconClass);
+        icon.setKey(`${this.id}-btn-icon`)
         icon.setProps({ icon: this.icon });
         architect.addChild(icon);
       }
