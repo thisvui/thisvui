@@ -9,11 +9,12 @@ import flex from "../../mixins/flex";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
+import alignment from "../../mixins/alignment";
 
 export default {
   name: "t-text",
   components: { TIcon },
-  mixins: [common, helpers, icons, dimension, flex],
+  mixins: [common, helpers, icons, alignment, dimension, flex],
   props: {
     name: {
       type: String
@@ -55,18 +56,33 @@ export default {
     containerClass: {
       type: String
     },
-    transform: {
+    transformLabel: {
       type: String
     },
     transformValue: {
-      type: Boolean,
-      default: true
+      type: String
     },
-    center: {
+    lowercase: {
+      type: Boolean,
+      default: false
+    },
+    uppercase: {
+      type: Boolean,
+      default: false
+    },
+    capitalized: {
       type: Boolean,
       default: false
     },
     bold: {
+      type: Boolean,
+      default: false
+    },
+    boldLabel: {
+      type: Boolean,
+      default: false
+    },
+    boldValue: {
       type: Boolean,
       default: false
     }
@@ -83,11 +99,14 @@ export default {
         this.containerClass,
         this.containerClass !== undefined
       );
-      cssArchitect.addClass("is-centered", this.center);
+      cssArchitect.addClass("is-lowercase", this.lowercase);
+      cssArchitect.addClass("is-uppercase", this.uppercase);
+      cssArchitect.addClass("is-capitalized", this.capitalized);
       cssArchitect.addClass("has-text-weight-bold", this.bold);
       cssArchitect.addClass(this.getHelpersModifiers);
       cssArchitect.addClass(this.getDimensionModifiers);
       cssArchitect.addClass(this.getFlexModifiers);
+      cssArchitect.addClass(this.getAlignmentModifiers);
       return cssArchitect.getClasses();
     },
     /**
@@ -96,8 +115,10 @@ export default {
      */
     getLabelClass: function() {
       const cssArchitect = new CssArchitect("t-text-label");
-      cssArchitect.addClass(this.labelClass, this.labelClass !== undefined);
-      cssArchitect.addClass("is-inline-flex", this.labelIcon !== undefined);
+      cssArchitect.addClass(this.labelClass, this.isNotNull(this.labelClass));
+      cssArchitect.addClass("is-inline-flex", this.isNotNull(this.labelIcon));
+      cssArchitect.addClass("has-text-weight-bold", this.boldLabel);
+      cssArchitect.addClass(`is-${this.transformLabel}`, this.isNotNull(this.transformLabel));
       return cssArchitect.getClasses();
     },
     /**
@@ -106,7 +127,9 @@ export default {
      */
     getValueClass: function() {
       const cssArchitect = new CssArchitect("t-text-value");
-      cssArchitect.addClass(this.valueClass, this.valueClass !== undefined);
+      cssArchitect.addClass(this.valueClass, this.isNotNull(this.valueClass));
+      cssArchitect.addClass("has-text-weight-bold", this.boldValue);
+      cssArchitect.addClass(`is-${this.transformValue}`, this.isNotNull(this.transformValue));
       return cssArchitect.getClasses();
     },
     /**
@@ -115,9 +138,9 @@ export default {
      */
     getIconClass: function() {
       const cssArchitect = new CssArchitect(
-        "icon is-small is-left is-inline-flex"
+        "is-small is-left is-inline-flex"
       );
-      cssArchitect.addClass(this.iconClass, this.iconClass !== undefined);
+      cssArchitect.addClass(this.iconClass, this.isNotNull(this.iconClass));
       return cssArchitect.getClasses();
     },
     /**
@@ -131,62 +154,19 @@ export default {
         this.labelIconClass !== undefined
       );
       return cssArchitect.getClasses();
-    },
-    /**
-     * Maps and returns the corresponding css transform class
-     * @returns { A String }
-     */
-    getTransformClass: function() {
-      let transformClass = "";
-      if (utils.check.notEmpty(this.transform)) {
-        switch (this.transform) {
-          case "uppercase":
-            transformClass = " is-uppercase";
-            break;
-          case "lowercase":
-            transformClass = " is-lowercase";
-            break;
-          case "capitalize":
-            transformClass = " is-capitalized";
-            break;
-          default:
-            transformClass = "undefined";
-            break;
-        }
-      }
-      return transformClass;
     }
   },
   methods: {
     /**
-     * Creates the icon
-     */
-    createIcons(architect, createStateIcon = true) {
-      // Creating the icon for the input
-      if (this.icon) {
-        let inputIcon = architect.createIcon(this.getIconClass);
-        inputIcon.addProp("icon", this.icon);
-        architect.addChild(inputIcon, this.icon);
-      }
-
-      // Creating the icon to display when validation passed
-      if (this.showValidStateIcon && !this.hideStateIcon && createStateIcon) {
-        let inputIconRight = architect.createIcon(this.getValidStateIconClass);
-        inputIconRight.addProp("icon", this.$thisvui.icons.check);
-        inputIconRight.addProp("preserveDefaults", !this.overrideDefaults);
-        architect.addChild(inputIconRight);
-      }
-    },
-    /**
      * Creates the label icon
      */
-    createIcon(architect, classses, conditionStatement) {
-      if (conditionStatement) {
-        let labelIconContainer = architect.createIcon(this.getLabelIconClass);
-        let labelIcon = architect.createIcon();
-        labelIcon.addProp("icon", this.labelIcon);
-        labelIconContainer.addChild(labelIcon);
-        architect.addChild(labelIconContainer, labelIcon);
+    createIcon(architect, $icon, classes, conditionStatement) {
+      if ($icon && conditionStatement) {
+        let iconContainer = architect.createDiv(classes);
+        let icon = architect.createIcon();
+        icon.addProp("icon", $icon);
+        iconContainer.addChild(icon);
+        architect.addChild(iconContainer, icon);
       }
     },
     /**
@@ -194,19 +174,21 @@ export default {
      */
     createLabel(architect) {
       if (this.label) {
-        let labelContainer = architect.createDiv("has-text-weight-normal");
+        let labelContainer = architect.createDiv();
         this.createIcon(
           labelContainer,
+          this.labelIcon,
           this.getLabelIconClass,
-          this.labelIcon && !this.labelIconRight
+          !this.labelIconRight
         );
         let label = architect.createSpan(this.getLabelClass);
         label.innerHTML(this.label);
         labelContainer.addChild(label);
         this.createIcon(
           labelContainer,
+          this.labelIcon,
           this.getLabelIconClass,
-          this.labelIcon && this.labelIconRight
+          this.labelIconRight
         );
         architect.addChild(labelContainer);
       }
@@ -216,19 +198,21 @@ export default {
      */
     createValue(architect) {
       if (this.value) {
-        let valueContainer = architect.createDiv("has-text-weight-normal");
+        let valueContainer = architect.createDiv();
         this.createIcon(
           valueContainer,
+          this.icon,
           this.getIconClass,
-          this.icon && !this.iconRight
+          !this.iconRight
         );
         let value = architect.createSpan(this.getValueClass);
         value.innerHTML(this.value);
         valueContainer.addChild(value);
         this.createIcon(
           valueContainer,
+          this.icon,
           this.getIconClass,
-          this.icon && this.iconRight
+          this.iconRight
         );
         architect.addChild(valueContainer);
       }
@@ -237,6 +221,7 @@ export default {
   render: function(h) {
     let root = new ElementArchitect(h, "div", this.getContainerClasses);
     root.setId(this.id);
+    root.setKey(`${this.id}-text`)
     this.createLabel(root);
     this.createValue(root);
     return root.create();

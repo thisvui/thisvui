@@ -35,17 +35,6 @@ export default {
     },
     flexGrow: {
       type: Number
-    },
-    width: {
-      type: Number,
-      default: 300
-    },
-    unity: {
-      type: String,
-      default: "px"
-    },
-    zIndex: {
-      type: [Number, String]
     }
   },
   data: function() {
