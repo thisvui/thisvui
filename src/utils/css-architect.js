@@ -27,6 +27,18 @@ export default class CssArchitect {
   }
 
   /**
+   * Merge array classes with the main classes array
+   * @param cssClasses
+   * @param conditionStatement
+   */
+  addClasses(cssClasses, condition) {
+    let conditionStatement = condition !== undefined ? condition : true;
+    if (cssClasses !== undefined && conditionStatement) {
+      this.classes = [...this.classes, ...cssClasses];
+    }
+  }
+
+  /**
    * Add style value to the array
    * @param cssStyle
    * @param conditionStatement
@@ -58,7 +70,7 @@ export default class CssArchitect {
   }
 
   /**
-   * Attach a unit to int value
+   * Attach a unit to number value
    * @returns {string}
    */
   addUnit(number, unit = "px") {
