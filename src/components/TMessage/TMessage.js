@@ -113,7 +113,7 @@ export default {
         this.createDeleteButton(deleteContainer);
         body.addChild(deleteContainer);
       }
-      body.addChildren(this.$slots.default);
+      body.addVNodeChildren(this.$slots.default);
       architect.addChild(body);
     }
   },

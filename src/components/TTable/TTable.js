@@ -246,7 +246,7 @@ export default {
 
       this.createTableColumns(tr);
       if (this.$slots["header"]) {
-        tr.addChildren(this.$slots["header"]);
+        tr.addVNodeChildren(this.$slots["header"]);
       }
       if (this.hasActionColumn) {
         let actionColumn = architect.createElement("th", this.getThClasses);
@@ -261,7 +261,7 @@ export default {
     createTableFoot(architect) {
       let tfoot = architect.createElement("tfoot");
       if (this.$slots["footer"]) {
-        tfoot.addChildren(this.$slots["footer"]);
+        tfoot.addVNodeChildren(this.$slots["footer"]);
       }
       architect.addChild(tfoot);
     },
@@ -306,7 +306,7 @@ export default {
             td.addChild(flex);
             tr.addChild(td);
           }
-          tr.addChildren(
+          tr.addVNodeChildren(
             this.$scopedSlots["items"]({
               item: item,
               index: index
@@ -314,7 +314,7 @@ export default {
           );
           if (this.hasActionColumn) {
             let actionColumn = architect.createElement("td");
-            actionColumn.addChildren(
+            actionColumn.addVNodeChildren(
               this.$scopedSlots["actions"]({
                 item: item,
                 index: index
@@ -341,7 +341,7 @@ export default {
               let expandedContent = architect.createDiv(
                 "t-table-expandable-content"
               );
-              expandedContent.addChildren(
+              expandedContent.addVNodeChildren(
                 this.$scopedSlots["detail"]({
                   item: item,
                   index: index

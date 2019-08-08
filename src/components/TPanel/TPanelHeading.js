@@ -70,7 +70,7 @@ export default {
     let root = new ElementArchitect(h, "div", this.getClasses);
     root.addClick(this.onClick);
 
-    root.addChildren(this.$slots.default, !this.alignContentToRight);
+    root.addVNodeChildren(this.$slots.default, !this.alignContentToRight);
     if (this.headingText) {
       let headingText = root.createSpan("is-size-6");
       headingText.innerHTML(this.headingText);
@@ -85,7 +85,7 @@ export default {
       });
       root.addChild(headingIcon);
     }
-    root.addChildren(this.$slots.default, this.alignContentToRight);
+    root.addVNodeChildren(this.$slots.default, this.alignContentToRight);
     return root.create();
   }
 };

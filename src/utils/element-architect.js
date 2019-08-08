@@ -10,20 +10,8 @@ export default class ElementArchitect {
     this.createFunction = createFunction;
     this.type = type;
     this.classes = classes;
-    this.styles = [];
     this.children = [];
     this.keycode = keycodes;
-  }
-
-  /**
-   * Add class value to the array
-   * @param cssClass
-   * @param conditionStatement
-   * @param unlessClass
-   */
-  setClasses(classes) {
-    this.classes = classes;
-    return this;
   }
 
   addClass(clazz, condition = true) {
@@ -34,6 +22,17 @@ export default class ElementArchitect {
       let classes = [this.classes, clazz];
       this.setClasses(classes.join(" "));
     }
+    return this;
+  }
+
+  /**
+   * Add class value to the array
+   * @param cssClass
+   * @param conditionStatement
+   * @param unlessClass
+   */
+  setClasses(classes) {
+    this.classes = classes;
     return this;
   }
 
@@ -159,6 +158,22 @@ export default class ElementArchitect {
     return this;
   }
 
+  addClick(handler, conditionStatement = true, native = false) {
+    return this.addEvent("click", handler, conditionStatement, native);
+  }
+
+  addChange(handler, conditionStatement = true, native = false) {
+    return this.addEvent("change", handler, conditionStatement, native);
+  }
+
+  addBlur(handler, conditionStatement = true, native = false) {
+    return this.addEvent("blur", handler, conditionStatement, native);
+  }
+
+  addInput(handler, conditionStatement = true) {
+    return this.addEvent("input", handler, conditionStatement);
+  }
+
   addKeyup(config, conditionStatement = true) {
     if (!config || !config.key || !config.handler) {
       console.error(`Config error: `, config);
@@ -191,24 +206,8 @@ export default class ElementArchitect {
     return this;
   }
 
-  addClick(handler, conditionStatement = true, native = false) {
-    return this.addEvent("click", handler, conditionStatement, native);
-  }
-
-  addChange(handler, conditionStatement = true, native = false) {
-    return this.addEvent("change", handler, conditionStatement, native);
-  }
-
-  addBlur(handler, conditionStatement = true, native = false) {
-    return this.addEvent("blur", handler, conditionStatement, native);
-  }
-
-  addInput(handler, conditionStatement = true) {
-    return this.addEvent("input", handler, conditionStatement);
-  }
-
-  setSlot(slot) {
-    this.slot = slot;
+  setSlot(slotName) {
+    this.slot = slotName;
     return this;
   }
 
@@ -219,16 +218,29 @@ export default class ElementArchitect {
     return this;
   }
 
-  addChild(child, conditionStatement = true, raw = false) {
+  addChild(child, conditionStatement = true, vNode = false) {
     if (child && conditionStatement) {
-      let childEl = raw ? child : child.create();
+      let childEl = vNode ? child : child.create();
       this.children.push(childEl);
     }
     return this;
   }
 
-  addChildren(children, conditionStatement = true){
-    Array.prototype.push.apply(this.children, children);
+  addVNode(child, conditionStatement = true) {
+    return this.addChild(child, conditionStatement, true)
+  }
+
+  addChildren(children, conditionStatement = true, raw = false){
+    if(children && conditionStatement){
+      let mappedChildren = raw ? children : children.map(function(child) {
+        return child.create();
+      });
+      Array.prototype.push.apply(this.children, mappedChildren);
+    }
+  }
+
+  addVNodeChildren(children, conditionStatement = true){
+    return this.addChildren(children, conditionStatement, true)
   }
 
   setDirectives(directives) {
@@ -246,6 +258,88 @@ export default class ElementArchitect {
       this.directives.push(directive);
     }
     return this;
+  }
+
+  createElement(elementType, classes) {
+    return new ElementArchitect(this.createFunction, elementType, classes);
+  }
+
+  createDiv(classes) {
+    return this.createElement("div", classes);
+  }
+
+  createSpan(classes) {
+    return this.createElement("span", classes);
+  }
+
+  createH(level = 1, classes) {
+    return this.createElement(`h${level}`, classes);
+  }
+
+  createA(classes) {
+    return this.createElement("a", classes);
+  }
+
+  createImg(classes) {
+    return this.createElement("img", classes);
+  }
+
+  createNav(classes) {
+    return this.createElement("nav", classes);
+  }
+
+  createUl(classes) {
+    return this.createElement("ul", classes);
+  }
+
+  createLi(classes) {
+    return this.createElement("li", classes);
+  }
+
+  createLabel(classes) {
+    return this.createElement("label", classes);
+  }
+
+  createInput(classes) {
+    return this.createElement("input", classes);
+  }
+
+  createSelect(classes) {
+    return this.createElement("select", classes);
+  }
+
+  createP(classes) {
+    return this.createElement("p", classes);
+  }
+
+  createTable(classes) {
+    return this.createElement("table", classes);
+  }
+
+  createTr(classes) {
+    return this.createElement("tr", classes);
+  }
+
+  createTd(classes) {
+    return this.createElement("td", classes);
+  }
+
+  createTh(classes) {
+    return this.createElement("th", classes);
+  }
+
+  createButton(classes) {
+    return this.createElement(TButton, classes);
+  }
+
+  createIcon(classes) {
+    return this.createElement(TIcon, classes);
+  }
+
+  createTransition(name) {
+    let transition = this.createElement("transition");
+    transition.setProps({ name: name });
+    return transition;
   }
 
   /**
@@ -337,71 +431,5 @@ export default class ElementArchitect {
       element.on.keydown = keydown;
     }
     return this.createFunction(this.type, element, this.children);
-  }
-
-  createElement(element, classes) {
-    return new ElementArchitect(this.createFunction, element, classes);
-  }
-
-  createDiv(classes) {
-    return this.createElement("div", classes);
-  }
-
-  createSpan(classes) {
-    return this.createElement("span", classes);
-  }
-
-  createH(level = 1, classes) {
-    return this.createElement(`h${level}`, classes);
-  }
-
-  createA(classes) {
-    return this.createElement("a", classes);
-  }
-
-  createImg(classes) {
-    return this.createElement("img", classes);
-  }
-
-  createNav(classes) {
-    return this.createElement("nav", classes);
-  }
-
-  createUl(classes) {
-    return this.createElement("ul", classes);
-  }
-
-  createLi(classes) {
-    return this.createElement("li", classes);
-  }
-
-  createLabel(classes) {
-    return this.createElement("label", classes);
-  }
-
-  createInput(classes) {
-    return this.createElement("input", classes);
-  }
-
-  createSelect(classes) {
-    return this.createElement("select", classes);
-  }
-
-  createP(classes) {
-    return this.createElement("p", classes);
-  }
-
-  createButton(classes) {
-    return this.createElement(TButton, classes);
-  }
-
-  createIcon(classes) {
-    return this.createElement(TIcon, classes);
-  }
-
-  createTransition(name) {
-    let transition = this.createElement("transition");
-    transition.setProps({ name: name });
-    return transition;
   }
 }

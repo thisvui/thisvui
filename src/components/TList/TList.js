@@ -112,7 +112,7 @@ export default {
             container: listItem
           });
         }
-        li.addChildren(
+        li.addVNodeChildren(
           this.$scopedSlots["items"]({
             item: item,
             index: index

@@ -90,7 +90,7 @@ export default {
         body.setId(this.id);
         body.setKey(`${this.id}-notification-body`);
         this.createDeleteButton(body);
-        body.addChildren(this.$slots.default);
+        body.addVNodeChildren(this.$slots.default);
         architect.addChild(body);
       }
     }
