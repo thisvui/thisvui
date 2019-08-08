@@ -69,6 +69,9 @@ export default {
     targetClass: {
       type: String
     },
+    targetStyle: {
+      type: String
+    },
     containerClass: {
       type: String
     },
@@ -298,6 +301,7 @@ export default {
       if (this.getActive) {
         button.setRef("button");
         button.setAttrs(this.$attrs);
+        button.setStyles(this.targetStyle);
         button.addAttr("data-tooltip", this.dataTooltip);
         button.addAttr("disabled", this.disabled);
         button.addClick(this.onClick);
