@@ -7,7 +7,7 @@ import ElementArchitect from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
-  name: "t-main-content",
+  name: "t-main",
   mixins: [common, colors, flex, overflow],
   computed: {
     /**
@@ -15,7 +15,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("t-main-content");
+      const cssArchitect = new CssArchitect("t-main");
       cssArchitect.isFlexible("column", "stretch");
       this.colorize(cssArchitect, "bg", true);
       cssArchitect.addClass(this.getColorsModifiers);
