@@ -10,12 +10,6 @@ export default {
     },
     removeOverflow: {
       type: Boolean
-    },
-    isColumnReverse: {
-      type: Boolean
-    },
-    isRowReverse: {
-      type: Boolean
     }
   },
   computed: {

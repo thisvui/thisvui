@@ -1,8 +1,9 @@
 import CssArchitect from "../utils/css-architect";
 import background from "./background";
+import alpha from "./alpha";
 
 export default {
-  mixins: [background],
+  mixins: [background, alpha],
   props: {
     isPrimary: {
       type: Boolean
