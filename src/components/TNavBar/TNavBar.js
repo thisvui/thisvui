@@ -22,6 +22,9 @@ export default {
     isFixedBottom: {
       type: Boolean,
       default: false
+    },
+    alpha: {
+      type: Number
     }
   },
   computed: {
@@ -44,6 +47,7 @@ export default {
   render: function(h) {
     let root = new ElementArchitect(h, "nav", this.getClasses);
     root.setId(this.id).setChildren(this.$slots.default);
+    root.setStyles(this.getAlphaModifiers)
     return root.create();
   }
 };
