@@ -43,7 +43,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getIconClass: function() {
-      const cssArchitect = new CssArchitect("is-inline-block");
+      const cssArchitect = new CssArchitect();
       cssArchitect.addClass(this.iconClass, this.iconClass !== undefined);
       return cssArchitect.getClasses();
     },
@@ -52,7 +52,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getLinkClass: function() {
-      const cssArchitect = new CssArchitect("is-inline-block");
+      const cssArchitect = new CssArchitect();
       cssArchitect.addClass(this.linkClass, this.linkClass !== undefined);
       return cssArchitect.getClasses();
     }
@@ -98,9 +98,9 @@ export default {
     root.setId(this.id);
     root.setKey(`${this.id}-tree-view-container`);
 
-    let tree = root.createDiv("tree-view");
-    this.createItems(tree);
-    root.addChild(tree);
+    let treeEl = root.createDiv("tree-view");
+    this.createItems(treeEl);
+    root.addChild(treeEl);
     return root.create();
   }
 };
