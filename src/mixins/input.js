@@ -316,7 +316,7 @@ export default {
       label.addDomProp("innerHTML", this.label);
 
       root.addChild(label);
-      architect.addChild(root, this.label);
+      architect.addChild(root, this.isNotEmpty(this.label));
     },
     /**
      * Creates the input icons
