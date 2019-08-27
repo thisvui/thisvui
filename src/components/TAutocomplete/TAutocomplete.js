@@ -28,6 +28,16 @@ export default {
       required: false,
       default: false
     },
+    selectable: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
+    multilevel: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     filterMethod: {
       type: Function,
       required: false
@@ -52,7 +62,8 @@ export default {
       type: String
     },
     noResultsText: {
-      type: "No result available"
+      type: String,
+      default: "No results found"
     }
   },
   data() {
@@ -107,6 +118,15 @@ export default {
       return cssArchitect.getClasses();
     },
     /**
+     * Dynamically build the css classes for the autocomplete results wrapper
+     * @returns { A String with the chained css classes }
+     */
+    getAutocompleteResultsWrapperClass: function() {
+      const cssArchitect = new CssArchitect("t-autocomplete-results-wrapper");
+      cssArchitect.isAbsolute().isFullwidth();
+      return cssArchitect.getClasses();
+    },
+    /**
      * Dynamically build the css classes for the autocomplete results container
      * @returns { A String with the chained css classes }
      */
@@ -156,11 +176,10 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getAutocompleteResultClass: function(isActive = false) {
-      const cssArchitect = new CssArchitect("t-autocomplete-result");
+      const cssArchitect = new CssArchitect(
+        "t-autocomplete-result"
+      );
       cssArchitect.addClass(this.resultClass, this.resultClass !== undefined);
-      this.colorize(cssArchitect, "bg-hover", true);
-      cssArchitect.addClass("has-bg-color", isActive);
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
       return cssArchitect.getClasses();
     },
     /**
@@ -231,27 +250,32 @@ export default {
       if (this.serverSide) {
         match = await this.filterMethod(this.search);
       } else {
-        for (let i = 0; i < this.items.length; i++) {
-          let item =
-            this.display !== undefined
-              ? this.items[i][this.display]
-              : this.items[i];
-          if (typeof item === "number") {
-            item = item.toString();
-          }
-          if (item.toLowerCase().includes(this.search.toLowerCase())) {
-            match.push(this.items[i]);
-          }
-        }
+        match = this.filter(this.items);
       }
       this.results = match;
     },
-    filter(a, display) {
+    filter(items) {
       let match = [];
-      for (let i = 0; i < this.items.length; i++) {
-        let item = display !== undefined ? a[i][display] : a[i];
-        if (item.toLowerCase() === this.search.toLowerCase()) {
-          match.push(a[i]);
+      let matchChildren = [];
+      for (let i = 0; i < items.length; i++) {
+        let item = items[i];
+        let itemToCheck =
+          this.display !== undefined ? item[this.display] : item;
+        let isString = typeof itemToCheck === "string";
+        if (typeof itemToCheck === "number") {
+          itemToCheck = itemToCheck.toString();
+        }
+        if (this.multilevel && item.children) {
+          matchChildren = this.filter(item.children);
+        }
+        let itemMatch =
+          isString && itemToCheck.toLowerCase().includes(this.search.toLowerCase());
+        let childrenMatch =
+          typeof matchChildren !== "undefined" && matchChildren.length > 0;
+        if (itemMatch || childrenMatch) {
+          let matchItem = {...item }
+          matchItem.children = matchChildren;
+          match.push(matchItem);
         }
       }
       return match;
@@ -312,15 +336,17 @@ export default {
      * Creates the options
      */
     createResults(architect) {
+      let resultsWrapper = architect.createDiv(this.getAutocompleteResultsWrapperClass);
+
       let results = architect.createUl(this.getAutocompleteResultsClass);
       results.setStyles(this.getAutocompleteContainerStyles);
       results.setRef("results");
       let loading = architect.createLi("loading");
-
       results.addChild(loading, this.isAutocompleteLoading);
+
       if (!this.results || this.results.length === 0) {
-        let emptyResults = architect.createLi("loading");
-        emptyResults.addDomProp("innerHTML", this.noResultsText);
+        let emptyResults = architect.createLi("t-autocomplete-result empty");
+        emptyResults.innerHTML(this.noResultsText);
         results.addChild(emptyResults);
       } else {
         for (let index in this.results) {
@@ -330,9 +356,13 @@ export default {
             this.getAutocompleteResultClass(index == this.arrowCounter)
           );
           resultEl.setKey(index);
-          resultEl.addEvent("click", () => {
-            this.setAutocompleteResult(result);
-          });
+          resultEl.addEvent(
+            "click",
+            () => {
+              this.setAutocompleteResult(result);
+            },
+            this.selectable
+          );
 
           if (!this.customTemplate) {
             let defaultContent = architect.createSpan();
@@ -343,7 +373,7 @@ export default {
             resultEl.addChild(defaultContent);
           } else {
             resultEl.setChildren(
-              this.$scopedSlots.default({
+              this.$scopedSlots["items"]({
                 item: result
               })
             );
@@ -352,7 +382,8 @@ export default {
           results.addChild(resultEl);
         }
       }
-      architect.addChild(results, this.isOpen);
+      resultsWrapper.addChild(results, this.isOpen);
+      architect.addChild(resultsWrapper, this.isOpen);
     },
     /**
      * Creates the input element
@@ -364,7 +395,6 @@ export default {
 
       // Creating the html input element
       let input = architect.createInput(this.getInputClass);
-      input.addClass("is-radiusless is-shadowless");
       input.setId(this.id);
       let inputAttrs = {
         placeholder: this.placeholder,
