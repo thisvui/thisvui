@@ -5,9 +5,10 @@ import helpers from "./helpers";
 import common from "./common";
 import icons from "./icons";
 import utils from "../utils/utils";
-import CssArchitect from "../utils/css-architect";
 import colors from "./colors";
 import display from "./display";
+
+import CssArchitect from "../utils/css-architect";
 
 export default {
   mixins: [common, validation, display, colors, states, sizes, helpers, icons],
@@ -73,11 +74,14 @@ export default {
     isStatic: {
       type: Boolean,
       default: false
+    },
+    hideStateIcon: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
-      valid: false,
       formId: ""
     };
   },
@@ -107,7 +111,7 @@ export default {
       cssArchitect.addClass(this.getHelpersModifiers);
       cssArchitect.addClass(
         this.inputClass,
-        this.isNotNullOrUndefined(this.inputClass) && this.errors.length === 0
+        this.isNotNull(this.inputClass) && this.errors.length === 0
       );
       cssArchitect.addClass(this.stateClass, this.stateClass !== undefined);
       this.colorize(cssArchitect, "border-5", true);
@@ -156,7 +160,7 @@ export default {
       cssArchitect.addClass(this.getSizesModifiers);
       cssArchitect.addClass(
         this.inputClass,
-        this.isNotNullOrUndefined(this.inputClass) && this.errors.length === 0
+        this.isNotNull(this.inputClass) && this.errors.length === 0
       );
       cssArchitect.addClass(this.stateClass, this.stateClass !== undefined);
       cssArchitect.addClass(this.getColorsModifiers);
@@ -172,7 +176,7 @@ export default {
       cssArchitect.addClass(this.getSizesModifiers);
       cssArchitect.addClass(
         this.inputClass,
-        this.isNotNullOrUndefined(this.inputClass) && this.errors.length === 0
+        this.isNotNull(this.inputClass) && this.errors.length === 0
       );
       cssArchitect.addClass(this.stateClass, this.stateClass !== undefined);
       cssArchitect.addClass(this.getColorsModifiers);
@@ -209,11 +213,22 @@ export default {
       return cssArchitect.getClasses();
     },
     /**
+     * Dynamically build the css classes for the icon when value is valid
+     * @returns { A String with the chained css classes }
+     */
+    getValidStateIconClass: function() {
+      const cssArchitect = new CssArchitect("is-small is-right");
+      this.colorize(cssArchitect, "color", true);
+      cssArchitect.addClass(this.getColorsModifiers);
+      cssArchitect.addClass(this.iconClass, this.iconClass !== undefined);
+      return cssArchitect.getClasses();
+    },
+    /**
      * Dynamically build the css classes for the label icon element
      * @returns { A String with the chained css classes }
      */
     getLabelIconClass: function() {
-      const cssArchitect = new CssArchitect("is-small is-left is-inline-flex");
+      const cssArchitect = new CssArchitect("is-left is-inline-flex");
       cssArchitect.addClass(
         this.labelIconClass,
         this.labelIconClass !== undefined
@@ -246,6 +261,12 @@ export default {
     },
     getRemoveLabel: function() {
       return this.removeLabel;
+    },
+    showValidStateIcon: function() {
+      if (!this.hasRules) {
+        return false;
+      }
+      return this.getValidationPassed;
     }
   },
   methods: {
@@ -266,12 +287,74 @@ export default {
       if (result && result.valid) {
         this.$emit(this.$thisvui.events.common.onEnter);
       }
+    },
+    onKeyup(event) {
+      if (event.keyCode === 13) {
+        let result = this.validateOnEvent("enter");
+        if (result && result.valid) {
+          this.$emit(this.$thisvui.events.common.onEnter);
+        }
+      }
+    },
+    /**
+     * Creates the field label section
+     */
+    createLabel(architect) {
+      let classes = ["field-label", "is-normal", "t-flex"];
+      if (this.labelIconRight) {
+        classes.push("is-row-reverse");
+        classes.push("is-right");
+      }
+      let root = architect.createDiv(classes.join(" "));
+      if (this.labelIcon) {
+        let icon = root.createIcon(this.getLabelIconClass);
+        icon.addProp("icon", this.labelIcon);
+        root.addChild(icon, this.labelIcon);
+      }
+      let label = root.createLabel(this.getLabelClass);
+      label.addAttr("for", this.id);
+      label.addDomProp("innerHTML", this.label);
+
+      root.addChild(label);
+      architect.addChild(root, this.isNotEmpty(this.label));
+    },
+    /**
+     * Creates the input icons
+     */
+    createIcons(architect, createStateIcon = true) {
+      // Creating the icon for the input
+      if (this.icon) {
+        let inputIcon = architect.createIcon(this.getIconClass);
+        inputIcon.addProp("icon", this.icon);
+        architect.addChild(inputIcon, this.icon !== undefined);
+      }
+
+      // Creating the icon to display when validation passed
+      if (this.showValidStateIcon && !this.hideStateIcon && createStateIcon) {
+        let inputIconRight = architect.createIcon(this.getValidStateIconClass);
+        inputIconRight.addProp("icon", this.$thisvui.icons.check);
+        inputIconRight.addProp("preserveDefaults", !this.overrideDefaults);
+        architect.addChild(inputIconRight);
+      }
+    },
+    /**
+     * Creates the error message helpers
+     */
+    createErrorHelpers(architect) {
+      for (let error of this.errors) {
+        let help = architect.createP("help is-danger");
+        help.setKey(error);
+        help.addAttr("msg", error);
+        help.addAttr("msg-position", this.msgPosition);
+        architect.addChild(help);
+      }
     }
   },
   mounted() {
     this.$nextTick(function() {
-      if (document.getElementById(this.id).form) {
-        this.formId = document.getElementById(this.id).form.id;
+      let el = document.getElementById(this.id);
+      if (el && el.form) {
+        this.formId = el.form.id;
       }
       this.addValidator(); // Registers the validator
     });

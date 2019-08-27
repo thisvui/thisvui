@@ -16,7 +16,8 @@ const ICONS_FA5 = {
   arrowLeft: "fas fa-angle-left",
   arrowRight: "fas fa-angle-right",
   expand: "fas fa-plus-circle",
-  collapse: "fas fa-minus-circle"
+  collapse: "fas fa-minus-circle",
+  notification: "fas fa-exclamation-triangle"
 };
 
 const ICONS_FA4 = {
@@ -37,7 +38,8 @@ const ICONS_FA4 = {
   arrowLeft: "fa fa-angle-left",
   arrowRight: "fa fa-angle-right",
   expand: "fa fa-plus-circle",
-  collapse: "fa fa-minus-circle"
+  collapse: "fa fa-minus-circle",
+  notification: "fas fa-exclamation-triangle"
 };
 
 const ICONS_MATERIAL_DESIGN = {
@@ -58,7 +60,8 @@ const ICONS_MATERIAL_DESIGN = {
   arrowLeft: "keyboard_arrow_left",
   arrowRight: "keyboard_arrow_right",
   expand: "add_circle",
-  collapse: "remove_circle"
+  collapse: "remove_circle",
+  notification: "warning"
 };
 
 const EVENTS = {
@@ -76,7 +79,10 @@ const EVENTS = {
     close: "close-modal"
   },
   notification: {
-    close: "close-notification"
+    close: "close-notification",
+    added: "notification-added",
+    removed: "notification-removed",
+    updated: "notification-updated"
   },
   paginator: {
     updatePage: "update-page"

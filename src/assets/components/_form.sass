@@ -15,17 +15,24 @@
   position: relative
   max-width: 400px
   .t-autocomplete-results
+    --border-alpha: .1
     border: 1px solid
+    //border-top: none
     overflow-y: auto
     z-index: 50
-    border-radius: 0 0 .3rem .3rem
+    top: 8px
+    border-radius: 0
+    background: $white-bis
     @include margin-padding(0, 0.3em)
     @include material-shadow($dark)
     .t-autocomplete-result
+      --bg-alpha: .5
+      --bg-hover-alpha: .8
       list-style: none
       text-align: left
-      padding: 2px 0.5rem
+      padding: 5px 0.5rem
       cursor: pointer
+      background-attachment: scroll
 .t-text
   +until($tablet)
     flex-direction: column !important

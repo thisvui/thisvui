@@ -1,8 +1,9 @@
 import CssArchitect from "../utils/css-architect";
 import background from "./background";
+import alpha from "./alpha";
 
 export default {
-  mixins: [background],
+  mixins: [background, alpha],
   props: {
     isPrimary: {
       type: Boolean
@@ -68,7 +69,6 @@ export default {
         "is-black",
         "is-white"
       ],
-      componentName: this.$options.name,
       hasColorModifier: false,
       includeBgModifiers: true,
       colorModifier: null,

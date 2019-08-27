@@ -72,14 +72,15 @@
   top: 50%
   margin-left: 8px
   transform: translateX(0%)   translateY(-50%)
-.notifications
-  position: fixed
-  right: 10px
-  top: 10px
-  width: 350px
+.t-toast
+  position: absolute
   z-index: 100
+  .t-icon
+    padding-right: 1.3em
+    padding-left: 0.5em
+    transform: scale(1.2)
   .notification
-    box-shadow: 1px 1px 3px 1px rgba(77, 77, 77, 0.2)
+    @include material-shadow($dark)
 .message
   p
     &:not(:last-child)
