@@ -1,11 +1,11 @@
-import input from "../../mixins/input";
+import inputs from "../../mixins/inputs";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-switch",
-  mixins: [input],
+  mixins: [inputs],
   props: {
     value: {
       type: Boolean

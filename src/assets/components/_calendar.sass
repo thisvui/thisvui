@@ -1,53 +1,72 @@
-.t-calendar-widget
-  z-index: 40
-  width: 320px
-  border: 1px solid rgba($dark, .2)
-  box-shadow: $card-shadow
-  border-bottom-left-radius: 5px
-  border-bottom-right-radius: 5px
-  background: $white-bis
-  &.inline-calendar
-    position: relative
-    z-index: 10
-  .t-calendar
+.t-calendar
+  &__widget
+    z-index: 40
+    width: 320px
+    border: 1px solid rgba($dark, .2)
+    box-shadow: $card-shadow
+    border-bottom-left-radius: 5px
+    border-bottom-right-radius: 5px
+    background: $white-bis
+    &.inline-calendar
+      position: relative
+      z-index: 10
+    @each $name, $pair in $colors
+      $color: nth($pair, 1)
+      $color-invert: nth($pair, 2)
+      &.is-#{$name}
+        @include border($color, .3)
+        @include material-shadow($color)
+        .day-number
+          &.is-today
+            @include color-props($color-invert, rgba($color, .7), rgba($color-invert, .1))
+          &.is-selected
+            @include color-props($color-invert, rgba($color, .9), rgba($color-invert, .2))
+        .change-month-arrow
+          color: $color
+        .t-timepicker
+          .input
+            @include border($color, .2)
+  &__body
     display: grid
     grid-template-columns: repeat(7, 1fr)
     padding: 0 5px 5px 5px
-    &-header
-      padding: .75rem
-      font-size: 1.25rem
-      grid-column: 1 / span 7
-      >span
-        text-align: center
-      .month-name
-        width: 200px
-    &-headings
-      font-size: 0.8rem
-      color: rgba($dark, 0.8)
-      font-weight: bold
-      padding-bottom: 0.3rem
-    &-day
-      .day-number
-        border-radius: 50%
-        font-size: 0.9rem
-        transition: background-color linear .1s
-        width: 82%
-        padding: 5px
-        color: $opaque
-        text-align: center
-        cursor: pointer
-        border: 2px solid $white-bis
-        &:hover
-          background: rgba($opaque, .2)
-        &.is-current
-          color: $dark
-        &.is-selected
-          border: 2px solid
-          @include color-props($primary-invert, rgba($primary, .9), rgba($primary, .1))
-        &.is-today
-          border: 2px solid rgba($primary, .2)
+  &__header
+    padding: .75rem
+    font-size: 1.25rem
+    grid-column: 1 / span 7
+    >span
+      text-align: center
+    .month-name
+      width: 200px
+  &__headings
+    font-size: 0.8rem
+    color: rgba($dark, 0.8)
+    font-weight: bold
+    padding-bottom: 0.3rem
+  &__day
+    .day-number
+      border-radius: 50%
+      font-size: 0.9rem
+      transition: background-color linear .1s
+      width: 82%
+      padding: 5px
+      color: $opaque
+      text-align: center
+      cursor: pointer
+      border: 2px solid $white-bis
+      &:hover
+        background: rgba($opaque, .2)
+      &.is-current
+        color: $dark
+      &.is-selected
+        border: 2px solid
+        @include color-props($primary-invert, rgba($primary, .9), rgba($primary, .1))
+      &.is-today
+        border: 2px solid rgba($primary, .2)
   .t-timepicker
     padding: 0 1em 0 1em
+    .group
+      flex: 33%
     .control
       padding: 0.5rem 0.2rem 0.2rem 0.2rem
       .input
@@ -55,21 +74,3 @@
         margin: 0
         padding-right: 0.5rem !important
         border: 1px solid rgba($dark, .2)
-  @each $name, $pair in $colors
-    $color: nth($pair, 1)
-    $color-invert: nth($pair, 2)
-    &.is-#{$name}
-      @include border($color, .3)
-      @include material-shadow($color)
-      .t-calendar
-        &-day
-          .day-number
-            &.is-today
-              @include color-props($color-invert, rgba($color, .7), rgba($color-invert, .1))
-            &.is-selected
-              @include color-props($color-invert, rgba($color, .9), rgba($color-invert, .2))
-      .change-month-arrow
-        color: $color
-      .t-timepicker
-        .input
-          @include border($color, .2)

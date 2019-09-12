@@ -1,0 +1,63 @@
+* {
+  .colored {
+    color: $dark;
+    &.icon{
+      color: $link;
+    }
+    @each $name, $pair in $colors {
+      $color: nth($pair, 1);
+      $color-invert: nth($pair, 2);
+      &.is-#{$name} {
+        color: rgba($color, var(--color-alpha));
+      }
+    }
+  }
+}
+* {
+  .bordered {
+    border-color: $link;
+    @each $name, $pair in $colors {
+      $color: nth($pair, 1);
+      $color-invert: nth($pair, 2);
+      $border-color: rgba($color, var(--border-alpha));
+      &.is-#{$name} {
+        border-color: $border-color;
+        &.after::after {
+          border-color: $border-color;
+        }
+        &.focused {
+          border-color: darken($color, 15%);
+        }
+      }
+    }
+  }
+}
+.filled {
+  background-color: lighten($dark, 60%);
+  @each $name, $pair in $colors {
+    $color: nth($pair, 1);
+    $color-invert: nth($pair, 2);
+    &.is-#{$name} {
+      color: $color-invert;
+      background-color: rgba($color, var(--bg-alpha));
+    }
+  }
+}
+* {
+  .hovered {
+    &:hover{
+      color: $dark;
+      background-color: lighten($dark, 60%);
+    }
+    @each $name, $pair in $colors {
+      $color: nth($pair, 1);
+      $color-invert: nth($pair, 2);
+      &.is-#{$name} {
+        &:hover{
+          color: $color-invert;
+          background-color: rgba($color, var(--bg-hover-alpha));
+        }
+      }
+    }
+  }
+}

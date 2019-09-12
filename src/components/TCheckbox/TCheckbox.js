@@ -1,10 +1,10 @@
-import input from "../../mixins/input";
+import inputs from "../../mixins/inputs";
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-checkbox",
-  mixins: [input],
+  mixins: [inputs],
   props: {
     value: {
       type: Boolean
@@ -62,7 +62,6 @@ export default {
      * Creates the checkbox input section
      */
     createCheckbox(architect) {
-      // Creating the html input element
       let input = architect.createInput(this.getClasses);
       input.setId(this.id);
       let inputAttrs = {

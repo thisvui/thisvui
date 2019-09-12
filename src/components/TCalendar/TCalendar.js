@@ -1,6 +1,5 @@
-import input from "../../mixins/input";
+import inputs from "../../mixins/inputs";
 
-import TIcon from "../TIcon/TIcon";
 import { TInput } from "../TInput";
 
 import CssArchitect from "../../utils/css-architect";
@@ -29,8 +28,7 @@ const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export default {
   name: "t-calendar",
-  components: { TIcon },
-  mixins: [input],
+  mixins: [inputs],
   props: {
     value: {
       type: [String, Date]
@@ -67,6 +65,10 @@ export default {
     },
     maxDate: {
       type: [String, Date]
+    },
+    validateOn: {
+      type: String,
+      default: "blur, input"
     }
   },
   data() {
@@ -157,7 +159,7 @@ export default {
     },
     getContainerClass: function() {
       const cssArchitect = new CssArchitect(
-        `field ${this.className("container")}`
+        `group ${this.className("container")}`
       );
       cssArchitect.addClass(
         this.containerClass,
@@ -166,30 +168,20 @@ export default {
       cssArchitect.addClass("is-horizontal", this.isHorizontal);
       return cssArchitect.getClasses();
     },
-    /**
-     * Dynamically build the css classes for the calendar control element
-     * @returns { A String with the chained css classes }
-     */
-    getCalendarControlClass: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(this.getControlClass);
-      cssArchitect.addClass("is-column", this.inline);
-      return cssArchitect.getClasses();
-    },
     getWidgetClass: function() {
-      const cssArchitect = new CssArchitect("t-calendar-widget");
+      const cssArchitect = new CssArchitect("t-calendar__widget");
       cssArchitect.isFlexible("column").isAbsolute();
       cssArchitect.addClass("inline-calendar", this.inline);
       cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass(this.widgetClass);
       return cssArchitect.getClasses();
     },
-    getCalendarClass: function() {
-      const cssArchitect = new CssArchitect("t-calendar");
+    getCalendarBodyClass: function() {
+      const cssArchitect = new CssArchitect("t-calendar__body");
       return cssArchitect.getClasses();
     },
     getHeaderClass: function() {
-      const cssArchitect = new CssArchitect("t-calendar-header");
+      const cssArchitect = new CssArchitect("t-calendar__header");
       cssArchitect.isFlexible().isCentered();
       return cssArchitect.getClasses();
     },
@@ -201,26 +193,16 @@ export default {
     getDayClass() {
       const cssArchitect = new CssArchitect(this.className("day"));
       return cssArchitect.getClasses();
-    }
-  },
-  created() {
-    this.dayLabels = DAY_LABELS.slice();
-    this.today = new Date();
-    this.currentDate = this.today;
-  },
-  mounted() {
-    if (this.startDate) {
-      this.currentDate = this.startDate;
-      this.selectedDate = this.startDate;
-      this.selectedTime = this.startDate;
-    }
-    if (this.inline) {
-      this.showCalendar = true;
-    }
-    if (this.enableTime && this.selectedTime) {
-      this.hours = getHours(this.selectedTime);
-      this.minutes = getMinutes(this.selectedTime);
-      this.seconds = getSeconds(this.selectedTime);
+    },
+    getClearIconClass: function() {
+      const cssArchitect = new CssArchitect();
+      cssArchitect.addClass("colored");
+      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
+      cssArchitect.addClass("cursor-pointer");
+      return cssArchitect.getClasses();
+    },
+    showClearIcon: function() {
+      return this.isNotEmpty(this.selectedDate) && !this.disabled;
     }
   },
   methods: {
@@ -238,7 +220,7 @@ export default {
       }
     },
     className(className) {
-      return `${this.baseClass}-${className}`;
+      return `${this.baseClass}__${className}`;
     },
     getDayNumberClass(day) {
       const cssArchitect = new CssArchitect("day-number");
@@ -257,7 +239,10 @@ export default {
     clearSelectedDay() {
       this.selectedDate = null;
       this.inputDate = null;
+      this.$refs.inputField.value = "";
       this.$emit(this.$thisvui.events.common.input, this.selectedDate);
+      this.validateOnEvent("input");
+      this.hasValue = false
     },
     setSelectedDate(day) {
       this.initSelectedTime();
@@ -274,8 +259,10 @@ export default {
       this.selectedDate = selectedDate;
       let formattedDate = format(this.selectedDate, this.dateFormat);
       this.inputDate = formattedDate;
-      // this.$refs.inputField.focus();
+      this.$refs.inputField.value = this.inputDate;
       this.$emit(this.$thisvui.events.common.input, this.selectedDate);
+      this.validateOnEvent("input");
+      this.hasValue = true
     },
     setSelectedTime(units, value) {
       this.initSelectedTime();
@@ -292,6 +279,7 @@ export default {
           break;
       }
       this.selectedTime = selectedTime;
+      this.hasValue = true
     },
     onInput() {
       this.validateOnEvent("input");
@@ -321,6 +309,21 @@ export default {
       }
     },
     /**
+     * Creates the clear icon
+     */
+    createClearIcon(architect) {
+      if (this.showClearIcon) {
+        let clearIconWrapper = architect.createA();
+        let clearIcon = architect.createIcon(this.getClearIconClass);
+        clearIcon.setRef("clear")
+        clearIcon.addProp("icon", this.$thisvui.icons.remove);
+        clearIcon.addProp("preserveDefaults", !this.overrideDefaults);
+        clearIconWrapper.addClick(this.clearSelectedDay);
+        clearIconWrapper.addChild(clearIcon);
+        architect.addChild(clearIconWrapper);
+      }
+    },
+    /**
      * Creates a header arrow
      */
     createArrow(architect, icon, method) {
@@ -342,7 +345,7 @@ export default {
 
       // Creating the calendar
       if (!this.noCalendar) {
-        let calendar = architect.createDiv(this.getCalendarClass);
+        let calendarBody = architect.createDiv(this.getCalendarBodyClass);
         let header = architect.createElement("header", this.getHeaderClass); // The header element
 
         // Creating the month selection header
@@ -362,13 +365,13 @@ export default {
         header.addChild(arrowLeft);
         header.addChild(monthName);
         header.addChild(arrowRight);
-        calendar.addChild(header);
+        calendarBody.addChild(header);
 
         // Creating days labels
         for (let dayLabel of this.dayLabels) {
           let dayLabelEl = architect.createDiv(this.className("headings"));
           dayLabelEl.innerHTML(dayLabel);
-          calendar.addChild(dayLabelEl);
+          calendarBody.addChild(dayLabelEl);
         }
 
         // Creating days grid
@@ -380,9 +383,9 @@ export default {
           });
           dayNumber.innerHTML(this.formatDateToDay(day.date));
           dayEl.addChild(dayNumber);
-          calendar.addChild(dayEl);
+          calendarBody.addChild(dayEl);
         }
-        widget.addChild(calendar);
+        widget.addChild(calendarBody);
       }
 
       // Creating time picker
@@ -396,6 +399,7 @@ export default {
           disabled: this.disabled,
           max: 12,
           min: 0,
+          small: true,
           hideStateIcon: true
         });
         hoursInput.addEvent("input", value => {
@@ -409,6 +413,7 @@ export default {
           disabled: this.disabled,
           max: 60,
           min: 0,
+          small: true,
           hideStateIcon: true
         });
         minutesInput.addEvent("input", value => {
@@ -422,6 +427,7 @@ export default {
           disabled: this.disabled,
           max: 60,
           min: 0,
+          small: true,
           hideStateIcon: true
         });
         secondsInput.addEvent("input", value => {
@@ -439,9 +445,8 @@ export default {
      * Creates the input element
      */
     createInput(architect) {
-      let root = architect.createDiv("field-body");
-      let field = architect.createDiv("field");
-      let control = architect.createDiv(this.getCalendarControlClass); // The control element
+      let root = architect.createDiv("group__wrapper is-paddingless");
+      let control = architect.createDiv(this.getControlClass); // The control element
 
       // Creating the html input element
       let input = architect.createInput(this.getInputClass);
@@ -460,6 +465,7 @@ export default {
       input.setAttrs(inputAttrs);
       input.setRef("inputField");
       input.addEvent("change", this.onChange);
+      input.addEvent("change", this.onChange);
       input.addEvent("input", this.onInput);
       input.addEvent("blur", this.onBlur);
       input.addEvent("focus", this.onFocus);
@@ -469,23 +475,52 @@ export default {
       });
       control.addChild(input);
 
-      this.createIcons(control);
+      let labelParent = this.classic ? root : control;
+      this.createLabel(labelParent);
+      this.createClearIcon(control);
+      this.createIcon(control);
       this.createErrorHelpers(control);
 
-      field.addChild(control);
-      root.addChild(field);
+      root.addChild(control);
 
       architect.addChild(root);
     }
   },
   render: function(h) {
     let root = new ElementArchitect(h, "div", this.getContainerClass);
-    root.addDirective({ name: "t-click-outside", value: this.hideCalendar });
+    root.addDirective({
+      name: "click-outside",
+      value: {
+        handler: "hideCalendar"
+      }
+    });
 
-    this.createLabel(root);
     this.createInput(root);
     this.createWidget(root);
 
     return root.create();
+  },
+  created() {
+    this.dayLabels = DAY_LABELS.slice();
+    this.today = new Date();
+    this.currentDate = this.today;
+  },
+  mounted() {
+    if (this.startDate) {
+      this.currentDate = this.startDate;
+      this.selectedDate = this.startDate;
+      this.selectedTime = this.startDate;
+    }
+    if (this.inline) {
+      this.showCalendar = true;
+    }
+    if (this.enableTime && this.selectedTime) {
+      this.hours = getHours(this.selectedTime);
+      this.minutes = getMinutes(this.selectedTime);
+      this.seconds = getSeconds(this.selectedTime);
+    }
+    this.$nextTick(function() {
+      this.hasValue = this.getHasValue()
+    });
   }
 };

@@ -1,13 +1,9 @@
-import input from "../../mixins/input";
-import utils from "../../utils/utils";
-import TIcon from "../TIcon/TIcon";
-
+import inputs from "../../mixins/inputs";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-textarea",
-  components: { TIcon },
-  mixins: [input],
+  mixins: [inputs],
   props: {
     value: {
       type: String
@@ -20,26 +16,19 @@ export default {
     }
   },
   methods: {
-    onInput() {
-      let value = this.$refs.inputField.value;
-      this.validateOnEvent("input");
-      if (this.transformValue && utils.check.notEmpty(this.transform)) {
-        value = utils.text.transform(value, this.transform);
-      }
-      this.$emit(this.$thisvui.events.common.input, value);
-    },
     /**
      * Creates the field input section
      */
     createTextarea(architect) {
-      let root = architect.createDiv("field-body");
-      let field = architect.createDiv("field");
+      let root = architect.createDiv("group__wrapper");
       let control = architect.createDiv(this.getControlClass); // The control element
+      control.addClass("align-items-start");
 
+      this.createIcon(control, this.iconPosition.left, "is-textarea");
       // Creating the html input element
-      let input = architect.createElement("textarea", this.getTextareaClass);
-      input.setId(this.id);
-      let inputAttrs = {
+      let textarea = architect.createElement("textarea", this.getTextareaClass);
+      textarea.setId(this.id);
+      let textareaAttrs = {
         placeholder: this.placeholder,
         value: this.value,
         disabled: this.disabled,
@@ -50,30 +39,32 @@ export default {
         min: this.min,
         max: this.max
       };
-      input.value(this.value);
-      input.setAttrs(inputAttrs);
-      input.setRef("inputField");
-      input.addEvent("change", this.onChange);
-      input.addEvent("input", this.onInput);
-      input.addEvent("blur", this.onBlur);
-      input.addEvent("keyup", this.onKeyup);
-      control.addChild(input);
+      textarea.value(this.value);
+      textarea.setAttrs(textareaAttrs);
+      textarea.setRef("inputField");
+      textarea.addChange(this.onChange);
+      textarea.addInput(this.onInput);
+      textarea.addFocus(this.onFocus);
+      textarea.addBlur(this.onBlur);
+      textarea.addKeyup({
+        key: architect.keycode.enter,
+        handler: this.onKeyup
+      });
+      control.addChild(textarea);
 
-      this.createIcons(control);
+      let labelParent = this.classic ? root : control;
+      this.createLabel(labelParent, "is-textarea");
+      this.createIcon(control, this.iconPosition.right, "is-textarea");
+      this.createStateIcon(control);
       this.createErrorHelpers(control);
 
-      field.addChild(control);
-      root.addChild(field);
-
+      root.addChild(control);
       architect.addChild(root);
     }
   },
   render: function(h) {
     let root = new ElementArchitect(h, "div", this.getContainerClass);
-
-    this.createLabel(root);
     this.createTextarea(root);
-
     return root.create();
   }
 };

@@ -1,10 +1,10 @@
-import input from "../../mixins/input";
+import inputs from "../../mixins/inputs";
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-radio",
-  mixins: [input],
+  mixins: [inputs],
   props: {
     items: {
       type: Array
@@ -54,7 +54,6 @@ export default {
      * Creates the radio inputs
      */
     createRadio(architect, id, item) {
-      // Creating the html input element
       let input = architect.createInput(this.getClasses);
       input.setId(id);
       input.setKey(id);
