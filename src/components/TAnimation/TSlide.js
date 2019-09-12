@@ -70,8 +70,10 @@ export default {
     root.setRef("slideContainer");
     root.setStyles(this.getStyle());
     root.addDirective({
-      name: "t-click-outside",
-      value: this.handleOutsideClick
+      name: "click-outside",
+      value: {
+        handler: "handleOutsideClick"
+      }
     });
     root.setChildren(this.$slots.default);
     return root.create();

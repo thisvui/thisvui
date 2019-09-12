@@ -73,7 +73,6 @@ export default {
     getLinkClasses: function() {
       const cssArchitect = new CssArchitect("tree-nav-link");
       cssArchitect.addClass("is-active", this.open);
-      // cssArchitect.addClass("tree-nav-link", !this.open);
       cssArchitect.addClass(this.linkClass, this.linkClass);
       cssArchitect.addClass(this.linkOpenedClass, this.open);
       return cssArchitect.getClasses();

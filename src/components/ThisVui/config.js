@@ -3,7 +3,7 @@ const ICONS_FA5 = {
   check: "fas fa-check",
   edit: "fas fa-edit",
   save: "fas fa-save",
-  remove: "fas fa-trash",
+  remove: "fas fa-times",
   cancel: "fas fa-minus-circle",
   add: "fas fa-plus-circle",
   search: "fas fa-search",

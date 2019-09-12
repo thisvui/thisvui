@@ -166,6 +166,10 @@ export default class ElementArchitect {
     return this.addEvent("change", handler, conditionStatement, native);
   }
 
+  addFocus(handler, conditionStatement = true, native = false) {
+    return this.addEvent("focus", handler, conditionStatement, native);
+  }
+
   addBlur(handler, conditionStatement = true, native = false) {
     return this.addEvent("blur", handler, conditionStatement, native);
   }

@@ -19,7 +19,7 @@ const ThisVui = {
     });
     Vue.use(ThisValidate);
     Vue.use(TIconLib);
-    Vue.directive("t-click-outside", ClickOutside);
+    Vue.directive("click-outside", ClickOutside);
   }
 };
 

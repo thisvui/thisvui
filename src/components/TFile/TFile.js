@@ -1,6 +1,12 @@
-import input from "../../mixins/input";
 import alignment from "../../mixins/alignment";
 import icons from "../../mixins/icons";
+import colors from "../../mixins/colors";
+import common from "../../mixins/common";
+import states from "../../mixins/states";
+import sizes from "../../mixins/sizes";
+import display from "../../mixins/display";
+import helpers from "../../mixins/helpers";
+
 import TBox from "../TBox/TBox";
 import TIcon from "../TIcon/TIcon";
 import TThumbnails from "../TThumbnail/TThumbnails";
@@ -28,8 +34,14 @@ export default {
     TIcon,
     TBox
   },
-  mixins: [input, alignment, icons],
+  mixins: [common, alignment, icons, colors, states, sizes, display, helpers],
   props: {
+    name: {
+      type: String
+    },
+    label: {
+      type: String
+    },
     accept: {
       type: String,
       default: "*"
@@ -288,7 +300,7 @@ export default {
         accept: this.accept
       };
       input.setAttrs(inputAttrs);
-      input.addEvent("change", this.handleFilesUpload);
+      input.addChange(this.handleFilesUpload);
 
       let fileCta = architect.createSpan("file-cta");
       let fileIcon = architect.createSpan("file-icon");

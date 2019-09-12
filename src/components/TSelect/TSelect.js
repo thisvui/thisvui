@@ -1,114 +1,194 @@
-import input from "../../mixins/input";
-import helpers from "../../mixins/helpers";
+import inputs from "../../mixins/inputs";
+import selects from "../../mixins/selects";
 
+import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-select",
-  mixins: [input, helpers],
+  mixins: [inputs, selects],
   props: {
-    value: {
-      type: [String, Number]
-    },
-    options: {
-      type: Array
-    },
-    display: {
-      type: String
-    },
-    val: {
-      type: String
-    },
-    addEmptyValue: {
+    allowEmptyValue: {
       type: Boolean,
       default: true
+    },
+    validateOn: {
+      type: String,
+      default: "blur, input"
+    }
+  },
+  data() {
+    return {
+      arrowIcon: this.$thisvui.icons.arrowDown
+    };
+  },
+  watch: {
+    /**
+     * Once the items content changes, it means the parent component
+     * provided the needed data
+     */
+    items: function(value, oldValue) {
+      this.results = value;
+    },
+    isOpen: function(value, oldValue) {
+      this.arrowIcon = value
+        ? this.$thisvui.icons.arrowUp
+        : this.$thisvui.icons.arrowDown;
+    },
+    allowEmptyValue: function(value, oldValue) {
+      if (!value) {
+        let value = this.isNotEmpty(this.initialValue)
+          ? this.initialValue
+          : this.results[0];
+        this.setResult(value);
+      }
     }
   },
   computed: {
-    selected: {
-      get: function() {
-        return this.value;
-      },
-      set: function(val) {}
+    getOpenIconClass: function() {
+      const cssArchitect = new CssArchitect();
+      cssArchitect.addClass("colored");
+      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
+      cssArchitect.addClass("cursor-pointer");
+      return cssArchitect.getClasses();
     },
-    isComplex() {
-      return this.val !== undefined && this.display !== undefined;
-    },
-    addEmptyField: function() {
-      return this.addEmptyValue;
+    iconPosition() {
+      let left = this.iconLeft;
+      let right = this.iconRight;
+      if ((!left && !right) || (left && right)) {
+        left = true;
+        right = false;
+      }
+      return { left, right };
     }
   },
   methods: {
-    onChange(event) {
-      this.$emit(this.$thisvui.events.common.input, event.target.value);
-      this.$emit(this.$thisvui.events.common.change);
+    /**
+     * Executed on click
+     */
+    onClick(event) {
+      event.preventDefault();
+      this.isOpen = !this.isOpen;
     },
     /**
-     * Creates the options
+     * Executed on input
      */
-    createOptions(architect) {
-      let emptyOption = architect.createElement("option");
-      emptyOption.addAttr("value", "");
-      architect.addChild(emptyOption, this.addEmptyField);
-      for (let option of this.options) {
-        let key = this.isComplex ? option[this.val] : option;
-        let value = this.isComplex ? option[this.val] : option;
-        let display = this.isComplex ? option[this.display] : option;
-        let optionEl = architect.createElement("option");
-        optionEl.setKey(option[this.val]);
-        optionEl.addAttr("value", value);
-        optionEl.addDomProp("innerHTML", display);
-        architect.addChild(optionEl);
+    onInput(event) {
+      this.search = event.target.value;
+      this.validateOnEvent("input");
+    },
+    /**
+     * Executed on focus
+     */
+    onFocus(event) {
+      if (this.search !== undefined && this.search !== "") {
+        this.isOpen = true;
       }
     },
     /**
-     * Creates the select element
+     * Handles behavior for outside clicks
+     */
+    handleClickOutside(event) {
+      this.isOpen = false;
+      this.arrowCounter = -1;
+    },
+    /**
+     * Creates the open/close icon
+     */
+    createToggleIcon(architect) {
+      let openIconWrapper = architect.createA();
+      let openIcon = architect.createIcon(this.getOpenIconClass);
+      openIcon.addProp("icon", this.arrowIcon);
+      openIcon.setRef("arrow");
+      openIcon.addProp("preserveDefaults", !this.overrideDefaults);
+      openIconWrapper.addClick(this.onClick);
+      openIconWrapper.addChild(openIcon);
+      architect.addChild(openIconWrapper);
+    },
+    /**
+     * Creates the input element
      */
     createInput(architect) {
-      let root = architect.createDiv("field-body");
-      let field = architect.createDiv("field");
+      let root = architect.createDiv("group__wrapper is-paddingless");
       let control = architect.createDiv(this.getControlClass); // The control element
-      let selectContainer = architect.createDiv(this.getSelectClass); // The control element
+      root.addDirective({
+        name: "click-outside",
+        value: {
+          exclude: ["arrow", "clear"],
+          handler: "handleClickOutside"
+        }
+      });
 
-      // Creating the html input element
-      let input = architect.createSelect(this.getInputClass);
+      this.createIcon(control, this.iconPosition.left);
+
+      let input = architect.createInput(this.getInputClass);
+      input.addClick(this.onClick);
+      input.addClass("select");
       input.setId(this.id);
       let inputAttrs = {
         placeholder: this.placeholder,
-        value: this.selected,
+        value: this.search,
         disabled: this.disabled,
-        validationScope: this.validationScope,
-        readonly: this.readonly,
-        min: this.min,
-        max: this.max
+        readOnly: true,
+        validationScope: this.validationScope
       };
-      input.value(this.selected);
+      input.value(this.search);
       input.setAttrs(inputAttrs);
       input.setRef("inputField");
-      input.addEvent("change", this.onChange);
-      input.addEvent("blur", this.onBlur);
-      input.addEvent("keyup", this.onKeyup);
+      input.addChange(this.onChange);
+      input.addInput(this.onInput);
+      input.addBlur(this.onBlur);
 
-      // Creating the options
-      this.createOptions(input);
+      input.addKeydown({
+        key: architect.keycode.downArrow,
+        handler: this.onArrowDown
+      });
+      input.addKeydown({
+        key: architect.keycode.upArrow,
+        handler: this.onArrowUp
+      });
+      input.addKeydown({
+        key: architect.keycode.enter,
+        handler: this.onEnter
+      });
+      input.addKeydown({
+        key: architect.keycode.delete,
+        handler: this.empty
+      });
+      control.addChild(input);
 
-      selectContainer.addChild(input);
-
-      this.createErrorHelpers(selectContainer);
-
-      control.addChild(selectContainer);
-      field.addChild(control);
-      root.addChild(field);
+      let labelParent = this.classic ? root : control;
+      this.createLabel(labelParent);
+      if (this.allowEmptyValue) {
+        this.createClearIcon(control);
+      }
+      this.createIcon(control, this.iconPosition.right);
+      this.createToggleIcon(control);
+      this.createErrorHelpers(control);
+      root.addChild(control);
 
       architect.addChild(root);
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "div", this.getContainerClass);
+    let root = new ElementArchitect(h, "div", this.getSelectContainerClass);
 
-    this.createLabel(root);
     this.createInput(root);
+    this.createResults(root);
 
     return root.create();
+  },
+  mounted() {
+    this.$nextTick(function() {
+      if (this.allowEmptyValue && this.isNotEmpty(this.initialValue)) {
+        this.search = this.initialValue;
+      }
+      if (!this.allowEmptyValue) {
+        let value = this.isNotEmpty(this.initialValue)
+          ? this.initialValue
+          : this.results[0];
+        this.setResult(value);
+      }
+    });
   }
 };

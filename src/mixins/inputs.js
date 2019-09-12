@@ -52,10 +52,6 @@ export default {
       type: Boolean,
       default: true
     },
-    readonly: {
-      type: Boolean,
-      default: false
-    },
     placeholder: {
       type: String
     },
@@ -78,11 +74,25 @@ export default {
     hideStateIcon: {
       type: Boolean,
       default: false
-    }
+    },
+    iconLeft: {
+      type: Boolean
+    },
+    iconRight: {
+      type: Boolean
+    },
+    showStateIcon: Boolean,
+    compact: Boolean,
+    small: Boolean,
+    classic: Boolean,
+    transparent: Boolean,
+    coloredText: Boolean
   },
   data() {
     return {
-      formId: ""
+      formId: "",
+      hasValue: false,
+      focused: false
     };
   },
   computed: {
@@ -91,12 +101,55 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getContainerClass: function() {
-      const cssArchitect = new CssArchitect("field");
+      const cssArchitect = new CssArchitect("group");
       cssArchitect.addClass(
         this.containerClass,
         this.containerClass !== undefined
       );
       cssArchitect.addClass("is-horizontal", this.isHorizontal);
+      return cssArchitect.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the control div
+     * @returns { A String with the chained css classes }
+     */
+    getWrapperClass: function() {
+      const cssArchitect = new CssArchitect(
+        "group__wrapper"
+      );
+      cssArchitect.addClass("small", this.small);
+      return cssArchitect.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the control div
+     * @returns { A String with the chained css classes }
+     */
+    getControlClass: function() {
+      const cssArchitect = new CssArchitect(
+        "control"
+      );
+      cssArchitect.isFlexible()
+      cssArchitect.addClass("focused", this.focused);
+      cssArchitect.addClass("transparent", this.transparent);
+      cssArchitect.addClass("bordered");
+      cssArchitect.addClass(this.getTargetClass);
+      cssArchitect.addClass(this.getColorsModifiers);
+      cssArchitect.addClass(this.getBackgroundModifiers);
+      this.setupColorModifier(cssArchitect);
+      return cssArchitect.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the label element
+     * @returns { A String with the chained css classes }
+     */
+    getLabelClass: function() {
+      const cssArchitect = new CssArchitect("label");
+      cssArchitect.addClass("has-value", this.hasValue);
+      cssArchitect.addClass(this.labelClass, this.isNotNull(this.labelClass));
+      cssArchitect.addClass("is-inline-flex", this.isNotNull(this.labelIcon));
+      cssArchitect.addClass("input-icon-left", this.isNotNull(this.icon) && this.iconPosition.left);
+      cssArchitect.addClass("colored");
+      cssArchitect.addClass(this.colorModifier, (this.focused || this.hasValue) && this.hasColorModifier);
       return cssArchitect.getClasses();
     },
     /**
@@ -114,14 +167,22 @@ export default {
         this.isNotNull(this.inputClass) && this.errors.length === 0
       );
       cssArchitect.addClass(this.stateClass, this.stateClass !== undefined);
-      this.colorize(cssArchitect, "border-5", true);
-      this.colorize(cssArchitect, "shadow");
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass(this.getBackgroundModifiers);
-      this.setupColorModifier(cssArchitect);
-      cssArchitect.addClass("is-primary", !this.hasColorModifier);
+      cssArchitect.addClass("colored", this.coloredText);
+      cssArchitect.addClass(this.getColorsModifiers, this.coloredText);
       return cssArchitect.getClasses();
     },
+    /**
+     * Dynamically build the css classes for the input element
+     * @returns { A String with the chained css classes }
+     */
+    getInputClass: function() {
+      const cssArchitect = new CssArchitect("input");
+      cssArchitect.isFullwidth();
+      cssArchitect.addClass("compact", this.compact);
+      cssArchitect.addClass("small", this.small);
+      return cssArchitect.getClasses();
+    },
+
     /**
      * Dynamically build the css classes for the select element
      * @returns { A String with the chained css classes }
@@ -132,22 +193,12 @@ export default {
       return cssArchitect.getClasses();
     },
     /**
-     * Dynamically build the css classes for the input element
-     * @returns { A String with the chained css classes }
-     */
-    getInputClass: function() {
-      const cssArchitect = new CssArchitect("input is-fullwidth");
-      cssArchitect.addClass("is-static", this.isStatic);
-      cssArchitect.addClass(this.getTargetClass);
-      return cssArchitect.getClasses();
-    },
-    /**
      * Dynamically build the css classes for the textarea element
      * @returns { A String with the chained css classes }
      */
     getTextareaClass: function() {
       const cssArchitect = new CssArchitect("textarea");
-      cssArchitect.addClass(this.getTargetClass);
+      cssArchitect.isFullwidth();
       return cssArchitect.getClasses();
     },
     /**
@@ -183,30 +234,11 @@ export default {
       return cssArchitect.getClasses();
     },
     /**
-     * Dynamically build the css classes for the control div
-     * @returns { A String with the chained css classes }
-     */
-    getControlClass: function() {
-      const cssArchitect = new CssArchitect("control t-flex has-icons-right");
-      cssArchitect.addClass("has-icons-left", this.icon !== undefined);
-      return cssArchitect.getClasses();
-    },
-    /**
-     * Dynamically build the css classes for the label element
-     * @returns { A String with the chained css classes }
-     */
-    getLabelClass: function() {
-      const cssArchitect = new CssArchitect("label");
-      cssArchitect.addClass(this.labelClass, this.labelClass !== undefined);
-      cssArchitect.addClass("is-inline-flex", this.labelIcon !== undefined);
-      return cssArchitect.getClasses();
-    },
-    /**
      * Dynamically build the css classes for the icon element
      * @returns { A String with the chained css classes }
      */
     getIconClass: function() {
-      const cssArchitect = new CssArchitect("is-small is-left");
+      const cssArchitect = new CssArchitect("is-left");
       this.colorize(cssArchitect, "color", true);
       cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass(this.iconClass, this.iconClass !== undefined);
@@ -267,14 +299,34 @@ export default {
         return false;
       }
       return this.getValidationPassed;
+    },
+    iconPosition(){
+      let left = this.iconLeft
+      let right = this.iconRight
+      if((!left && !right) || (left && right)){
+        left = false
+        right = true
+      }
+      return { left, right}
     }
   },
   methods: {
+    getInputValue() {
+      let value = this.$refs.inputField.value;
+      return value;
+    },
+    getHasValue() {
+      return this.isNotEmpty(this.getInputValue());
+    },
+    onFocus() {
+      this.focused = true;
+    },
     onBlur() {
       let result = this.validateOnEvent("blur");
       if (result && result.valid) {
         this.$emit(this.$thisvui.events.common.blur);
       }
+      this.focused = false;
     },
     onChange() {
       let result = this.validateOnEvent("change");
@@ -289,52 +341,57 @@ export default {
       }
     },
     onKeyup(event) {
-      if (event.keyCode === 13) {
-        let result = this.validateOnEvent("enter");
-        if (result && result.valid) {
-          this.$emit(this.$thisvui.events.common.onEnter);
-        }
+      let result = this.validateOnEvent("enter");
+      if (result && result.valid) {
+        this.$emit(this.$thisvui.events.common.onEnter);
+      }
+    },
+    onInput() {
+      let value = this.getInputValue();
+      let result = this.validateOnEvent("input");
+      // Transforms the value if transform is active
+      if (this.transformValue && this.isNotEmpty(this.transform)) {
+        value = utils.text.transform(value, this.transform);
+      }
+      this.hasValue = this.getHasValue()
+      if (result && result.valid) {
+        this.$emit(this.$thisvui.events.common.input, value);
       }
     },
     /**
      * Creates the field label section
      */
-    createLabel(architect) {
-      let classes = ["field-label", "is-normal", "t-flex"];
-      if (this.labelIconRight) {
-        classes.push("is-row-reverse");
-        classes.push("is-right");
-      }
-      let root = architect.createDiv(classes.join(" "));
-      if (this.labelIcon) {
-        let icon = root.createIcon(this.getLabelIconClass);
-        icon.addProp("icon", this.labelIcon);
-        root.addChild(icon, this.labelIcon);
-      }
-      let label = root.createLabel(this.getLabelClass);
+    createLabel(architect, cssClasses) {
+      let label = architect.createLabel(this.getLabelClass);
+      label.addClass(cssClasses)
       label.addAttr("for", this.id);
       label.addDomProp("innerHTML", this.label);
-
-      root.addChild(label);
-      architect.addChild(root, this.isNotEmpty(this.label));
+      architect.addChild(label, this.isNotEmpty(this.label));
     },
     /**
      * Creates the input icons
      */
-    createIcons(architect, createStateIcon = true) {
-      // Creating the icon for the input
-      if (this.icon) {
+    createIcon(architect, condition, cssClasses) {
+      if (this.icon && condition) {
         let inputIcon = architect.createIcon(this.getIconClass);
+        inputIcon.addClass(cssClasses)
         inputIcon.addProp("icon", this.icon);
         architect.addChild(inputIcon, this.icon !== undefined);
       }
-
-      // Creating the icon to display when validation passed
-      if (this.showValidStateIcon && !this.hideStateIcon && createStateIcon) {
-        let inputIconRight = architect.createIcon(this.getValidStateIconClass);
-        inputIconRight.addProp("icon", this.$thisvui.icons.check);
-        inputIconRight.addProp("preserveDefaults", !this.overrideDefaults);
-        architect.addChild(inputIconRight);
+    },
+    /**
+     * Creates the icon for the validation state
+     */
+    createStateIcon(architect) {
+      if (
+        this.showValidStateIcon &&
+        !this.hideStateIcon &&
+        this.showStateIcon
+      ) {
+        let stateIcon = architect.createIcon(this.getValidStateIconClass);
+        stateIcon.addProp("icon", this.$thisvui.icons.check);
+        stateIcon.addProp("preserveDefaults", !this.overrideDefaults);
+        architect.addChild(stateIcon);
       }
     },
     /**
@@ -357,6 +414,9 @@ export default {
         this.formId = el.form.id;
       }
       this.addValidator(); // Registers the validator
+      if(this.$refs.inputField){
+        this.hasValue = this.getHasValue()
+      }
     });
     this.includeBgModifiers = false;
   },

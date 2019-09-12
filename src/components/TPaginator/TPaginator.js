@@ -272,11 +272,12 @@ export default {
 
       let sizeSelect = root.createElement(TSelect);
       let sizeSelectProps = {
-        options: this.sizeOptions,
+        items: this.sizeOptions,
         removeLabel: true,
-        addEmptyValue: false,
+        allowEmptyValue: false,
         containerClass: "size-select-container is-inline-block",
         inputClass: "size-select",
+        compact: true,
         isSmall: true,
         isShadowless: true,
         value: this.rowsPerPage

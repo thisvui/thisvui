@@ -1,33 +1,42 @@
-.control
-  .input, .select, .textarea
-    -webkit-transition: all ease-in 0.3s
-    transition: all ease-in 0.3s
-    &[disabled]
-      border: 1px solid $input-border-color
-      @include material-shadow(rgba($input-border-color, 0.1))
-      &:hover
-        @include material-shadow(rgba($input-border-color, 0.2))
 .is-block
   .control
     display: block
-.t-autocomplete
+.t-select
   --border-alpha: .5
   position: relative
   max-width: 400px
-  .t-autocomplete-results
-    --border-alpha: .1
-    border: 1px solid
-    //border-top: none
-    overflow-y: auto
-    z-index: 50
-    top: 8px
-    border-radius: 0
-    background: $white-bis
-    @include margin-padding(0, 0.3em)
-    @include material-shadow($dark)
-    .t-autocomplete-result
+  &__results
+    padding: 0
+    min-width: 320px
+    ul
+      margin-top: 0
+      margin-left: 0
+    .arrow
+      --border-alpha: .7
+      width: 0
+      height: 0
+      border-bottom: 5px solid
+      border-left: 5px solid transparent !important
+      border-right: 5px solid transparent !important
+      position: absolute
+      top: 2px
+      left: 5px
+    &__content
+      --border-alpha: .7
+      border-top: 2px solid
+      border-bottom-left-radius: 3px
+      border-bottom-right-radius: 3px
+      z-index: 50
+      top: 7px
+      background: $white-bis
+      @include margin-padding(0, 0.3em)
+      @include material-shadow-strong($dark)
+      &.marginless
+        top: 0
+  &__result
       --bg-alpha: .5
-      --bg-hover-alpha: .8
+      --bg-hover-alpha: .5
+      color: $dark
       list-style: none
       text-align: left
       padding: 5px 0.5rem

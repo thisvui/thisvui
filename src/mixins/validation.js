@@ -1,9 +1,9 @@
+import utils from "../utils/utils";
 import {
   Result,
   Rule,
   ValidationBus
 } from "../components/TValidation/validation-bus.js";
-import utils from "../utils/utils";
 
 export const RULES = Object.freeze({
   REQUIRED: Symbol("required"),
@@ -155,7 +155,7 @@ export default {
      * Executes the validations for specific event
      */
     validateOnEvent(event) {
-      let events = this.validateOn.split(",");
+      let events = this.validateOn.split(",").map(item => item.trim());
       let validate = events.indexOf(event) > -1;
       if (this.hasRules && validate) {
         return this.validate(event);

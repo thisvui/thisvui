@@ -1,13 +1,9 @@
-import input from "../../mixins/input";
-import utils from "../../utils/utils";
-import TIcon from "../TIcon/TIcon";
-
+import inputs from "../../mixins/inputs";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-input",
-  components: { TIcon },
-  mixins: [input],
+  mixins: [inputs],
   props: {
     value: {
       type: [String, Number]
@@ -18,25 +14,14 @@ export default {
     }
   },
   methods: {
-    onInput() {
-      let value = this.$refs.inputField.value;
-      let result = this.validateOnEvent("input");
-      // Transforms the value if transform is active
-      if (this.transformValue && utils.check.notEmpty(this.transform)) {
-        value = utils.text.transform(value, this.transform);
-      }
-      if (result && result.valid) {
-        this.$emit(this.$thisvui.events.common.input, value);
-      }
-    },
     /**
-     * Creates the field input section
+     * Creates the field input with controls
      */
     createInput(architect) {
-      let root = architect.createDiv("field-body");
-      let field = architect.createDiv("field");
+      let root = architect.createDiv(this.getWrapperClass);
       let control = architect.createDiv(this.getControlClass); // The control element
 
+      this.createIcon(control, this.iconPosition.left);
       // Creating the html input element
       let input = architect.createInput(this.getInputClass);
       input.setId(this.id);
@@ -53,27 +38,29 @@ export default {
       input.value(this.value);
       input.setAttrs(inputAttrs);
       input.setRef("inputField");
-      input.addEvent("change", this.onChange);
-      input.addEvent("input", this.onInput);
-      input.addEvent("blur", this.onBlur);
-      input.addEvent("keyup", this.onKeyup);
+      input.addChange(this.onChange);
+      input.addInput(this.onInput);
+      input.addFocus(this.onFocus);
+      input.addBlur(this.onBlur);
+      input.addKeyup({
+        key: architect.keycode.enter,
+        handler: this.onKeyup
+      });
       control.addChild(input);
 
-      this.createIcons(control);
+      let labelParent = this.classic ? root : control;
+      this.createLabel(labelParent);
+      this.createIcon(control, this.iconPosition.right);
+      this.createStateIcon(control);
       this.createErrorHelpers(control);
 
-      field.addChild(control);
-      root.addChild(field);
-
+      root.addChild(control);
       architect.addChild(root);
     }
   },
   render: function(h) {
     let root = new ElementArchitect(h, "div", this.getContainerClass);
-
-    this.createLabel(root);
     this.createInput(root);
-
     return root.create();
   }
 };

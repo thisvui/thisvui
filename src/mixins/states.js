@@ -19,6 +19,10 @@ export default {
     },
     disabled: {
       type: Boolean
+    },
+    readonly: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
