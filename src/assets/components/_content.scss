@@ -1,0 +1,11 @@
+.content {
+  figure {
+    margin-left: 0;
+    margin-right: 0;
+    text-align: center;
+
+    &:not(:last-child) {
+      margin-bottom: 0;
+    }
+  }
+}

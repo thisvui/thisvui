@@ -1,0 +1,113 @@
+.t-paginator {
+  border-left: none;
+  border-right: none;
+  border-radius: 5px;
+  padding: 7px 0 7px 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background-position: 0 0, 0 100%;
+  background-repeat: no-repeat;
+  -webkit-background-size: 100% 1px;
+  -moz-background-size: 100% 1px;
+  margin-bottom: 0.5rem;
+  background-size: 100% 1px;
+
+  @include material-shadow($dark);
+
+  .pagination-next,
+  .pagination-previous {
+    box-shadow: 1px 2px 5px 2px rgba(100, 100, 100, 0.1), 1px 1px 1px 0 rgba(50, 50, 50, 0.1), 0 1px 2px 0px rgba(50, 50, 50, 0.1);
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    white-space: nowrap;
+    border: none;
+
+    a {
+      color: $pagination-color;
+    }
+
+    .icon {
+      vertical-align: middle;
+    }
+  }
+
+  .pagination {
+    padding-bottom: 0.2em;
+
+    ul {
+      list-style: none;
+
+      li {
+        margin-top: 0;
+      }
+    }
+
+    .size-label {
+      vertical-align: middle;
+    }
+
+    .pages-count-label {
+      vertical-align: middle;
+      padding-left: 1em;
+      padding-right: 1em;
+      font-size: 0.8rem;
+      color: $pagination-count-label-color;
+    }
+
+    .size-select-container {
+      vertical-align: middle;
+      padding: 0.2rem;
+
+      .input {
+        width: 100px;
+        border-width: 2px;
+        border-color: $pagination-size-select-border-color;
+        border-radius: 3px;
+
+        &:-moz-focusring {
+          color: transparent;
+          text-shadow: 0 0 0 $pagination-size-label-color;
+        }
+      }
+    }
+  }
+
+  .pagination-link {
+    border-width: 2px;
+  }
+
+  .size-label {
+    vertical-align: middle;
+  }
+
+  .pages-count-label {
+    vertical-align: middle;
+    padding-left: 1em;
+    padding-right: 1em;
+    font-size: 0.9rem;
+  }
+
+  .size-select-container {
+    vertical-align: middle;
+    padding: 0.2rem;
+  }
+}
+
+.breadcrumb {
+  li + li {
+    margin-top: 0;
+  }
+
+  .link {
+    padding: 0 0.75em !important;
+  }
+}
+
+.content {
+  .t-paginator {
+    ul {
+      margin-top: 0;
+    }
+  }
+}

@@ -1,0 +1,19 @@
+.t-animation-container {
+  display: flex;
+
+  @include until($tablet) {
+    position: absolute;
+    height: 100%;
+    z-index: 50;
+  }
+
+  &.slide {
+    transition: 0.5s ease-in-out width;
+  }
+
+  &.is-absolute {
+    position: absolute;
+    height: 100%;
+    z-index: 50;
+  }
+}

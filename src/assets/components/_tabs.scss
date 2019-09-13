@@ -1,0 +1,125 @@
+.hero {
+  .tabs {
+    ul {
+      border-bottom: 1px solid;
+    }
+  }
+}
+
+.tabs-container {
+  width: 100%;
+}
+
+.tabs {
+  margin: 0;
+  position: relative;
+
+  ul {
+    align-items: center;
+    border-bottom: 1px solid;
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 0;
+    justify-content: flex-start;
+    margin-left: 0;
+
+    li {
+      margin-top: 0;
+
+      .hero {
+        flex-direction: unset;
+      }
+    }
+
+    a {
+      background-position: center;
+      transition: background 0.5s;
+
+      &:active {
+        transition: background 0s;
+      }
+    }
+  }
+
+  .tab-slider {
+    display: flex;
+    position: relative;
+    height: 2px;
+    background-color: rgba($primary-invert, 0.7);
+    transition: all 0.075s cubic-bezier(0.25, 0.8, 0.5, 1) 0s;
+
+    &-wrapper {
+      bottom: 0;
+      margin: 0 !important;
+      width: 100%;
+    }
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 0rem;
+
+    @each $name, $pair in $colors {
+      $color: nth($pair, 1);
+      $color-invert: nth($pair, 2);
+
+      &.is-#{$name} {
+        ul {
+          border-color: rgba($color, 0.3);
+        }
+
+        .is-tab-active {
+          a {
+            @include color-props($color-invert, rgba($color, 0.9), false);
+          }
+        }
+
+        a {
+          @include color-props(rgba($dark, 0.7), false, rgba($color, 0.3));
+
+          &:hover {
+            @include color-props($color-invert, false, false);
+
+            background: rgba($color, 0.7) radial-gradient(circle, transparent 1%, $color 1%) (center / 15000%);
+            border-bottom-color: rgba($color, 0.3);
+          }
+
+          &:active {
+            @include color-props($color-invert, rgba($color, 0.5), false);
+
+            background-size: 100%;
+          }
+        }
+
+        & + .tabs-body {
+          border-color: rgba($color, 0.3);
+        }
+
+        .tab-slider {
+          background-color: rgba($color-invert, 0.7);
+        }
+      }
+    }
+  }
+}
+
+.tabs-body {
+  position: relative;
+  display: flex;
+  padding: 2em;
+  border: 1px solid rgba($tabs-body-border-color, 0.3);
+  border-top-style: none;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  box-shadow: 0 0px 1px 0px rgba($tabs-body-shadow-color, 0.1), 0 1px 1px 0px rgba($tabs-body-shadow-color, 0.14), 0 3px 3px 0 rgba($tabs-body-shadow-color, 0.12);
+  -webkit-box-shadow: 0 0px 1px 0px rgba($tabs-body-shadow-color, 0.1), 0 1px 1px 0px rgba($tabs-body-shadow-color, 0.14), 0 3px 3px 0 rgba($tabs-body-shadow-color, 0.12);
+
+  .tab-pane {
+    width: 100%;
+  }
+
+  &.is-borderless {
+    border: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+  }
+}
