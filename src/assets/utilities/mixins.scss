@@ -1,0 +1,72 @@
+@mixin center($width, $height: 0) {
+  position: absolute;
+  @if $height != 0{
+    left: calc(50% - (#{$width} / 2));
+    top: calc(50% - (#{$height} / 2));
+  }
+  @else{
+    left: calc(50% - (#{$width} / 2));
+    top: calc(50% - (#{$width} / 2));
+  }
+}
+
+@mixin color($color, $alpha: 1) {
+  color: rgba($color, $alpha);
+}
+
+@mixin border($border-color, $alpha: 1) {
+  border-color: rgba($border-color, $alpha);
+}
+
+@mixin bg($bg-color, $alpha: 1) {
+  background-color: rgba($bg-color, $alpha);
+}
+
+@mixin bg-color($color, $bg-color) {
+  @include color-props($color, $bg-color, false);
+}
+
+@mixin margin-padding($margin: false, $padding: false) {
+  @if $margin {
+    margin: $margin;
+  }
+
+  @if $padding {
+    padding: $padding;
+  }
+}
+
+@mixin color-props($color: false, $bg: false, $border: false) {
+  @if $color {
+    color: $color;
+  }
+
+  @if $bg {
+    background-color: $bg;
+  }
+
+  @if $border {
+    border-color: $border;
+  }
+}
+
+@mixin btn-shadow {
+  -webkit-box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
+  -moz-box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
+}
+
+@mixin btn-flat-shadow {
+  -webkit-box-shadow: 0em -0.1rem 0em rgba(0, 0, 0, 0.07) inset;
+  -moz-box-shadow: 0em -0.1rem 0em  rgba(0, 0, 0, 0.07) inset;
+  box-shadow: 0em -0.1rem 0em  rgba(0, 0, 0, 0.07) inset;
+}
+
+@mixin material-shadow($color) {
+  box-shadow: 0 3px 1px -2px rgba($color, 0.2), 0 2px 2px 0 rgba($color, 0.14), 0 1px 5px 0 rgba($color, 0.12);
+}
+
+@mixin material-shadow-strong($color) {
+  box-shadow: 0px 5px 5px -3px rgba($color, 0.2), 0px 8px 10px 1px rgba($color, 0.14), 0px 3px 14px 2px rgba($color, 0.12);
+}
+

@@ -135,6 +135,10 @@ export default class CssArchitect {
     return this;
   }
 
+  /**
+   *
+   * @deprecated Use Flexible instead.
+   */
   isFlexible(
     direction = "row",
     alignItems = false,
@@ -143,6 +147,22 @@ export default class CssArchitect {
     alignContent = false
   ) {
     this.addClass(`t-flex is-${direction}`);
+    this.addStyle("--align-items", alignItems, alignItems);
+    this.addStyle("--align-self", alignSelf, alignSelf);
+    this.addStyle("--align-content", alignContent, alignContent);
+    this.addStyle("--justify-content", justifyContent, justifyContent);
+    return this;
+  }
+
+  flexible(config = {}) {
+    let { direction = "row",
+          flexWrap = false,
+          alignItems = false,
+          justifyContent = false,
+          alignSelf = false,
+          alignContent = false } = config
+    this.addClass(`t-flex is-${direction}`);
+    this.addClass("flex-wrap", flexWrap);
     this.addStyle("--align-items", alignItems, alignItems);
     this.addStyle("--align-self", alignSelf, alignSelf);
     this.addStyle("--align-content", alignContent, alignContent);

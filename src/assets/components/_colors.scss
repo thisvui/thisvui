@@ -9,6 +9,9 @@
       $color-invert: nth($pair, 2);
       &.is-#{$name} {
         color: rgba($color, var(--color-alpha));
+        &.inverted {
+          color: rgba($color-invert, var(--color-alpha));;
+        }
       }
     }
   }
@@ -22,6 +25,9 @@
       $border-color: rgba($color, var(--border-alpha));
       &.is-#{$name} {
         border-color: $border-color;
+        &.inverted {
+          border-color: rgba($color-invert, var(--border-alpha));
+        }
         &.after::after {
           border-color: $border-color;
         }
@@ -34,12 +40,58 @@
 }
 .filled {
   background-color: lighten($dark, 60%);
+  &.hoverable:hover {
+    background-color: lighten($dark, 50%);
+  }
+  &.activable:active {
+    background-color: darken($dark, 12%);
+  }
+  &.is-loading::after{
+    border-color: $dark-invert !important
+  }
+  &.inverted {
+    color: $dark;
+    background-color: rgba($dark-invert, var(--bg-alpha));
+  }
+  &.disabled{
+    background-color: lighten($grey, 40%) !important;
+    color: lighten($grey, 20%) !important;
+  }
+  &.ripple:hover {
+    background: lighten($dark, 50%) radial-gradient(circle, transparent 1%, lighten($dark, 50%) 1%) center/15000%;
+  }
+  &.ripple:active {
+    background-color: lighten($dark, 60%);
+    background-size: 100%;
+    transition: background 0s;
+  }
   @each $name, $pair in $colors {
     $color: nth($pair, 1);
     $color-invert: nth($pair, 2);
     &.is-#{$name} {
       color: $color-invert;
       background-color: rgba($color, var(--bg-alpha));
+      &.hoverable:hover {
+        background-color: lighten($color, 12%);
+      }
+      &.activable:active {
+        background-color: darken($color, 12%);
+      }
+      &.is-loading::after{
+        border-color: $color-invert !important
+      }
+      &.inverted {
+        color: $color;
+        background-color: rgba($color-invert, var(--bg-alpha));
+      }
+      &.ripple:hover {
+        background: $color radial-gradient(circle, transparent 1%, $color 1%) center/15000%;
+      }
+      &.ripple:active {
+        background-color: lighten($color, 10%);
+        background-size: 100%;
+        transition: background 0s;
+      }
     }
   }
 }

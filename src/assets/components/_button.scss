@@ -1,74 +1,78 @@
+@mixin btn-sizes {
+  &.small {
+    border-radius: $bt-radius-small;
+    font-size: $bt-size-small;
+  }
+
+  &.medium {
+    border-radius: $bt-radius-medium;
+    font-size: $bt-size-medium;
+  }
+
+  &.large {
+    border-radius: $bt-radius-large;
+    font-size: $bt-size-large;
+  }
+}
+
 .button {
-  &:not(.is-outlined) {
-    border: none;
-    box-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14), 0 1px 5px 0 rgba($black, 0.12);
-    -webkit-box-shadow: 0 3px 1px -2px rgba($black, 0.2), 0 2px 2px 0 rgba($black, 0.14), 0 1px 5px 0 rgba($black, 0.12);
-    transition: box-shadow 0.2s;
+  padding: 1em 2.1em 1.1em;
+  border-radius: $bt-radius-normal;
+  margin: $btn-margin;
+  display: inline-block;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  font-weight: 800;
+  font-size: $bt-size-normal;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  position: relative;
+  @include btn-shadow;
+
+  &.rounded {
+    border-radius: 50em;
   }
 
-  &:hover {
-    background-color: rgba($button-background-color, 0.9);
-    color: $button-color;
+  &.outlined {
+    border: 0.1em solid;
   }
 
-  a {
-    color: $button-color;
-    text-decoration: none !important;
-  }
-}
-
-.buttons {
-  line-height: 0;
-
-  &.has-addons {
-    .t-button-container {
-      &:not(:first-child) {
-        .button {
-          border-bottom-left-radius: 0;
-          border-top-left-radius: 0;
-        }
-      }
-
-      &:not(:last-child) {
-        .button {
-          border-bottom-right-radius: 0;
-          border-top-right-radius: 0;
-          margin-right: -1px;
-        }
-      }
-    }
+  &.flat {
+    @include btn-flat-shadow;
+    border-radius: 0;
   }
 
-  a {
-    margin-right: 0.5rem;
+  &.raised {
+    @include material-shadow(rgba(0, 0, 0, 0.1));
+    border-radius: 0;
   }
 
-  &.is-centered {
-    align-items: center;
-    justify-content: center;
-  }
-
-  &.is-right {
-    align-items: flex-end;
-    justify-content: flex-end;
-  }
-
-  &.add-margin {
-    margin-bottom: 0.5rem;
-  }
-}
-
-.t-button {
   &.is-text {
-    @each $name, $pair in $colors {
-      $color: nth($pair, 1);
-      $color-invert: nth($pair, 2);
+    background: transparent;
+    border: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
 
-      &.is-#{$name} {
-        color: $color !important;
-      }
+  @include btn-sizes;
+
+  &.is-loading {
+    color: transparent !important;
+    pointer-events: none;
+    &::after {
+      @include center(3em);
+      @extend .echo-loader;
     }
   }
+
+  &:active {
+    top: 0.1em;
+  }
+
 }
 
 .t-floating-btn {
@@ -172,5 +176,38 @@
 
   &.is-left {
     left: $floating-button-left;
+  }
+}
+
+.buttons {
+  &.attached{
+    .t-button-container {
+      &:not(:first-child){
+        .button {
+          margin-left: 0;
+          margin-right: 0;
+          border-right: 1px solid rgba(0, 0, 0, 0.1);
+          border-radius: 0;
+        }
+      }
+      &:first-child {
+        .button {
+          margin-right: 0;
+          border-right: 1px solid rgba(0, 0, 0, 0.1);
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+      }
+      &:last-child {
+        .button {
+          margin-right: $btn-margin;
+          border-right: none;
+          border-radius: $bt-radius-normal;
+          @include btn-sizes;
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+      }
+    }
   }
 }

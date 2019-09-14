@@ -17,3 +17,9 @@
     z-index: 50;
   }
 }
+
+/* Ripple effect */
+.ripple {
+  background-position: center;
+  transition: background 0.8s;
+}

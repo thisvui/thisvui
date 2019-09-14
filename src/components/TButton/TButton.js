@@ -2,6 +2,9 @@ import common from "../../mixins/common";
 import sizes from "../../mixins/sizes";
 import states from "../../mixins/states";
 import colors from "../../mixins/colors";
+import helpers from "../../mixins/helpers";
+import display from "../../mixins/display";
+
 import TModal from "../TModal/TModal";
 import TIcon from "../TIcon/TIcon";
 
@@ -14,12 +17,8 @@ export default {
   name: "t-button",
   components: { TIcon, TModal },
   inheritAttrs: false,
-  mixins: [common, sizes, states, colors],
+  mixins: [common, sizes, states, colors, display, helpers],
   props: {
-    isText: {
-      type: Boolean,
-      default: false
-    },
     validate: {
       type: Boolean,
       default: false
@@ -31,18 +30,6 @@ export default {
       type: String
     },
     confirm: {
-      type: Boolean,
-      default: false
-    },
-    isRounded: {
-      type: Boolean,
-      default: false
-    },
-    isOutlined: {
-      type: Boolean,
-      default: false
-    },
-    isInverted: {
       type: Boolean,
       default: false
     },
@@ -114,7 +101,14 @@ export default {
     },
     view: {
       type: String
-    }
+    },
+    rounded: Boolean,
+    outlined: Boolean,
+    text: Boolean,
+    inverted: Boolean,
+    raised: Boolean,
+    flat: Boolean,
+    ripple: Boolean
   },
   data() {
     return {
@@ -131,19 +125,24 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("t-button");
-      cssArchitect.addClass("button", !this.isText);
-      cssArchitect.addClass("is-text", this.isText);
+      const cssArchitect = new CssArchitect("t-button button");
       cssArchitect.addClass("tooltip", this.dataTooltip !== undefined);
-      cssArchitect.addClass("is-rounded", this.isRounded);
-      cssArchitect.addClass("is-outlined", this.isOutlined);
-      cssArchitect.addClass("is-inverted", this.isInverted);
+      cssArchitect.addClass("rounded", this.rounded);
+      cssArchitect.addClass("flat", this.flat);
+      cssArchitect.addClass("raised", this.raised);
+      cssArchitect.addClass("ripple", this.ripple);
+      cssArchitect.addClass("is-text colored", this.text);
+      cssArchitect.addClass("outlined bordered colored", this.outlined);
+      cssArchitect.addClass("inverted", this.inverted);
+      cssArchitect.addClass("filled hoverable activable", !this.outlined && !this.text);
       cssArchitect.addClass("is-loading", this.isLoading);
+      cssArchitect.addClass("disabled", this.disabled);
       cssArchitect.addClass(this.targetClass, this.targetClass !== undefined);
       cssArchitect.addClass(this.tooltipClass, this.tooltipClass !== undefined);
       cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass(this.getSizesModifiers);
       cssArchitect.addClass(this.getStateModifiers);
+      cssArchitect.addClass(this.getHelpersModifiers);
       return cssArchitect.getClasses();
     },
     /**
@@ -152,10 +151,13 @@ export default {
      */
     getContainerClass: function() {
       const cssArchitect = new CssArchitect("t-button-container");
+      cssArchitect.flexible();
+      cssArchitect.addClass("is-centered")
       cssArchitect.addClass(
         this.containerClass,
         this.containerClass !== undefined
       );
+      cssArchitect.addClass(this.getDisplayModifiers);
       return cssArchitect.getClasses();
     },
     /**
@@ -183,6 +185,7 @@ export default {
      */
     getConfirmBtnClass: function() {
       const cssArchitect = new CssArchitect("button");
+      cssArchitect.addClass("filled cursor-pointer");
       cssArchitect.addClass(this.confirmBtnClass);
       return cssArchitect.getClasses();
     },
@@ -192,11 +195,12 @@ export default {
      */
     getCancelBtnClass: function() {
       const cssArchitect = new CssArchitect("button");
+      cssArchitect.addClass("filled cursor-pointer");
       cssArchitect.addClass(this.cancelBtnClass);
       return cssArchitect.getClasses();
     },
     getActive: function() {
-      return this.active;
+      return this.active && !this.disabled;
     },
     /**
      * Converts the confirm prop to Boolean
@@ -350,14 +354,12 @@ export default {
         let modalFoot = architect.createSpan();
         modalFoot.setSlot("footer");
 
-        let confirmBtn = architect.createElement(
-          "button",
+        let confirmBtn = architect.createSpan(
           this.getConfirmBtnClass
         );
         confirmBtn.innerHTML(this.confirmText);
         confirmBtn.addClick(this.confirmed);
-        let cancelBtn = architect.createElement(
-          "button",
+        let cancelBtn = architect.createSpan(
           this.getCancelBtnClass
         );
         cancelBtn.innerHTML(this.cancelText);
@@ -372,7 +374,7 @@ export default {
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "span", this.getContainerClasses);
+    let root = new ElementArchitect(h, "span", this.getContainerClass);
 
     this.createButton(root);
     this.createModal(root);
