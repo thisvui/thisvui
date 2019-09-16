@@ -2,6 +2,8 @@
 $base-shadow: 0 0 0.125em !default;
 $base-shadow-color: $dark !default;
 $base-shadow-alpha: 0.3 !default;
+$separation-margin: 1.5rem !default;
+$content-padding: 1.5rem !default;
 
 /* Card */
 $card-background-color: $white !default;
@@ -158,8 +160,11 @@ $list-bottom-border: 1px solid $list-bottom-border-color !default;
 $list-item-bottom-border: none !default;
 
 /* Panel */
-$panel-background-color: rgba($light, 0.2) !default;
+$panel-bottom-margin: $separation-margin !default;
+$panel-background-color: rgba($white-bis, 0.2) !default;
 $panel-border-color: $primary !default;
+$panel-border-top-left-radius: 3px !default;
+$panel-border-top-right-radius: 3px !default;
 
 /* Tabs */
 $tabs-head-border-bottom-color: $primary !default;

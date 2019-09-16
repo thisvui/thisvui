@@ -27,18 +27,24 @@ export default {
     headingClass: {
       type: String
     },
-    headingIcon: {
+    showIcon: Boolean,
+    iconLeft: Boolean,
+    expandedIcon: {
+      type: String,
+      default: function() {
+        return this.$thisvui.icons.expand;
+      }
+    },
+    expandedIconClass: {
       type: String
     },
-    headingIconClass: {
-      type: String
-    },
-    collapsedHeadingIcon: {
+    collapsedIcon: {
       type: String,
       default: function() {
         return this.$thisvui.icons.collapse;
       }
-    }
+    },
+
   },
   computed: {
     /**
@@ -57,7 +63,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getBodyClasses: function() {
-      const cssArchitect = new CssArchitect("panel-body");
+      const cssArchitect = new CssArchitect("panel__body");
       cssArchitect.addClass("is-closed is-shadowless", !this.isExpanded);
       this.colorize(cssArchitect, "border", true);
       cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
@@ -72,7 +78,7 @@ export default {
   data() {
     return {
       isExpanded: this.expanded,
-      icon: this.headingIcon
+      icon: this.expandedIcon
     };
   },
   methods: {
@@ -82,10 +88,10 @@ export default {
     toggleExpanded(expanded) {
       this.isExpanded = expanded ? expanded : !this.isExpanded;
       this.icon =
-        this.headingIcon !== undefined && this.isExpanded
-          ? this.headingIcon
-          : this.headingIcon !== undefined && !this.isExpanded
-          ? this.collapsedHeadingIcon
+        this.expandedIcon !== undefined && this.isExpanded
+          ? this.expandedIcon
+          : this.collapsedIcon !== undefined && !this.isExpanded
+          ? this.collapsedIcon
           : undefined;
       this.$emit(this.$thisvui.events.panel.updateExpanded, this.isExpanded);
     }
@@ -99,9 +105,11 @@ export default {
       heading.setProps({
         iconLib: this.iconLib,
         overrideDefaults: this.overrideDefaults,
-        headingText: this.title,
-        headingIcon: this.icon,
-        headingIconClass: this.headingIconClass
+        text: this.title,
+        showIcon: this.showIcon,
+        icon: this.icon,
+        iconLeft: this.iconLeft,
+        iconClass: this.expandedIconClass
       });
       root.addClick(() => this.toggleExpanded(), this.expandable);
       root.addChild(heading);
@@ -109,7 +117,7 @@ export default {
 
     let expand = root.createElement(TExpand);
     let body = root.createDiv(this.getBodyClasses);
-    let content = root.createDiv("panel-content");
+    let content = root.createDiv("panel__content");
 
     content.setChildren(this.$slots.default);
     body.addChild(content);
