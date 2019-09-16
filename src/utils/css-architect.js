@@ -78,7 +78,7 @@ export default class CssArchitect {
       if(Number.isNaN(number)){
         throw new Error(`To attach a ${unit} unit value must be a valid number`)
       }
-      return `${number}px`;
+      return `${number}${unit}`;
     }
   }
 

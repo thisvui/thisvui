@@ -7,7 +7,6 @@
 @import "~bulma/sass/form/file";
 
 // Elements
-@import "~bulma/sass/elements/box.sass";
 @import "~bulma/sass/elements/container.sass";
 @import "~bulma/sass/elements/content.sass";
 @import "~bulma/sass/elements/icon.sass";
@@ -19,14 +18,30 @@
 @import "~bulma/sass/elements/title.sass";
 @import "~bulma/sass/elements/other.sass";
 
-@import "~bulma/sass/components/_all";
+// Components
+@import "~bulma/sass/components/breadcrumb";
+@import "~bulma/sass/components/card";
+@import "~bulma/sass/components/dropdown";
+@import "~bulma/sass/components/level";
+@import "~bulma/sass/components/list";
+@import "~bulma/sass/components/media";
+@import "~bulma/sass/components/menu";
+@import "~bulma/sass/components/message";
+@import "~bulma/sass/components/modal";
+@import "~bulma/sass/components/navbar";
+@import "~bulma/sass/components/pagination";
+@import "~bulma/sass/components/panel";
+@import "~bulma/sass/components/tabs";
+
 
 @import "../spinners/echo";
 @import "vars";
 @import "transition";
 @import "shadow";
+@import "elevation";
 @import "animation";
 @import "button";
+@import "box";
 @import "card";
 @import "content";
 @import "accordion";
