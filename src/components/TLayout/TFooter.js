@@ -1,5 +1,6 @@
 import colors from "../../mixins/colors";
 import common from "../../mixins/common";
+
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
@@ -7,7 +8,7 @@ export default {
   name: "t-footer",
   mixins: [common, colors],
   props: {
-    isFixed: {
+    fixed: {
       type: Boolean,
       default: false
     },
@@ -15,7 +16,7 @@ export default {
       type: [String, Number],
       default: 52
     },
-    unity: {
+    unit: {
       type: String,
       default: "px"
     },
@@ -29,15 +30,15 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("t-footer");
-      cssArchitect.isFullwidth();
-      this.colorize(cssArchitect, "bg", true);
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass("is-fixed", this.isFixed);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-footer");
+      css.isFullwidth();
+      this.filled(css, true);
+      css.addClass(this.getColorsModifiers);
+      css.addClass("is-fixed", this.fixed);
+      return css.getClasses();
     },
     getHeight: function() {
-      let height = `${this.height}${this.unity}`;
+      let height = `${this.height}${this.unit}`;
       return height;
     }
   },

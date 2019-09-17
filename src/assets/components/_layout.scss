@@ -1,28 +1,29 @@
 .t-layout {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
   overflow-y: var(--overflow-y);
   height: 100%;
   width: 100%;
   min-height: 100vh;
-  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  &.row{
+    flex-direction: row;
+  }
+
+  .t-layout{
+    min-height: unset;
+  }
 
   .t-content {
     overflow-y: var(--overflow-y);
     margin: 0;
     background: $white-bis;
     border-radius: 0;
-    flex: 1;
+    flex-grow: 1;
     position: relative;
-  }
-
-  .t-main {
-    overflow-y: var(--overflow-y);
-    margin: 0;
-    background: $white-bis;
-    border-radius: 0;
-    flex: 1;
   }
 
   .t-aside {

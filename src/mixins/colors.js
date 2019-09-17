@@ -133,6 +133,10 @@ export default {
         .getClassesArray()
         .filter(this.checkColorModifier);
     },
+    filled(cssArchitect, removeInit = false) {
+      cssArchitect.addClass(`filled`);
+      cssArchitect.addClass(`remove-init`, removeInit);
+    },
     colorize(cssArchitect, type, addColorClass = false) {
       cssArchitect.addClass(`t-colorize`, addColorClass);
       cssArchitect.addClass(`has-${type}`);

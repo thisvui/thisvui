@@ -27,9 +27,9 @@ export default class CssArchitect {
   }
 
   /**
-   * Merge array classes with the main classes array
+   * Merge array of classes with the main classes array
    * @param cssClasses
-   * @param conditionStatement
+   * @param condition
    */
   addClasses(cssClasses, condition) {
     let conditionStatement = condition !== undefined ? condition : true;
@@ -48,6 +48,18 @@ export default class CssArchitect {
     if (name !== undefined && value !== undefined && conditionStatement) {
       let cssStyle = `${name}: ${value}`;
       this.styles.push(cssStyle);
+    }
+  }
+
+  /**
+   * Merge array of styles with the main styles array
+   * @param cssStyles
+   * @param condition
+   */
+  addStyles(cssStyles, condition) {
+    let conditionStatement = condition !== undefined ? condition : true;
+    if (cssStyles !== undefined && conditionStatement) {
+      this.styles = [...this.styles, ...cssStyles];
     }
   }
 

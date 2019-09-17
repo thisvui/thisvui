@@ -1,15 +1,15 @@
 import colors from "../../mixins/colors";
 import common from "../../mixins/common";
-import flex from "../../mixins/flex";
-import CssArchitect from "../../utils/css-architect";
 import TSlide from "../TAnimation/TSlide";
 import slide from "../../mixins/slide";
+
+import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-aside",
   components: { TSlide },
-  mixins: [common, colors, flex, slide],
+  mixins: [common, colors, slide],
   props: {
     containerClass: {
       type: String
@@ -21,20 +21,24 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("t-aside");
-      cssArchitect
-        .isFlexible("column", "stretch", false, "start")
+      const css = new CssArchitect("t-aside");
+      css
+        .flexible({
+          direction: "column",
+          alignItems: "stretch",
+          alignSelf: "start"
+        })
         .isFullwidth()
         .isFullheight();
-      this.colorize(cssArchitect, "bg", true);
-      this.colorize(cssArchitect, "router-link");
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass(this.getFlexModifiers);
-      cssArchitect.addClass(
+      this.filled(css, true);
+      this.colorize(css, "router-link");
+      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getFlexModifiers);
+      css.addClass(
         this.containerClass,
         this.containerClass !== undefined
       );
-      return cssArchitect.getClasses();
+      return css.getClasses();
     }
   },
   methods: {
