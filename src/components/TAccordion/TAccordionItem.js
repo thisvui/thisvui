@@ -26,14 +26,17 @@ export default {
     bodyClass: {
       type: String
     },
-    iconContainerClass: {
-      type: String
-    },
     iconClass: {
       type: String
     },
     icon: {
       type: String
+    },
+    collapsedIcon: {
+      type: String
+    },
+    iconLeft: {
+      type: Boolean
     },
     collapseIcon: {
       type: String
@@ -64,58 +67,60 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("t-accordion-item");
-      cssArchitect.addClass(this.getColorClasses);
-      cssArchitect.addClass(this.getSizesModifiers);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-accordion__item");
+      css.addClass(this.getColorClasses);
+      css.addClass(this.getSizesModifiers);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the header element
      * @returns { A String with the chained css classes }
      */
     getHeaderClasses: function() {
-      const cssArchitect = new CssArchitect("t-accordion-header");
-      this.colorize(cssArchitect, "bg-color", true);
-      cssArchitect.addClass(this.getColorClasses);
-      cssArchitect.addClass(this.headerClass, this.headerClass);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-accordion__heading");
+      // this.colorize(css, "bg-color", true);
+      css.addClass("icon-left", this.iconLeft);
+      css.addClass("item-opened", this.isItemOpen);
+      this.filled(css);
+      this.bordered(css);
+      css.addClass(this.getColorClasses);
+      css.addClass(this.headerClass, this.headerClass);
+      return css.getClasses();
     },
     getColorClasses: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass(this.targetClass, this.targetClass !== undefined);
-      this.setupColorModifier(cssArchitect);
-      cssArchitect.addClass(
+      const css = new CssArchitect();
+      css.addClass(this.getColorsModifiers);
+      css.addClass(this.targetClass, this.targetClass !== undefined);
+      this.setupColorModifier(css);
+      css.addClass(
         "is-primary",
         !this.$parent.hasColorModifier && !this.hasColorModifier
       );
-      cssArchitect.addClass(
+      css.addClass(
         this.$parent.colorModifier,
         this.$parent.hasColorModifier && !this.hasColorModifier
       );
-      this.setupColorModifier(cssArchitect);
-      return cssArchitect.getClasses();
+      this.setupColorModifier(css);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the body element
      * @returns { A String with the chained css classes }
      */
     getBodyClasses: function() {
-      const cssArchitect = new CssArchitect("t-accordion-body");
-      cssArchitect.addClass(this.bodyClass, this.bodyClass);
-      cssArchitect.addClass("is-closed", !this.isItemOpen);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-accordion__body");
+      css.addClass(this.bodyClass, this.bodyClass);
+      css.addClass("is-closed", !this.isItemOpen);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the icon container element
      * @returns { A String with the chained css classes }
      */
-    getIconContainerClasses: function() {
-      const cssArchitect = new CssArchitect();
-      this.colorize(cssArchitect, "bg", true);
-      cssArchitect.addClass(this.getColorClasses);
-      cssArchitect.addClass(this.iconContainerClass, this.iconContainerClass);
-      return cssArchitect.getClasses();
+    getIconClasses: function() {
+      const css = new CssArchitect();
+      css.addClass(this.iconClass, this.isNotNull(this.iconClass));
+      return css.getClasses();
     },
     /**
      * Returns the icon to be shown. Check both the parent and child props
@@ -164,12 +169,7 @@ export default {
      * Loads the corresponding icon based on child state
      */
     loadIcon() {
-      this.itemIcon =
-        this.getIcon !== undefined && this.isItemOpen
-          ? this.getIcon
-          : this.getIcon !== undefined && !this.isItemOpen
-          ? this.getCollapsedIcon
-          : undefined;
+      this.itemIcon = this.isItemOpen ? this.getIcon : this.getCollapsedIcon;
     },
     /**
      * Open or close the accordion item and triggers and event for closing inactive items
@@ -178,6 +178,17 @@ export default {
       this.isItemOpen = !this.isItemOpen;
       if (this.isItemOpen) {
         this.$parent.$emit("close-others", this.id);
+      }
+    },
+    createHeadingIcon(architect, condition) {
+      if (this.getShowIcon && condition) {
+        let icon = architect.createIcon(this.getIconClasses);
+        icon.setProps({
+          icon: this.itemIcon,
+          iconLib: this.iconLib,
+          preserveDefaults: !this.overrideDefaults
+        });
+        architect.addChild(icon);
       }
     }
   },
@@ -188,31 +199,17 @@ export default {
     let header = root.createDiv(this.getHeaderClasses);
     header.addEvent("click", this.toggleOpen);
 
-    let level = root.createElement(TLevel, "is-flex-mobile");
-    level.addProp("rightClass", "is-marginless");
-    let title = root.createSpan();
+    let title = root.createSpan("t-accordion__heading__text");
     title.addDomProp("innerHTML", this.title);
-    let iconContainer = root.createA(this.getIconContainerClasses);
-    let icon = root.createIcon(this.iconClass);
-    icon.setProps({
-      icon: this.itemIcon,
-      iconLib: this.iconLib,
-      preserveDefaults: !this.overrideDefaults
-    });
-    iconContainer.addChild(icon);
 
-    title.setSlot("level-left");
-    iconContainer.setSlot("level-right", this.getShowIcon);
-
-    level.addChild(title);
-    level.addChild(iconContainer, this.getShowIcon);
-
-    header.addChild(level);
+    this.createHeadingIcon(header, this.iconLeft);
+    header.addChild(title);
+    this.createHeadingIcon(header, !this.iconLeft);
 
     let body = root.createDiv(this.getBodyClasses);
     let expand = root.createElement(TExpand);
-    let content = root.createDiv("t-accordion-content");
-    let contentBody = root.createDiv("t-accordion-content-body");
+    let content = root.createDiv("t-accordion__content");
+    let contentBody = root.createDiv("t-accordion__content__body");
     contentBody.setChildren(this.$slots.default);
     content.addChild(contentBody);
     expand.addChild(content, this.isItemOpen);

@@ -137,6 +137,12 @@ export default {
       cssArchitect.addClass(`filled`);
       cssArchitect.addClass(`remove-init`, removeInit);
     },
+    colored(cssArchitect) {
+      cssArchitect.addClass(`colored`);
+    },
+    bordered(cssArchitect) {
+      cssArchitect.addClass(`bordered`);
+    },
     colorize(cssArchitect, type, addColorClass = false) {
       cssArchitect.addClass(`t-colorize`, addColorClass);
       cssArchitect.addClass(`has-${type}`);

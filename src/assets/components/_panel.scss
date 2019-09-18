@@ -2,26 +2,8 @@
   &:not(:last-child){
     margin-bottom: $panel-bottom-margin;
   }
-  &__heading {
-    display: flex;
-    border-color: rgba($panel-border-color, 0.2);
-    border-top: 1px solid rgba($panel-border-color, 0.055);
-    border-bottom: 1px solid rgba($panel-border-color, 0.125);
-    cursor: pointer;
-    margin-bottom: 0;
-    padding: 8px 12px 8px 12px;
-    border-top-left-radius: $panel-border-top-left-radius;
-    border-top-right-radius: $panel-border-top-right-radius;
-    @include light-shadow($black);
-    &__text{
-      flex-grow: 1;
-    }
-    &.icon-left {
-      .icon {
-        margin-right: 0.5rem;
-      }
-    }
-  }
+
+  @include panel-heading(true, true);
 
   &__body {
     padding: 0;

@@ -10,7 +10,7 @@ export default {
   name: "t-accordion",
   mixins: [common, icons, colors, helpers],
   props: {
-    isBorderless: {
+    borderless: {
       type: Boolean
     },
     targetClass: {
@@ -49,8 +49,9 @@ export default {
       const cssArchitect = new CssArchitect("t-accordion");
       cssArchitect.addClass(this.getColorsModifiers);
       cssArchitect.addClass(this.getHelpersModifiers);
-      cssArchitect.addClass("is-borderless", this.isBorderless);
-      cssArchitect.addClass("is-borderless", this.targetClass !== undefined);
+      cssArchitect.addClass("borderless", this.borderless);
+      cssArchitect.addClass("elevation-1");
+      cssArchitect.addClass(this.targetClass, this.targetClass !== undefined);
       this.setupColorModifier(cssArchitect);
       return cssArchitect.getClasses();
     }
