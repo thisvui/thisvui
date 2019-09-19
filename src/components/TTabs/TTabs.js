@@ -14,18 +14,10 @@ export default {
   mixins: [common, colors, alignment, sizes, icons],
   props: {
     selected: Number,
-    isToggle: {
+    borderless: {
       type: Boolean
     },
-    isToggleRounded: {
-      type: Boolean
-    },
-    isBorderless: {
-      type: Boolean
-    },
-    isBoxed: {
-      type: Boolean
-    },
+    fullwidth: Boolean,
     targetClass: {
       type: String
     },
@@ -39,49 +31,92 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("tabs");
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass(this.getAlignmentModifiers);
-      cssArchitect.addClass("is-boxed", this.isBoxed);
-      cssArchitect.addClass("is-toggle", this.isToggle);
-      cssArchitect.addClass(
-        "is-toggle is-toggle-rounded",
-        this.isToggleRounded
-      );
-      cssArchitect.addClass("is-borderless", this.isBorderless);
-      cssArchitect.addClass(this.targetClass);
-      this.setupColorModifier(cssArchitect);
-      cssArchitect.addClass("is-primary", !this.hasColorModifier);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("tabs");
+      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getSizesModifiers);
+      css.addClass("borderless", this.borderless);
+      css.addClass(this.targetClass);
+      this.setupColorModifier(css);
+      css.addClass("is-primary", !this.hasColorModifier);
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the tabs heading
+     * @returns { A String with the chained css classes }
+     */
+    getHeadingClasses: function() {
+      const css = new CssArchitect("tabs__heading");
+      let colorModifier = this.hasColorModifier ? this.colorModifier : "is-primary";
+      this.bordered(css);
+      css.addClass(colorModifier);
+      css.addClass("borderless", this.borderless);
+      css.addClass(this.getAlignmentModifiers);
+      // css.addClass("is-clipped");
+      css.addClass(this.getSizesModifiers);
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the tabs heading item
+     * @returns { A String with the chained css classes }
+     */
+    getItemClasses: function() {
+      let colorModifier = this.hasColorModifier ? this.colorModifier : "is-primary";
+      const css = new CssArchitect("tabs__item");
+      css.addClass("borderless", this.borderless);
+      css.addClass("fullwidth", this.fullwidth);
+      // css.addClass("is-clipped");
+      this.filled(css, { hoverable : true })
+      css.addClass(colorModifier);
+      css.addClass(this.getSizesModifiers);
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the slider element
+     * @returns { A String with the chained css classes }
+     */
+    getSliderClasses: function() {
+      let colorModifier = this.hasColorModifier ? this.colorModifier : "is-primary";
+      const css = new CssArchitect("tab__slider");
+      this.filled(css, { inverted : true })
+      this.alpha(css, { bg : 0.7 })
+      css.addClass(colorModifier);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the tabs body
      * @returns { A String with the chained css classes }
      */
     getBodyClasses: function() {
-      const cssArchitect = new CssArchitect("tabs-body");
-      cssArchitect.addClass("is-borderless", this.isBorderless);
-      cssArchitect.addClass("is-clipped");
-      cssArchitect.addClass(this.getSizesModifiers);
-      return cssArchitect.getClasses();
+      let colorModifier = this.hasColorModifier ? this.colorModifier : "is-primary";
+      const css = new CssArchitect("tabs__body");
+      this.bordered(css);
+      css.addClass(colorModifier);
+      css.addClass("borderless", this.borderless);
+      // css.addClass("is-clipped");
+      css.addClass(this.getSizesModifiers);
+      return css.getClasses();
+    },
+    getBodyStyles: function() {
+      const css = new CssArchitect();
+      this.alpha(css, { border : 0.7 });
+      return css.getStyles();
     },
     /**
      * Dynamically build the css classes for the container element
      * @returns { A String with the chained css classes }
      */
     getContainerClasses: function() {
-      const cssArchitect = new CssArchitect("tabs-container");
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("tabs__container");
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the link items
      * @returns { A String with the chained css classes }
      */
     getLinkClasses: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(this.activeClass);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect();
+      css.addClass(this.activeClass);
+      return css.getClasses();
     }
   },
   data() {
@@ -96,28 +131,39 @@ export default {
     this.tabs = this.$children;
   },
   methods: {
-    selectTab(index) {
-      if (this.activeTabIndex === index) return;
+    selectTab($index, init = false) {
+      if (this.activeTabIndex === $index && !init) {
+        return;
+      }
 
       if (this.activeTabIndex < this.tabs.length) {
         this.tabs[this.activeTabIndex].activate(
           this.activeTabIndex,
-          index,
+          $index,
           false
         );
       }
-      this.tabs[index].activate(this.activeTabIndex, index, true);
-      this.activeTabIndex = index;
+      this.tabs[$index].activate(this.activeTabIndex, $index, true);
+      this.activeTabIndex = $index;
       this.configSlider();
-      this.$emit(this.$thisvui.events.common.change, index);
+      this.$emit(this.$thisvui.events.common.change, $index);
     },
-    configSlider() {
-      let ref = `${this.id}${this.activeTabIndex}`;
-      let currentLi = this.$refs[ref][0];
-      let borderWidth =
-        this.isBoxed || this.isToggle || this.isToggleRounded ? 2 : 0;
-      this.sliderWidth = currentLi.scrollWidth + borderWidth;
-      this.sliderLeft = currentLi.offsetLeft;
+    configSlider(timeout = 0) {
+      setTimeout(() => {
+        let ref = `${this.id}${this.activeTabIndex}`;
+        let currentItem = this.$refs[ref][0];
+        let borderWidth = 0;
+        this.sliderWidth = currentItem.scrollWidth + borderWidth;
+        console.log("currentItem.offsetLeft: ", currentItem.offsetLeft);
+        this.sliderLeft = currentItem.offsetLeft;
+      }, timeout);
+    },
+    getSliderStyles: function() {
+      const css = new CssArchitect();
+      this.alpha(css, { bg : 0.7 });
+      css.addStyle("width", `${this.sliderWidth}px`);
+      css.addStyle("left", `${this.sliderLeft}px`);
+      return css.getStyles();
     },
     /**
      * Creates the tabs slider
@@ -125,13 +171,10 @@ export default {
      */
     createSlider(architect) {
       let tabSliderWrapper = architect.createDiv(
-        "tab-slider-wrapper is-absolute"
+        "tab__slider--wrapper is-absolute"
       );
-      let tabSlider = architect.createSpan("tab-slider");
-      let css = new CssArchitect();
-      css.addStyle("width", `${this.sliderWidth}px`);
-      css.addStyle("left", `${this.sliderLeft}px`);
-      tabSlider.setStyles(css.getStyles());
+      let tabSlider = architect.createSpan(this.getSliderClasses);
+      tabSlider.setStyles(this.getSliderStyles());
       tabSliderWrapper.addChild(tabSlider);
       architect.addChild(tabSliderWrapper);
     },
@@ -140,28 +183,29 @@ export default {
      * @param architect
      */
     createItems(architect) {
-      let items = architect.createUl();
-      for (let index in this.tabs) {
-        let tab = this.tabs[index];
+      let items = architect.createDiv(this.getHeadingClasses);
+      for (let $index in this.tabs) {
+        let $tab = this.tabs[$index];
+        let $activeClass = $tab.isActive ? "active" : "inactive"
 
-        let item = architect.createLi();
-        item.addClass("is-tab-active", tab.isActive);
-        item.setKey(`${this.id}${index}`);
+        let item = architect.createDiv(this.getItemClasses);
+        item.addClass($activeClass);
+        item.setKey(`${this.id}${$index}`);
+        item.setRef(`${this.id}${$index}`, true);
 
         let link = architect.createA();
-        link.addClass(this.getLinkClasses, tab.isActive);
-        link.setRef(`${this.id}${index}`, true);
+        link.addClass(this.getLinkClasses, $tab.isActive);
         link.addClick(() => {
-          this.selectTab(index);
+          this.selectTab($index);
         });
 
-        if (tab.icon) {
+        if ($tab.icon) {
           let iconContainer = architect.createSpan(
             this.getIconContainerClasses
           );
           let icon = architect.createIcon(this.iconClass);
-          icon.addClass("icon", tab.isActive);
-          icon.addClass(`icon ${tab.iconClass}`, !tab.isActive);
+          icon.addClass("icon", $tab.isActive);
+          icon.addClass(`icon ${$tab.iconClass}`, !$tab.isActive);
           icon.setProps({
             icon: this.tab.icon,
             iconLib: this.iconLib,
@@ -171,9 +215,9 @@ export default {
           link.addChild(iconContainer);
         }
 
-        if (tab.name) {
+        if ($tab.name) {
           let name = architect.createSpan();
-          name.innerHTML(tab.name);
+          name.innerHTML($tab.name);
           link.addChild(name);
         }
 
@@ -188,6 +232,7 @@ export default {
      */
     createBody(architect) {
       let body = architect.createDiv(this.getBodyClasses);
+      body.setStyles(this.getBodyStyles);
       body.setChildren(this.$slots.default);
       architect.addChild(body);
     }
@@ -212,7 +257,7 @@ export default {
     this.$nextTick(function() {
       // Code that will run only after the
       // entire view has been rendered
-      this.configSlider();
+      this.configSlider(700);
     });
     this.includeBgModifiers = false;
   }

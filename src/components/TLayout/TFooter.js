@@ -32,7 +32,7 @@ export default {
     getClasses: function() {
       const css = new CssArchitect("t-footer");
       css.isFullwidth();
-      this.filled(css, true);
+      this.filled(css, { removeInit: true });
       css.addClass(this.getColorsModifiers);
       css.addClass("is-fixed", this.fixed);
       return css.getClasses();

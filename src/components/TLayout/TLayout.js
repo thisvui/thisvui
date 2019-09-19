@@ -25,7 +25,7 @@ export default {
       const css = new CssArchitect("t-layout");
       css.isRelative();
       css.addClass("row", this.row);
-      this.filled(css, true);
+      this.filled(css, { removeInit: true });
       css.addClass(this.getColorsModifiers);
       css.addClass(this.getFlexModifiers);
       return css.getClasses();

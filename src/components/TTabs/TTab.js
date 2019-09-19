@@ -53,7 +53,7 @@ export default {
     let root = new ElementArchitect(h, "transition");
     root.setProps({name: this.transitionClassName})
 
-    let tab = root.createDiv("tab-pane")
+    let tab = root.createDiv("tab__pane")
     tab.setId(this.id).setChildren(this.$slots.default);
 
     root.addChild(tab, this.isActive)

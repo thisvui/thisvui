@@ -15,7 +15,7 @@ export default {
      */
     getClasses: function() {
       const css = new CssArchitect("t-content");
-      this.filled(css, true);
+      this.filled(css, { removeInit: true });
       css.addClass(this.getColorsModifiers);
       css.addClass(this.getFlexModifiers);
       return css.getClasses();

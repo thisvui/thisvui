@@ -170,6 +170,9 @@ $panel-border-top-right-radius: 3px !default;
 $tabs-head-border-bottom-color: $primary !default;
 $tabs-body-border-color: $primary !default;
 $tabs-body-shadow-color: $opaque !default;
+$tabs-delimiter-line-height: 5px;
+$tabs-label-height :3em;
+$tabs-bottom-margin: $separation-margin !default;
 
 /* Card */
 $notification-background-color: $white !default;

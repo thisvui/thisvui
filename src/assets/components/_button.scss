@@ -31,7 +31,7 @@
   text-decoration: none;
   position: relative;
   @include btn-shadow;
-
+  @include btn-sizes;
   &.rounded {
     border-radius: 50em;
   }
@@ -58,7 +58,7 @@
     box-shadow: none;
   }
 
-  @include btn-sizes;
+
 
   &.is-loading {
     color: transparent !important;

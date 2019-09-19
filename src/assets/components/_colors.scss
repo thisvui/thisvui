@@ -40,6 +40,7 @@
 }
 .filled {
   background-color: lighten($dark, 60%);
+  transition: all cubic-bezier(.47,0,.74,.71) 200ms;
   &.hoverable:hover {
     background-color: lighten($dark, 50%);
   }
@@ -77,11 +78,20 @@
     &.is-#{$name} {
       color: $color-invert;
       background-color: rgba($color, var(--bg-alpha));
+      a {
+        color: $color-invert;
+      }
       &.hoverable:hover {
         background-color: lighten($color, 12%);
       }
       &.activable:active {
         background-color: darken($color, 12%);
+      }
+      &.active {
+        background-color: darken($color, 7%);
+      }
+      &.inactive {
+        background-color: lighten($color, 7%);
       }
       &.is-loading::after{
         border-color: $color-invert !important

@@ -34,7 +34,7 @@ export default {
       css.isFullwidth();
       css.addClass("is-fixed", this.fixed);
       css.addClass("elevation-1");
-      this.filled(css, true);
+      this.filled(css, { removeInit: true });
       css.addClass(this.getColorsModifiers);
       return css.getClasses();
     },

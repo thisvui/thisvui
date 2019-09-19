@@ -133,14 +133,25 @@ export default {
         .getClassesArray()
         .filter(this.checkColorModifier);
     },
-    filled(cssArchitect, removeInit = false) {
+    filled(cssArchitect, { removeInit = false, hoverable = false, inverted = false } = {}) {
+      if(!cssArchitect){
+        throw new Error("filled - Please provide css-architect parameter")
+      }
       cssArchitect.addClass(`filled`);
       cssArchitect.addClass(`remove-init`, removeInit);
+      cssArchitect.addClass(`hoverable`, hoverable);
+      cssArchitect.addClass(`inverted`, inverted);
     },
     colored(cssArchitect) {
+      if(!cssArchitect){
+        throw new Error("colored - Please provide css-architect parameter")
+      }
       cssArchitect.addClass(`colored`);
     },
     bordered(cssArchitect) {
+      if(!cssArchitect){
+        throw new Error("bordered - Please provide css-architect parameter")
+      }
       cssArchitect.addClass(`bordered`);
     },
     colorize(cssArchitect, type, addColorClass = false) {

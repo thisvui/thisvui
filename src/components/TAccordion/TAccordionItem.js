@@ -78,7 +78,6 @@ export default {
      */
     getHeaderClasses: function() {
       const css = new CssArchitect("t-accordion__heading");
-      // this.colorize(css, "bg-color", true);
       css.addClass("icon-left", this.iconLeft);
       css.addClass("item-opened", this.isItemOpen);
       this.filled(css);
@@ -150,7 +149,6 @@ export default {
    */
   watch: {
     isItemOpen: function(newVal, oldVal) {
-      // watch it
       this.loadIcon();
     }
   },

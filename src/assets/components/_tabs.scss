@@ -1,37 +1,51 @@
-.hero {
-  .tabs {
-    ul {
-      border-bottom: 1px solid;
-    }
-  }
-}
-
-.tabs-container {
-  width: 100%;
-}
-
 .tabs {
   margin: 0;
   position: relative;
 
-  ul {
-    align-items: center;
-    border-bottom: 1px solid;
+  &__heading {
     display: flex;
     flex-grow: 1;
     flex-shrink: 0;
+    align-items: center;
     justify-content: flex-start;
+    position: relative;
+    border-bottom: 1px solid;
     margin-left: 0;
 
-    li {
-      margin-top: 0;
+    &.is-right {
+      justify-content: flex-end;
+    }
 
-      .hero {
-        flex-direction: unset;
-      }
+    &.is-centered {
+      justify-content: center;
+    }
+
+    &.borderless {
+      border: none;
+      box-shadow: none;
+      -webkit-box-shadow: none;
+    }
+
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    position: relative;
+    height:$tabs-label-height;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    text-align:center;
+    line-height:3em;
+    margin-top: 0;
+    cursor:pointer;
+
+    &:not(:last-child){
+      margin-right: 2px;
     }
 
     a {
+      padding: 1rem 2rem 1rem 2rem;
       background-position: center;
       transition: background 0.5s;
 
@@ -39,87 +53,63 @@
         transition: background 0s;
       }
     }
+
+    &.fullwidth {
+      flex: 1;
+      a {
+        flex: 1;
+      }
+    }
+
   }
 
-  .tab-slider {
-    display: flex;
+  &__container {
+    width: 100%;
     position: relative;
-    height: 2px;
-    background-color: rgba($primary-invert, 0.7);
-    transition: all 0.075s cubic-bezier(0.25, 0.8, 0.5, 1) 0s;
 
-    &-wrapper {
-      bottom: 0;
-      margin: 0 !important;
-      width: 100%;
+    &:not(:last-child){
+      margin-bottom: $tabs-bottom-margin;
+    }
+
+  }
+
+  &__body {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    padding: 2em;
+    border: 1px solid rgba($tabs-body-border-color, 0.3);
+    border-top-style: none;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    @include light-shadow($dark);
+
+    &.borderless {
+      border: none;
+      box-shadow: none;
+      -webkit-box-shadow: none;
     }
   }
 
-  &:not(:last-child) {
-    margin-bottom: 0rem;
+  .tab {
+    &__pane {
+      width: 100%;
+    }
+    &__slider {
+      display: flex;
+      position: relative;
+      height: 2px;
+      transition: all 0.075s cubic-bezier(0.25, 0.8, 0.5, 1) 0s;
+      z-index: 2;
+      bottom: 1px;
 
-    @each $name, $pair in $colors {
-      $color: nth($pair, 1);
-      $color-invert: nth($pair, 2);
-
-      &.is-#{$name} {
-        ul {
-          border-color: rgba($color, 0.3);
-        }
-
-        .is-tab-active {
-          a {
-            @include color-props($color-invert, rgba($color, 0.9), false);
-          }
-        }
-
-        a {
-          @include color-props(rgba($dark, 0.7), false, rgba($color, 0.3));
-
-          &:hover {
-            @include color-props($color-invert, false, false);
-
-            background: rgba($color, 0.7) radial-gradient(circle, transparent 1%, $color 1%) (center / 15000%);
-            border-bottom-color: rgba($color, 0.3);
-          }
-
-          &:active {
-            @include color-props($color-invert, rgba($color, 0.5), false);
-
-            background-size: 100%;
-          }
-        }
-
-        & + .tabs-body {
-          border-color: rgba($color, 0.3);
-        }
-
-        .tab-slider {
-          background-color: rgba($color-invert, 0.7);
-        }
+      &--wrapper {
+        left: 0;
+        bottom: 0;
+        margin: 0 !important;
+        width: 100%;
       }
     }
   }
-}
 
-.tabs-body {
-  position: relative;
-  display: flex;
-  padding: 2em;
-  border: 1px solid rgba($tabs-body-border-color, 0.3);
-  border-top-style: none;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  box-shadow: 0 0px 1px 0px rgba($tabs-body-shadow-color, 0.1), 0 1px 1px 0px rgba($tabs-body-shadow-color, 0.14), 0 3px 3px 0 rgba($tabs-body-shadow-color, 0.12);
-  -webkit-box-shadow: 0 0px 1px 0px rgba($tabs-body-shadow-color, 0.1), 0 1px 1px 0px rgba($tabs-body-shadow-color, 0.14), 0 3px 3px 0 rgba($tabs-body-shadow-color, 0.12);
-
-  .tab-pane {
-    width: 100%;
-  }
-
-  &.is-borderless {
-    border: none;
-    box-shadow: none;
-    -webkit-box-shadow: none;
-  }
 }
