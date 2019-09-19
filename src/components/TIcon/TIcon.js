@@ -33,7 +33,9 @@ export default {
     },
     layerClass: {
       type: String
-    }
+    },
+    resizeFont: Boolean,
+    hasShadow: Boolean
   },
   data() {
     return {
@@ -49,44 +51,46 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect(this.icon);
-      cssArchitect.addClass(this.targetClass, this.targetClass !== undefined);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect(this.icon);
+      css.addClass(this.targetClass, this.targetClass !== undefined);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the icon container element
      * @returns { A String with the chained css classes }
      */
     getContainerClass: function() {
-      const cssArchitect = new CssArchitect("t-icon icon");
-      this.colorize(cssArchitect, "color", true);
-      cssArchitect.addClass(this.getSyntaxModifiers);
-      cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass(
+      const css = new CssArchitect("t-icon icon");
+      this.colored(css);
+      css.addClass(this.getSyntaxModifiers);
+      css.addClass(this.getSizesModifiers);
+      css.addClass("resize-font", this.resizeFont);
+      css.addClass("has-shadow", this.hasShadow);
+      css.addClass(
         this.containerClass,
         this.containerClass !== undefined
       );
-      cssArchitect.addClass(this.getTooltipClass);
-      return cssArchitect.getClasses();
+      css.addClass(this.getTooltipClass);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the tooltip element
      * @returns { A String with the chained css classes }
      */
     getTooltipClass: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addClass("tooltip", this.dataTooltip !== undefined);
-      cssArchitect.addClass(this.tooltipClass);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect();
+      css.addClass("tooltip", this.dataTooltip !== undefined);
+      css.addClass(this.tooltipClass);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the icon element when icon lib is material design
      * @returns { A String with the chained css classes }
      */
     getMaterialIconsClass: function() {
-      const cssArchitect = new CssArchitect("material-icons");
-      cssArchitect.addClass(this.targetClass, this.targetClass !== undefined);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("material-icons");
+      css.addClass(this.targetClass, this.targetClass !== undefined);
+      return css.getClasses();
     }
   },
   methods: {

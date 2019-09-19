@@ -1,0 +1,36 @@
+@mixin font-size($font-size) {
+  &.resize-font{
+    font-size: $font-size;
+  }
+}
+
+@mixin icon-sizes {
+  &.small {
+    @include dimensions($icon-size-small, $icon-size-small);
+    @include font-size(0.8em);
+
+  }
+
+  &.medium {
+    @include dimensions($icon-size-medium, $icon-size-medium);
+    @include font-size(2em);
+  }
+
+  &.large {
+    @include dimensions($icon-size-large, $icon-size-large);
+    @include font-size(3em);
+
+  }
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  @include dimensions($icon-size, $icon-size);
+  @include icon-sizes;
+
+  &.has-shadow {
+    @include icon-shadow($dark);
+  }
+}

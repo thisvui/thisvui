@@ -142,11 +142,12 @@ export default {
       cssArchitect.addClass(`hoverable`, hoverable);
       cssArchitect.addClass(`inverted`, inverted);
     },
-    colored(cssArchitect) {
+    colored(cssArchitect, { inverted = false } = {}) {
       if(!cssArchitect){
         throw new Error("colored - Please provide css-architect parameter")
       }
       cssArchitect.addClass(`colored`);
+      cssArchitect.addClass(`inverted`, inverted);
     },
     bordered(cssArchitect) {
       if(!cssArchitect){

@@ -143,6 +143,7 @@ export default {
       cssArchitect.addClass(this.getSizesModifiers);
       cssArchitect.addClass(this.getStateModifiers);
       cssArchitect.addClass(this.getHelpersModifiers);
+      this.setupColorModifier(cssArchitect);
       return cssArchitect.getClasses();
     },
     /**
@@ -198,6 +199,17 @@ export default {
       cssArchitect.addClass("filled cursor-pointer");
       cssArchitect.addClass(this.cancelBtnClass);
       return cssArchitect.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the icon element
+     * @returns { A String with the chained css classes }
+     */
+    getIconClasses: function() {
+      const css = new CssArchitect();
+      this.colored(css, { inverted : true })
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.iconClass, this.isNotNull(this.iconClass));
+      return css.getClasses();
     },
     getActive: function() {
       return this.active && !this.disabled;
@@ -286,7 +298,7 @@ export default {
      */
     createButtonIcon(architect, condition = false) {
       if (this.icon && condition) {
-        let icon = architect.createIcon(this.iconClass);
+        let icon = architect.createIcon(this.getIconClasses);
         icon.setKey(`${this.id}-btn-icon`)
         icon.setProps({ icon: this.icon });
         architect.addChild(icon);

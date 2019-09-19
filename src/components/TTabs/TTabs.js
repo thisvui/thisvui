@@ -51,7 +51,6 @@ export default {
       css.addClass(colorModifier);
       css.addClass("borderless", this.borderless);
       css.addClass(this.getAlignmentModifiers);
-      // css.addClass("is-clipped");
       css.addClass(this.getSizesModifiers);
       return css.getClasses();
     },
@@ -64,7 +63,6 @@ export default {
       const css = new CssArchitect("tabs__item");
       css.addClass("borderless", this.borderless);
       css.addClass("fullwidth", this.fullwidth);
-      // css.addClass("is-clipped");
       this.filled(css, { hoverable : true })
       css.addClass(colorModifier);
       css.addClass(this.getSizesModifiers);
@@ -92,7 +90,6 @@ export default {
       this.bordered(css);
       css.addClass(colorModifier);
       css.addClass("borderless", this.borderless);
-      // css.addClass("is-clipped");
       css.addClass(this.getSizesModifiers);
       return css.getClasses();
     },

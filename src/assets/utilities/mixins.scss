@@ -26,6 +26,17 @@
   @include color-props($color, $bg-color, false);
 }
 
+@mixin dimensions($width: false, $height: false) {
+  @if $width {
+    width: $width;
+  }
+
+  @if $height {
+    height: $height;
+  }
+}
+
+
 @mixin margin-padding($margin: false, $padding: false) {
   @if $margin {
     margin: $margin;
@@ -108,5 +119,9 @@
 
 @mixin light-shadow($color) {
   box-shadow: 0 0px 1px 0px rgba($color, 0.1), 0 1px 1px 0px rgba($color, 0.14), 0 3px 3px 0 rgba($color, 0.12);
+}
+
+@mixin icon-shadow($color) {
+  text-shadow: 0px 2px 2px rgba($color ,0.5), 2px 2px 2px rgba($color ,0.07), -2px 2px 5px rgba($color ,0.07);
 }
 
