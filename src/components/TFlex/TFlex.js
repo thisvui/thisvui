@@ -2,12 +2,13 @@ import dimension from "../../mixins/dimension";
 import flex from "../../mixins/flex";
 import alignment from "../../mixins/alignment";
 import background from "../../mixins/background";
+import overflow from "../../mixins/overflow";
 
 import CssArchitect from "../../utils/css-architect";
 
 export default {
   name: "t-flex",
-  mixins: [flex, dimension, alignment, background],
+  mixins: [flex, dimension, alignment, background, overflow],
   data: function() {
     return {
       targetClass: ""
@@ -24,6 +25,7 @@ export default {
       cssArchitect.addClass(this.getDimensionModifiers);
       cssArchitect.addClass(this.getAlignmentModifiers);
       cssArchitect.addClass(this.getBackgroundModifiers);
+      cssArchitect.addClass(this.getOverflowModifiers);
       return cssArchitect.getClasses();
     }
   },

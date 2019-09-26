@@ -1,3 +1,4 @@
+/* Colors and Backgrounds */
 @mixin center($width, $height: 0) {
   position: absolute;
   @if $height != 0{
@@ -26,6 +27,28 @@
   @include color-props($color, $bg-color, false);
 }
 
+@mixin color-props($color: false, $bg: false, $border: false) {
+  @if $color {
+    color: $color;
+  }
+
+  @if $bg {
+    background-color: $bg;
+  }
+
+  @if $border {
+    border-color: $border;
+  }
+}
+
+@mixin background-cover() {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+/* Dimension and offset */
 @mixin dimensions($width: false, $height: false) {
   @if $width {
     width: $width;
@@ -47,20 +70,21 @@
   }
 }
 
-@mixin color-props($color: false, $bg: false, $border: false) {
-  @if $color {
-    color: $color;
-  }
-
-  @if $bg {
-    background-color: $bg;
-  }
-
-  @if $border {
-    border-color: $border;
-  }
+/* Border */
+@mixin border-radius( $radius: 3px ) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
 }
 
+@mixin border-radius-specific( $tl-radius: 3px, $tr-radius: 3px, $bl-radius: 3px, $br-radius: 3px ) {
+  $args: $tl-radius $tr-radius $bl-radius $br-radius;
+  -webkit-border-radius: $args;
+  -moz-border-radius: $args;
+  border-radius: $args;
+}
+
+/* Components */
 @mixin panel-heading($add-shadow: false, $add-radius: false) {
   &__heading {
     display: flex;
@@ -99,6 +123,7 @@
   box-shadow: 0em -0.1rem 0em  rgba(0, 0, 0, 0.07) inset;
 }
 
+/* Shadow */
 @mixin elevation($depth) {
   @if $depth < 1 {
     box-shadow: none;
@@ -123,5 +148,59 @@
 
 @mixin icon-shadow($color) {
   text-shadow: 0px 2px 2px rgba($color ,0.5), 2px 2px 2px rgba($color ,0.07), -2px 2px 5px rgba($color ,0.07);
+}
+
+
+@mixin box-shadow( $h-shadow: 0px, $v-shadow: 1px, $blur: 2px, $spread: 0px, $color: lighten($black, 40%) ) {
+  $args: $h-shadow $v-shadow $blur $spread $color;
+  -webkit-box-shadow: $args;
+  -moz-box-shadow: $args;
+  box-shadow: $args;
+}
+
+@mixin inner-box-shadow( $h-shadow: 0px, $v-shadow: 1px, $blur: 2px, $spread: 0px, $color: lighten($black, 40%) ) {
+  $args: $h-shadow $v-shadow $blur $spread $color;
+  -webkit-box-shadow: inset $args;
+  -moz-box-shadow: inset $args;
+  box-shadow: inset $args;
+}
+
+@mixin box-shadow-none() {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+/* Transitions and Animation */
+@mixin transitions( $property: all, $duration: 0.3s, $timing: linear, $delay: 0s ) {
+  $args: $property $duration $timing $delay;
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+}
+
+@mixin animation( $animation_name, $duration: 1s, $timing_function: ease ) {
+  -webkit-animation: $animation_name $duration $timing_function;
+  -moz-animation: $animation_name $duration $timing_function;
+  -o-animation: $animation_name $duration $timing_function;
+  animation: $animation_name $duration $timing_function;
+}
+
+/* Other */
+@mixin box-size( $property: border-box ) {
+  -webkti-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+@mixin font-smoothing() {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin mobile {
+  @media (max-width: 499px) { @content; }
 }
 

@@ -1,9 +1,13 @@
+import colors from "../../mixins/colors";
+import common from "../../mixins/common";
+import icons from "../../mixins/icons";
+import dimension from "../../mixins/dimension";
+import helpers from "../../mixins/helpers";
+
+import TFlex from "../TFlex/TFlex";
 import TImage from "../TImage/TImage";
 import TIcon from "../TIcon/TIcon";
 import TLevel from "../TLevel/TLevel";
-import colors from "../../mixins/colors";
-import common from "../../mixins/common";
-import TFlex from "../TFlex/TFlex";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
@@ -11,12 +15,24 @@ import ElementArchitect from "../../utils/element-architect";
 export default {
   name: "t-card",
   components: { TFlex, TLevel, TIcon, TImage },
-  mixins: [common, colors],
+  mixins: [common, icons, colors, dimension, helpers],
   props: {
+    targetClass: {
+      type: String
+    },
+    category: {
+      type: String
+    },
     title: {
       type: String
     },
     subtitle: {
+      type: String
+    },
+    description: {
+      type: String
+    },
+    categoryClass: {
       type: String
     },
     titleClass: {
@@ -25,17 +41,75 @@ export default {
     subtitleClass: {
       type: String
     },
+    descriptionClass: {
+      type: String
+    },
     figure: {
+      type: Boolean,
+      default: true
+    },
+    showDate: {
       type: Boolean
     },
-    figureSrc: {
+    day: {
+      type: [Number, String]
+    },
+    month: {
       type: String
     },
-    figureIcon: {
+    dateClass: {
       type: String
     },
-    figureSize: {
+    showImg: {
+      type: Boolean
+    },
+    icon: {
       type: String
+    },
+    iconClass: {
+      type: String
+    },
+    img: {
+      type: String
+    },
+    imgClass: {
+      type: String
+    },
+    imgSize: {
+      type: String
+    },
+    avatar: {
+      type: String
+    },
+    avatarClass: {
+      type: String
+    },
+    showMeta: {
+      type: Boolean
+    },
+    metadata: {
+      type: Array
+    },
+    horizontal: {
+      type: Boolean
+    },
+    contentCentered: {
+      type: Boolean
+    },
+    contentRight: {
+      type: Boolean
+    },
+    contentJustified: {
+      type: Boolean
+    },
+    transparent: {
+      type: Boolean
+    },
+    contentTransparent: {
+      type: Boolean
+    },
+    hoverEffect: {
+      type: Boolean
     }
   },
   computed: {
@@ -44,106 +118,288 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect(
-        "card t-flex flex-direction-column align-items-stretch"
-      );
-      this.colorize(cssArchitect, "bg-color", true);
-      cssArchitect.addClass(this.getColorsModifiers);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("card");
+      css.addClass("horizontal", this.horizontal);
+      css.addClass("transparent", this.transparent);
+      css.addClass("hover-effect", this.hoverEffect);
+      css.addClass(this.getColorsModifiers);
+      css.addClass(this.targetClass, this.isNotNull(this.targetClass));
+      this.setupColorModifier(css);
+      css.addClass(this.getHelpersModifiers);
+      return css.getClasses();
+    },
+    getStyles: function() {
+      const css = new CssArchitect();
+      css.addStyles(this.getDimensionStyles);
+      return css.getStyles();
     },
     getContentClasses: function() {
-      const cssArchitect = new CssArchitect("card-content");
-      cssArchitect.addClass("is-fullwidth");
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("card__content");
+      css.addClass("is-fullwidth");
+      css.addClass("horizontal", this.horizontal);
+      css.addClass("transparent", this.transparent || this.contentTransparent);
+      css.addClass("centered", this.contentCentered);
+      css.addClass("right", this.contentRight);
+      css.addClass("justified", this.contentJustified);
+      css.addClass("is-relative", this.horizontal || !this.isNotNull(this.img));
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the figure element
+     * @returns { A String with the chained css classes }
+     */
+    getFigureClasses: function() {
+      const css = new CssArchitect("card__figure");
+      css.addClass("horizontal", this.horizontal);
+      css.addClass("overflow-hidden", !this.horizontal && this.isNotNull(this.img));
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the date element
+     * @returns { A String with the chained css classes }
+     */
+    getDateClasses: function() {
+      const css = new CssArchitect("card__date");
+      this.filled(css,  { removeInit: true });
+      css.addClass(this.getColorModifier(true));
+      css.addClass("horizontal", this.horizontal);
+      css.addClass(this.dateClass, this.dateClass !== undefined);
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the image element
+     * @returns { A String with the chained css classes }
+     */
+    getImageClasses: function() {
+      const css = new CssArchitect("card__image");
+      css.addClass(this.imgClass, this.isNotNull(this.imgClass));
+      if(this.horizontal){
+        css.addClass("horizontal");
+        this.bordered(css);
+        css.addClass(this.getColorModifier(true));
+      }
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the icon element
+     * @returns { A String with the chained css classes }
+     */
+    getIconContainerClasses: function() {
+      const css = new CssArchitect("card__icon");
+      css.addClass("horizontal", this.horizontal);
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the icon element
+     * @returns { A String with the chained css classes }
+     */
+    getIconClasses: function() {
+      const css = new CssArchitect();
+      css.addClass(this.getColorModifier(true));
+      css.addClass(this.iconClass, this.isNotNull(this.iconClass));
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the avatar element
+     * @returns { A String with the chained css classes }
+     */
+    getAvatarContainerClasses: function() {
+      const css = new CssArchitect("card__avatar");
+      css.addClass("horizontal", this.horizontal);
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the avatar element
+     * @returns { A String with the chained css classes }
+     */
+    getAvatarClasses: function() {
+      const css = new CssArchitect();
+      css.addClass(this.avatarClass, this.isNotNull(this.avatarClass));
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the category element
+     * @returns { A String with the chained css classes }
+     */
+    getCategoryClasses: function() {
+      const css = new CssArchitect("card__category");
+      this.filled(css,  { removeInit: true });
+      css.addClass("horizontal", this.horizontal);
+      css.addClass("has-img",  this.horizontal && this.isNotNull(this.img));
+      css.addClass(this.getColorModifier(true));
+      css.addClass(this.categoryClass, this.categoryClass !== undefined);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the title element
      * @returns { A String with the chained css classes }
      */
     getTitleClasses: function() {
-      const cssArchitect = new CssArchitect("card-title");
-      cssArchitect.addClass(this.titleClass, this.titleClass !== undefined);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("card__title");
+      css.addClass(this.titleClass, this.titleClass !== undefined);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the subtitle element
      * @returns { A String with the chained css classes }
      */
     getSubtitleClasses: function() {
-      const cssArchitect = new CssArchitect("card-subtitle");
-      cssArchitect.addClass(
+      const css = new CssArchitect("card__subtitle");
+      this.colored(css);
+      css.addClass(this.getColorModifier(true));
+      css.addClass(
         this.subtitleClass,
         this.subtitleClass !== undefined
       );
-      return cssArchitect.getClasses();
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the title element
+     * @returns { A String with the chained css classes }
+     */
+    getDescriptionClasses: function() {
+      const css = new CssArchitect("card__description");
+      css.addClass(this.descriptionClass, this.descriptionClass !== undefined);
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the metadata element
+     * @returns { A String with the chained css classes }
+     */
+    getMetadataClasses: function() {
+      const css = new CssArchitect("card__metadata");
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the metadata item element
+     * @returns { A String with the chained css classes }
+     */
+    getMetadataItemClasses: function() {
+      const css = new CssArchitect("card__metadata--item");
+      return css.getClasses();
     },
     renderMedia: function() {
       return this.figure || this.title;
     }
   },
+  methods: {
+    createIcon(architect) {
+      if (this.icon) {
+        let iconContainer = architect.createDiv(this.getIconContainerClasses);
+        let icon = architect.createIcon(this.getIconClasses);
+        icon.setProps({
+          icon: this.icon,
+          large: true,
+          resizeFont: true,
+          iconLib: this.iconLib,
+          preserveDefaults: !this.overrideDefaults
+        });
+        iconContainer.addChild(icon);
+        architect.addChild(iconContainer);
+      }
+    },
+    createAvatar(architect) {
+      if (this.avatar) {
+        let avatarContainer = architect.createDiv(this.getAvatarContainerClasses);
+        let imgEl = architect.createImg(this.getAvatarClasses);
+        imgEl.addAttr("src", this.avatar);
+        avatarContainer.addChild(imgEl);
+        architect.addChild(avatarContainer);
+      }
+    },
+    createImg(architect) {
+      if (this.img) {
+        let imgEl = architect.createImg(this.getImageClasses);
+        imgEl.addAttr("src", this.img);
+        architect.addChild(imgEl);
+      }
+    },
+    createFigure(architect){
+      if(this.figure) {
+        let root = architect.createDiv(this.getFigureClasses);
+        if (this.showDate) {
+          let dateEl = architect.createDiv(this.getDateClasses);
+          if(this.day){
+            let dayEl = architect.createDiv("day");
+            dayEl.innerHTML(this.day);
+            dateEl.addChild(dayEl);
+          }
+          if(this.month) {
+            let monthEl = architect.createDiv("month");
+            monthEl.innerHTML(this.month);
+            dateEl.addChild(monthEl);
+          }
+          root.addChild(dateEl);
+        }
+        this.createCategory(root, this.horizontal);
+
+        this.createImg(root);
+        this.createIcon(root);
+        this.createAvatar(root);
+        architect.addChild(root);
+      }
+    },
+    createCategory(architect, condition){
+      if (this.category && condition) {
+        let category = architect.createDiv(this.getCategoryClasses);
+        category.innerHTML(this.category);
+        architect.addChild(category);
+      }
+    },
+    createContent(architect){
+      let root = architect.createDiv(this.getContentClasses);
+      this.createCategory(root, !this.horizontal);
+      if (this.title) {
+        let title = root.createDiv(this.getTitleClasses);
+        title.innerHTML(this.title);
+        root.addChild(title);
+      }
+      if (this.subtitle) {
+        let subtitle = root.createDiv(this.getSubtitleClasses);
+        subtitle.innerHTML(this.subtitle);
+        root.addChild(subtitle);
+      }
+      if (this.description) {
+        let description = root.createDiv(this.getDescriptionClasses);
+        description.innerHTML(this.description);
+        root.addChild(description);
+      }
+      this.createMetadata(root);
+      architect.addChild(root);
+    },
+    createMetadata(architect) {
+      if (this.showMeta) {
+        let root = architect.createDiv(this.getMetadataClasses);
+        if (this.metadata !== undefined && this.metadata.length > 0) {
+          for (let $metaItem of this.metadata) {
+            let metaItemEl = architect.createDiv(this.getMetadataItemClasses);
+            if ($metaItem.icon) {
+              let iconEl = architect.createIcon();
+              iconEl.setProps({
+                icon: $metaItem.icon
+              });
+              iconEl.addClass($metaItem.iconClass)
+              metaItemEl.addChild(iconEl);
+            }
+            if ($metaItem.content) {
+              let contentEl = architect.createDiv();
+              contentEl.innerHTML($metaItem.content);
+              metaItemEl.addChild(contentEl);
+            }
+            root.addChild(metaItemEl);
+          }
+        }
+        architect.addChild(root);
+      }
+    }
+
+  },
   render: function(h) {
     let root = new ElementArchitect(h, "div", this.getClasses);
     root.setId(this.id);
-
-    let content = root.createDiv(this.getContentClasses);
-    let contentBody = root.createDiv("content");
-    contentBody.setChildren(this.$slots.default);
-
-    // Creating the media element
-    if (this.renderMedia) {
-      let media = root.createDiv("media");
-      let figure = root.createDiv("media-left");
-
-      if (this.figureSrc) {
-        let img = root.createElement(TImage);
-        img.setProps({ src: this.figureSrc, size: this.figureSize });
-        figure.addChild(img);
-      }
-
-      if (this.figureIcon) {
-        let icon = root.createIcon(this.figureSize);
-        icon.setProps({ icon: this.figureIcon });
-        figure.addChild(icon);
-      }
-
-      let mediaContent = root.createDiv("media-content");
-      let flex = root
-        .createElement(TFlex)
-        .setProps({ isFullwidth: true, alignSelf: "baseline" });
-      let start = root.createElement(TFlex).setProps({
-        isColumn: true,
-        alignSelf: "start",
-        justifyContent: "start"
-      });
-
-      if (this.title) {
-        let title = root.createP(this.getTitleClasses);
-        title.innerHTML(this.title);
-        start.addChild(title);
-      }
-
-      if (this.subtitle) {
-        let subtitle = root.createP(this.getSubtitleClasses);
-        subtitle.innerHTML(this.subtitle);
-        start.addChild(subtitle);
-      }
-      let end = root.createElement(TFlex).setProps({
-        alignSelf: "baseline",
-        justifyContent: "end",
-        flexGrow: 1
-      });
-      end.setChildren(this.$slots["title"]);
-
-      flex.addChild(start);
-      flex.addChild(end);
-      mediaContent.addChild(flex);
-      media.addChild(figure, this.figure);
-      media.addChild(mediaContent);
-      content.addChild(media);
-    }
-
-    content.addChild(contentBody);
-    root.addChild(content);
+    root.setStyles(this.getStyles)
+    this.createFigure(root);
+    this.createContent(root);
     return root.create();
   }
 };

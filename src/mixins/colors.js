@@ -122,6 +122,16 @@ export default {
     }
   },
   methods: {
+    getColorModifier(addDefault = false) {
+      let colorModifier;
+      if(addDefault){
+        colorModifier = "is-primary"
+      }
+      if(this.hasColorModifier){
+        colorModifier = this.colorModifier;
+      }
+      return colorModifier;
+    },
     checkColorModifier(classes) {
       return this.modifiers.some(modifier => classes.includes(modifier));
     },

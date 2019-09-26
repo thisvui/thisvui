@@ -151,7 +151,6 @@ export default {
         let currentItem = this.$refs[ref][0];
         let borderWidth = 0;
         this.sliderWidth = currentItem.scrollWidth + borderWidth;
-        console.log("currentItem.offsetLeft: ", currentItem.offsetLeft);
         this.sliderLeft = currentItem.offsetLeft;
       }, timeout);
     },
