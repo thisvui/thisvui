@@ -1,0 +1,27 @@
+$container-offset: (2 * $container-min-gap) !default
+
+.container {
+  flex-grow: 1;
+  margin: 0 auto;
+  position: relative;
+  width: auto;
+
+  @include tablet-landscape-up {
+    max-width: $tablet-portrait-upper-boundary - $container-offset
+  }
+
+  @include desktop-up {
+    max-width: $tablet-landscape-upper-boundary - $container-offset
+  }
+
+  @include big-desktop-up {
+    max-width: $desktop-upper-boundary - $container-offset
+  }
+
+  &.fluid {
+    margin-left: $container-min-gap;
+    margin-right: $container-min-gap;
+    max-width: none
+  }
+
+}

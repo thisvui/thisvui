@@ -5,12 +5,13 @@ import background from "../../mixins/background";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
+import dimension from "../../mixins/dimension";
 
 export default {
   name: "t-container",
-  mixins: [common, screens, background, helper],
+  mixins: [common, screens, background, dimension, helper],
   props: {
-    isFluid: {
+    fluid: {
       type: Boolean,
       default: false
     }
@@ -22,7 +23,7 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("container");
-      cssArchitect.addClass("is-fluid", this.isFluid);
+      cssArchitect.addClass("fluid", this.fluid);
       cssArchitect.addClass(this.getScreensModifiers);
       cssArchitect.addClass(this.getHelpersModifiers);
       cssArchitect.addClass(this.getBackgroundModifiers);
