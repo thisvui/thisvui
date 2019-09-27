@@ -3,7 +3,12 @@
 @import "~bulma/sass/utilities/_all";
 @import "~bulma/sass/base/_all";
 @import "~bulma/sass/grid/_all";
-@import "~bulma/sass/layout/_all";
+
+// Layout
+@import "~bulma/sass/layout/hero";
+@import "~bulma/sass/layout/footer";
+
+// Form
 @import "~bulma/sass/form/file";
 
 // Elements
@@ -37,6 +42,7 @@
 @import "icon";
 @import "button";
 @import "box";
+@import "section";
 @import "card";
 @import "content";
 @import "accordion";
