@@ -75,7 +75,7 @@
     &.is-#{$name} {
       color: $color-invert;
       background-color: rgba($color, var(--bg-alpha));
-      a {
+      & > a {
         color: $color-invert;
       }
       &.hoverable:hover {
@@ -104,6 +104,16 @@
         background-color: lighten($color, 10%);
         background-size: 100%;
         transition: background 0s;
+      }
+      &.linear {
+        $gradient-top-left: darken(saturate(adjust-hue($color, -7deg), 7%), 10%);
+        $gradient-bottom-right: lighten(saturate(adjust-hue($color, 7deg), 4%), 5%);
+        @include linear-gradient(141deg, $gradient-top-left 0%, $color 71%, $gradient-bottom-right 100%);
+      }
+      &.radial {
+        $innerColor: lighten(adjust-hue($color, 2deg), 5%);
+        $outerColor: darken(adjust-hue($color, -2deg), 10%);
+        @include radial-gradient($innerColor, $outerColor);
       }
     }
   }

@@ -2,6 +2,7 @@ import common from "../../mixins/common";
 import dimension from "../../mixins/dimension";
 import sizes from "../../mixins/sizes";
 import colors from "../../mixins/colors";
+
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
@@ -9,85 +10,134 @@ export default {
   name: "t-hero",
   mixins: [common, sizes, dimension, colors],
   props: {
-    isBold: {
-      type: Boolean
-    },
-    headClass: {
-      type: String
-    },
-    bodyClass: {
-      type: String
-    },
-    footClass: {
-      type: String
-    }
+    title: String,
+    titleClass: String,
+    description: String,
+    descriptionClass: String,
+    actionsClass: String,
+    img: String,
+    imgClass: String,
+    reverse: Boolean,
+    linear: Boolean,
+    radial: Boolean
   },
   computed: {
-    hasHeadSlot() {
-      return !!this.$slots.head;
-    },
-    hasFootSlot() {
-      return !!this.$slots.foot;
+    hasActionSlot() {
+      return !!this.$slots.action;
     },
     /**
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("hero");
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass(this.getDimensionModifiers);
-      cssArchitect.addClass("is-bold", this.isBold);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("hero");
+      this.filled(css, { removeInit: true });
+      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getSizesModifiers);
+      css.addClass(this.getDimensionModifiers);
+      css.addClass("reverse", this.reverse);
+      css.addClass("linear", this.linear);
+      css.addClass("radial", this.radial);
+      return css.getClasses();
     },
     /**
-     * Dynamically build the css classes for the hero head element
+     * Dynamically build the css classes for the hero content element
      * @returns { A String with the chained css classes }
      */
-    getHeadClasses: function() {
-      const cssArchitect = new CssArchitect("hero-head");
-      cssArchitect.addClass(this.headClass);
-      return cssArchitect.getClasses();
+    getContentClasses: function() {
+      const css = new CssArchitect("hero__content");
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the hero img content element
+     * @returns { A String with the chained css classes }
+     */
+    getImgContentClasses: function() {
+      const css = new CssArchitect("hero__content");
+      css.addClass("has-img", this.isNotNull(this.img));
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the hero body element
      * @returns { A String with the chained css classes }
      */
     getBodyClasses: function() {
-      const cssArchitect = new CssArchitect("hero-body");
-      cssArchitect.addClass(this.bodyClass);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("hero__body");
+      return css.getClasses();
     },
     /**
-     * Dynamically build the css classes for the hero foot element
+     * Dynamically build the css classes for the hero title element
      * @returns { A String with the chained css classes }
      */
-    getFootClasses: function() {
-      const cssArchitect = new CssArchitect("hero-foot");
-      cssArchitect.addClass(this.footClass);
-      return cssArchitect.getClasses();
+    getTitleClasses: function() {
+      const css = new CssArchitect("hero__title");
+      css.addClass("has-img", this.isNotNull(this.img));
+      css.addClass(this.titleClass);
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the hero desc element
+     * @returns { A String with the chained css classes }
+     */
+    getDescriptionClasses: function() {
+      const css = new CssArchitect("hero__desc");
+      css.addClass("has-img", this.isNotNull(this.img));
+      css.addClass(this.descriptionClass);
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the hero action element
+     * @returns { A String with the chained css classes }
+     */
+    getActionClasses: function() {
+      const css = new CssArchitect("hero__action");
+      css.addClass("has-img", this.isNotNull(this.img));
+      css.addClass(this.footClass);
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the hero image element
+     * @returns { A String with the chained css classes }
+     */
+    getImgClasses: function() {
+      const css = new CssArchitect("hero__img");
+      css.addClass(this.imgClass);
+      return css.getClasses();
     }
   },
   render: function(h) {
     let root = new ElementArchitect(h, "div", this.getClasses);
     root.setId(this.id);
 
-    // Creating the head element
-    let head = root.createDiv(this.getHeadClasses);
-    head.setSlot("head").setChildren(this.$slots.head);
-
-    // Creating the body element
+    let content = root.createDiv(this.getContentClasses);
     let body = root.createDiv(this.getBodyClasses);
-    body.setChildren(this.$slots.default);
 
-    // Creating the foot element
-    let foot = root.createDiv(this.getFootClasses);
-    foot.setSlot("foot").setChildren(this.$slots.foot);
+    // Creating the title element
+    let title = root.createDiv(this.getTitleClasses);
+    title.innerHTML(this.title);
 
-    root.addChild(head, this.hasHeadSlot); // only if head slot is present
-    root.addChild(body);
-    root.addChild(foot, this.hasFootSlot); // only if foot slot is present
+    // Creating the desc element
+    let desc = root.createDiv(this.getDescriptionClasses);
+    desc.innerHTML(this.description);
+
+    // Creating the action slot
+    let action = root.createDiv(this.getActionClasses);
+    action.setSlot("action").setChildren(this.$slots.action);
+
+    body.addChild(title, this.isNotNull(this.title));
+    body.addChild(desc, this.isNotNull(this.description));
+    body.addChild(action, this.hasActionSlot); // only if action slot is present
+    content.addChild(body);
+    root.addChild(content);
+
+    if(this.isNotNull(this.img)){
+      let imgContent = root.createDiv(this.getImgContentClasses);
+      let img = root.createImg(this.getImgClasses);
+      img.addAttr("src", this.img);
+      imgContent.addChild(img);
+      root.addChild(imgContent);
+    }
+
     return root.create();
   }
 };
