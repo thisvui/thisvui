@@ -1,27 +1,31 @@
-import syntax from "../../mixins/syntax";
 import common from "../../mixins/common";
 import helpers from "../../mixins/helpers";
 import elevation from "../../mixins/elevation";
 import dimension from "../../mixins/dimension";
+import display from "../../mixins/display";
+import colors from "../../mixins/colors";
 
 import ElementArchitect from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
   name: "t-box",
-  mixins: [common, syntax, elevation, dimension, helpers],
+  mixins: [common, display, colors, elevation, dimension, helpers],
   computed: {
     /**
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("box");
-      cssArchitect.addClass(this.getSyntaxModifiers);
-      cssArchitect.addClass(this.getElevationModifiers);
-      cssArchitect.addClass(this.getDimensionModifiers);
-      cssArchitect.addClass(this.getHelpersModifiers);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("box");
+      this.filled(css);
+      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getSyntaxModifiers);
+      css.addClass(this.getElevationModifiers);
+      css.addClass(this.getDimensionModifiers);
+      css.addClass(this.getDisplayModifiers);
+      css.addClass(this.getHelpersModifiers);
+      return css.getClasses();
     }
   },
   render: function(h) {
