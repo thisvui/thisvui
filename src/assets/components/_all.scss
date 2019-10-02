@@ -2,7 +2,6 @@
 
 @import "~bulma/sass/utilities/_all";
 @import "~bulma/sass/base/_all";
-@import "~bulma/sass/grid/_all";
 
 // Form
 @import "~bulma/sass/form/file";
@@ -62,6 +61,7 @@
 @import "switch";
 @import "progress";
 @import "container";
+@import "columns";
 @import "flex";
 @import "colorize";
 @import "helpers";

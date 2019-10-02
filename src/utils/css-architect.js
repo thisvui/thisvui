@@ -77,8 +77,8 @@ export default class CssArchitect {
    * @returns {string}
    */
   getStyles() {
-    let resultClass = this.styles.join("; ");
-    return resultClass.trim();
+    let resultStyles = this.styles.join("; ");
+    return resultStyles.trim();
   }
 
   /**
