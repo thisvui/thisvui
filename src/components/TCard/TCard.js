@@ -130,7 +130,7 @@ export default {
     },
     getStyles: function() {
       const css = new CssArchitect();
-      css.addStyles(this.getDimensionStyles);
+      css.addStyles([this.getDimensionStyles]);
       return css.getStyles();
     },
     getContentClasses: function() {

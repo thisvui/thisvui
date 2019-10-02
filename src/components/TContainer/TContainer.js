@@ -2,14 +2,16 @@ import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
 import screens from "../../mixins/screens";
 import background from "../../mixins/background";
+import dimension from "../../mixins/dimension";
+import padding from "../../mixins/padding";
+import margin from "../../mixins/margin";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
-import dimension from "../../mixins/dimension";
 
 export default {
   name: "t-container",
-  mixins: [common, screens, background, dimension, helper],
+  mixins: [common, screens, background, dimension, padding, margin, helper],
   props: {
     fluid: {
       type: Boolean,
@@ -21,18 +23,22 @@ export default {
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
      */
-    getClasses: function() {
-      const cssArchitect = new CssArchitect("container");
-      cssArchitect.addClass("fluid", this.fluid);
-      cssArchitect.addClass(this.getScreensModifiers);
-      cssArchitect.addClass(this.getHelpersModifiers);
-      cssArchitect.addClass(this.getBackgroundModifiers);
-      return cssArchitect.getClasses();
+    css: function() {
+      const css = new CssArchitect("container");
+      css.addClass("fluid", this.fluid);
+      css.addClass(this.getScreensModifiers);
+      css.addClass(this.getHelpersModifiers);
+      css.addClass(this.getBackgroundModifiers);
+      css.addStyles([this.getPaddingStyles]);
+      css.addStyles([this.getMarginStyles]);
+      return css;
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "div", this.getClasses);
+    let root = new ElementArchitect(h, "div", this.css.getClasses());
     root.setId(this.id);
+    console.log("css: ", this.css.getStyles());
+    root.setStyles(this.css.getStyles());
     root.setChildren(this.$slots.default);
     return root.create();
   }

@@ -33,7 +33,7 @@ export default {
     getStyles: function() {
       const css = new CssArchitect();
       css.addStyle("min-height", css.addUnit(this.minHeight, this.unit), this.isNotNull(this.minHeight));
-      css.addStyles(this.getOverflowModifiers)
+      css.addStyles([this.getOverflowModifiers]);
       return css.getStyles();
     }
   },
