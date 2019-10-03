@@ -2,7 +2,6 @@ import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
 import TExpand from "../TAnimation/TExpand";
-import TLevel from "../TLevel/TLevel";
 import TIcon from "../TIcon/TIcon";
 import colors from "../../mixins/colors";
 
@@ -11,7 +10,7 @@ import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-accordion-item",
-  components: { TIcon, TLevel, TExpand },
+  components: { TIcon, TExpand },
   mixins: [common, icons, helper, colors],
   props: {
     title: {

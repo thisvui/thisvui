@@ -7,14 +7,13 @@ import helpers from "../../mixins/helpers";
 import TFlex from "../TFlex/TFlex";
 import TImage from "../TImage/TImage";
 import TIcon from "../TIcon/TIcon";
-import TLevel from "../TLevel/TLevel";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-card",
-  components: { TFlex, TLevel, TIcon, TImage },
+  components: { TFlex, TIcon, TImage },
   mixins: [common, icons, colors, dimension, helpers],
   props: {
     targetClass: {

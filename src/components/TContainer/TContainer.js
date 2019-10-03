@@ -37,7 +37,6 @@ export default {
   render: function(h) {
     let root = new ElementArchitect(h, "div", this.css.getClasses());
     root.setId(this.id);
-    console.log("css: ", this.css.getStyles());
     root.setStyles(this.css.getStyles());
     root.setChildren(this.$slots.default);
     return root.create();
