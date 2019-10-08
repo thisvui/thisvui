@@ -340,9 +340,11 @@ export default class ElementArchitect {
     return this.createElement(TIcon, classes);
   }
 
-  createTransition(name) {
-    let transition = this.createElement("transition");
+  createTransition(name,  config = {} ) {
+    let { group = false, tag = "div" } = config;
+    let transition = group ? this.createElement("transition-group") : this.createElement("transition");
     transition.setProps({ name: name });
+    transition.addProp("tag", tag, group);
     return transition;
   }
 
@@ -437,3 +439,28 @@ export default class ElementArchitect {
     return this.createFunction(this.type, element, this.children);
   }
 }
+
+export const architect= (createFunction, type, classes) => {
+  let architect = new ElementArchitect(createFunction, type, classes);
+  return architect;
+}
+
+export const div= (createFunction, classes) => {
+  let architect = new ElementArchitect(createFunction, "div", classes);
+  return architect;
+}
+
+export const span= (createFunction, classes) => {
+  let architect = new ElementArchitect(createFunction, "span", classes);
+  return architect;
+}
+
+export const transition= (createFunction, name, config = {}) => {
+  let { group = false, tag = "div" } = config;
+  let architect = new ElementArchitect(createFunction,group ? "transition-group": "transition");
+  architect.setProps({ name: name });
+  architect.addProp("tag", tag, group);
+  return architect;
+}
+
+
