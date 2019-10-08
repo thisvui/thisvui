@@ -92,6 +92,90 @@
   }
 }
 
+@mixin unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+
+@mixin delete {
+  @include unselectable;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background-color: rgba($black, 0.2);
+  border: none;
+  border-radius: $radius-rounded;
+  cursor: pointer;
+  pointer-events: auto;
+  display: inline-block;
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-size: 0;
+  height: 20px;
+  max-height: 20px;
+  max-width: 20px;
+  min-height: 20px;
+  min-width: 20px;
+  outline: none;
+  position: relative;
+  vertical-align: top;
+  width: 20px;
+  &::before,
+  &::after {
+    background-color: $white;
+    content: "";
+    display: block;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%) rotate(45deg);
+    transform-origin: center center;
+  }
+  &::before {
+    height: 2px;
+    width: 50%;
+  }
+  &::after {
+    height: 50%;
+    width: 2px;
+  }
+  &:hover,
+  &:focus {
+    background-color: rgba($black, 0.3);
+  }
+  &:active {
+    background-color: rgba($black, 0.4);
+  }
+  // Sizes
+  &.is-small {
+    height: 16px;
+    max-height: 16px;
+    max-width: 16px;
+    min-height: 16px;
+    min-width: 16px;
+    width: 16px;
+  }
+  &.is-medium {
+    height: 24px;
+    max-height: 24px;
+    max-width: 24px;
+    min-height: 24px;
+    min-width: 24px;
+    width: 24px;
+  }
+  &.is-large {
+    height: 32px;
+    max-height: 32px;
+    max-width: 32px;
+    min-height: 32px;
+    min-width: 32px;
+    width: 32px;
+  }
+}
+
 /* Border */
 @mixin border-radius( $radius: 3px ) {
   -webkit-border-radius: $radius;
@@ -143,6 +227,18 @@
   -webkit-box-shadow: 0em -0.1rem 0em rgba(0, 0, 0, 0.07) inset;
   -moz-box-shadow: 0em -0.1rem 0em  rgba(0, 0, 0, 0.07) inset;
   box-shadow: 0em -0.1rem 0em  rgba(0, 0, 0, 0.07) inset;
+}
+
+@mixin notification-shadow {
+  -webkit-box-shadow: 0 3px 1px -2px rgba(50, 50, 50, 0.1), 0 2px 2px 0 rgba(50, 50, 50, 0.14), 0 1px 5px 0 rgba(50, 50, 50, 0.1), 0em -0.3rem 0em rgba(50, 50, 50, 0.1) inset;
+  -moz-box-shadow: 0 3px 1px -2px rgba(50, 50, 50, 0.1), 0 2px 2px 0 rgba(50, 50, 50, 0.14), 0 1px 5px 0 rgba(50, 50, 50, 0.1), 0em -0.3rem 0em rgba(50, 50, 50, 0.1) inset;
+  box-shadow: 0 3px 1px -2px rgba(50, 50, 50, 0.1), 0 2px 2px 0 rgba(50, 50, 50, 0.14), 0 1px 5px 0 rgba(50, 50, 50, 0.1), 0em -0.3rem 0em rgba(50, 50, 50, 0.1) inset;
+}
+
+@mixin toast-shadow {
+  -webkit-box-shadow: 1px 7px 14px -5px rgba(50,50,50,0.2), 0em -0.3rem 0em rgba(50, 50, 50, 0.1) inset;
+  -moz-box-shadow: 1px 7px 14px -5px rgba(50,50,50,0.2), 0em -0.3rem 0em rgba(50, 50, 50, 0.1) inset;
+  box-shadow: 1px 7px 14px -5px rgba(50,50,50,0.2), 0em -0.3rem 0em rgba(50, 50, 50, 0.1) inset;
 }
 
 /* Shadow */

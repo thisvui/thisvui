@@ -1,3 +1,7 @@
+$notification-radius: 4px !default;
+$notification-padding: 1.25rem 2.5rem 1.25rem 1.5rem !default;
+$notification-margin: 0.7rem !default;
+
 .help {
   background-color: transparent;
   border: none;
@@ -96,9 +100,33 @@
   transform: translateX(0%) translateY(-50%);
 }
 
+.notification {
+  padding: $notification-padding;
+  border-radius: $notification-radius;
+  margin: $notification-margin;
+  display: block;
+  text-align: left;
+  text-decoration: none;
+  position: relative;
+  @include transitions;
+  @include notification-shadow;
+
+  &__close {
+    @include delete;
+    position: absolute;
+    top: 7px;
+    right: 7px;
+  }
+
+}
+
+
+
 .t-toast {
   position: absolute;
   z-index: 100;
+  transition: 0.5s ease-in-out;
+  width: 300px;
 
   .t-icon {
     padding-right: 1.3em;
@@ -107,8 +135,15 @@
   }
 
   .notification {
-    @include material-shadow($dark);
+    @include toast-shadow;
   }
+
+  &.empty {
+    opacity: 0;
+    z-index: -1;
+    height: 0;
+  }
+
 }
 
 .message {

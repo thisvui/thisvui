@@ -13,11 +13,11 @@ export default {
     targetClass: {
       type: String
     },
-    showDeleteButton: {
+    closeButton: {
       type: Boolean,
       default: false
     },
-    deleteClass: {
+    closeButtonClass: {
       type: String
     },
     timeout: {
@@ -39,29 +39,27 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("notification");
-      this.colorize(cssArchitect, "bg-color", true);
-      this.colorize(cssArchitect, "border-color");
-      this.colorize(cssArchitect, "shadow");
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass(this.getDisplayModifiers);
-      cssArchitect.addClass(this.getHelpersModifiers);
-      cssArchitect.addClass(this.targetClass);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("notification");
+      this.filled(css);
+      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getDisplayModifiers);
+      css.addClass(this.getHelpersModifiers);
+      css.addClass(this.targetClass);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the delete button
      * @returns { A String with the chained css classes }
      */
-    getDeleteClasses: function() {
-      const cssArchitect = new CssArchitect("delete");
-      cssArchitect.addClass(this.deleteClass, this.deleteClass);
-      return cssArchitect.getClasses();
+    getCloseButtonClasses: function() {
+      const css = new CssArchitect("notification__close");
+      css.addClass(this.closeButtonClass, this.closeButtonClass);
+      return css.getClasses();
     }
   },
   data() {
     return {
-      removed: false,
+      closed: false,
       timer: null
     };
   },
@@ -70,33 +68,33 @@ export default {
      * Removes the notification element from the DOM
      */
     removeElement() {
-      this.removed = true;
+      this.closed = true;
       clearTimeout(this.timer);
       this.$emit(this.$thisvui.events.notification.close);
     },
-    createDeleteButton(architect) {
-      if (this.showDeleteButton) {
+    createCloseButton(architect) {
+      if (this.closeButton) {
         let deleteBtn = architect.createElement(
           "button",
-          this.getDeleteClasses
+          this.getCloseButtonClasses
         );
         deleteBtn.addClick(this.removeElement);
         architect.addChild(deleteBtn);
       }
     },
     createBody(architect) {
-      if (!this.removed) {
-        let body = architect.createElement("article", this.getClasses);
+      if (!this.closed) {
+        let body = architect.createElement("div", this.getClasses);
         body.setId(this.id);
         body.setKey(`${this.id}-notification-body`);
-        this.createDeleteButton(body);
+        this.createCloseButton(body);
         body.addVNodeChildren(this.$slots.default);
         architect.addChild(body);
       }
     }
   },
   render: function(h) {
-    if (!this.removed) {
+    if (!this.closed) {
       let root = new ElementArchitect(h, "transition", this.getClasses);
       root.setId(this.id);
       root.setProps({ name: this.transition, tag: "span", mode: "out-in" });
