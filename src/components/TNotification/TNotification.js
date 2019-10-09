@@ -52,7 +52,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getCloseButtonClasses: function() {
-      const css = new CssArchitect("notification__close");
+      const css = new CssArchitect("notification__close delete");
       css.addClass(this.closeButtonClass, this.closeButtonClass);
       return css.getClasses();
     }

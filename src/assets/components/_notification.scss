@@ -112,15 +112,12 @@ $notification-margin: 0.7rem !default;
   @include notification-shadow;
 
   &__close {
-    @include delete;
     position: absolute;
     top: 7px;
     right: 7px;
   }
 
 }
-
-
 
 .t-toast {
   position: absolute;

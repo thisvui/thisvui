@@ -6,8 +6,8 @@ import { NotificationBus } from "./notification-bus";
 
 import { TFlex } from "../TFlex";
 
-import { div } from "../../utils/element-architect";
-import { css } from "../../utils/css-architect";
+import { createDiv } from "../../utils/element-architect";
+import CssArchitect from "../../utils/css-architect";
 
 
 export default {
@@ -57,7 +57,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getContainerClasses: function() {
-      const css = css("t-toast");
+      const css = new CssArchitect("t-toast");
       css.addClass("is-fixed", this.isFixed);
       css.addClass("empty", this.isEmpty());
       return css.getClasses();
@@ -67,7 +67,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getNotificationClasses: function() {
-      const css = css("notification");
+      const css = new CssArchitect("notification");
 
       if(this.outlined){
         this.bordered(css);
@@ -82,7 +82,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getCloseButtonClasses: function() {
-      const css = css("notification__close");
+      const css = new CssArchitect("notification__close delete");
       css.addClass(this.closeButtonClass, this.closeButtonClass);
       return css.getClasses();
     }
@@ -230,7 +230,7 @@ export default {
     }
   },
   render: function(h) {
-    let root = div(h, this.getContainerClasses);
+    let root = createDiv(h, this.getContainerClasses);
     root.setId(this.id);
     root.setKey(`${this.id}-toast`);
     root.setRef(`toast`);

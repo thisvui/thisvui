@@ -123,9 +123,10 @@ iconsMap.set("fa4", ICONS_FA4);
 iconsMap.set("md", ICONS_MATERIAL_DESIGN);
 
 class ThisVuiConfig {
-  constructor(options) {
+  constructor(options = {}) {
+    let { iconLib = "fa5" } = options;
     this.options = options;
-    this.iconLib = options.iconLib || "fa5";
+    this.iconLib = iconLib;
     this.icons = iconsMap.get(this.iconLib);
   }
 

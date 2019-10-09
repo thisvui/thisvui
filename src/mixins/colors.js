@@ -143,7 +143,7 @@ export default {
         .getClassesArray()
         .filter(this.checkColorModifier);
     },
-    filled(cssArchitect, { removeInit = false, hoverable = false, inverted = false } = {}) {
+    filled(cssArchitect, { removeInit = false, hoverable = false, inverted = false, darken = false, lighten = false } = {}) {
       if(!cssArchitect){
         throw new Error("filled - Please provide css-architect parameter")
       }
@@ -151,6 +151,8 @@ export default {
       cssArchitect.addClass(`remove-init`, removeInit);
       cssArchitect.addClass(`hoverable`, hoverable);
       cssArchitect.addClass(`inverted`, inverted);
+      cssArchitect.addClass(`darken`, darken);
+      cssArchitect.addClass(`lighten`, lighten);
     },
     colored(cssArchitect, { inverted = false } = {}) {
       if(!cssArchitect){

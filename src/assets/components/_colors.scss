@@ -36,7 +36,8 @@
   }
 }
 .filled {
-  background-color: lighten($dark, 60%);
+  $bg-color-base: lighten($dark, 60%);
+  background-color: $bg-color-base;
   transition: all cubic-bezier(.47,0,.74,.71) 200ms;
   &.hoverable:hover {
     background-color: lighten($dark, 50%);
@@ -69,6 +70,12 @@
   &.transparent {
     background-color: transparent !important;
   }
+  &.darken {
+    background-color: darken($bg-color-base,  10%);
+  }
+  &.lighten {
+    background-color: lighten($bg-color-base,  10%);
+  }
   @each $name, $pair in $colors {
     $color: nth($pair, 1);
     $color-invert: nth($pair, 2);
@@ -77,6 +84,9 @@
       background-color: rgba($color, var(--bg-alpha));
       & > a {
         color: $color-invert;
+      }
+      &.uncolored {
+        color: inherit;
       }
       &.hoverable:hover {
         background-color: lighten($color, 12%);
@@ -104,6 +114,12 @@
         background-color: lighten($color, 10%);
         background-size: 100%;
         transition: background 0s;
+      }
+      &.darken {
+        background-color: shade($color,  80%);
+      }
+      &.lighten {
+        background-color: tint($color,  80%);
       }
       &.linear {
         $gradient-top-left: darken(saturate(adjust-hue($color, -7deg), 7%), 10%);
