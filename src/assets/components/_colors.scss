@@ -121,6 +121,9 @@
       &.lighten {
         background-color: tint($color,  80%);
       }
+      &.halftone {
+        background-color: tint($color,  50%);
+      }
       &.linear {
         $gradient-top-left: darken(saturate(adjust-hue($color, -7deg), 7%), 10%);
         $gradient-bottom-right: lighten(saturate(adjust-hue($color, 7deg), 4%), 5%);

@@ -31,6 +31,7 @@ export default {
       css.addClass(this.getBackgroundModifiers);
       css.addStyles([this.getPaddingStyles]);
       css.addStyles([this.getMarginStyles]);
+      css.addStyles([this.getDimensionStyles]);
       return css;
     }
   },

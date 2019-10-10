@@ -1,34 +1,35 @@
-import alignment from "../../mixins/alignment";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
+import colors from "../../mixins/colors";
+import dimension from "../../mixins/dimension";
+
 import TIcon from "../TIcon/TIcon";
 
 import CssArchitect from "../../utils/css-architect";
-import ElementArchitect from "../../utils/element-architect";
+import { createElement } from "../../utils/element-architect";
 
 export default {
   name: "t-dropdown",
   components: { TIcon },
-  mixins: [common, alignment, icons],
+  mixins: [common, colors, dimension, icons],
   props: {
     text: {
       type: String
     },
     icon: {
       type: String,
-      default: function() {
-        return this.$thisvui.icons.arrowDown;
-      }
     },
-    isUp: {
+    up: {
       type: Boolean,
       default: false
     },
-    isHoverable: {
+    rightAligned: Boolean,
+    menuWidth: Number,
+    hoverable: {
       type: Boolean,
       default: false
     },
-    isActive: {
+    active: {
       type: Boolean,
       default: false
     }
@@ -43,48 +44,80 @@ export default {
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
      */
-    getClasses: function() {
-      const cssArchitect = new CssArchitect("dropdown");
-      cssArchitect.addClass(this.getAlignmentModifiers);
-      cssArchitect.addClass("is-up", this.isUp);
-      cssArchitect.addClass("is-hoverable", this.isHoverable);
-      cssArchitect.addClass(
-        "is-active",
-        this.isActive || this.isDropdownActive
+    getCss: function() {
+      const css = new CssArchitect("dropdown");
+      css.addClass(this.getAlignmentModifiers);
+      css.addClass(this.getDimensionModifiers);
+      css.addClass(this.getColorsModifiers);
+      this.setupColorModifier(css);
+      css.addClass("is-hoverable", this.hoverable);
+      css.addClass("is-active", this.active || this.isDropdownActive);
+      css.addStyles([this.getDimensionStyles]);
+      return css;
+    },
+    getMenuCss: function() {
+      const css = new CssArchitect("dropdown__menu");
+      css.addClass("is-up", this.up);
+      css.addClass("is-right", this.rightAligned);
+      css.addClass(this.getColorsModifiers);
+      css.addStyle(
+        "width",
+        css.addPercent(this.menuWidth),
+        this.isNotNull(this.menuWidth)
       );
-      return cssArchitect.getClasses();
+      return css;
+    },
+    getIconClasses: function() {
+      const css = new CssArchitect("dropdown__icon");
+      this.colored(css, { inverted: true });
+      css.addClass(this.getColorsModifiers);
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the trigger element
+     * @returns { A String with the chained css classes }
+     */
+    getTriggerClasses: function() {
+      const css = new CssArchitect("dropdown__trigger button");
+      this.filled(css);
+      css.addClass(this.getColorsModifiers);
+      return css.getClasses();
     }
   },
   methods: {
     toggleActive() {
-      if (!this.isHoverable && !this.isActive) {
+      if (!this.hoverable && !this.active) {
         this.isDropdownActive = !this.isDropdownActive;
       }
+    },
+    createIcon(architect) {
+      let icon = this.up
+        ? this.$thisvui.icons.arrowUp
+        : this.$thisvui.icons.arrowDown;
+      if(this.icon){
+        icon = this.icon;
+      }
+      let iconEl = architect.createIcon(this.getIconClasses).setProps({
+        icon: icon,
+        preserveDefaults: !this.overrideDefaults
+      });
+      architect.addChild(iconEl);
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "span", this.getClasses);
+    let root = createElement(h, "nav", this.getCss.getClasses());
     root.setId(this.id);
     root.setRef("dropdown");
-
-    let trigger = root.createDiv("dropdown-trigger");
-    let btn = root.createDiv("button");
-    btn.addAttr("aria-haspopup", true);
-    btn.addAttr("aria-controls", "dropdown-menu");
-    btn.addClick(this.toggleActive);
+    root.setStyles(this.getCss.getStyles());
+    let trigger = root.createDiv(this.getTriggerClasses);
+    trigger.addClick(this.toggleActive);
 
     let text = root.createSpan().innerHTML(this.text);
-    let icon = root
-      .createIcon()
-      .setProps({ icon: this.icon, preserveDefaults: !this.overrideDefaults });
-    btn.addChild(text).addChild(icon);
-    trigger.addChild(btn);
-
-    let menu = root.createDiv("dropdown-menu");
-    menu.addAttr("role", "menu");
-    let content = root.createDiv("dropdown-content");
-    content.setChildren(this.$slots.default);
-    menu.addChild(content);
+    trigger.addChild(text);
+    this.createIcon(trigger);
+    let menu = root.createDiv(this.getMenuCss.getClasses());
+    menu.setStyles(this.getMenuCss.getStyles());
+    menu.setChildren(this.$slots.default);
 
     root.addChild(trigger);
     root.addChild(menu);
