@@ -139,9 +139,12 @@
 }
 * {
   .hovered {
+    &.has-color {
+      color: $dark;
+    }
     &:hover{
       color: $dark;
-      background-color: lighten($dark, 60%);
+      background-color: lighten($dark, 70%);
     }
     @each $name, $pair in $colors {
       $color: nth($pair, 1);
@@ -150,6 +153,9 @@
         &:hover{
           color: $color-invert;
           background-color: rgba($color, var(--bg-hover-alpha));
+          &.has-color {
+            color: $color-invert;
+          }
         }
       }
     }

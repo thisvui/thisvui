@@ -174,11 +174,18 @@ export default {
       cssArchitect.addClass(`colored`);
       cssArchitect.addClass(`inverted`, inverted);
     },
-    bordered(cssArchitect) {
+    borderedElement(cssArchitect) {
       if (!cssArchitect) {
         throw new Error("bordered - Please provide css-architect parameter");
       }
       cssArchitect.addClass(`bordered`);
+    },
+    hovered(cssArchitect, { hasColor = false } = {}) {
+      if (!cssArchitect) {
+        throw new Error("hovered - Please provide css-architect parameter");
+      }
+      cssArchitect.addClass(`hovered`);
+      cssArchitect.addClass(`has-color`, hasColor);
     },
     colorize(cssArchitect, type, addColorClass = false) {
       cssArchitect.addClass(`t-colorize`, addColorClass);

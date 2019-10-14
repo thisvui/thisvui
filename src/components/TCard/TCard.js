@@ -174,7 +174,7 @@ export default {
       css.addClass(this.imgClass, this.isNotNull(this.imgClass));
       if(this.horizontal){
         css.addClass("horizontal");
-        this.bordered(css);
+        this.borderedElement(css);
         css.addClass(this.getColorModifier(true));
       }
       return css.getClasses();

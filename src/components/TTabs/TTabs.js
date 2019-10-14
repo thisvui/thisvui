@@ -47,7 +47,7 @@ export default {
     getHeadingClasses: function() {
       const css = new CssArchitect("tabs__heading");
       let colorModifier = this.hasColorModifier ? this.colorModifier : "is-primary";
-      this.bordered(css);
+      this.borderedElement(css);
       css.addClass(colorModifier);
       css.addClass("borderless", this.borderless);
       css.addClass(this.getAlignmentModifiers);
@@ -87,7 +87,7 @@ export default {
     getBodyClasses: function() {
       let colorModifier = this.hasColorModifier ? this.colorModifier : "is-primary";
       const css = new CssArchitect("tabs__body");
-      this.bordered(css);
+      this.borderedElement(css);
       css.addClass(colorModifier);
       css.addClass("borderless", this.borderless);
       css.addClass(this.getSizesModifiers);

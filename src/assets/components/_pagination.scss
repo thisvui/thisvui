@@ -1,3 +1,13 @@
+$pagination-color: rgba($dark, 0.7) !default;
+$pagination-background-color: rgba($dark, 0.05) !default;
+$pagination-current-color: rgba($dark, 0.5) !default;
+$pagination-current-background-color: rgba($dark, 0.05) !default;
+$pagination-current-border-color: rgba($dark, 0.3) !default;
+$pagination-size-label-color: rgba($dark, 0.8) !default;
+$pagination-size-select-border-color: rgba($dark, 0.3) !default;
+$pagination-count-label-color: rgba($dark, 0.8) !default;
+$pagintaion-search-border-color: rgba($dark, 0.9) !default;
+
 .t-paginator {
   border-left: none;
   border-right: none;

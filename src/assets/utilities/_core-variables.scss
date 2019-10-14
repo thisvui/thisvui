@@ -85,7 +85,6 @@ $icon-size-small: 1rem !default;
 $icon-size-medium: 2rem !default;
 $icon-size-large: 3rem !default;
 
-
 /* Inputs */
 $input-color: rgba($dark, 0.9) !default;
 $input-background-color: rgba($white, 1) !default;
@@ -127,44 +126,6 @@ $help-arrow-color: rgba($danger, 0.4) !default;
 $help-background-color: rgba($white-bis, 0.7) !default;
 $help-border-color: rgba($danger, 0.5) !default;
 $help-color: $danger !default;
-
-/* Paginator */
-$pagination-color: rgba($dark, 0.7) !default;
-$pagination-background-color: rgba($dark, 0.05) !default;
-$pagination-current-color: rgba($dark, 0.5) !default;
-$pagination-current-background-color: rgba($dark, 0.05) !default;
-$pagination-current-border-color: rgba($dark, 0.3) !default;
-$pagination-size-label-color: rgba($dark, 0.8) !default;
-$pagination-size-select-border-color: rgba($dark, 0.3) !default;
-$pagination-count-label-color: rgba($dark, 0.8) !default;
-
-/* Tables */
-$table-color: rgba($dark, 0.7) !default;
-$table-cell-border-color: rgba($dark, 0.2) !default;
-$table-cell-border: 1px solid $table-cell-border-color !default;
-$table-cell-border-width: 0 0 1px !default;
-$table-cell-padding: 0.5em 0.75em !default;
-$table-cell-heading-color: $dark !default;
-$table-head-cell-border-width: 0 0 2px !default;
-$table-head-cell-border-color: rgba($dark, 0.3) !default;
-$table-head-cell-color: $dark !default;
-$table-foot-cell-border-width: 2px 0 0 !default;
-$table-foot-cell-color: $dark !default;
-$table-head-background-color: rgba($dark, 0.05) !default;
-$table-body-background-color: rgba($dark, 0.01) !default;
-$table-foot-background-color: transparent !default;
-$table-row-hover-background-color: rgba($dark, 0.1) !default;
-$table-row-active-background-color: $dark !default;
-$table-row-active-color: $primary-invert !default;
-$table-striped-row-even-background-color: rgba($dark, 0.05) !default;
-$table-striped-row-even-hover-background-color: rgba($dark, 0.1) !default;
-$table-search-border-color: rgba($dark, 0.9) !default;
-
-/* List */
-$list-background-color: $white !default;
-$list-bottom-border-color: rgba($dark, 0.1) !default;
-$list-bottom-border: 1px solid $list-bottom-border-color !default;
-$list-item-bottom-border: none !default;
 
 /* Panel */
 $panel-bottom-margin: $separation-margin !default;

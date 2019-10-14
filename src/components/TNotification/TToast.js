@@ -70,7 +70,7 @@ export default {
       const css = new CssArchitect("notification");
 
       if(this.outlined){
-        this.bordered(css);
+        this.borderedElement(css);
       }else{
         this.filled(css);
       }

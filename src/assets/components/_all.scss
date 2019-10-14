@@ -10,14 +10,12 @@
 @import "~bulma/sass/elements/content.sass";
 @import "~bulma/sass/elements/image.sass";
 @import "~bulma/sass/elements/progress.sass";
-@import "~bulma/sass/elements/table.sass";
 @import "~bulma/sass/elements/tag.sass";
 @import "~bulma/sass/elements/title.sass";
 @import "~bulma/sass/elements/other.sass";
 
 // Components
 @import "~bulma/sass/components/breadcrumb";
-@import "~bulma/sass/components/list";
 @import "~bulma/sass/components/media";
 @import "~bulma/sass/components/menu";
 @import "~bulma/sass/components/modal";
@@ -47,8 +45,8 @@
 @import "navigation";
 @import "notification";
 @import "message";
-@import "list";
 @import "pagination";
+@import "list";
 @import "table";
 @import "tooltip";
 @import "toolbar";

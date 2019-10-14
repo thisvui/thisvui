@@ -80,7 +80,7 @@ export default {
       css.addClass("icon-left", this.iconLeft);
       css.addClass("item-opened", this.isItemOpen);
       this.filled(css);
-      this.bordered(css);
+      this.borderedElement(css);
       css.addClass(this.getColorClasses);
       css.addClass(this.headerClass, this.headerClass);
       return css.getClasses();

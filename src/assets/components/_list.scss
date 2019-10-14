@@ -1,3 +1,7 @@
+$list-background-color: $white !default;
+$list-bottom-border-color: rgba($dark, 0.1) !default;
+$list-bottom-border: 1px solid $list-bottom-border-color !default;
+$list-item-bottom-border: none !default;
 $items-width: 20 30 40 50 60 70 80 90 100;
 
 .t-list-container {
@@ -77,11 +81,11 @@ $items-width: 20 30 40 50 60 70 80 90 100;
   margin: 0 0.5em 0 0.5em;
 
   .input {
-    border: 2px solid rgba($table-search-border-color, 0.5);
+    border: 2px solid rgba($pagintaion-search-border-color, 0.5);
     font-size: 0.95rem;
 
     &:hover {
-      border-color: rgba($table-search-border-color, 0.7);
+      border-color: rgba($pagintaion-search-border-color, 0.7);
     }
   }
 

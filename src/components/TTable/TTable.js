@@ -57,7 +57,7 @@ export default {
       type: Boolean,
       default: true
     },
-    isBordered: {
+    bordered: {
       type: Boolean
     },
     isStriped: {
@@ -87,62 +87,63 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("table");
-      cssArchitect.isRelative();
-      cssArchitect.addClass(this.getHelpersModifiers);
-      cssArchitect.addClass("is-responsive", this.isResponsive);
-      cssArchitect.addClass("is-bordered", this.isBordered);
-      cssArchitect.addClass("is-striped", this.isStriped);
-      cssArchitect.addClass("is-narrow", this.isNarrow);
-      cssArchitect.addClass("is-hoverable", this.isHoverable);
-      cssArchitect.addClass("is-fullwidth", this.isFullwidth);
-      cssArchitect.addClass("is-clipped");
-      cssArchitect.addClass(this.targetClass);
-      this.colorize(cssArchitect, false, true);
-      cssArchitect.addClass(this.getColorsModifiers);
-      this.setupColorModifier(cssArchitect);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("table");
+      css.isRelative();
+      css.addClass(this.getHelpersModifiers);
+      css.addClass("is-responsive", this.isResponsive);
+      css.addClass("is-bordered", this.bordered);
+      css.addClass("is-striped", this.isStriped);
+      css.addClass("is-narrow", this.isNarrow);
+      css.addClass("is-hoverable", this.isHoverable);
+      css.addClass("is-fullwidth", this.isFullwidth);
+      css.addClass("is-clipped");
+      css.addClass(this.targetClass);
+      css.addClass(this.getColorsModifiers);
+      this.setupColorModifier(css);
+      return css.getClasses();
     },
     getContainerClasses: function() {
-      const cssArchitect = new CssArchitect("t-table-container");
-      cssArchitect.isRelative();
-      cssArchitect.addClass("is-fullwidth", this.isFullwidth);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-table-container");
+      css.isRelative();
+      css.addClass("is-fullwidth", this.isFullwidth);
+      return css.getClasses();
     },
     getTableFunctionsClasses: function() {
-      const cssArchitect = new CssArchitect("t-table-functions-col");
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("table__functions");
+      this.filled(css);
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      return css.getClasses();
     },
     getThClasses: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect();
+      this.filled(css);
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      return css.getClasses();
     },
     getTrClasses: function() {
-      const cssArchitect = new CssArchitect();
-      this.colorize(cssArchitect, "bg-hover", true);
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect();
+      this.hovered(css, { hasColor: true});
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      return css.getClasses();
     },
     getRowCheckerClasses: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect();
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      return css.getClasses();
     },
     getCheckAllClasses: function() {
-      const cssArchitect = new CssArchitect();
+      const css = new CssArchitect();
       let isLight =
         this.colorModifier == "is-light" || this.colorModifier == "is-white";
-      cssArchitect.addClass("is-light", this.hasColorModifier && !isLight);
-      cssArchitect.addClass("is-dark", isLight);
-      cssArchitect.addClass("has-background-color", this.hasColorModifier);
-      return cssArchitect.getClasses();
+      css.addClass("is-light", this.hasColorModifier && !isLight);
+      css.addClass("is-dark", isLight);
+      css.addClass("has-background-color", this.hasColorModifier);
+      return css.getClasses();
     },
     getProgressClasses: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect();
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      return css.getClasses();
     },
     getColumns() {
       let columns = [];
@@ -232,7 +233,7 @@ export default {
         let flex = architect.createElement(TFlex);
 
         if (this.expandable) {
-          let expandContainer = architect.createDiv("col-expandable");
+          let expandContainer = architect.createDiv("table__column--expandable");
           flex.addChild(expandContainer);
         }
 
@@ -278,16 +279,16 @@ export default {
 
           if (this.isCheckable(item) || this.isExpandable(item)) {
             let td = architect.createElement("td");
-            const cssArchitect = new CssArchitect();
-            cssArchitect.addStyle(
+            const css = new CssArchitect();
+            css.addStyle(
               "width",
               `${this.getFunctionColWidth(item)}px`
             );
-            td.setStyles(cssArchitect.getStyles());
+            td.setStyles(css.getStyles());
 
             let flex = architect.createElement(TFlex);
             if (this.isExpandable(item)) {
-              let expandable = architect.createSpan("col-expandable");
+              let expandable = architect.createSpan("table__column--expandable");
               let expandIcon = architect.createIcon();
               expandIcon.setProps({
                 icon: this.isExpanded(item) ? this.openedIcon : this.closedIcon,
@@ -326,20 +327,20 @@ export default {
           if (this.isExpandable(item)) {
             let expandableRow = architect.createElement(
               "tr",
-              "t-table-expandable-row"
+              "expandable__row"
             );
             let expandColumn = architect.createElement(
               "td",
-              "t-table-expandable-col"
+              "expandable__col"
             );
             expandColumn.addAttr("colspan", this.getColspan);
             let expand = architect.createElement(TExpand);
             if (this.isExpanded(item)) {
               let expandedContainer = architect.createDiv(
-                "t-table-expandable-container"
+                "expandable__container"
               );
               let expandedContent = architect.createDiv(
-                "t-table-expandable-content"
+                "expandable__content"
               );
               expandedContent.addVNodeChildren(
                 this.$scopedSlots["detail"]({
