@@ -2,12 +2,10 @@ import CssArchitect from "../utils/css-architect";
 
 export default {
   props: {
-    isWidescreen: {
-      type: Boolean
-    },
-    isFullhd: {
-      type: Boolean
-    }
+    tablet: Boolean,
+    desktop: Boolean,
+    fullHd: Boolean,
+    bigDesktop: Boolean
   },
   computed: {
     /**
@@ -16,8 +14,10 @@ export default {
      */
     getScreensModifiers: function() {
       const cssArchitect = new CssArchitect();
-      cssArchitect.addClass("is-widescreen", this.isWidescreen);
-      cssArchitect.addClass("is-fullhd", this.isFullhd);
+      cssArchitect.addClass("tablet", this.tablet);
+      cssArchitect.addClass("desktop", this.desktop);
+      cssArchitect.addClass("full-hd", this.fullHd);
+      cssArchitect.addClass("big-desktop", this.bigDesktop);
       return cssArchitect.getClasses();
     }
   }

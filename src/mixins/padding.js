@@ -20,7 +20,7 @@ export default {
     unit: {
       type: String,
       default: "px"
-    },
+    }
   },
   computed: {
     /**

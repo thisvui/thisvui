@@ -86,9 +86,11 @@ export default class CssArchitect {
    * @returns {string}
    */
   addUnit(number, unit = "px") {
-    if(number){
-      if(Number.isNaN(number)){
-        throw new Error(`To attach a ${unit} unit value must be a valid number`)
+    if (number) {
+      if (Number.isNaN(number)) {
+        throw new Error(
+          `To attach a ${unit} unit value must be a valid number`
+        );
       }
       return `${number}${unit}`;
     }
@@ -167,12 +169,14 @@ export default class CssArchitect {
   }
 
   flexible(config = {}) {
-    let { direction = "row",
-          flexWrap = false,
-          alignItems = false,
-          justifyContent = false,
-          alignSelf = false,
-          alignContent = false } = config
+    let {
+      direction = "row",
+      flexWrap = false,
+      alignItems = false,
+      justifyContent = false,
+      alignSelf = false,
+      alignContent = false
+    } = config;
     this.addClass(`t-flex is-${direction}`);
     this.addClass("flex-wrap", flexWrap);
     this.addStyle("--align-items", alignItems, alignItems);
@@ -180,5 +184,10 @@ export default class CssArchitect {
     this.addStyle("--align-content", alignContent, alignContent);
     this.addStyle("--justify-content", justifyContent, justifyContent);
     return this;
+  }
+
+  colored({ inverted = false } = {}) {
+    this.addClass(`colored`);
+    this.addClass(`inverted`, inverted);
   }
 }

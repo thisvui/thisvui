@@ -61,15 +61,12 @@ export default {
      */
     getContainerClass: function() {
       const css = new CssArchitect("t-icon icon");
-      this.colored(css);
+      css.colored();
       css.addClass(this.getSyntaxModifiers);
       css.addClass(this.getSizesModifiers);
       css.addClass("resize-font", this.resizeFont);
       css.addClass("has-shadow", this.hasShadow);
-      css.addClass(
-        this.containerClass,
-        this.containerClass !== undefined
-      );
+      css.addClass(this.containerClass, this.containerClass !== undefined);
       css.addClass(this.getTooltipClass);
       return css.getClasses();
     },

@@ -125,41 +125,41 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("t-button button");
-      cssArchitect.addClass("tooltip", this.dataTooltip !== undefined);
-      cssArchitect.addClass("rounded", this.rounded);
-      cssArchitect.addClass("flat", this.flat);
-      cssArchitect.addClass("raised", this.raised);
-      cssArchitect.addClass("ripple", this.ripple);
-      cssArchitect.addClass("is-text colored", this.text);
-      cssArchitect.addClass("outlined bordered colored", this.outlined);
-      cssArchitect.addClass("inverted", this.inverted);
-      cssArchitect.addClass("filled hoverable activable", !this.outlined && !this.text);
-      cssArchitect.addClass("is-loading", this.isLoading);
-      cssArchitect.addClass("disabled", this.disabled);
-      cssArchitect.addClass(this.targetClass, this.targetClass !== undefined);
-      cssArchitect.addClass(this.tooltipClass, this.tooltipClass !== undefined);
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass(this.getStateModifiers);
-      cssArchitect.addClass(this.getHelpersModifiers);
-      this.setupColorModifier(cssArchitect);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-button button");
+      css.addClass("tooltip", this.dataTooltip !== undefined);
+      css.addClass("rounded", this.rounded);
+      css.addClass("flat", this.flat);
+      css.addClass("raised", this.raised);
+      css.addClass("ripple", this.ripple);
+      css.addClass("is-text colored", this.text);
+      css.addClass("outlined bordered colored", this.outlined);
+      css.addClass("inverted", this.inverted);
+      css.addClass("filled hoverable activable", !this.outlined && !this.text);
+      css.addClass("is-loading", this.isLoading);
+      css.addClass("disabled", this.disabled);
+      css.addClass(this.targetClass, this.targetClass !== undefined);
+      css.addClass(this.tooltipClass, this.tooltipClass !== undefined);
+      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getSizesModifiers);
+      css.addClass(this.getStateModifiers);
+      css.addClass(this.getHelpersModifiers);
+      this.setupColorModifier(css);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the confirmation modal component
      * @returns { A String with the chained css classes }
      */
     getContainerClass: function() {
-      const cssArchitect = new CssArchitect("t-button-container");
-      cssArchitect.flexible();
-      cssArchitect.addClass("is-centered")
-      cssArchitect.addClass(
+      const css = new CssArchitect("t-button-container");
+      css.flexible();
+      css.addClass("is-centered")
+      css.addClass(
         this.containerClass,
         this.containerClass !== undefined
       );
-      cssArchitect.addClass(this.getDisplayModifiers);
-      return cssArchitect.getClasses();
+      css.addClass(this.getDisplayModifiers);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the confirmation modal component
@@ -206,8 +206,8 @@ export default {
      */
     getIconClasses: function() {
       const css = new CssArchitect();
-      this.colored(css, { inverted : true })
       css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass("inverted", !this.outlined && !this.text && !this.inverted);
       css.addClass(this.iconClass, this.isNotNull(this.iconClass));
       return css.getClasses();
     },

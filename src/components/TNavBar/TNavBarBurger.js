@@ -9,10 +9,10 @@ export default {
   name: "t-navbar-burger",
   mixins: [common, helper, colors],
   props: {
-    isActive: {
+    active: {
       type: Boolean
     },
-    isMobileOnly: {
+    mobileOnly: {
       type: Boolean
     }
   },
@@ -22,13 +22,23 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("navbar-burger");
-      cssArchitect.isFlexible();
-      cssArchitect.addClass("is-active", this.isActive);
-      cssArchitect.addClass("is-mobile-only", this.isMobileOnly);
-      this.colorize(cssArchitect, "color", true);
-      cssArchitect.addClass(this.getColorsModifiers);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("navbar__burger");
+      css.addClass("is-active", this.active);
+      css.addClass("is-mobile-only", this.mobileOnly);
+      css.colored();
+      css.addClass(this.getColorsModifiers);
+      this.setupColorModifier(css);
+      css.addClass(this.targetClass);
+      css.addClass(
+        this.$parent.colorModifier,
+        this.$parent.hasColorModifier && !this.hasColorModifier
+      );
+      css.addClass(
+        "inverted",
+        this.$parent.hasColorModifier && !this.hasColorModifier
+      );
+      this.setupColorModifier(css);
+      return css.getClasses();
     }
   },
   methods: {
@@ -44,9 +54,6 @@ export default {
   render: function(h) {
     let root = new ElementArchitect(h, "a", this.getClasses);
     root.setId(this.id);
-    root.addAttr("role", "button");
-    root.addAttr("aria-label", "menu");
-    root.addAttr("aria-expanded", "false");
     root.addClick(this.onClick);
 
     this.createLine(root);

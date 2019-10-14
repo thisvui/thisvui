@@ -1,4 +1,4 @@
-$container-offset: (2 * $container-min-gap) !default
+$container-offset: (2 * $container-min-gap) !default;
 
 .container {
   flex-grow: 1;
@@ -7,15 +7,34 @@ $container-offset: (2 * $container-min-gap) !default
   width: auto;
 
   @include tablet-landscape-up {
-    max-width: $tablet-portrait-upper-boundary - $container-offset
+    max-width: $tablet-landscape - $container-offset;
   }
 
   @include desktop-up {
-    max-width: $tablet-landscape-upper-boundary - $container-offset
+    max-width: $desktop - $container-offset;
+    &.tablet {
+      max-width: $tablet-landscape - $container-offset;
+    }
+  }
+
+  @include full-hd-up {
+    max-width: $full-hd - $container-offset;
+    &.tablet {
+      max-width: $tablet-landscape - $container-offset;
+    }
+    &.desktop {
+      max-width: $desktop - $container-offset;
+    }
   }
 
   @include big-desktop-up {
-    max-width: $desktop-upper-boundary - $container-offset
+    max-width: $big-desktop - $container-offset;
+    &.desktop {
+      max-width: $desktop - $container-offset;
+    }
+    &.full-hd {
+      max-width: $full-hd - $container-offset;
+    }
   }
 
   &.fluid {

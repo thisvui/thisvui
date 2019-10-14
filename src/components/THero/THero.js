@@ -2,13 +2,14 @@ import common from "../../mixins/common";
 import dimension from "../../mixins/dimension";
 import sizes from "../../mixins/sizes";
 import colors from "../../mixins/colors";
+import gradient from "../../mixins/gradient";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-hero",
-  mixins: [common, sizes, dimension, colors],
+  mixins: [common, sizes, dimension, colors, gradient],
   props: {
     title: String,
     titleClass: String,
@@ -17,9 +18,7 @@ export default {
     actionsClass: String,
     img: String,
     imgClass: String,
-    reverse: Boolean,
-    linear: Boolean,
-    radial: Boolean
+    reverse: Boolean
   },
   computed: {
     hasActionSlot() {
@@ -33,11 +32,10 @@ export default {
       const css = new CssArchitect("hero");
       this.filled(css, { removeInit: true });
       css.addClass(this.getColorsModifiers);
+      css.addClass(this.getGradientModifiers);
       css.addClass(this.getSizesModifiers);
       css.addClass(this.getDimensionModifiers);
       css.addClass("reverse", this.reverse);
-      css.addClass("linear", this.linear);
-      css.addClass("radial", this.radial);
       return css.getClasses();
     },
     /**
@@ -130,7 +128,7 @@ export default {
     content.addChild(body);
     root.addChild(content);
 
-    if(this.isNotNull(this.img)){
+    if (this.isNotNull(this.img)) {
       let imgContent = root.createDiv(this.getImgContentClasses);
       let img = root.createImg(this.getImgClasses);
       img.addAttr("src", this.img);

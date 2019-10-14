@@ -124,10 +124,10 @@ export default {
   methods: {
     getColorModifier(addDefault = false) {
       let colorModifier;
-      if(addDefault){
-        colorModifier = "is-primary"
+      if (addDefault) {
+        colorModifier = "is-primary";
       }
-      if(this.hasColorModifier){
+      if (this.hasColorModifier) {
         colorModifier = this.colorModifier;
       }
       return colorModifier;
@@ -139,13 +139,26 @@ export default {
       this.hasColorModifier = this.checkColorModifier(
         cssArchitect.getClasses()
       );
-      this.colorModifier = cssArchitect
+      let filtered = cssArchitect
         .getClassesArray()
         .filter(this.checkColorModifier);
+
+      if (filtered && filtered !== null && filtered.length > 0) {
+        this.colorModifier = filtered[0];
+      }
     },
-    filled(cssArchitect, { removeInit = false, hoverable = false, inverted = false, darken = false, lighten = false } = {}) {
-      if(!cssArchitect){
-        throw new Error("filled - Please provide css-architect parameter")
+    filled(
+      cssArchitect,
+      {
+        removeInit = false,
+        hoverable = false,
+        inverted = false,
+        darken = false,
+        lighten = false
+      } = {}
+    ) {
+      if (!cssArchitect) {
+        throw new Error("filled - Please provide css-architect parameter");
       }
       cssArchitect.addClass(`filled`);
       cssArchitect.addClass(`remove-init`, removeInit);
@@ -155,15 +168,15 @@ export default {
       cssArchitect.addClass(`lighten`, lighten);
     },
     colored(cssArchitect, { inverted = false } = {}) {
-      if(!cssArchitect){
-        throw new Error("colored - Please provide css-architect parameter")
+      if (!cssArchitect) {
+        throw new Error("colored - Please provide css-architect parameter");
       }
       cssArchitect.addClass(`colored`);
       cssArchitect.addClass(`inverted`, inverted);
     },
     bordered(cssArchitect) {
-      if(!cssArchitect){
-        throw new Error("bordered - Please provide css-architect parameter")
+      if (!cssArchitect) {
+        throw new Error("bordered - Please provide css-architect parameter");
       }
       cssArchitect.addClass(`bordered`);
     },
