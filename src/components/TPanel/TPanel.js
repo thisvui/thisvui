@@ -68,6 +68,18 @@ export default {
       this.colorize(cssArchitect, "border", true);
       cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
       return cssArchitect.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the panel heading icon
+     * @returns { A String with the chained css classes }
+     */
+    getIconClasses: function() {
+      const css = new CssArchitect();
+      css.addClass(
+        this.colorModifier, this.hasColorModifier
+      );
+      css.addClass("inverted");
+      return css.getClasses();
     }
   },
   watch: {
@@ -109,7 +121,7 @@ export default {
         showIcon: this.showIcon,
         icon: this.icon,
         iconLeft: this.iconLeft,
-        iconClass: this.expandedIconClass
+        iconClass: this.getIconClasses
       });
       root.addClick(() => this.toggleExpanded(), this.expandable);
       root.addChild(heading);
