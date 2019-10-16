@@ -191,8 +191,11 @@ export default {
       cssArchitect.addClass(`t-colorize`, addColorClass);
       cssArchitect.addClass(`has-${type}`);
     },
-    rgb2hex(rgb) {
-      rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    rgb2hex(color) {
+      let rgb = color.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+      if(rgb == null){
+        rgb = color.match(/^rgba\((\d+),\s*(\d+),\s*(\d+), \s*(\d+)\)$/);
+      }
       return "#" + this.hex(rgb[1]) + this.hex(rgb[2]) + this.hex(rgb[3]);
     },
 
