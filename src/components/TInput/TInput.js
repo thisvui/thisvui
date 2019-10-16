@@ -21,7 +21,7 @@ export default {
       let root = architect.createDiv(this.getWrapperClass);
       let control = architect.createDiv(this.getControlClass); // The control element
 
-      this.createIcon(control, this.iconPosition.left);
+      this.createIcon(root, this.iconPosition.left);
       // Creating the html input element
       let input = architect.createInput(this.getInputClass);
       input.setId(this.id);
@@ -48,13 +48,13 @@ export default {
       });
       control.addChild(input);
 
-      let labelParent = this.classic ? root : control;
+      let labelParent = this.classic ? architect : control;
       this.createLabel(labelParent);
-      this.createIcon(control, this.iconPosition.right);
-      this.createStateIcon(control);
-      this.createErrorHelpers(control);
 
       root.addChild(control);
+      this.createStateIcon(root);
+      this.createIcon(root, this.iconPosition.right);
+      this.createErrorHelpers(root);
       architect.addChild(root);
     }
   },

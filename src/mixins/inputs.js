@@ -83,7 +83,6 @@ export default {
     },
     showStateIcon: Boolean,
     compact: Boolean,
-    small: Boolean,
     classic: Boolean,
     transparent: Boolean,
     coloredText: Boolean
@@ -117,7 +116,13 @@ export default {
       const cssArchitect = new CssArchitect(
         "group__wrapper"
       );
-      cssArchitect.addClass("small", this.small);
+      this.borderedElement(cssArchitect);
+      cssArchitect.addClass("focused", this.focused);
+      cssArchitect.addClass("transparent", this.transparent);
+      cssArchitect.addClass(this.getTargetClass);
+      cssArchitect.addClass(this.getColorsModifiers);
+      cssArchitect.addClass(this.getBackgroundModifiers);
+      this.setupColorModifier(cssArchitect);
       return cssArchitect.getClasses();
     },
     /**
@@ -128,14 +133,6 @@ export default {
       const cssArchitect = new CssArchitect(
         "control"
       );
-      cssArchitect.isFlexible()
-      cssArchitect.addClass("focused", this.focused);
-      cssArchitect.addClass("transparent", this.transparent);
-      cssArchitect.addClass("bordered");
-      cssArchitect.addClass(this.getTargetClass);
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass(this.getBackgroundModifiers);
-      this.setupColorModifier(cssArchitect);
       return cssArchitect.getClasses();
     },
     /**
@@ -179,7 +176,6 @@ export default {
       const cssArchitect = new CssArchitect("input");
       cssArchitect.isFullwidth();
       cssArchitect.addClass("compact", this.compact);
-      cssArchitect.addClass("small", this.small);
       return cssArchitect.getClasses();
     },
 

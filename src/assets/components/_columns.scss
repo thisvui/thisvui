@@ -58,8 +58,16 @@
     $column-height: gutter-spans(var(--column-gutters));
     flex-basis: #{$column-span};
     height:  #{$column-height};
+
+    &.half {
+      @include tablet-up {
+        max-width: 50%;
+      }
+    }
+
     @include phone-only {
       --column-span: var(--grid-columns);
     }
+
   }
 }

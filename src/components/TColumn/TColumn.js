@@ -9,7 +9,8 @@ export default {
   mixins: [common, background],
   props: {
     span: Number,
-    gutters: Number
+    gutters: Number,
+    half: Boolean
   },
   data() {
     return {
@@ -23,6 +24,7 @@ export default {
      */
     css: function() {
       const css = new CssArchitect("column");
+      css.addClass("half", this.half);
       css.addClass(this.getBackgroundModifiers);
       if (this.isNotNull(this.span) && this.parent) {
         let gridColumns = this.parent.$props.gridColumns;

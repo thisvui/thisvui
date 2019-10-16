@@ -25,8 +25,8 @@ $pagintaion-search-border-color: rgba($dark, 0.9) !default;
 
   @include material-shadow($dark);
 
-  .pagination-next,
-  .pagination-previous {
+  .pagination__next,
+  .pagination__previous {
     box-shadow: 1px 2px 5px 2px rgba(100, 100, 100, 0.1), 1px 1px 1px 0 rgba(50, 50, 50, 0.1), 0 1px 2px 0px rgba(50, 50, 50, 0.1);
     padding-left: 0 !important;
     padding-right: 0 !important;
@@ -44,20 +44,78 @@ $pagintaion-search-border-color: rgba($dark, 0.9) !default;
 
   .pagination {
     padding-bottom: 0.2em;
+    display: flex;
+    justify-content: center;
+
+    @include tablet-portrait-up {
+      justify-content: flex-end;
+    }
+
+    &.start {
+      justify-content: flex-start;
+    }
+
+    &.end {
+      justify-content: flex-end;
+    }
+
+    &.center {
+      justify-content: center;
+    }
+
+
+
+    &__list {
+      display: flex;
+    }
+
+    &__link {
+      padding: 0.2rem;
+      border-radius: 50%;
+      border: 2px solid tint($dark, 90%);
+      width: 2em;
+      height: 2em;
+      display: flex;
+      margin: 0 5px 0 5px;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      transition: all 0.3s ease-in;
+
+      &:hover {
+        border-color: tint($link, 70%);
+        color: tint($link, 70%);
+      }
+
+      &.is-current {
+        border-width: 3px;
+        border-color: tint($link, 50%);
+      }
+    }
 
     ul {
       list-style: none;
 
       li {
         margin-top: 0;
+        display: flex;
+        align-items: center;
       }
     }
 
-    .size-label {
+    &__size {
+      display: none;
+      font-weight: bold;
       vertical-align: middle;
+      font-size: 0.8rem;
+      color: $pagination-size-label-color;
+
+      @include desktop-up {
+        display: block;
+      }
     }
 
-    .pages-count-label {
+    &__count {
       vertical-align: middle;
       padding-left: 1em;
       padding-right: 1em;
@@ -65,12 +123,12 @@ $pagintaion-search-border-color: rgba($dark, 0.9) !default;
       color: $pagination-count-label-color;
     }
 
-    .size-select-container {
+    &__select {
       vertical-align: middle;
       padding: 0.2rem;
+      width: 100px;
 
       .input {
-        width: 100px;
         border-width: 2px;
         border-color: $pagination-size-select-border-color;
         border-radius: 3px;
@@ -81,26 +139,6 @@ $pagintaion-search-border-color: rgba($dark, 0.9) !default;
         }
       }
     }
-  }
-
-  .pagination-link {
-    border-width: 2px;
-  }
-
-  .size-label {
-    vertical-align: middle;
-  }
-
-  .pages-count-label {
-    vertical-align: middle;
-    padding-left: 1em;
-    padding-right: 1em;
-    font-size: 0.9rem;
-  }
-
-  .size-select-container {
-    vertical-align: middle;
-    padding: 0.2rem;
   }
 }
 

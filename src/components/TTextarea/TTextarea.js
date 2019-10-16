@@ -20,11 +20,11 @@ export default {
      * Creates the field input section
      */
     createTextarea(architect) {
-      let root = architect.createDiv("group__wrapper");
+      let root = architect.createDiv(this.getWrapperClass);
       let control = architect.createDiv(this.getControlClass); // The control element
       control.addClass("align-items-start");
 
-      this.createIcon(control, this.iconPosition.left, "is-textarea");
+      this.createIcon(root, this.iconPosition.left, "is-textarea");
       // Creating the html input element
       let textarea = architect.createElement("textarea", this.getTextareaClass);
       textarea.setId(this.id);
@@ -52,13 +52,12 @@ export default {
       });
       control.addChild(textarea);
 
-      let labelParent = this.classic ? root : control;
+      let labelParent = this.classic ? architect : control;
       this.createLabel(labelParent, "is-textarea");
-      this.createIcon(control, this.iconPosition.right, "is-textarea");
-      this.createStateIcon(control);
-      this.createErrorHelpers(control);
-
       root.addChild(control);
+      this.createStateIcon(root);
+      this.createIcon(root, this.iconPosition.right, "is-textarea");
+      this.createErrorHelpers(root);
       architect.addChild(root);
     }
   },

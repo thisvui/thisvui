@@ -40,11 +40,6 @@ export default {
       type: String
     }
   },
-  data() {
-    return {
-      currentPageNumber: 0 // default to page 0
-    };
-  },
   computed: {
     /**
      * Dynamically build the css classes for the container element
@@ -80,7 +75,12 @@ export default {
 
     // Creating the button element
     let button = root.createButton(this.btnClass);
-    let buttonProps = { isText: true, disabled: this.disabled };
+    let buttonProps = {
+      text: true,
+      disabled: this.disabled,
+      isPaddingless: true,
+      isMarginless: true
+    };
     button.setProps(buttonProps);
     button.addEvent("click", this.onClick);
 
@@ -93,7 +93,6 @@ export default {
       tooltipClass: this.iconTooltipClass
     };
     icon.setProps(iconProps);
-
     // Creating the text element
     let text = root.createSpan();
     text.addDomProp("innerHTML", this.text);

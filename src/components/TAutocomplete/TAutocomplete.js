@@ -122,7 +122,7 @@ export default {
      * Creates the input element
      */
     createInput(architect) {
-      let root = architect.createDiv("group__wrapper");
+      let root = architect.createDiv(this.getWrapperClass);
       root.addDirective({
         name: "click-outside",
         value: {
@@ -132,7 +132,7 @@ export default {
       });
       let control = architect.createDiv(this.getControlClass); // The control element
 
-      this.createIcon(control, this.iconPosition.left);
+      this.createIcon(root, this.iconPosition.left);
 
       // Creating the html input element
       let input = architect.createInput(this.getInputClass);
@@ -176,13 +176,13 @@ export default {
       });
       control.addChild(input);
 
-      let labelParent = this.classic ? root : control;
+      let labelParent = this.classic ? architect : control;
       this.createLabel(labelParent);
-      this.createClearIcon(control, false);
-      this.createIcon(control, this.iconPosition.right);
-      this.createErrorHelpers(control);
       root.addChild(control);
 
+      this.createClearIcon(root, false);
+      this.createIcon(root, this.iconPosition.right);
+      this.createErrorHelpers(root);
       architect.addChild(root);
     }
   },

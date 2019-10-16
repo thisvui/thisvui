@@ -63,7 +63,7 @@
     .dropdown__item {
       display: block;
       opacity: 0;
-      animation: menu 0.3s ease-in-out forwards;
+      animation: dropdown-menu 0.3s ease-in-out forwards;
       & + .dropdown__divider {
         display: block;
         animation: dropdown-menu 0.3s ease-in-out forwards;
@@ -75,7 +75,7 @@
     .dropdown__item {
       display: block;
       opacity: 0;
-      animation: menu 0.3s ease-in-out forwards;
+      animation: dropdown-menu 0.3s ease-in-out forwards;
       & + .dropdown__divider {
         display: block;
         animation: dropdown-menu 0.3s ease-in-out forwards;

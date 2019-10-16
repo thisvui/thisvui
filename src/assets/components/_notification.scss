@@ -2,6 +2,27 @@ $notification-radius: 4px !default;
 $notification-padding: 1.25rem 2.5rem 1.25rem 1.5rem !default;
 $notification-margin: 0.7rem !default;
 
+@mixin mobile-helper {
+  content: attr(msg);
+  position: absolute;
+  color: $help-color;
+  right: 2px;
+  top: -2em;
+  margin-left: 8px;
+  border: none;
+  background: none;
+  left: unset;
+  font-size: 0.7em;
+  text-transform: uppercase;
+  text-align: right;
+  padding: 4px 2px;
+  min-width: 200px;
+  pointer-events: none;
+  padding: 4px 4px;
+  z-index: 10;
+  opacity: 1;
+}
+
 .help {
   background-color: transparent;
   border: none;
@@ -14,6 +35,7 @@ $notification-margin: 0.7rem !default;
   display: flex;
 
   &::before {
+    display: none;
     content: "";
     position: absolute;
     top: -6px;
@@ -24,26 +46,25 @@ $notification-margin: 0.7rem !default;
     border-color: $help-arrow-color transparent transparent transparent;
     z-index: 10;
     opacity: 1;
+
+    @include tablet-landscape-up {
+      display: block;
+    }
   }
 
   &::after {
-    content: attr(msg);
-    position: absolute;
-    left: 50%;
-    top: -6px;
-    transform: translateX(-50%) translateY(-100%);
-    background: $help-background-color;
-    border: 1px solid $help-border-color;
-    text-align: center;
-    color: $help-color;
-    padding: 4px 2px;
-    font-size: 12px;
-    min-width: 200px;
-    border-radius: 5px;
-    pointer-events: none;
-    padding: 4px 4px;
-    z-index: 10;
-    opacity: 1;
+    @include mobile-helper;
+    @include tablet-landscape-up {
+      left: 50%;
+      top: -6px;
+      transform: translateX(-50%) translateY(-100%);
+      background: $help-background-color;
+      border: 1px solid $help-border-color;
+      font-size: 12px;
+      text-align: center;
+      border-radius: 5px;
+      pointer-events: none;
+    }
   }
 
   &:hover::after,
@@ -77,27 +98,35 @@ $notification-margin: 0.7rem !default;
 }
 
 [msg-position='left']::after {
-  left: 0%;
-  top: 50%;
-  margin-left: -8px;
-  transform: translateX(-100%) translateY(-50%);
+  @include tablet-landscape-up {
+    left: 0%;
+    top: 50%;
+    margin-left: -8px;
+    transform: translateX(-100%) translateY(-50%);
+  }
 }
 
 [msg-position='top']::after {
-  left: 50%;
+  @include tablet-landscape-up {
+    left: 50%;
+  }
 }
 
 [msg-position='bottom']::after {
-  top: 100%;
-  margin-top: 8px;
-  transform: translateX(-95%) translateY(0%);
+  @include tablet-landscape-up {
+    top: 100%;
+    margin-top: 8px;
+    transform: translateX(-95%) translateY(0%);
+  }
 }
 
 [msg-position='right']::after {
-  left: 100%;
-  top: 50%;
-  margin-left: 8px;
-  transform: translateX(0%) translateY(-50%);
+  @include tablet-landscape-up {
+    left: 100%;
+    top: 50%;
+    margin-left: 8px;
+    transform: translateX(0%) translateY(-50%);
+  }
 }
 
 .notification {

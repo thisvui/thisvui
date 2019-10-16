@@ -109,7 +109,7 @@ export default {
      * Creates the input element
      */
     createInput(architect) {
-      let root = architect.createDiv("group__wrapper is-paddingless");
+      let root = architect.createDiv(this.getWrapperClass);
       let control = architect.createDiv(this.getControlClass); // The control element
       root.addDirective({
         name: "click-outside",
@@ -119,7 +119,7 @@ export default {
         }
       });
 
-      this.createIcon(control, this.iconPosition.left);
+      this.createIcon(root, this.iconPosition.left);
 
       let input = architect.createInput(this.getInputClass);
       input.addClick(this.onClick);
@@ -157,16 +157,15 @@ export default {
       });
       control.addChild(input);
 
-      let labelParent = this.classic ? root : control;
+      let labelParent = this.classic ? architect : control;
       this.createLabel(labelParent);
-      if (this.allowEmptyValue) {
-        this.createClearIcon(control);
-      }
-      this.createIcon(control, this.iconPosition.right);
-      this.createToggleIcon(control);
-      this.createErrorHelpers(control);
       root.addChild(control);
-
+      if (this.allowEmptyValue) {
+        this.createClearIcon(root);
+      }
+      this.createIcon(root, this.iconPosition.right);
+      this.createToggleIcon(root);
+      this.createErrorHelpers(root);
       architect.addChild(root);
     }
   },

@@ -1,10 +1,13 @@
 // Import the initial variables
-@import "utilities/initial-variables";
+@import "utilities/initialize";
 
 @import "themes/winter/winter";
+@import "~bulma/sass/utilities/derived-variables.sass";
+@import "~bulma/sass/utilities/animations.sass";
+@import "~bulma/sass/utilities/mixins.sass";
+@import "~bulma/sass/utilities/controls.sass";
+@import "~bulma/sass/base/_all";
+
 @import "utilities/core-variables";
-@import "utilities/functions";
-@import "utilities/responsive";
-@import "utilities/mixins";
 @import "components/all";
 

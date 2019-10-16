@@ -5,16 +5,28 @@ $width: 320px;
 
 .group {
   position: relative;
-  &__wrapper{
-    min-width: $width;
+
+  &__wrapper {
     padding: 0.2rem;
+    display: flex;
+    align-items: center;
     .label {
       font-size: 16px;
       position: relative;
+      text-transform: uppercase;
     }
-    &.small{
-      min-width: unset;
+
+    &.bordered {
+      border: 1px solid lighten($primary, 25%);
+      &.focused {
+        border: 1px solid $primary;
+      }
     }
+
+    &.transparent {
+      background: transparent;
+    }
+
   }
   &:not(:last-child){
     margin-bottom: 1.5rem;
@@ -23,28 +35,14 @@ $width: 320px;
 
 // INPUTS // ============================== //
 .control{
-  background: $white-bis;
+  background: transparent;
   border-radius: 3px;
   padding: 2px;
   position: relative;
-  display: flex;
-  align-items: center;
-  &.align-items-start{
-    align-items: start;
-  }
-  &.bordered {
-    border: 1px solid lighten($primary, 25%);
-    &.focused {
-      border: 1px solid $primary;
-    }
-  }
-
-  &.transparent {
-      background: transparent;
-  }
+  display: block;
+  flex: 1;
 
   .input, .textarea {
-    flex: 1;
     background: none;
     color: lighten($dark, 15%);
     font-size: 18px;
@@ -52,6 +50,8 @@ $width: 320px;
     display: block;
     border: none;
     border-radius: 0;
+    width: 100%;
+
     &.compact {
       padding: 7px 7px 7px 5px;
     }
@@ -67,6 +67,11 @@ $width: 320px;
       top: -1.6em;
       font-size: 12px;
       left: 5px;
+
+      &.input-icon-left {
+        left: -24px;
+      }
+
     }
 
     &.classic::placeholder {
@@ -99,9 +104,6 @@ $width: 320px;
     left: 5px;
     top: 25%;
     transition: $transition-delay ease all;
-    &.input-icon-left {
-      left: 2.5em;
-    }
     &.is-textarea{
       top: 0.5em;
     }

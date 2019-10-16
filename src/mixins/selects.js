@@ -20,7 +20,7 @@ export default {
       type: String
     },
     initialValue: {
-      type: String
+      type: [ String, Number, Object ]
     },
     height: {
       type: String,
