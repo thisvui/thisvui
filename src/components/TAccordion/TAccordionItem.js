@@ -118,6 +118,13 @@ export default {
     getIconClasses: function() {
       const css = new CssArchitect();
       css.addClass(this.iconClass, this.isNotNull(this.iconClass));
+      css.addClass(
+        "is-primary", !this.hasColorModifier
+      );
+      css.addClass(
+        this.colorModifier, this.hasColorModifier
+      );
+      css.addClass("inverted");
       return css.getClasses();
     },
     /**
