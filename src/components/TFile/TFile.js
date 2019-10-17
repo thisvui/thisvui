@@ -92,7 +92,7 @@ export default {
     },
     submitClass: {
       type: String,
-      default: "is-light has-text-link"
+      default: "has-text-link"
     },
     clearText: {
       type: String,
@@ -106,7 +106,7 @@ export default {
     },
     clearClass: {
       type: String,
-      default: "is-light has-text-danger"
+      default: "has-text-danger"
     }
   },
   data() {
@@ -144,15 +144,13 @@ export default {
       return cssArchitect.getClasses();
     },
     getClearClasses: function() {
-      const cssArchitect = new CssArchitect(
-        "button is-shadowless is-radiusless"
-      );
+      const cssArchitect = new CssArchitect("is-shadowless is-radiusless");
       cssArchitect.addClass(this.clearClass);
       cssArchitect.addClass(this.getSizesModifiers);
       return cssArchitect.getClasses();
     },
     getSubmitClasses: function() {
-      const cssArchitect = new CssArchitect("button is-shadowless");
+      const cssArchitect = new CssArchitect("is-shadowless");
       cssArchitect.addClass(this.submitClass);
       cssArchitect.addClass(this.getSizesModifiers);
       return cssArchitect.getClasses();
@@ -161,6 +159,16 @@ export default {
       const cssArchitect = new CssArchitect();
       cssArchitect.addClass("t-flex align-self-end", this.isBoxed);
       return cssArchitect.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the icon element
+     * @returns { A String with the chained css classes }
+     */
+    getIconClasses: function() {
+      const css = new CssArchitect();
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass("inverted");
+      return css.getClasses();
     },
     fileHasName() {
       return this.hasName && this.fileName !== null;
@@ -306,6 +314,7 @@ export default {
       let fileIcon = architect.createSpan("file-icon");
       let icon = architect.createIcon().setProps({
         icon: this.$thisvui.icons.upload,
+        containerClass: this.getIconClasses,
         preserveDefaults: !this.overrideDefaults
       });
       let fileLabel = architect.createSpan("file-label");
@@ -335,13 +344,16 @@ export default {
         TButtons,
         this.getButtonContainerClasses
       );
-      root.setProps({ hasAddons: true });
+      root.setProps({ attached: true });
 
       // Creating the reset button
       let resetBtn = architect.createButton();
       resetBtn.setProps({
         icon: this.clearIcon,
-        targetClass: this.getClearClasses
+        iconClass: "has-text-danger",
+        targetClass: this.getClearClasses,
+        compact: true,
+        isMarginless: true
       });
       resetBtn.addChild(this.clearText, !this.hideButtonsLabels, true);
       resetBtn.addClick(this.reset);
@@ -350,7 +362,10 @@ export default {
       let submitBtn = architect.createButton();
       submitBtn.setProps({
         icon: this.submitIcon,
-        targetClass: this.getSubmitClasses
+        iconClass: "has-text-link",
+        targetClass: this.getSubmitClasses,
+        compact: true,
+        isMarginless: true
       });
       submitBtn.addChild(this.submitText, !this.hideButtonsLabels, true);
       submitBtn.addClick(this.submitFiles);
