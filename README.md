@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://www.thisvui.com" target="_blank">
+  <a href="http://www.thisvui.com" target="_blank">
     <img src="http://www.thisvui.com/logo.svg" width="200">
   </a>
 </p>
