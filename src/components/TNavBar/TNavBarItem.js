@@ -1,36 +1,48 @@
 import helper from "../../mixins/helpers";
+import colors from "../../mixins/colors";
 import common from "../../mixins/common";
+import padding from "../../mixins/padding";
+
 import CssArchitect from "../../utils/css-architect";
-import ElementArchitect from "../../utils/element-architect";
+import { createElement } from "../../utils/element-architect";
 
 export default {
   name: "t-navbar-item",
-  mixins: [common, helper],
+  mixins: [common, colors, padding, helper],
   props: {
     view: String,
-    hasDropdown: Boolean,
-    isHoverable: Boolean,
-    isActive: Boolean
+    dropdown: Boolean,
+    hoverable: Boolean,
+    active: Boolean,
+    mobile: Boolean
   },
   computed: {
     /**
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
      */
-    getClasses: function() {
-      const cssArchitect = new CssArchitect("navbar-item");
-      cssArchitect.addClass(this.getHelpersModifiers);
-      cssArchitect.addClass("has-dropdown", this.hasDropdown);
-      cssArchitect.addClass("is-hoverable", this.isHoverable);
-      cssArchitect.addClass("is-active", this.isActive);
-      return cssArchitect.getClasses();
+    getCss: function() {
+      const css = new CssArchitect("navbar__item");
+      css.colored({ inverted: this.$parent.hasColorModifier });
+      css.addClass("hovered", this.hoverable);
+      css.addClass("has-dropdown", this.dropdown);
+      css.addClass("is-hoverable", this.hoverable);
+      css.addClass("is-active", this.active);
+      css.addClass("mobile", this.mobile);
+      css.addClass(this.targetClass);
+      css.addClass(this.$parent.colorModifier, this.$parent.hasColorModifier);
+      this.setupColorModifier(css);
+      css.addClass(this.getHelpersModifiers);
+      css.addStyles([this.getPaddingStyles]);
+      return css;
     }
   },
   render: function(h) {
     let hasView = this.view !== undefined;
     let elementType = hasView ? "router-link" : "a";
-    let root = new ElementArchitect(h, elementType, this.getClasses);
+    let root = createElement(h, elementType, this.getCss.getClasses());
     root.setId(this.id).setChildren(this.$slots.default);
+    root.setStyles(this.getCss.getStyles());
     if (hasView) {
       root.setProps({ to: { name: this.view } });
     }

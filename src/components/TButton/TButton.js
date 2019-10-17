@@ -2,6 +2,9 @@ import common from "../../mixins/common";
 import sizes from "../../mixins/sizes";
 import states from "../../mixins/states";
 import colors from "../../mixins/colors";
+import helpers from "../../mixins/helpers";
+import display from "../../mixins/display";
+
 import TModal from "../TModal/TModal";
 import TIcon from "../TIcon/TIcon";
 
@@ -14,12 +17,8 @@ export default {
   name: "t-button",
   components: { TIcon, TModal },
   inheritAttrs: false,
-  mixins: [common, sizes, states, colors],
+  mixins: [common, sizes, states, colors, display, helpers],
   props: {
-    isText: {
-      type: Boolean,
-      default: false
-    },
     validate: {
       type: Boolean,
       default: false
@@ -31,18 +30,6 @@ export default {
       type: String
     },
     confirm: {
-      type: Boolean,
-      default: false
-    },
-    isRounded: {
-      type: Boolean,
-      default: false
-    },
-    isOutlined: {
-      type: Boolean,
-      default: false
-    },
-    isInverted: {
       type: Boolean,
       default: false
     },
@@ -114,7 +101,15 @@ export default {
     },
     view: {
       type: String
-    }
+    },
+    rounded: Boolean,
+    outlined: Boolean,
+    text: Boolean,
+    inverted: Boolean,
+    raised: Boolean,
+    flat: Boolean,
+    compact: Boolean,
+    ripple: Boolean
   },
   data() {
     return {
@@ -131,32 +126,42 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("t-button");
-      cssArchitect.addClass("button", !this.isText);
-      cssArchitect.addClass("is-text", this.isText);
-      cssArchitect.addClass("tooltip", this.dataTooltip !== undefined);
-      cssArchitect.addClass("is-rounded", this.isRounded);
-      cssArchitect.addClass("is-outlined", this.isOutlined);
-      cssArchitect.addClass("is-inverted", this.isInverted);
-      cssArchitect.addClass("is-loading", this.isLoading);
-      cssArchitect.addClass(this.targetClass, this.targetClass !== undefined);
-      cssArchitect.addClass(this.tooltipClass, this.tooltipClass !== undefined);
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass(this.getStateModifiers);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-button button");
+      css.addClass("tooltip", this.dataTooltip !== undefined);
+      css.addClass("rounded", this.rounded);
+      css.addClass("flat", this.flat);
+      css.addClass("raised", this.raised);
+      css.addClass("ripple", this.ripple);
+      css.addClass("compact", this.compact);
+      css.addClass("is-text colored", this.text);
+      css.addClass("outlined bordered colored", this.outlined);
+      css.addClass("inverted", this.inverted);
+      css.addClass("filled hoverable activable", !this.outlined && !this.text);
+      css.addClass("is-loading", this.isLoading);
+      css.addClass("disabled", this.disabled);
+      css.addClass(this.targetClass, this.targetClass !== undefined);
+      css.addClass(this.tooltipClass, this.tooltipClass !== undefined);
+      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getSizesModifiers);
+      css.addClass(this.getStateModifiers);
+      css.addClass(this.getHelpersModifiers);
+      this.setupColorModifier(css);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the confirmation modal component
      * @returns { A String with the chained css classes }
      */
     getContainerClass: function() {
-      const cssArchitect = new CssArchitect("t-button-container");
-      cssArchitect.addClass(
+      const css = new CssArchitect("t-button-container");
+      css.flexible();
+      css.addClass("is-centered")
+      css.addClass(
         this.containerClass,
         this.containerClass !== undefined
       );
-      return cssArchitect.getClasses();
+      css.addClass(this.getDisplayModifiers);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the confirmation modal component
@@ -183,6 +188,7 @@ export default {
      */
     getConfirmBtnClass: function() {
       const cssArchitect = new CssArchitect("button");
+      cssArchitect.addClass("filled cursor-pointer");
       cssArchitect.addClass(this.confirmBtnClass);
       return cssArchitect.getClasses();
     },
@@ -192,11 +198,23 @@ export default {
      */
     getCancelBtnClass: function() {
       const cssArchitect = new CssArchitect("button");
+      cssArchitect.addClass("filled cursor-pointer");
       cssArchitect.addClass(this.cancelBtnClass);
       return cssArchitect.getClasses();
     },
+    /**
+     * Dynamically build the css classes for the icon element
+     * @returns { A String with the chained css classes }
+     */
+    getIconClasses: function() {
+      const css = new CssArchitect();
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass("inverted", !this.outlined && !this.text && !this.inverted);
+      css.addClass(this.iconClass, this.isNotNull(this.iconClass));
+      return css.getClasses();
+    },
     getActive: function() {
-      return this.active;
+      return this.active && !this.disabled;
     },
     /**
      * Converts the confirm prop to Boolean
@@ -282,7 +300,7 @@ export default {
      */
     createButtonIcon(architect, condition = false) {
       if (this.icon && condition) {
-        let icon = architect.createIcon(this.iconClass);
+        let icon = architect.createIcon(this.getIconClasses);
         icon.setKey(`${this.id}-btn-icon`)
         icon.setProps({ icon: this.icon });
         architect.addChild(icon);
@@ -350,14 +368,12 @@ export default {
         let modalFoot = architect.createSpan();
         modalFoot.setSlot("footer");
 
-        let confirmBtn = architect.createElement(
-          "button",
+        let confirmBtn = architect.createSpan(
           this.getConfirmBtnClass
         );
         confirmBtn.innerHTML(this.confirmText);
         confirmBtn.addClick(this.confirmed);
-        let cancelBtn = architect.createElement(
-          "button",
+        let cancelBtn = architect.createSpan(
           this.getCancelBtnClass
         );
         cancelBtn.innerHTML(this.cancelText);
@@ -372,7 +388,7 @@ export default {
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "span", this.getContainerClasses);
+    let root = new ElementArchitect(h, "span", this.getContainerClass);
 
     this.createButton(root);
     this.createModal(root);

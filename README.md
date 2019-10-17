@@ -1,10 +1,13 @@
+<p align="center">
+  <a href="https://www.thisvui.com" target="_blank">
+    <img src="http://www.thisvui.com/logo.svg" width="200">
+  </a>
+</p>
+
 # ThisVui
 > ThiVui is a Component Framework for Vue.js, intended to give developers easy tools to build powerful web apps with beautiful UI's. It's focused on flexibility and ease of use, without forgetting efficiency.
 
-![thisVui Logo](http://www.thisvui.com/thisvui_logo_small.png)
-
 ## Quick Start
-
 
 #### Install 
 

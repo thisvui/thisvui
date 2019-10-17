@@ -39,36 +39,38 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("t-progress");
-      cssArchitect.addClass("progress", !this.circular);
-      cssArchitect.addClass("circular", this.circular);
-      cssArchitect.addClass("compact", this.compact);
-      cssArchitect.addClass(
+      const css = new CssArchitect("t-progress");
+      css.addClass("progress", !this.circular);
+      css.addClass("circular", this.circular);
+      css.addClass("compact", this.compact);
+      css.addClass(
         this.spinnerType,
         this.spinnerType !== undefined && this.circular && this.indeterminate
       );
-      cssArchitect.addClass(
+      css.addClass(this.getColorsModifiers);
+      css.addClass(this.targetClass);
+      this.setupColorModifier(css);
+      css.addClass(
         "is-link",
-        !this.hasColorModifier && !this.targetClass
+        !this.hasColorModifier
       );
-      cssArchitect.addClass(this.targetClass);
-      cssArchitect.addClass(this.getColorsModifiers);
-      return cssArchitect.getClasses();
+      return css.getClasses();
     },
     getHelperClasses: function() {
-      const cssArchitect = new CssArchitect(
+      const css = new CssArchitect(
         "button is-invisible is-paddingless is-marginless"
       );
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass("is-link", !this.hasColorModifier);
-      return cssArchitect.getClasses();
+      this.filled(css);
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass("is-link", !this.hasColorModifier);
+      return css.getClasses();
     },
     getContainerClasses: function() {
-      const cssArchitect = new CssArchitect("t-progress-container");
-      cssArchitect.addClass("circular", this.circular);
-      cssArchitect.addClass("compact", this.compact);
-      cssArchitect.addClass(this.containerClass);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-progress-container");
+      css.addClass("circular", this.circular);
+      css.addClass("compact", this.compact);
+      css.addClass(this.containerClass);
+      return css.getClasses();
     }
   },
   watch: {

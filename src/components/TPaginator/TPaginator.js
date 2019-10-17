@@ -7,6 +7,7 @@ import sizes from "../../mixins/sizes";
 import pagination from "../../mixins/pagination";
 import helpers from "../../mixins/helpers";
 import common from "../../mixins/common";
+import justify from "../../mixins/justify";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
@@ -14,7 +15,7 @@ import ElementArchitect from "../../utils/element-architect";
 export default {
   name: "t-paginator",
   components: { TSelect, TPaginatorControl, TIcon },
-  mixins: [common, pagination, sizes, alignment, helpers],
+  mixins: [common, pagination, sizes, alignment, justify, helpers],
   props: {
     items: {
       type: Array
@@ -70,6 +71,7 @@ export default {
     getTargetClass: function() {
       const cssArchitect = new CssArchitect("pagination");
       cssArchitect.addClass(this.getSizesModifiers);
+      cssArchitect.addClass(this.getJustifyModifiers);
       cssArchitect.addClass(this.getAlignmentModifiers);
       cssArchitect.addClass("is-rounded", this.isRounded);
       return cssArchitect.getClasses();
@@ -79,7 +81,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getPreviousClass() {
-      const cssArchitect = new CssArchitect("pagination-previous");
+      const cssArchitect = new CssArchitect("pagination__previous");
       cssArchitect.addClass(
         this.previousClass,
         this.previousClass !== undefined
@@ -92,7 +94,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getNextClass() {
-      const cssArchitect = new CssArchitect("pagination-next");
+      const cssArchitect = new CssArchitect("pagination__next");
       cssArchitect.addClass(this.nextClass, this.nextClass !== undefined);
       cssArchitect.addClass(this.getHelpersModifiers);
       return cssArchitect.getClasses();
@@ -102,7 +104,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getListClass() {
-      const cssArchitect = new CssArchitect("pagination-list");
+      const cssArchitect = new CssArchitect("pagination__list");
       cssArchitect.addClass(this.listClass, this.listClass !== undefined);
       return cssArchitect.getClasses();
     },
@@ -111,7 +113,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getLinkClass() {
-      const cssArchitect = new CssArchitect("pagination-link");
+      const cssArchitect = new CssArchitect("pagination__link");
       cssArchitect.addClass(this.linkClass, this.linkClass !== undefined);
       return cssArchitect.getClasses();
     },
@@ -120,7 +122,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getCurrentLinkClass() {
-      const cssArchitect = new CssArchitect("pagination-link is-current");
+      const cssArchitect = new CssArchitect("pagination__link is-current");
       cssArchitect.addClass(
         this.currentLinkClass,
         this.currentLinkClass !== undefined
@@ -168,8 +170,9 @@ export default {
      * @returns { A integer value }
      */
     numberOfPages() {
+      let totalItems = this.totalItems || 0;
       let dividend = this.serverSide
-        ? this.totalItems
+        ? totalItems
         : parseInt(this.items.length);
       let pages = dividend / parseInt(this.rowsPerPage);
       pages = pages > parseInt(pages) ? parseInt(pages) + 1 : parseInt(pages);
@@ -248,8 +251,9 @@ export default {
      * Sets the current page number when page changes
      */
     onChange() {
-      if (this.currentPageNumber > this.numberOfPages - 1) {
-        this.currentPageNumber = this.numberOfPages - 1;
+      let numberOfPages = this.numberOfPages > 0 ? this.numberOfPages - 1 : 0
+      if (this.currentPageNumber > numberOfPages) {
+        this.currentPageNumber = numberOfPages;
       }
       this.updateData();
     },
@@ -266,26 +270,27 @@ export default {
     createSizeSelect(architect) {
       let root = architect.createLi();
       let sizeLabel = root.createSpan(
-        "is-inline-block size-label has-text-weight-bold"
+        "pagination__size"
       );
-      sizeLabel.addDomProp("innerHTML", this.sizeLabel);
+
 
       let sizeSelect = root.createElement(TSelect);
       let sizeSelectProps = {
         items: this.sizeOptions,
         removeLabel: true,
         allowEmptyValue: false,
-        containerClass: "size-select-container is-inline-block",
+        containerClass: "pagination__select",
         inputClass: "size-select",
         compact: true,
-        isSmall: true,
+        small: true,
         isShadowless: true,
-        value: this.rowsPerPage
+        initialValue: this.rowsPerPage
       };
       sizeSelect.setProps(sizeSelectProps);
-      sizeSelect.addEvent("change", this.onChange);
-      sizeSelect.addEvent("input", value => {
+      sizeLabel.innerHTML(this.sizeLabel);
+      sizeSelect.addInput( value => {
         this.rowsPerPage = value;
+        this.onChange();
       }); // Emulates v-model
       root.addChild(sizeLabel);
       root.addChild(sizeSelect);
@@ -297,7 +302,7 @@ export default {
     createItemsCount(architect) {
       let root = architect.createLi();
 
-      let itemsCount = root.createSpan("is-inline-block pages-count-label");
+      let itemsCount = root.createSpan("pagination__count");
       itemsCount.addDomProp("innerHTML", this.getItemsCount);
 
       root.addChild(itemsCount);
@@ -306,21 +311,35 @@ export default {
     /**
      * Creates the first Page element
      */
-    createFirstPage(architect) {
-      let pageEllipsis = this.createPageEllipsis(architect);
+    createPageNumber(
+      architect,
+      { condition = false, current = false, value = 1 } = config
+    ) {
       let root = architect.createLi("is-hidden-mobile");
 
-      let firstNumber = root.createA(
-        `${this.isFirstPage ? this.getCurrentLinkClass : this.getLinkClass}`
+      let pageNumber = root.createA(this.getLinkClass);
+      pageNumber.addClass("is-current", current);
+      pageNumber.addClass(
+        this.currentLinkClass,
+        this.currentLinkClass !== undefined && current
       );
-      firstNumber.addAttr("aria-label", "Goto page 1");
-      firstNumber.addDomProp("innerHTML", 1);
-      firstNumber.addEvent("click", () => {
-        this.goTo(1);
+      pageNumber.innerHTML(value);
+      pageNumber.addEvent("click", () => {
+        this.goTo(value);
       });
 
-      root.addChild(firstNumber, this.getShowNumbers && this.addFirstPage);
+      root.addChild(pageNumber, condition);
       architect.addChild(root);
+    },
+    /**
+     * Creates the first Page element
+     */
+    createFirstPage(architect) {
+      let pageEllipsis = this.createPageEllipsis(architect);
+      this.createPageNumber(architect, {
+        condition: this.getShowNumbers && this.addFirstPage,
+        current: this.isFirstPage
+      });
       architect.addChild(
         pageEllipsis,
         this.getShowNumbers && this.addFirstPage
@@ -331,38 +350,23 @@ export default {
      */
     createLastPage(architect) {
       let pageEllipsis = this.createPageEllipsis(architect);
-      let root = architect.createLi("is-hidden-mobile");
-
-      let lastNumber = root.createA(
-        `${this.isLastPage ? this.getCurrentLinkClass : this.getLinkClass}`
-      );
-      lastNumber.addAttr("aria-label", "Goto last page");
-      lastNumber.addDomProp("innerHTML", this.numberOfPages);
-      lastNumber.addEvent("click", () => {
-        this.goTo(this.numberOfPages);
-      });
-
-      root.addChild(lastNumber, this.getShowNumbers && this.addLastPage);
       architect.addChild(pageEllipsis, this.getShowNumbers && this.addLastPage);
-      architect.addChild(root);
+      this.createPageNumber(architect, {
+        condition: this.getShowNumbers && this.addLastPage,
+        current: this.isLastPage,
+        value: this.numberOfPages
+      });
     },
     /**
      * Creates the page numbers
      */
     createPageNumbers(architect) {
       for (let page of this.activePagesScope) {
-        let root = architect.createLi("is-hidden-mobile");
-        let classes = page.isCurrent
-          ? [this.getLinkClass, this.getCurrentLinkClass].join(" ")
-          : this.getLinkClass;
-        let pageEl = root.createA(classes);
-        pageEl.addAttr("aria-label", `Goto page ${page.number}`);
-        pageEl.addDomProp("innerHTML", page.number);
-        pageEl.addEvent("click", () => {
-          this.goTo(page.number);
+        this.createPageNumber(architect, {
+          condition: true,
+          current: page.isCurrent,
+          value: page.number
         });
-        root.addChild(pageEl);
-        architect.addChild(root);
       }
     },
     /**
@@ -371,8 +375,8 @@ export default {
     createPageEllipsis(architect) {
       let root = architect.createLi("is-hidden-mobile");
 
-      let ellipsis = root.createSpan(`pagination-ellipsis`);
-      ellipsis.addDomProp("innerHTML", "&hellip;");
+      let ellipsis = root.createSpan(`pagination__ellipsis`);
+      ellipsis.innerHTML("&hellip;");
 
       root.addChild(ellipsis);
       return root;
@@ -397,8 +401,6 @@ export default {
       iconClass: this.previousIconClass,
       iconDataTooltip: this.previousIconTooltip,
       iconTooltipClass: this.previousIconTooltipClass,
-      isPaddingless: this.isPaddingless,
-      isShadowless: this.isShadowless,
       iconLib: this.iconLib,
       overrideDefaults: this.overrideDefaults
     };
@@ -415,8 +417,6 @@ export default {
       iconClass: this.nextIconClass,
       iconDataTooltip: this.nextIconTooltip,
       iconTooltipClass: this.nextIconTooltipClass,
-      isPaddingless: this.isPaddingless,
-      isShadowless: this.isShadowless,
       iconLib: this.iconLib,
       overrideDefaults: this.overrideDefaults
     };
@@ -425,6 +425,7 @@ export default {
 
     root.addChild(previous, this.controlsOutside && this.numberOfPages > 1);
     root.addChild(next, this.controlsOutside && this.numberOfPages > 1);
+
     // Creating the list element
     let list = root.createUl(this.getListClass);
 
@@ -451,8 +452,5 @@ export default {
     nav.addChild(list);
     root.addChild(nav);
     return root.create();
-  },
-  mounted() {
-    this.updateData();
   }
 };

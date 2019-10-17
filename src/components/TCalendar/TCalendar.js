@@ -331,7 +331,9 @@ export default {
       arrow.setProps({
         icon: icon,
         iconClass: "change-month-arrow",
-        isText: true
+        text: true,
+        isMarginless: true,
+        isPaddingless: true
       });
       arrow.addEvent("click", method);
       return arrow;
@@ -445,7 +447,7 @@ export default {
      * Creates the input element
      */
     createInput(architect) {
-      let root = architect.createDiv("group__wrapper is-paddingless");
+      let root = architect.createDiv(this.getWrapperClass);
       let control = architect.createDiv(this.getControlClass); // The control element
 
       // Creating the html input element
@@ -475,14 +477,13 @@ export default {
       });
       control.addChild(input);
 
-      let labelParent = this.classic ? root : control;
+      let labelParent = this.classic ? architect : control;
       this.createLabel(labelParent);
-      this.createClearIcon(control);
-      this.createIcon(control);
-      this.createErrorHelpers(control);
-
       root.addChild(control);
 
+      this.createClearIcon(root);
+      this.createIcon(root);
+      this.createErrorHelpers(root);
       architect.addChild(root);
     }
   },

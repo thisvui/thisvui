@@ -14,7 +14,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("panel-block");
+      const cssArchitect = new CssArchitect("panel__block");
       cssArchitect.addClass(this.display);
       return cssArchitect.getClasses();
     }

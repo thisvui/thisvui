@@ -1,0 +1,243 @@
+.card {
+  --bg-alpha: 0.7;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  background: $card-background-color;
+  min-width: $card-min-width;
+  margin: 0.5em 0 0 0;
+  border-radius: $card-border-radius;
+  @include box-shadow($v-shadow: 2px, $blur: 10px, $color: lighten($black, 50%));
+  @include transitions();
+  &.hover-effect:hover {
+    @include box-shadow($v-shadow: 2px, $blur: 12px, $color: lighten($black, 40%));
+    .card__figure {
+      img {
+        -webkit-transform: scale(1.1);
+        -moz-transform: scale(1.1);
+        transform: scale(1.1);
+        opacity: .6;
+      }
+    }
+  }
+
+  &.horizontal{
+    flex-direction: row;
+  }
+  &.transparent {
+    background: transparent !important;
+  }
+
+  &__figure {
+    max-height: 250px;
+    border-radius: $card-border-radius $card-border-radius 0 0;
+
+    &.overflow-hidden{
+      overflow: hidden;
+    }
+
+    &.horizontal {
+      flex: 0.2;
+      align-self: start;
+      padding: 2.5rem 0 0 1rem;
+      border-radius: 0;
+
+    }
+  }
+
+  &__image {
+    display: block;
+    width: 120%;
+    @include transitions();
+    &.horizontal {
+      border: 2px solid;
+      width: 100%;
+      max-width: 240px;
+      border-radius: 0;
+    }
+  }
+
+  &__icon {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 3rem 0 0.5rem 0;
+
+    @include mobile(){
+      padding: 1rem 0 0.5rem 0;
+    }
+
+    &.horizontal {
+      padding: 2rem 0 0 0;
+    }
+  }
+
+  &__avatar {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 0 0.5rem 0;
+
+    @include mobile(){
+      padding: 1rem 0 0.5rem 0;
+    }
+
+    &.horizontal {
+      padding: 0.5rem 0 0 0;
+    }
+
+    img {
+      width: 7rem;
+    }
+  }
+
+  &__date {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    z-index: 1;
+    width: 4rem;
+    height: 4rem;
+    color: $white;
+    font-weight: 700;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0.5rem;
+    @include border-radius(100%);
+    @include box-size();
+    .day {
+      font-size: 1.4rem;
+      @include mobile(){
+        font-size: 0.9rem;
+      }
+    }
+    .month {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+    }
+
+    &.horizontal{
+      @include mobile(){
+        top: 0.5rem;
+        right: 0.5rem;
+        left: unset;
+        bottom: unset;
+        width: 3rem;
+        height: 3rem;
+        padding: 0.3rem;
+      }
+    }
+
+  }
+  &__content {
+    position: relative;
+    bottom: 0;
+    background: $card-background-color;
+    width: 100%;
+    padding: 30px;
+    border-radius: 0 0 $card-border-radius $card-border-radius;
+    @include box-size();
+    @include transitions($timing: cubic-bezier(.37,.75,.61,1.05));
+
+    &.horizontal {
+      flex: 0.7;
+      border-radius: 0;
+    }
+    &.transparent {
+      background: transparent !important;
+    }
+    &.centered {
+      text-align: center;
+    }
+    &.right {
+      text-align: right;
+    }
+    &.justified {
+      text-align: justify;
+    }
+
+    @include mobile(){
+      padding: 1rem;
+      text-align: left;
+    }
+  }
+  &__category {
+    position: absolute;
+    top: -2.1rem;
+    left: 0;
+    padding: 0.6rem 1rem;
+    color: $white;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    @include mobile(){
+      padding: 0.5rem;
+      font-size: 11px;
+    }
+    &.horizontal {
+      font-size: 12px;
+      top: 0;
+      left: 1.5rem;
+      padding: 0.5rem 1rem;
+      &.has-img {
+        top: 1.5rem;
+        @include mobile(){
+          top: 0;
+        }
+      }
+      @include mobile(){
+        top: 0;
+        left: 1rem;
+        padding: 0.4rem;
+        font-size: 10px;
+      }
+    }
+  }
+
+  &__title {
+    margin: 0;
+    padding: 0 0 10px;
+    color: $grey-dark;
+    font-size: 26px;
+    font-weight: 700;
+    @include mobile(){
+      font-size: 1.4em;
+    }
+  }
+  &__subtitle {
+    margin: 0;
+    padding: 0 0 20px;
+    color: $primary;
+    font-size: 20px;
+    font-weight: 400;
+    @include mobile(){
+      font-size: 1em;
+    }
+  }
+  &__description {
+    color: $grey;
+    font-size: 14px;
+    line-height: 1.8em;
+    padding: 0 0 20px;
+    @include mobile(){
+      font-size: 1em;
+    }
+  }
+
+  &__metadata {
+    margin: 30px 0 0;
+    color: $grey-light;
+    &--item {
+      margin: 0 16px 0 0;
+    }
+    a {
+      color: $grey-light;
+      text-decoration: none;
+    }
+  }
+}

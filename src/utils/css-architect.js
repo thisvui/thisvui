@@ -27,9 +27,9 @@ export default class CssArchitect {
   }
 
   /**
-   * Merge array classes with the main classes array
+   * Merge array of classes with the main classes array
    * @param cssClasses
-   * @param conditionStatement
+   * @param condition
    */
   addClasses(cssClasses, condition) {
     let conditionStatement = condition !== undefined ? condition : true;
@@ -52,6 +52,18 @@ export default class CssArchitect {
   }
 
   /**
+   * Merge array of styles with the main styles array
+   * @param cssStyles
+   * @param condition
+   */
+  addStyles(cssStyles, condition) {
+    let conditionStatement = condition !== undefined ? condition : true;
+    if (cssStyles !== undefined && conditionStatement) {
+      this.styles = [...this.styles, ...cssStyles];
+    }
+  }
+
+  /**
    * Returns a String of the chained css classes
    * @returns {string}
    */
@@ -65,8 +77,8 @@ export default class CssArchitect {
    * @returns {string}
    */
   getStyles() {
-    let resultClass = this.styles.join("; ");
-    return resultClass.trim();
+    let resultStyles = this.styles.join("; ");
+    return resultStyles.trim();
   }
 
   /**
@@ -74,11 +86,13 @@ export default class CssArchitect {
    * @returns {string}
    */
   addUnit(number, unit = "px") {
-    if(number){
-      if(Number.isNaN(number)){
-        throw new Error(`To attach a ${unit} unit value must be a valid number`)
+    if (number) {
+      if (Number.isNaN(number)) {
+        throw new Error(
+          `To attach a ${unit} unit value must be a valid number`
+        );
       }
-      return `${number}px`;
+      return `${number}${unit}`;
     }
   }
 
@@ -135,6 +149,10 @@ export default class CssArchitect {
     return this;
   }
 
+  /**
+   *
+   * @deprecated Use Flexible instead.
+   */
   isFlexible(
     direction = "row",
     alignItems = false,
@@ -148,5 +166,28 @@ export default class CssArchitect {
     this.addStyle("--align-content", alignContent, alignContent);
     this.addStyle("--justify-content", justifyContent, justifyContent);
     return this;
+  }
+
+  flexible(config = {}) {
+    let {
+      direction = "row",
+      flexWrap = false,
+      alignItems = false,
+      justifyContent = false,
+      alignSelf = false,
+      alignContent = false
+    } = config;
+    this.addClass(`t-flex is-${direction}`);
+    this.addClass("flex-wrap", flexWrap);
+    this.addStyle("--align-items", alignItems, alignItems);
+    this.addStyle("--align-self", alignSelf, alignSelf);
+    this.addStyle("--align-content", alignContent, alignContent);
+    this.addStyle("--justify-content", justifyContent, justifyContent);
+    return this;
+  }
+
+  colored({ inverted = false } = {}) {
+    this.addClass(`colored`);
+    this.addClass(`inverted`, inverted);
   }
 }

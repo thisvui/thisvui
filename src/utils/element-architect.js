@@ -231,20 +231,22 @@ export default class ElementArchitect {
   }
 
   addVNode(child, conditionStatement = true) {
-    return this.addChild(child, conditionStatement, true)
+    return this.addChild(child, conditionStatement, true);
   }
 
-  addChildren(children, conditionStatement = true, raw = false){
-    if(children && conditionStatement){
-      let mappedChildren = raw ? children : children.map(function(child) {
-        return child.create();
-      });
+  addChildren(children, conditionStatement = true, raw = false) {
+    if (children && conditionStatement) {
+      let mappedChildren = raw
+        ? children
+        : children.map(function(child) {
+            return child.create();
+          });
       Array.prototype.push.apply(this.children, mappedChildren);
     }
   }
 
-  addVNodeChildren(children, conditionStatement = true){
-    return this.addChildren(children, conditionStatement, true)
+  addVNodeChildren(children, conditionStatement = true) {
+    return this.addChildren(children, conditionStatement, true);
   }
 
   setDirectives(directives) {
@@ -340,9 +342,13 @@ export default class ElementArchitect {
     return this.createElement(TIcon, classes);
   }
 
-  createTransition(name) {
-    let transition = this.createElement("transition");
+  createTransition(name, config = {}) {
+    let { group = false, tag = "div" } = config;
+    let transition = group
+      ? this.createElement("transition-group")
+      : this.createElement("transition");
     transition.setProps({ name: name });
+    transition.addProp("tag", tag, group);
     return transition;
   }
 
@@ -437,3 +443,29 @@ export default class ElementArchitect {
     return this.createFunction(this.type, element, this.children);
   }
 }
+
+export const createElement = function(createFunction, type, classes) {
+  let architect = new ElementArchitect(createFunction, type, classes);
+  return architect;
+};
+
+export const createDiv = function(createFunction, classes) {
+  let architect = new ElementArchitect(createFunction, "div", classes);
+  return architect;
+};
+
+export const createSpan = function(createFunction, classes) {
+  let architect = new ElementArchitect(createFunction, "span", classes);
+  return architect;
+};
+
+export const createTransition = function(createFunction, name, config = {}) {
+  let { group = false, tag = "div" } = config;
+  let architect = new ElementArchitect(
+    createFunction,
+    group ? "transition-group" : "transition"
+  );
+  architect.setProps({ name: name });
+  architect.addProp("tag", tag, group);
+  return architect;
+};

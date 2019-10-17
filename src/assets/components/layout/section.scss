@@ -1,0 +1,13 @@
+.section {
+  padding: $section-padding;
+  position: relative;
+
+  &.medium {
+    padding: $section-padding-medium;
+  }
+
+  &.large {
+    padding: $section-padding-large;
+  }
+
+}

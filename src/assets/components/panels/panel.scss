@@ -1,0 +1,25 @@
+.panel {
+  &:not(:last-child){
+    margin-bottom: $panel-bottom-margin;
+  }
+
+  @include panel-heading(true, true);
+
+  &__body {
+    padding: 0;
+    background-color: $panel-background-color;
+    @include light-shadow($black);
+  }
+  &__content {
+    padding: $content-padding;
+  }
+
+  &__block {
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    &:not(:last-child){
+      margin-bottom: $panel-bottom-margin;
+    }
+  }
+}

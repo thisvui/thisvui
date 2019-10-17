@@ -5,6 +5,9 @@ export default {
     isCentered: {
       type: Boolean
     },
+    isLeft: {
+      type: Boolean
+    },
     isRight: {
       type: Boolean
     }
@@ -18,6 +21,7 @@ export default {
       const cssArchitect = new CssArchitect();
       cssArchitect.addClass("is-centered", this.isCentered);
       cssArchitect.addClass("is-right", this.isRight);
+      cssArchitect.addClass("is-left", this.isLeft);
       return cssArchitect.getClasses();
     }
   }

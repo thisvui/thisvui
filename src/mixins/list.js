@@ -322,8 +322,8 @@ export default {
     },
     createCheckAll(architect, inputClass) {
       let self = this;
-      let checkContainer = architect.createDiv("col-checkable");
-      let checkbox = architect.createElement(TCheckbox, "t-row-checker");
+      let checkContainer = architect.createDiv("table__column--checkable");
+      let checkbox = architect.createElement(TCheckbox, "table__row--checker");
       checkbox.value(this.checkAllItems);
       let inputHandler = function(event) {
         let resultValue = event.target ? event.target.value : event;
@@ -348,8 +348,8 @@ export default {
       item,
       { inputClass, container, hasBackgroundColor }
     ) {
-      let checkContainer = container || architect.createDiv("col-checkable");
-      let checkbox = architect.createElement(TCheckbox, "t-row-checker");
+      let checkContainer = container || architect.createDiv("table__column--checkable");
+      let checkbox = architect.createElement(TCheckbox, "table__row--checker");
       checkbox.addAttr("value", this.isRowChecked(item));
       checkbox.addProp("input-class", inputClass, inputClass !== undefined);
       checkbox.setProps({

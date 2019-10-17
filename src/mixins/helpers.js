@@ -8,6 +8,9 @@ export default {
     isPaddingless: {
       type: Boolean
     },
+    isBold: {
+      type: Boolean
+    },
     isOverlay: {
       type: Boolean
     },
@@ -48,6 +51,7 @@ export default {
       const cssArchitect = new CssArchitect();
       cssArchitect.addClass("is-marginless", this.isMarginless);
       cssArchitect.addClass("is-paddingless", this.isPaddingless);
+      cssArchitect.addClass("is-bold", this.isBold);
       cssArchitect.addClass("is-overlay", this.isOverlay);
       cssArchitect.addClass("is-clipped", this.isClipped);
       cssArchitect.addClass("is-radiusless", this.isRadiusless);

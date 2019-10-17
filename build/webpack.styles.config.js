@@ -7,7 +7,7 @@ const WebpackCleanPlugin = require('webpack-clean');
 
 module.exports = env => {
   return {
-    entry: './src/assets/thisvui.sass',
+    entry: './src/assets/thisvui.scss',
     plugins: [
       new MiniCssExtractPlugin({
         filename: env && env.production ? "thisvui.min.css" : "thisvui.css",

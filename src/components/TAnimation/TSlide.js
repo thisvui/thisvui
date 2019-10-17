@@ -52,7 +52,7 @@ export default {
       this.updateCalculatedWith(
         window.innerWidth < 352 ? baseWitdh - 52 : baseWitdh
       );
-      let resultWidth = `${this.calculatedWidth}${this.unity}`;
+      let resultWidth = `${this.calculatedWidth}${this.unit}`;
       return this.isOpen ? resultWidth : this.initialWidth;
     },
     toggleSlide() {

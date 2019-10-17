@@ -1,13 +1,15 @@
 import colors from "../../mixins/colors";
+import gradient from "../../mixins/gradient";
 import common from "../../mixins/common";
+
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-footer",
-  mixins: [common, colors],
+  mixins: [common, colors, gradient],
   props: {
-    isFixed: {
+    fixed: {
       type: Boolean,
       default: false
     },
@@ -15,7 +17,7 @@ export default {
       type: [String, Number],
       default: 52
     },
-    unity: {
+    unit: {
       type: String,
       default: "px"
     },
@@ -29,27 +31,30 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("t-footer");
-      cssArchitect.isFullwidth();
-      this.colorize(cssArchitect, "bg", true);
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass("is-fixed", this.isFixed);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-footer");
+      css.isFullwidth();
+      this.filled(css, { removeInit: true });
+      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getGradientModifiers);
+      css.addClass("is-fixed", this.fixed);
+      return css.getClasses();
     },
     getHeight: function() {
-      let height = `${this.height}${this.unity}`;
+      let height = `${this.height}${this.unit}`;
       return height;
     }
   },
   methods: {
     getStyle() {
-      let styleObject = {
-        height: this.getHeight
-      };
-      if (this.zIndex) {
-        styleObject.zIndex = parseInt(this.zIndex);
-      }
-      return styleObject;
+      const css = new CssArchitect();
+      css.addStyle(
+        "height",
+        css.addUnit(this.height, this.unit),
+        this.isNotNull(this.height)
+      );
+      css.addStyle("z-index", this.zIndex, this.isNotNull(this.zIndex));
+      css.addStyles([this.getAlphaModifiers]);
+      return css.getStyles();
     }
   },
   render: function(h) {

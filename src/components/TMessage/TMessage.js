@@ -3,8 +3,8 @@ import sizes from "../../mixins/sizes";
 import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
 
+import { createDiv } from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
-import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-message",
@@ -13,18 +13,18 @@ export default {
     title: {
       type: String
     },
-    showHeader: {
+    showHeading: {
       type: Boolean,
       default: true
     },
-    showDeleteButton: {
+    closeButton: {
       type: Boolean,
       default: false
     },
     targetClass: {
       type: String
     },
-    headerClass: {
+    headingClass: {
       type: String
     },
     bodyClass: {
@@ -40,40 +40,46 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("message");
-      cssArchitect.addClass(this.getSyntaxModifiers);
-      cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass(this.getHelpersModifiers);
-      cssArchitect.addClass(this.targetClass);
-      cssArchitect.addClass("is-bold", this.isBold);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("message");
+      css.addClass(this.getSyntaxModifiers);
+      css.addClass(this.getSizesModifiers);
+      css.addClass(this.getHelpersModifiers);
+      css.addClass(this.targetClass);
+      css.addClass("is-bold", this.isBold);
+      this.setupColorModifier(css);
+      return css.getClasses();
     },
     /**
-     * Dynamically build the css classes for the message header container
+     * Dynamically build the css classes for the message heading container
      * @returns { A String with the chained css classes }
      */
-    getHeaderClasses: function() {
-      const cssArchitect = new CssArchitect("message-header");
-      cssArchitect.addClass(this.headerClass, this.headerClass);
-      return cssArchitect.getClasses();
+    getHeadingClasses: function() {
+      const css = new CssArchitect("message__heading");
+      this.filled(css);
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.headingClass, this.headingClass);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the message body container
      * @returns { A String with the chained css classes }
      */
-    getBodyClasses: function() {
-      const cssArchitect = new CssArchitect("message-body");
-      cssArchitect.addClass(this.bodyClass, this.bodyClass);
-      return cssArchitect.getClasses();
+    getBodyCss: function() {
+      const css = new CssArchitect("message__body");
+      this.filled(css, { lighten: true });
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.bodyClass, this.bodyClass);
+      css.addClass("has-text-dark");
+      return css;
     },
     /**
      * Dynamically build the css classes for the delete button
      * @returns { A String with the chained css classes }
      */
-    getDeleteClasses: function() {
-      const cssArchitect = new CssArchitect("delete");
-      cssArchitect.addClass(this.deleteClass, this.deleteClass);
-      return cssArchitect.getClasses();
+    getCloseButtonClasses: function() {
+      const css = new CssArchitect("message__close delete");
+      css.addClass(this.deleteClass, this.deleteClass);
+      return css.getClasses();
     }
   },
   data() {
@@ -85,44 +91,44 @@ export default {
     removeElement() {
       this.removed = true;
     },
-    createDeleteButton(architect) {
-      if (this.showDeleteButton) {
-        let deleteBtn = architect.createButton();
-        deleteBtn.setProps({
-          isText: true,
-          targetClass: this.getDeleteClasses
-        });
+    createCloseButton(architect) {
+      if (this.closeButton) {
+        let deleteBtn = architect.createElement(
+          "button",
+          this.getCloseButtonClasses
+        );
         deleteBtn.addClick(this.removeElement);
         architect.addChild(deleteBtn);
       }
     },
-    createHeader(architect) {
-      if (this.showHeader) {
-        let header = architect.createDiv(this.getHeaderClasses);
+    createHeading(architect) {
+      if (this.showHeading) {
+        let heading = architect.createDiv(this.getHeadingClasses);
         let title = architect.createP();
         title.innerHTML(this.title);
-        header.addChild(title);
-        this.createDeleteButton(header);
-        architect.addChild(header);
+        heading.addChild(title);
+        this.createCloseButton(heading);
+        architect.addChild(heading);
       }
     },
     createBody(architect) {
-      let body = architect.createDiv(this.getBodyClasses);
-      if (!this.showHeader) {
+      let body = architect.createDiv(this.getBodyCss.getClasses());
+      body.setStyles(this.getBodyCss.getStyles());
+      body.addVNodeChildren(this.$slots.default);
+      if (!this.showHeading) {
         let deleteContainer = architect.createDiv("has-text-right");
-        this.createDeleteButton(deleteContainer);
+        this.createCloseButton(deleteContainer);
         body.addChild(deleteContainer);
       }
-      body.addVNodeChildren(this.$slots.default);
       architect.addChild(body);
     }
   },
   render: function(h) {
     if (!this.removed) {
-      let root = new ElementArchitect(h, "div", this.getClasses);
+      let root = createDiv(h, this.getClasses);
       root.setId(this.id);
 
-      this.createHeader(root);
+      this.createHeading(root);
       this.createBody(root);
 
       return root.create();

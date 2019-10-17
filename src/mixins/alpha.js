@@ -24,25 +24,52 @@ export default {
       const cssArchitect = new CssArchitect();
       cssArchitect.addStyle(
         "--color-alpha",
-        parseInt(this.colorAlpha),
+        parseFloat(this.colorAlpha),
         this.colorAlpha !== undefined
       );
       cssArchitect.addStyle(
         "--border-alpha",
-        parseInt(this.borderAlpha),
+        parseFloat(this.borderAlpha),
         this.borderAlpha !== undefined
       );
       cssArchitect.addStyle(
         "--bg-alpha",
-        parseInt(this.bgAlpha),
+        parseFloat(this.bgAlpha),
         this.bgAlpha !== undefined
       );
       cssArchitect.addStyle(
         "--bg-hover-alpha",
-        parseInt(this.bgHoverAlpha),
+        parseFloat(this.bgHoverAlpha),
         this.bgHoverAlpha !== undefined
       );
       return cssArchitect.getStyles();
+    }
+  },
+  methods: {
+    alpha(cssArchitect, { color = false, border = false, bg = false, bgHover = false  } = {}) {
+      if(!cssArchitect){
+        throw new Error("alpha - Please provide css-architect parameter")
+      }
+      cssArchitect.addStyle(
+        "--color-alpha",
+        parseFloat(color),
+        color && this.colorAlpha === undefined
+      );
+      cssArchitect.addStyle(
+        "--border-alpha",
+        parseFloat(border),
+        border && this.borderAlpha === undefined
+      );
+      cssArchitect.addStyle(
+        "--bg-alpha",
+        parseFloat(bg),
+        bg && this.bgAlpha === undefined
+      );
+      cssArchitect.addStyle(
+        "--bg-hover-alpha",
+        parseFloat(bgHover),
+        bgHover && this.bgHoverAlpha === undefined
+      );
     }
   }
 };

@@ -10,6 +10,7 @@ export { default as TBreadcrumb } from "./TBreadcrumb";
 export { default as TCalendar } from "./TCalendar";
 export { default as TCard } from "./TCard";
 export { default as TCheckbox } from "./TCheckbox";
+export * from "./TColumn";
 export { default as TContainer } from "./TContainer";
 
 export * from "./TDropdown";
@@ -18,6 +19,8 @@ export { default as TFile } from "./TFile";
 export * from "./TFlex";
 export { default as TFloatingButton } from "./TFloatingButton";
 
+export * from "./TGrid";
+
 export { default as THero } from "./THero";
 
 export { default as TIcon } from "./TIcon";
@@ -25,7 +28,6 @@ export { default as TInput } from "./TInput";
 
 export * from "./TLayout";
 
-export * from "./TLevel";
 export * from "./TList";
 
 export { default as TMedia } from "./TMedia";
@@ -58,6 +60,5 @@ export { default as TText } from "./TText";
 export { default as TImage } from "./TImage";
 
 export * from "./TTag";
-export * from "./TColumn";
-export { default as TTile } from "./TTile";
+
 export * from "./TAnimation";

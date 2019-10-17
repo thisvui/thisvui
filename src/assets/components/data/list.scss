@@ -1,0 +1,126 @@
+$list-background-color: $white !default;
+$list-bottom-border-color: rgba($dark, 0.1) !default;
+$list-bottom-border: 1px solid $list-bottom-border-color !default;
+$list-item-bottom-border: none !default;
+$items-width: 20 30 40 50 60 70 80 90 100;
+
+.t-list-container {
+  font-size: 0.85rem;
+
+  .t-list{
+    background-color: $list-background-color;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    -webkit-box-shadow: 0 1px 7px rgba($dark, 0.3);
+    box-shadow: 0 1px 7px rgba($dark, 0.3);
+    border-radius: 6px;
+
+    li {
+      display: flex;
+      flex-direction: row;
+      padding: 0.5rem;
+      border-bottom: $list-bottom-border;
+
+      .t-list-item {
+        position: relative;
+        display: flex;
+        padding-left: 0.3rem;
+        min-width: 10%;
+        border-bottom: $list-item-bottom-border;
+
+        @each $item-width in $items-width {
+          $width: percentage($item-width / 100);
+
+          &.is-#{$item-width} {
+            width: $width;
+          }
+        }
+      }
+    }
+  }
+
+  &.is-compact {
+    .t-list-item {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  .paginator {
+    background-color: $list-background-color;
+  }
+
+  .t-list-header {
+    display: flex;
+    color: $dark;
+    padding: 0.8rem;
+    min-width: 10%;
+    border-bottom: $list-bottom-border;
+    -webkit-box-shadow: 0px 1px 7px rgba($dark, 0.3);
+    box-shadow: 0px 1px 7px rgba($dark, 0.3);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+
+    & + .t-list {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      -webkit-box-shadow: 0px 4px 7px rgba($dark, 0.3);
+      box-shadow: 0px 4px 7px rgba($dark, 0.3);
+    }
+
+    h1, h2, h3, h4, h5 {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.t-search {
+  position: relative;
+  margin: 0 0.5em 0 0.5em;
+
+  .input {
+    border: 2px solid rgba($pagintaion-search-border-color, 0.5);
+    font-size: 0.95rem;
+
+    &:hover {
+      border-color: rgba($pagintaion-search-border-color, 0.7);
+    }
+  }
+
+  &.is-absolute {
+    top: 6px;
+    margin: 0;
+    position: relative;
+    width: 100%;
+
+    .input {
+      font-size: 0.9rem;
+    }
+
+    @include tablet-portrait-up {
+      width: 12rem;
+      position: absolute;
+      margin: 0 0.5em 0 0.5em;
+    }
+
+    @include tablet-landscape-up {
+      width: unset;
+    }
+  }
+}
+
+.t-loading-block {
+  width: 100%;
+  height: 100%;
+  padding: 0 !important;
+  z-index: 40;
+
+  .t-loading-block-ui {
+    width: 100%;
+    height: 100%;
+    background: rgba($dark, 0.1);
+    border-radius: 0 0 5px 5px;
+  }
+}

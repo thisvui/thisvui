@@ -1,0 +1,138 @@
+.hero {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  position: relative;
+  flex-wrap: wrap-reverse;
+  background: $white-bis;
+  color: $black-bis;
+  padding: $hero-padding;
+
+  &.medium {
+    padding: $hero-padding-medium;
+  }
+
+  &.large {
+    padding: $hero-padding-large;
+  }
+
+  &.reverse {
+    flex-direction: row-reverse;
+  }
+
+  &.is-fullheight {
+    align-items: flex-end;
+    height: -webkit-fill-available;
+    @include tablet-up {
+      align-items: center;
+    }
+  }
+
+  &__content {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex: 1;
+    padding: $hero-content-padding;
+    z-index: 1;
+
+    @include desktop-up {
+      padding: $hero-content-padding-medium;
+      align-items: center;
+    }
+
+    @include big-desktop-up {
+      padding: $hero-content-padding-big;
+    }
+
+    &.has-img {
+      position: absolute;
+      width: 100%;
+      height: auto;
+      z-index: 0;
+      padding: $hero-content-padding-img;
+
+      @include tablet-portrait-up {
+        position: relative;
+        width: unset;
+        height: unset;
+        z-index: unset;
+        padding: $hero-content-padding;
+      }
+
+      @include desktop-up {
+        padding: $hero-content-padding-medium;
+        align-items: center;
+      }
+
+      @include big-desktop-up {
+        padding: $hero-content-padding-big;
+      }
+    }
+  }
+
+  &__body {
+    font-size: 1rem;
+    line-height: 1.5;
+    max-width: $hero-body-max-width;
+    margin-top: 5rem;
+
+    @include tablet-portrait-up {
+      margin-top: 0;
+    }
+
+  }
+
+  &__title {
+    font-size: $hero-title-font-size;
+    line-height: 1;
+    margin-bottom: 32px;
+    text-align: center;
+
+    @include tablet-portrait-up {
+      font-size: 3rem;
+      line-height: 1.1;
+    }
+
+    &.has-img {
+      @include tablet-portrait-up {
+        text-align: left;
+      }
+
+    }
+  }
+  &__desc {
+    font-size: $hero-desc-font-size;
+    margin-bottom: 48px;
+    text-align: center;
+    &.has-img {
+      @include tablet-portrait-up {
+        text-align: left;
+      }
+    }
+  }
+  &__action {
+    margin: 0 0 1.25em;
+    text-align: center;
+    &.has-img {
+      @include tablet-portrait-up {
+        text-align: left;
+      }
+    }
+  }
+
+  &__img {
+    width: 100%;
+    height: 100%;
+    opacity: 0.2;
+    @include transform(scale(0.5));
+
+    @include tablet-portrait-up {
+      @include transform(unset);
+      opacity: 1;
+      height: auto;
+    }
+
+  }
+
+}

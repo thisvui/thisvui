@@ -1,5 +1,4 @@
 import common from "../../mixins/common";
-import devices from "../../mixins/devices";
 import background from "../../mixins/background";
 
 import CssArchitect from "../../utils/css-architect";
@@ -7,33 +6,60 @@ import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-columns",
-  mixins: [common, devices, background],
+  mixins: [common, background],
   props: {
-    isGapless: {
+    gapless: {
       type: Boolean
     },
-    isMultiline: {
+    auto: {
       type: Boolean
+    },
+    gridWidth: {
+      type: Number,
+      default: 960
+    },
+    gridColumns: {
+      type: Number,
+      default: 12
+    },
+    gridColumnWidth: {
+      type: Number,
+      default: 60
     }
+  },
+  data() {
+    return {
+      items: []
+    };
   },
   computed: {
     /**
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
      */
-    getClasses: function() {
-      const cssArchitect = new CssArchitect("columns");
-      cssArchitect.addClass("is-gapless", this.isGapless);
-      cssArchitect.addClass("is-multiline", this.isMultiline);
-      cssArchitect.addClass(this.getDevicesModifiers);
-      cssArchitect.addClass(this.getBackgroundModifiers);
-      return cssArchitect.getClasses();
+    css: function() {
+      const css = new CssArchitect("columns");
+      css.addClass("gapless", this.gapless);
+      css.addClass("auto", this.auto);
+      css.addClass(this.getBackgroundModifiers);
+      css.addStyle("--grid-width", this.gridWidth, this.gridWidth !== 960);
+      css.addStyle(
+        "--grid-column-width",
+        this.gridColumnWidth,
+        this.gridColumnWidth !== 60
+      );
+      css.addStyle("--grid-columns", this.gridColumns, this.gridColumns !== 12);
+      return css;
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "div", this.getClasses);
+    let root = new ElementArchitect(h, "div", this.css.getClasses());
     root.setId(this.id);
+    root.setStyles(this.css.getStyles());
     root.setChildren(this.$slots.default);
     return root.create();
+  },
+  created() {
+    this.items = this.$children;
   }
 };
