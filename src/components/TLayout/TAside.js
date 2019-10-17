@@ -3,6 +3,7 @@ import gradient from "../../mixins/gradient";
 import common from "../../mixins/common";
 import TSlide from "../TAnimation/TSlide";
 import slide from "../../mixins/slide";
+import padding from "../../mixins/padding";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
@@ -10,7 +11,7 @@ import ElementArchitect from "../../utils/element-architect";
 export default {
   name: "t-aside",
   components: { TSlide },
-  mixins: [common, colors, gradient, slide],
+  mixins: [common, colors, gradient, slide, padding],
   props: {
     containerClass: {
       type: String
@@ -36,19 +37,21 @@ export default {
       css.addClass(this.getColorsModifiers);
       css.addClass(this.getGradientModifiers);
       css.addClass(this.getFlexModifiers);
-      css.addClass(
-        this.containerClass,
-        this.containerClass !== undefined
-      );
+      css.addClass(this.containerClass, this.containerClass !== undefined);
       return css.getClasses();
     }
   },
   methods: {
     getStyle() {
-      let styleObject = {
-        width: `${this.calculatedWidth}px`
-      };
-      return styleObject;
+      const css = new CssArchitect();
+      css.addStyle(
+        "width",
+        css.addUnit(this.width, this.unit),
+        this.isNotNull(this.width)
+      );
+      css.addStyle("z-index", this.zIndex, this.isNotNull(this.zIndex));
+      css.addStyles([this.getPaddingStyles, this.getAlphaModifiers]);
+      return css.getStyles();
     }
   },
   render: function(h) {

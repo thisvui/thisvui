@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     getStyle() {
-      const css = new CssArchitect("t-header");
+      const css = new CssArchitect();
       css.addStyle(
         "height",
         css.addUnit(this.height, this.unit),
