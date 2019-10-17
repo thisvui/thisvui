@@ -1,0 +1,124 @@
+// VARIABLES // ============================== //
+$label-color: mix(white, $dark, 70%);
+$transition-delay: 300ms;
+$width: 320px;
+
+.group {
+  position: relative;
+
+  &__wrapper {
+    padding: 0.2rem;
+    display: flex;
+    align-items: center;
+    .label {
+      font-size: 16px;
+      position: relative;
+      text-transform: uppercase;
+    }
+
+    &.bordered {
+      border: 1px solid lighten($primary, 25%);
+      &.focused {
+        border: 1px solid $primary;
+      }
+    }
+
+    &.transparent {
+      background: transparent;
+    }
+
+  }
+  &:not(:last-child){
+    margin-bottom: 1.5rem;
+  }
+}
+
+// INPUTS // ============================== //
+.control{
+  background: transparent;
+  border-radius: 3px;
+  padding: 2px;
+  position: relative;
+  display: block;
+  flex: 1;
+
+  .input, .textarea {
+    background: none;
+    color: lighten($dark, 15%);
+    font-size: 18px;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    border: none;
+    border-radius: 0;
+    width: 100%;
+
+    &.compact {
+      padding: 7px 7px 7px 5px;
+    }
+    &::placeholder {
+      opacity: 0;
+      color: lighten($dark, 45%);
+    }
+    &:focus {
+      outline: none;
+    }
+
+    &:not(.select):focus ~ .label {
+      top: -1.6em;
+      font-size: 12px;
+      left: 5px;
+
+      &.input-icon-left {
+        left: -24px;
+      }
+
+    }
+
+    &.classic::placeholder {
+      opacity: 1;
+    }
+
+    &.small{
+      flex: unset;
+    }
+  }
+
+  .textarea {
+    resize: none;
+  }
+
+  .select {
+    cursor: pointer;
+  }
+
+  input[type="password"] {
+    letter-spacing: 0.3em;
+  }
+
+  .label {
+    color: $label-color;
+    font-size: 1rem;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 5px;
+    top: 25%;
+    transition: $transition-delay ease all;
+    &.is-textarea{
+      top: 0.5em;
+    }
+    &.has-value {
+      top: -1.6em;
+      font-size: 12px;
+      left: 5px;
+    }
+  }
+
+  .icon{
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    &.is-textarea{
+      padding-top: 1em;
+    }
+  }
+}

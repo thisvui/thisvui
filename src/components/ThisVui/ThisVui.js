@@ -3,12 +3,14 @@ import { ThisValidate } from "../TValidation/validation-bus";
 import { TIconLib } from "../TIcon/TIconLib";
 import ClickOutside from "../../directives/click-outside";
 import ThisvuiConfig from "./config";
+import notification from "../../mixins/notification";
 
 const ThisVui = {
   install(Vue, options = {}) {
     let config = new ThisvuiConfig(options);
     const optionsConfig = config.getOptions();
     Vue.prototype.$thisvui = new Vue({
+      mixins: [notification],
       data: optionsConfig
     });
 
@@ -17,7 +19,7 @@ const ThisVui = {
     });
     Vue.use(ThisValidate);
     Vue.use(TIconLib);
-    Vue.directive("t-click-outside", ClickOutside);
+    Vue.directive("click-outside", ClickOutside);
   }
 };
 

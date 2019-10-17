@@ -1,0 +1,46 @@
+$container-offset: (2 * $container-min-gap) !default;
+
+.container {
+  flex-grow: 1;
+  margin: 0 auto;
+  position: relative;
+  width: auto;
+
+  @include tablet-landscape-up {
+    max-width: $tablet-landscape - $container-offset;
+  }
+
+  @include desktop-up {
+    max-width: $desktop - $container-offset;
+    &.tablet {
+      max-width: $tablet-landscape - $container-offset;
+    }
+  }
+
+  @include full-hd-up {
+    max-width: $full-hd - $container-offset;
+    &.tablet {
+      max-width: $tablet-landscape - $container-offset;
+    }
+    &.desktop {
+      max-width: $desktop - $container-offset;
+    }
+  }
+
+  @include big-desktop-up {
+    max-width: $big-desktop - $container-offset;
+    &.desktop {
+      max-width: $desktop - $container-offset;
+    }
+    &.full-hd {
+      max-width: $full-hd - $container-offset;
+    }
+  }
+
+  &.fluid {
+    margin-left: $container-min-gap;
+    margin-right: $container-min-gap;
+    max-width: none
+  }
+
+}

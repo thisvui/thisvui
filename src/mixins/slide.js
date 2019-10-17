@@ -12,7 +12,7 @@ export default {
       type: [Number, String],
       default: 300
     },
-    unity: {
+    unit: {
       type: String,
       default: "px"
     },

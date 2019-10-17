@@ -1,0 +1,12 @@
+.grid {
+  display: grid;
+
+  &.inline {
+    display: inline-grid;
+  }
+
+  &.flex {
+    flex-basis: 100%;
+    -webkit-flex-basis: 100%;
+  }
+}

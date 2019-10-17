@@ -10,6 +10,15 @@ export default {
     },
     isLarge: {
       type: Boolean
+    },
+    small: {
+      type: Boolean
+    },
+    medium: {
+      type: Boolean
+    },
+    large: {
+      type: Boolean
     }
   },
   computed: {
@@ -22,6 +31,9 @@ export default {
       cssArchitect.addClass("is-small", this.isSmall);
       cssArchitect.addClass("is-medium", this.isMedium);
       cssArchitect.addClass("is-large", this.isLarge);
+      cssArchitect.addClass("small", this.small);
+      cssArchitect.addClass("medium", this.medium);
+      cssArchitect.addClass("large", this.large);
       return cssArchitect.getClasses();
     }
   }

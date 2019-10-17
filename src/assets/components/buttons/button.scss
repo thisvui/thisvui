@@ -1,0 +1,220 @@
+@mixin btn-sizes {
+  &.small {
+    border-radius: $bt-radius-small;
+    font-size: $bt-size-small;
+  }
+
+  &.medium {
+    border-radius: $bt-radius-medium;
+    font-size: $bt-size-medium;
+  }
+
+  &.large {
+    border-radius: $bt-radius-large;
+    font-size: $bt-size-large;
+  }
+}
+
+.button {
+  padding: 1em 2.1em 1.1em;
+  border-radius: $bt-radius-normal;
+  margin: $btn-margin;
+  display: inline-block;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  font-weight: 800;
+  font-size: $bt-size-normal;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  position: relative;
+  @include btn-shadow;
+  @include btn-sizes;
+
+  &.compact {
+    padding: 0.5em 1.1em 0.6em;
+  }
+
+  &.rounded {
+    border-radius: 50em;
+  }
+
+  &.outlined {
+    border: 0.1em solid;
+  }
+
+  &.flat {
+    @include btn-flat-shadow;
+    border-radius: 0;
+  }
+
+  &.raised {
+    @include material-shadow(rgba(0, 0, 0, 0.1));
+    border-radius: 0;
+  }
+
+  &.is-text {
+    background: transparent;
+    border: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+
+  &.is-loading {
+    color: transparent !important;
+    pointer-events: none;
+    &::after {
+      @include center(3em);
+      @extend .echo-loader;
+    }
+  }
+
+  &:active {
+    top: 0.1em;
+  }
+
+}
+
+.t-floating-btn {
+  position: fixed;
+  z-index: 100;
+  cursor: pointer;
+
+  .t-floating-btn-icon {
+    --bg-alpha: 0.95;
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    background: $floating-button-background-color;
+    box-shadow: 0 6px 20px $floating-button-shadow-color;
+
+    &:hover {
+      opacity: 0.9;
+
+      & + .t-floating-btn-options, .t-floating-btn-options:hover {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .t-floating-btn-label {
+      font-style: normal;
+      font-size: 25px;
+      color: $floating-button-color;
+    }
+
+    .icon {
+      font-style: normal;
+      font-size: 25px;
+      color: $floating-button-color;
+    }
+  }
+
+  .t-floating-btn-options {
+    list-style: none;
+    margin: 0;
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+    transform: scale(0);
+    transform-origin: 85% bottom;
+    z-index: 3000;
+
+    li {
+      display: flex;
+      justify-content: flex-end;
+      padding: 5px;
+
+      .t-floating-btn-option {
+        width: 50px;
+        height: 50px;
+        border-radius: 100%;
+        background: $floating-button-background-color;
+        box-shadow: 0 6px 20px $floating-button-shadow-color;
+
+        .icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+          width: 100%;
+          font-style: normal;
+          font-size: 25px;
+          color: $floating-button-option-color;
+        }
+      }
+
+      .t-floating-btn-option-label {
+        padding: 3px 5px;
+        align-self: center;
+        user-select: none;
+        white-space: nowrap;
+        border-radius: 3px;
+        font-size: 14px;
+        font-weight: bold;
+        background: $floating-button-option-label-bg-color;
+        color: $floating-button-option-label-color;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        margin-right: 10px;
+      }
+    }
+  }
+
+  &.is-top {
+    top: $floating-button-top;
+  }
+
+  &.is-bottom {
+    bottom: $floating-button-bottom;
+  }
+
+  &.is-right {
+    right: $floating-button-right;
+  }
+
+  &.is-left {
+    left: $floating-button-left;
+  }
+}
+
+.buttons {
+  &.attached{
+    .t-button-container {
+      &:not(:first-child){
+        .button {
+          margin-left: 0;
+          margin-right: 0;
+          border-right: 1px solid rgba(0, 0, 0, 0.1);
+          border-radius: 0;
+        }
+      }
+      &:first-child {
+        .button {
+          margin-right: 0;
+          border-right: 1px solid rgba(0, 0, 0, 0.1);
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+      }
+      &:last-child {
+        .button {
+          margin-right: $btn-margin;
+          border-right: none;
+          border-radius: $bt-radius-normal;
+          @include btn-sizes;
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+      }
+    }
+  }
+}
+
+.delete {
+  @include delete-btn;
+}

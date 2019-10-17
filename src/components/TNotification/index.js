@@ -1,4 +1,4 @@
 import TNotification from "./TNotification";
-import TNotifications from "./TNotifications";
+import TToast from "./TToast";
 
-export { TNotification, TNotifications };
+export { TNotification, TToast };

@@ -1,0 +1,34 @@
+.t-accordion {
+  margin: 0;
+  border-radius: 4px;
+
+  @include panel-heading;
+
+  &__item {
+    margin: 0 auto 1px auto;
+    &:first-child {
+      div:first-child{
+        border-radius: 4px 4px 0 0;
+      }
+    }
+    &:last-child {
+      div:first-child{
+        &:not(.item-opened){
+          border-radius: 0 0 4px 4px;
+        }
+      }
+    }
+  }
+
+  &__body {
+    padding: 0;
+  }
+
+  &__content {
+    padding: 0;
+
+    &__body {
+      padding: 1em;
+    }
+  }
+}

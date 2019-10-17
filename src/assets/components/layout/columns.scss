@@ -1,0 +1,73 @@
+.columns {
+  /* Grid proportions */
+  --grid-width: 960;
+  --grid-column-width: 60;
+  --grid-columns: 12;
+
+  /* Grid logic */
+  --grid-gutters: calc(var(--grid-columns));
+
+  /* Grid proportion logic */
+  --column-proportion: calc(var(--grid-column-width) / var(--grid-width));
+  --gutter-proportion: calc(
+    (1 - (var(--grid-columns) * var(--column-proportion))) / var(--grid-gutters)
+  );
+
+  /* Container Units */
+  --column-unit: calc(var(--column-proportion) * var(--container-width));
+  --gutter-unit: calc(var(--gutter-proportion) * var(--container-width));
+  --column-and-gutter-unit: calc(var(--column-unit) + var(--gutter-unit));
+
+  /* Container Width */
+  --container-width: 100%;
+
+  --column-span: 1;
+  --column-gutters: 1;
+  width: var(--container-width);
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: var(--gutter-unit);
+  padding-left: var(--gutter-unit);
+
+  > * {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: var(--column-unit);
+    margin-right: var(--gutter-unit);
+    margin-bottom: var(--gutter-unit);
+  }
+
+  &.auto {
+    > * {
+      flex-grow: 1;
+    }
+  }
+
+  &.gapless {
+    padding-top: 0;
+    padding-left: 0;
+
+    > * {
+      margin-right: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  .column {
+    $column-span: column-spans(var(--column-span));
+    $column-height: gutter-spans(var(--column-gutters));
+    flex-basis: #{$column-span};
+    height:  #{$column-height};
+
+    &.half {
+      @include tablet-up {
+        max-width: 50%;
+      }
+    }
+
+    @include phone-only {
+      --column-span: var(--grid-columns);
+    }
+
+  }
+}

@@ -1,5 +1,11 @@
 import pagination from "./pagination";
 import icons from "./icons";
+
+import { TInput } from "../components/TInput";
+import { TPaginator } from "../components/TPaginator";
+import { TProgress } from "../components/TProgress";
+import { TCheckbox } from "../components/TCheckbox";
+
 import CssArchitect from "../utils/css-architect";
 
 export default {
@@ -52,13 +58,6 @@ export default {
   },
   computed: {
     /**
-     * Retrives filtered items
-     * @returns { An Array }
-     */
-    getFilteredItems() {
-      return this.filteredData;
-    },
-    /**
      * Retrieves the list items. If paginated retrieves the paginated list
      * @returns { A String value }
      */
@@ -75,15 +74,17 @@ export default {
      * Filters and sorts the items
      * @returns { A String value }
      */
-    filteredData: function() {
+    getFilteredItems: function() {
       let sortKey = this.sortKey;
       let filterKey = this.searchKey && this.searchKey.toLowerCase();
       let order = this.sortOrders[sortKey];
       let data = this.items;
       if (this.filtered && filterKey) {
-        data = data.filter(row => {
-          return this.searchItem(row, filterKey);
-        });
+        if (!this.serverSide) {
+          data = data.filter(row => {
+            return this.searchItem(row, filterKey);
+          });
+        }
       }
       if (sortKey && order !== 0) {
         data = data.slice().sort(function(a, b) {
@@ -112,6 +113,9 @@ export default {
       if (this.serverSide) {
         this.paginatedList = newVal;
       }
+    },
+    searchKey: function(newVal, oldVal) {
+      this.$emit("filter", newVal);
     }
   },
   data: function() {
@@ -251,6 +255,122 @@ export default {
       this.$emit(this.$thisvui.events.paginator.updatePage, {
         ...this.paginationData
       });
+    },
+    createSearch(architect) {
+      let self = this;
+      let input = architect.createElement(TInput);
+      input.value(this.searchKey);
+      let inputHandler = function(event) {
+        let resultValue = event.target ? event.target.value : event;
+        self.searchKey = resultValue;
+      };
+      input.addInput(inputHandler);
+      input.setProps({
+        containerClass: this.getSearchClasses,
+        overrideDefaults: this.overrideDefaults,
+        icon: this.$thisvui.icons.search,
+        isShadowless: true,
+        isOpaque: true
+      });
+      architect.addChild(input, this.filtered);
+    },
+    createPaginator(architect, condition = false) {
+      if (condition) {
+        let paginator = architect.createElement(TPaginator);
+        paginator.setProps({
+          items: this.getFilteredItems,
+          serverSide: this.serverSide,
+          totalItems: this.totalItems,
+          showText: this.showText,
+          previousText: this.previousText,
+          nextText: this.nextText,
+          previousBtnClass: this.previousBtnClass,
+          nextBtnClass: this.nextBtnClass,
+          isRight: true,
+          isLeft: true,
+          isRounded: true,
+          isShadowless: true,
+          isPaddingless: true,
+          isSmall: true,
+          showNumbers: this.showNumbers,
+          linkClass: this.linkClass,
+          currentLinkClass: this.currentLinkClass,
+          iconLib: this.iconLib,
+          overrideDefaults: this.overrideDefaults
+        });
+        paginator.addEvent(this.$thisvui.events.paginator.updatePage, data => {
+          this.updatePage(data);
+        });
+        architect.addChild(paginator);
+      }
+    },
+    createLoading(architect, classes) {
+      let self = this;
+      let transition = architect.createTransition("fade");
+      if (this.isLoading) {
+        let loading = architect.createDiv("t-loading-block is-absolute");
+        let progress = architect
+          .createElement(TProgress)
+          .setProps({ indeterminate: true, compact: true });
+        progress.addProp("target-class", classes, classes);
+        let block = architect.createDiv("t-loading-block-ui is-absolute");
+        loading.addChild(progress);
+        loading.addChild(block);
+        transition.addChild(loading);
+      }
+      architect.addChild(transition);
+    },
+    createCheckAll(architect, inputClass) {
+      let self = this;
+      let checkContainer = architect.createDiv("table__column--checkable");
+      let checkbox = architect.createElement(TCheckbox, "table__row--checker");
+      checkbox.value(this.checkAllItems);
+      let inputHandler = function(event) {
+        let resultValue = event.target ? event.target.value : event;
+        self.checkAllItems = resultValue;
+      };
+      checkbox.addInput(inputHandler);
+      checkbox.addProp("input-class", inputClass, inputClass !== undefined);
+
+      checkbox.addChange(this.checkAllRows, true, true);
+      checkbox.addClick(
+        event => {
+          event.stopPropagation();
+        },
+        true,
+        true
+      );
+      checkContainer.addChild(checkbox);
+      architect.addChild(checkContainer);
+    },
+    createRowChecker(
+      architect,
+      item,
+      { inputClass, container, hasBackgroundColor }
+    ) {
+      let checkContainer = container || architect.createDiv("table__column--checkable");
+      let checkbox = architect.createElement(TCheckbox, "table__row--checker");
+      checkbox.addAttr("value", this.isRowChecked(item));
+      checkbox.addProp("input-class", inputClass, inputClass !== undefined);
+      checkbox.setProps({
+        hasBackgroundColor: hasBackgroundColor
+      });
+      checkbox.addChange(
+        () => {
+          this.checkRow(item);
+        },
+        true,
+        true
+      );
+      checkbox.addClick(
+        event => {
+          event.stopPropagation();
+        },
+        true,
+        true
+      );
+      checkContainer.addChild(checkbox);
+      architect.addChild(checkContainer);
     }
   }
 };

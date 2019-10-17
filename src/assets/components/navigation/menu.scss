@@ -1,0 +1,182 @@
+.t-nav-drawer {
+  --bg-alpha: 0.03;
+  min-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: $nav-drawer-background-color;
+  border-top-right-radius: 6px;
+  transition: all 0.5s ease-in;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+
+  @include margin-padding(0.5em 0 0 0, 0);
+
+  .menu {
+    font-size: 1rem;
+    padding: 1em 2em 1em 1em;
+
+    .menu-list {
+      a {
+        --bg-alpha: 0.7;
+        padding: 0.4em 0.4em 0.2em 1em;
+        font-size: $nav-drawer-font-size;
+        font-weight: $nav-drawer-font-weight;
+        color: $nav-drawer-item-color;
+
+        &.router-link-active {
+          color: $nav-drawer-active-color;
+        }
+
+        &.is-active {
+          background-color: $nav-drawer-active-background-color;
+        }
+
+        &:hover {
+          --bg-hover-alpha: 0.7;
+          background-color: $nav-drawer-hover-background-color;
+        }
+      }
+
+      li {
+        padding-top: 7px;
+        padding-bottom: 1px;
+        list-style: none;
+
+        ul {
+          margin: 0;
+        }
+
+        .icon {
+          color: $nav-drawer-icon-color;
+        }
+      }
+
+      li + li {
+        margin-top: 0;
+      }
+    }
+
+    .menu-label {
+      background: $nav-drawer-label-background-color;
+      color: $nav-drawer-label-color;
+      text-align: center;
+      border-radius: $nav-drawer-label-border-radius;
+      -webkit-box-shadow: $nav-drawer-label-shadow;
+      box-shadow: $nav-drawer-label-shadow;
+
+      @include margin-padding(1rem 0rem, 0.5rem);
+    }
+
+    .icon {
+      --color-alpha: 0.9;
+    }
+  }
+}
+
+.t-tree-view {
+  min-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: all 0.5s ease-in;
+
+  @include margin-padding(0, 0);
+
+  .tree-view {
+    font-size: 1rem;
+    padding: 1em 2em 1em 1em;
+
+    .tree-view-list {
+      a {
+        padding: 0.4em 0.4em 0.2em 1em;
+        font-size: $tree-view-font-size;
+        font-weight: $tree-view-font-weight;
+        color: $tree-view-item-color;
+
+        &.router-link-active {
+          color: $tree-view-active-color;
+        }
+
+        &.is-active {
+          background-color: $tree-view-active-background-color;
+          border-radius: $tree-view-label-border-radius;
+        }
+
+        &:hover {
+          background-color: $tree-view-hover-background-color;
+        }
+      }
+
+      li {
+        padding: 7px 0 1px 0;
+        list-style: none;
+        margin-top: 0;
+
+        ul {
+          border-left: 1px solid #dbdbdb;
+          margin: 0 0 0 0.55em;
+          padding-left: 0.75em;
+        }
+
+        .icon {
+          color: $tree-view-icon-color;
+        }
+      }
+
+      li + li {
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+.dropdown-menu {
+  z-index: 100;
+}
+
+.t-tree-nav {
+  .list-style-none {
+    list-style: none !important;
+  }
+
+  .item {
+    cursor: pointer;
+  }
+
+  .icon {
+    display: inline-flex;
+    vertical-align: middle;
+    transition: 0.5s ease all;
+  }
+
+  .tree-nav-link {
+    display: inline-flex;
+    padding-left: 5px;
+    padding-top: 5px;
+  }
+
+  .tree-children {
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+  }
+
+  .router-link-exact-active {
+    background: none;
+    outline: none;
+  }
+
+  .tag {
+    margin-left: 0.5rem;
+    vertical-align: top;
+    font-size: 0.7em;
+    border-radius: 0.3em;
+  }
+
+  ul, li {
+    list-style: none;
+  }
+
+  li + li {
+    margin-top: 0;
+  }
+}
