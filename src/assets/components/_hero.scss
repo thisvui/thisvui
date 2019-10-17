@@ -22,6 +22,7 @@
 
   &.is-fullheight {
     align-items: flex-end;
+    height: -webkit-fill-available;
     @include tablet-up {
       align-items: center;
     }

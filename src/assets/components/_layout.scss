@@ -16,6 +16,7 @@
   &.has-min-height {
     .t-layout{
       min-height: unset;
+      height: -webkit-fill-available;
     }
   }
 
