@@ -21,20 +21,19 @@
   }
 
   &.is-fullheight {
-    align-items: center;
+    align-items: flex-end;
+    @include tablet-up {
+      align-items: center;
+    }
   }
 
   &__content {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     flex: 1;
     padding: $hero-content-padding;
     z-index: 1;
-
-    @include tablet-portrait-up {
-      align-items: flex-start;
-    }
 
     @include desktop-up {
       padding: $hero-content-padding-medium;
@@ -50,19 +49,39 @@
       width: 100%;
       height: auto;
       z-index: 0;
+      padding: $hero-content-padding-img;
+
       @include tablet-portrait-up {
         position: relative;
         width: unset;
         height: unset;
         z-index: unset;
+        padding: $hero-content-padding;
+      }
+
+      @include desktop-up {
+        padding: $hero-content-padding-medium;
+        align-items: center;
+      }
+
+      @include big-desktop-up {
+        padding: $hero-content-padding-big;
       }
     }
   }
+
   &__body {
     font-size: 1rem;
     line-height: 1.5;
     max-width: $hero-body-max-width;
+    margin-top: 5rem;
+
+    @include tablet-portrait-up {
+      margin-top: 0;
+    }
+
   }
+
   &__title {
     font-size: $hero-title-font-size;
     line-height: 1;
