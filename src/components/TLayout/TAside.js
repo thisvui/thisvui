@@ -1,4 +1,5 @@
 import colors from "../../mixins/colors";
+import gradient from "../../mixins/gradient";
 import common from "../../mixins/common";
 import TSlide from "../TAnimation/TSlide";
 import slide from "../../mixins/slide";
@@ -9,7 +10,7 @@ import ElementArchitect from "../../utils/element-architect";
 export default {
   name: "t-aside",
   components: { TSlide },
-  mixins: [common, colors, slide],
+  mixins: [common, colors, gradient, slide],
   props: {
     containerClass: {
       type: String
@@ -33,6 +34,7 @@ export default {
       this.filled(css, { removeInit: true });
       this.colorize(css, "router-link");
       css.addClass(this.getColorsModifiers);
+      css.addClass(this.getGradientModifiers);
       css.addClass(this.getFlexModifiers);
       css.addClass(
         this.containerClass,

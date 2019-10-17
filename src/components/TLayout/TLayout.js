@@ -1,4 +1,5 @@
 import colors from "../../mixins/colors";
+import gradient from "../../mixins/gradient";
 import common from "../../mixins/common";
 import overflow from "../../mixins/overflow";
 
@@ -15,7 +16,7 @@ export default {
       default: "vh"
     }
   },
-  mixins: [common, colors, overflow],
+  mixins: [common, colors, gradient, overflow],
   computed: {
     /**
      * Dynamically build the css classes for the target element
@@ -26,7 +27,9 @@ export default {
       css.isRelative();
       css.addClass("row", this.row);
       this.filled(css, { removeInit: true });
+      css.addClass("has-min-height", this.isNotNull(this.minHeight));
       css.addClass(this.getColorsModifiers);
+      css.addClass(this.getGradientModifiers);
       css.addClass(this.getFlexModifiers);
       return css.getClasses();
     },

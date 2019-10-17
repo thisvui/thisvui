@@ -24,22 +24,22 @@ export default {
       const cssArchitect = new CssArchitect();
       cssArchitect.addStyle(
         "--color-alpha",
-        parseInt(this.colorAlpha),
+        parseFloat(this.colorAlpha),
         this.colorAlpha !== undefined
       );
       cssArchitect.addStyle(
         "--border-alpha",
-        parseInt(this.borderAlpha),
+        parseFloat(this.borderAlpha),
         this.borderAlpha !== undefined
       );
       cssArchitect.addStyle(
         "--bg-alpha",
-        parseInt(this.bgAlpha),
+        parseFloat(this.bgAlpha),
         this.bgAlpha !== undefined
       );
       cssArchitect.addStyle(
         "--bg-hover-alpha",
-        parseInt(this.bgHoverAlpha),
+        parseFloat(this.bgHoverAlpha),
         this.bgHoverAlpha !== undefined
       );
       return cssArchitect.getStyles();

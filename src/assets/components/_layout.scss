@@ -13,8 +13,10 @@
     flex-direction: row;
   }
 
-  .t-layout{
-    min-height: unset;
+  &.has-min-height {
+    .t-layout{
+      min-height: unset;
+    }
   }
 
   .t-content {
