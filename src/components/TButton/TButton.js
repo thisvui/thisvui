@@ -108,6 +108,7 @@ export default {
     inverted: Boolean,
     raised: Boolean,
     flat: Boolean,
+    compact: Boolean,
     ripple: Boolean
   },
   data() {
@@ -131,6 +132,7 @@ export default {
       css.addClass("flat", this.flat);
       css.addClass("raised", this.raised);
       css.addClass("ripple", this.ripple);
+      css.addClass("compact", this.compact);
       css.addClass("is-text colored", this.text);
       css.addClass("outlined bordered colored", this.outlined);
       css.addClass("inverted", this.inverted);

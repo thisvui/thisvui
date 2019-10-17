@@ -32,6 +32,11 @@
   position: relative;
   @include btn-shadow;
   @include btn-sizes;
+
+  &.compact {
+    padding: 0.5em 1.1em 0.6em;
+  }
+
   &.rounded {
     border-radius: 50em;
   }
