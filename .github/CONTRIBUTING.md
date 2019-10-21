@@ -135,7 +135,7 @@ Please follow the following process to get your work included in the project:
     with a clear title and description against the `dev` branch. **Do not submit PRs against the `master` branch.**
 
 **Important!** By submitting a patch, you agree to allow the project owners to
-license your work under the terms of the [MIT License](LICENSE).
+license your work under the terms of the [MIT License](https://github.com/thisvui/thisvui/blob/master/LICENSE).
 
 ### Committing Changes
 
