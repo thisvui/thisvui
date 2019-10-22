@@ -370,8 +370,8 @@ export default {
   render: function(h) {
     let root = new ElementArchitect(h, "div", this.getContainerClasses);
 
-    this.createPaginator(root, this.isPaginated && this.isPaginatorAtTop);
-    this.createSearch(root);
+    this.createPaginator(root, this.isPaginated && this.isPaginatorAtTop, this.filtered);
+    this.createSearch(root, this.isPaginated && !this.isPaginatorAtTop);
     this.createTable(root);
     this.createPaginator(root, this.isPaginated && !this.isPaginatorAtTop);
 

@@ -10,7 +10,7 @@ import common from "../../mixins/common";
 import justify from "../../mixins/justify";
 
 import CssArchitect from "../../utils/css-architect";
-import ElementArchitect from "../../utils/element-architect";
+import { createDiv } from "../../utils/element-architect";
 
 export default {
   name: "t-paginator",
@@ -53,6 +53,9 @@ export default {
     }
   },
   computed: {
+    hasSlot() {
+      return !!this.$slots.default;
+    },
     isControlsOutside() {
       return this.controlsOutside;
     },
@@ -74,6 +77,7 @@ export default {
       cssArchitect.addClass(this.getJustifyModifiers);
       cssArchitect.addClass(this.getAlignmentModifiers);
       cssArchitect.addClass("is-rounded", this.isRounded);
+      cssArchitect.addClass("has-slot", this.hasSlot);
       return cssArchitect.getClasses();
     },
     /**
@@ -383,13 +387,16 @@ export default {
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "div", this.getContainerClass);
+    let root = createDiv(h, this.getContainerClass);
     root.setId(this.id);
 
     // Creating the nav element
     let nav = root.createNav(this.getTargetClass);
-    nav.addAttr("role", "navigation");
-    nav.addAttr("aria-label", "pagination");
+
+    if (this.hasSlot) {
+      let slot = root.createDiv().setChildren(this.$slots.default);
+      nav.addChild(slot);
+    }
 
     // Creating the previous button
     let previous = root.createElement(TPaginatorControl);

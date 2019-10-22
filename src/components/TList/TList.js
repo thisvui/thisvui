@@ -127,8 +127,8 @@ export default {
   render: function(h) {
     let root = new ElementArchitect(h, "div", "t-list-container");
 
-    this.createSearch(root);
-    this.createPaginator(root, this.isPaginated && this.isPaginatorAtTop);
+    this.createPaginator(root, this.isPaginated && this.isPaginatorAtTop, this.filtered);
+    this.createSearch(root, this.isPaginated && !this.isPaginatorAtTop);
     this.createHeader(root);
     this.createList(root);
     this.createPaginator(root, this.isPaginated && !this.isPaginatorAtTop);

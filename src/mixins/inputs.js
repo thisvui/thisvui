@@ -133,6 +133,7 @@ export default {
       const cssArchitect = new CssArchitect(
         "control"
       );
+      cssArchitect.addClass("compact", this.compact);
       return cssArchitect.getClasses();
     },
     /**

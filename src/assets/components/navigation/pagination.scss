@@ -46,9 +46,15 @@ $pagintaion-search-border-color: rgba($dark, 0.9) !default;
     padding-bottom: 0.2em;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap-reverse;
 
-    @include tablet-portrait-up {
+    @include tablet-up {
       justify-content: flex-end;
+
+      &.has-slot {
+        justify-content: space-between;
+      }
+
     }
 
     &.start {
@@ -67,6 +73,7 @@ $pagintaion-search-border-color: rgba($dark, 0.9) !default;
 
     &__list {
       display: flex;
+      margin: 0 0.5em 0 0.5em;
     }
 
     &__link {

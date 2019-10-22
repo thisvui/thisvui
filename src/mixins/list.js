@@ -101,10 +101,6 @@ export default {
      */
     getSearchClasses: function() {
       const cssArchitect = new CssArchitect("t-search");
-      cssArchitect.addClass(
-        "is-absolute",
-        this.isPaginated && this.isPaginatorAtTop
-      );
       return cssArchitect.getClasses();
     }
   },
@@ -256,25 +252,27 @@ export default {
         ...this.paginationData
       });
     },
-    createSearch(architect) {
-      let self = this;
-      let input = architect.createElement(TInput);
-      input.value(this.searchKey);
-      let inputHandler = function(event) {
-        let resultValue = event.target ? event.target.value : event;
-        self.searchKey = resultValue;
-      };
-      input.addInput(inputHandler);
-      input.setProps({
-        containerClass: this.getSearchClasses,
-        overrideDefaults: this.overrideDefaults,
-        icon: this.$thisvui.icons.search,
-        isShadowless: true,
-        isOpaque: true
-      });
-      architect.addChild(input, this.filtered);
+    createSearch(architect, condition = true) {
+      if(this.filtered && condition) {
+        let self = this;
+        let input = architect.createElement(TInput);
+        input.value(this.searchKey);
+        let inputHandler = function (event) {
+          let resultValue = event.target ? event.target.value : event;
+          self.searchKey = resultValue;
+        };
+        input.addInput(inputHandler);
+        input.setProps({
+          containerClass: this.getSearchClasses,
+          overrideDefaults: this.overrideDefaults,
+          icon: this.$thisvui.icons.search,
+          isShadowless: true,
+          isOpaque: true
+        });
+        architect.addChild(input);
+      }
     },
-    createPaginator(architect, condition = false) {
+    createPaginator(architect, condition = false, search = false) {
       if (condition) {
         let paginator = architect.createElement(TPaginator);
         paginator.setProps({
@@ -301,6 +299,9 @@ export default {
         paginator.addEvent(this.$thisvui.events.paginator.updatePage, data => {
           this.updatePage(data);
         });
+        if(search){
+          this.createSearch(paginator);
+        }
         architect.addChild(paginator);
       }
     },
