@@ -1,4 +1,4 @@
 import TTable from "./TTable";
+import TCell from "./TCell";
 
-export { TTable };
-export default TTable;
+export { TTable, TCell };

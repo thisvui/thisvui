@@ -3,6 +3,7 @@
  */
 import { TButton } from "../components/TButton";
 import { TIcon } from "../components/TIcon";
+import { TCell } from "../components/TTable";
 import keycodes from "./keycodes";
 
 export default class ElementArchitect {
@@ -332,6 +333,12 @@ export default class ElementArchitect {
 
   createTh(classes) {
     return this.createElement("th", classes);
+  }
+
+  createCell(classes, head = false) {
+    let cell = this.createElement(TCell, classes);
+    cell.setProps({ head: head });
+    return cell;
   }
 
   createButton(classes) {

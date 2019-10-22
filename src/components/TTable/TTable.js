@@ -60,7 +60,7 @@ export default {
     bordered: {
       type: Boolean
     },
-    isStriped: {
+    striped: {
       type: Boolean
     },
     isNarrow: {
@@ -92,11 +92,12 @@ export default {
       css.addClass(this.getHelpersModifiers);
       css.addClass("is-responsive", this.isResponsive);
       css.addClass("is-bordered", this.bordered);
-      css.addClass("is-striped", this.isStriped);
+      css.addClass("striped", this.striped);
       css.addClass("is-narrow", this.isNarrow);
       css.addClass("is-hoverable", this.isHoverable);
       css.addClass("is-fullwidth", this.isFullwidth);
       css.addClass("is-clipped");
+      css.addClass("stripped");
       css.addClass(this.targetClass);
       css.addClass(this.getColorsModifiers);
       this.setupColorModifier(css);
@@ -122,7 +123,7 @@ export default {
     },
     getTrClasses: function() {
       const css = new CssArchitect();
-      this.hovered(css, { hasColor: true});
+      this.hovered(css, { hasColor: true });
       css.addClass(this.colorModifier, this.hasColorModifier);
       return css.getClasses();
     },
@@ -202,7 +203,7 @@ export default {
     },
     createTableColumns(architect) {
       for (let column of this.mappedColumns) {
-        let th = architect.createElement("th", this.getThClasses);
+        let th = architect.createCell(this.getThClasses, true);
         th.setKey(column.name);
         th.addClick(() => {
           this.sortBy(column);
@@ -227,13 +228,15 @@ export default {
     },
     createTableHead(architect) {
       let thead = architect.createElement("thead");
-      let tr = architect.createElement("tr");
+      let tr = architect.createTr();
       if (this.checkable || this.expandable) {
-        let th = architect.createElement("th", this.getTableFunctionsClasses);
+        let th = architect.createCell(this.getTableFunctionsClasses, true);
         let flex = architect.createElement(TFlex);
 
         if (this.expandable) {
-          let expandContainer = architect.createDiv("table__column--expandable");
+          let expandContainer = architect.createDiv(
+            "table__column--expandable"
+          );
           flex.addChild(expandContainer);
         }
 
@@ -250,7 +253,7 @@ export default {
         tr.addVNodeChildren(this.$slots["header"]);
       }
       if (this.hasActionColumn) {
-        let actionColumn = architect.createElement("th", this.getThClasses);
+        let actionColumn = architect.createCell(this.getThClasses, true);
         actionColumn.innerHTML(this.actionText);
         tr.addChild(actionColumn);
       }
@@ -274,21 +277,20 @@ export default {
       } else {
         for (let index in this.getItems) {
           let item = this.getItems[index];
-          let tr = architect.createElement("tr", this.getTrClasses);
+          let tr = architect.createTr(this.getTrClasses);
           tr.addClick(() => this.toggleExpand(item), this.isExpandable(item));
 
           if (this.isCheckable(item) || this.isExpandable(item)) {
-            let td = architect.createElement("td");
+            let td = architect.createCell();
             const css = new CssArchitect();
-            css.addStyle(
-              "width",
-              `${this.getFunctionColWidth(item)}px`
-            );
+            css.addStyle("width", `${this.getFunctionColWidth(item)}px`);
             td.setStyles(css.getStyles());
 
             let flex = architect.createElement(TFlex);
             if (this.isExpandable(item)) {
-              let expandable = architect.createSpan("table__column--expandable");
+              let expandable = architect.createSpan(
+                "table__column--expandable"
+              );
               let expandIcon = architect.createIcon();
               expandIcon.setProps({
                 icon: this.isExpanded(item) ? this.openedIcon : this.closedIcon,
@@ -314,7 +316,7 @@ export default {
             })
           );
           if (this.hasActionColumn) {
-            let actionColumn = architect.createElement("td");
+            let actionColumn = architect.createCell();
             actionColumn.addVNodeChildren(
               this.$scopedSlots["actions"]({
                 item: item,
@@ -325,23 +327,17 @@ export default {
           }
           tbody.addChild(tr);
           if (this.isExpandable(item)) {
-            let expandableRow = architect.createElement(
-              "tr",
+            let expandableRow = architect.createTr(
               "expandable__row"
             );
-            let expandColumn = architect.createElement(
-              "td",
-              "expandable__col"
-            );
+            let expandColumn = architect.createCell("expandable__col");
             expandColumn.addAttr("colspan", this.getColspan);
             let expand = architect.createElement(TExpand);
             if (this.isExpanded(item)) {
               let expandedContainer = architect.createDiv(
                 "expandable__container"
               );
-              let expandedContent = architect.createDiv(
-                "expandable__content"
-              );
+              let expandedContent = architect.createDiv("expandable__content");
               expandedContent.addVNodeChildren(
                 this.$scopedSlots["detail"]({
                   item: item,

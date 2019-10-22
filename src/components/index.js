@@ -50,7 +50,7 @@ export { default as TSelect } from "./TSelect";
 export { default as TSwitch } from "./TSwitch";
 
 export * from "./TTabs";
-export { default as TTable } from "./TTable";
+export * from "./TTable";
 export { default as TTextarea } from "./TTextarea";
 export * from "./TToolbar";
 export * from "./TTree";
