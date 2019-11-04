@@ -34,98 +34,12 @@ $notification-margin: 0.7rem !default;
   margin: 0;
   display: flex;
 
-  &::before {
-    display: none;
-    content: "";
-    position: absolute;
-    top: -6px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 4px 6px 0 6px;
-    border-style: solid;
-    border-color: $help-arrow-color transparent transparent transparent;
-    z-index: 10;
-    opacity: 1;
-
-    @include tablet-landscape-up {
-      display: block;
-    }
-  }
-
   &::after {
     @include mobile-helper;
-    @include tablet-landscape-up {
-      left: 50%;
-      top: -6px;
-      transform: translateX(-50%) translateY(-100%);
-      background: $help-background-color;
-      border: 1px solid $help-border-color;
-      font-size: 12px;
-      text-align: center;
-      border-radius: 5px;
-      pointer-events: none;
-    }
   }
 
-  &:hover::after,
-  &:hover::before {
+  &:hover::after {
     opacity: 1;
-  }
-}
-
-[msg-position='left']::before {
-  left: 0%;
-  top: 50%;
-  margin-left: -12px;
-  transform: translatey(-50%) rotate(-90deg);
-}
-
-[msg-position='top']::before {
-  left: 50%;
-}
-
-[msg-position='bottom']::before {
-  top: 100%;
-  margin-top: 8px;
-  transform: translateX(-100%) translatey(-100%) rotate(-180deg);
-}
-
-[msg-position='right']::before {
-  left: 100%;
-  top: 50%;
-  margin-left: 1px;
-  transform: translatey(-50%) rotate(90deg);
-}
-
-[msg-position='left']::after {
-  @include tablet-landscape-up {
-    left: 0%;
-    top: 50%;
-    margin-left: -8px;
-    transform: translateX(-100%) translateY(-50%);
-  }
-}
-
-[msg-position='top']::after {
-  @include tablet-landscape-up {
-    left: 50%;
-  }
-}
-
-[msg-position='bottom']::after {
-  @include tablet-landscape-up {
-    top: 100%;
-    margin-top: 8px;
-    transform: translateX(-95%) translateY(0%);
-  }
-}
-
-[msg-position='right']::after {
-  @include tablet-landscape-up {
-    left: 100%;
-    top: 50%;
-    margin-left: 8px;
-    transform: translateX(0%) translateY(-50%);
   }
 }
 
