@@ -30,11 +30,11 @@ const addValidationScope = function(id, children) {
       // checks whether an element is even
       return element === options.Ctor.extendOptions;
     };
-    if (
+    let valid =
       options && // It's a component that has options
       types.some(isInput) && // you can import a component and check if it's of that type if you'd like
-      options.propsData // with prop data
-    ) {
+      options.propsData; // with prop data
+    if (valid) {
       const newNode = vnode;
       if (options.propsData.validationScope === undefined) {
         newNode.componentOptions.propsData.validationScope = id;
@@ -43,6 +43,9 @@ const addValidationScope = function(id, children) {
     }
     if (vnode.children) {
       return addValidationScope(id, vnode.children);
+    } else if (options && options.children) {
+      // If component that has options we check for children in component instance
+      return addValidationScope(id, options.children);
     }
     return vnode;
   });
@@ -53,7 +56,7 @@ export const ThisValidate = {
     Vue.component("t-validation-group", {
       functional: true,
       render: function(createElement, context) {
-        addValidationScope(context.props.id, context.children);
+        addValidationScope(context.props.id.trim(), context.children);
         // Transparently pass any attributes, event listeners, children, etc.
         return createElement("div", context.data, context.children);
       }
