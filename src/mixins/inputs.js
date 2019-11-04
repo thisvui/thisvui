@@ -100,84 +100,84 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getContainerClass: function() {
-      const cssArchitect = new CssArchitect("group");
-      cssArchitect.addClass(
+      const css = new CssArchitect("group");
+      css.addClass(
         this.containerClass,
         this.containerClass !== undefined
       );
-      cssArchitect.addClass("is-horizontal", this.isHorizontal);
-      return cssArchitect.getClasses();
+      css.addClass("is-horizontal", this.isHorizontal);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the control div
      * @returns { A String with the chained css classes }
      */
     getWrapperClass: function() {
-      const cssArchitect = new CssArchitect(
+      const css = new CssArchitect(
         "group__wrapper"
       );
-      this.borderedElement(cssArchitect);
-      cssArchitect.addClass("focused", this.focused);
-      cssArchitect.addClass("transparent", this.transparent);
-      cssArchitect.addClass(this.getTargetClass);
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass(this.getBackgroundModifiers);
-      this.setupColorModifier(cssArchitect);
-      return cssArchitect.getClasses();
+      this.borderedElement(css);
+      css.addClass("focused", this.focused);
+      css.addClass("transparent", this.transparent);
+      css.addClass(this.getTargetClass);
+      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getBackgroundModifiers);
+      this.setupColorModifier(css, true);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the control div
      * @returns { A String with the chained css classes }
      */
     getControlClass: function() {
-      const cssArchitect = new CssArchitect(
+      const css = new CssArchitect(
         "control"
       );
-      cssArchitect.addClass("compact", this.compact);
-      return cssArchitect.getClasses();
+      css.addClass("compact", this.compact);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the label element
      * @returns { A String with the chained css classes }
      */
     getLabelClass: function() {
-      const cssArchitect = new CssArchitect("label");
-      cssArchitect.addClass("has-value", this.hasValue);
-      cssArchitect.addClass(this.labelClass, this.isNotNull(this.labelClass));
-      cssArchitect.addClass("is-inline-flex", this.isNotNull(this.labelIcon));
-      cssArchitect.addClass("input-icon-left", this.isNotNull(this.icon) && this.iconPosition.left);
-      cssArchitect.addClass("colored");
-      cssArchitect.addClass(this.colorModifier, (this.focused || this.hasValue) && this.hasColorModifier);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("label");
+      css.addClass("has-value", this.hasValue);
+      css.addClass(this.labelClass, this.isNotNull(this.labelClass));
+      css.addClass("is-inline-flex", this.isNotNull(this.labelIcon));
+      css.addClass("input-icon-left", this.isNotNull(this.icon) && this.iconPosition.left);
+      css.addClass("colored");
+      css.addClass(this.colorModifier, (this.focused || this.hasValue) && this.hasColorModifier);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
      */
     getTargetClass: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(this.getTransformClass);
-      cssArchitect.addClass(this.getDisplayModifiers);
-      cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass(this.getHelpersModifiers);
-      cssArchitect.addClass(
+      const css = new CssArchitect();
+      css.addClass(this.getTransformClass);
+      css.addClass(this.getDisplayModifiers);
+      css.addClass(this.getSizesModifiers);
+      css.addClass(this.getHelpersModifiers);
+      css.addClass(
         this.inputClass,
         this.isNotNull(this.inputClass) && this.errors.length === 0
       );
-      cssArchitect.addClass(this.stateClass, this.stateClass !== undefined);
-      cssArchitect.addClass("colored", this.coloredText);
-      cssArchitect.addClass(this.getColorsModifiers, this.coloredText);
-      return cssArchitect.getClasses();
+      css.addClass(this.stateClass, this.stateClass !== undefined);
+      css.addClass("colored", this.coloredText);
+      css.addClass(this.getColorsModifiers, this.coloredText);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the input element
      * @returns { A String with the chained css classes }
      */
     getInputClass: function() {
-      const cssArchitect = new CssArchitect("input");
-      cssArchitect.isFullwidth();
-      cssArchitect.addClass("compact", this.compact);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("input");
+      css.isFullwidth();
+      css.addClass("compact", this.compact);
+      return css.getClasses();
     },
 
     /**
@@ -185,84 +185,82 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getSelectClass: function() {
-      const cssArchitect = new CssArchitect("select is-fullwidth");
-      cssArchitect.addClass(this.getSizesModifiers);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("select is-fullwidth");
+      css.addClass(this.getSizesModifiers);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the textarea element
      * @returns { A String with the chained css classes }
      */
     getTextareaClass: function() {
-      const cssArchitect = new CssArchitect("textarea");
-      cssArchitect.isFullwidth();
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("textarea");
+      css.isFullwidth();
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the checkbox/radio element
      * @returns { A String with the chained css classes }
      */
     getCheckradioClass: function() {
-      const cssArchitect = new CssArchitect("is-checkradio");
-      cssArchitect.addClass(this.getDisplayModifiers);
-      cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass(
+      const css = new CssArchitect("is-checkradio");
+      css.addClass(this.getDisplayModifiers);
+      css.addClass(this.getSizesModifiers);
+      css.addClass(
         this.inputClass,
         this.isNotNull(this.inputClass) && this.errors.length === 0
       );
-      cssArchitect.addClass(this.stateClass, this.stateClass !== undefined);
-      cssArchitect.addClass(this.getColorsModifiers);
-      return cssArchitect.getClasses();
+      css.addClass(this.stateClass, this.stateClass !== undefined);
+      css.addClass(this.getColorsModifiers);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the checkbox switch element
      * @returns { A String with the chained css classes }
      */
     getSwitchClass: function() {
-      const cssArchitect = new CssArchitect("switch");
-      cssArchitect.addClass(this.getDisplayModifiers);
-      cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass(
+      const css = new CssArchitect("switch");
+      css.addClass(this.getDisplayModifiers);
+      css.addClass(this.getSizesModifiers);
+      css.addClass(
         this.inputClass,
         this.isNotNull(this.inputClass) && this.errors.length === 0
       );
-      cssArchitect.addClass(this.stateClass, this.stateClass !== undefined);
-      cssArchitect.addClass(this.getColorsModifiers);
-      return cssArchitect.getClasses();
+      css.addClass(this.stateClass, this.stateClass !== undefined);
+      css.addClass(this.getColorsModifiers);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the icon element
      * @returns { A String with the chained css classes }
      */
     getIconClass: function() {
-      const cssArchitect = new CssArchitect("is-left");
-      this.colorize(cssArchitect, "color", true);
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass(this.iconClass, this.iconClass !== undefined);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("is-left");
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.iconClass, this.iconClass !== undefined);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the icon when value is valid
      * @returns { A String with the chained css classes }
      */
     getValidStateIconClass: function() {
-      const cssArchitect = new CssArchitect("is-small is-right");
-      this.colorize(cssArchitect, "color", true);
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass(this.iconClass, this.iconClass !== undefined);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("is-small is-right");
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.iconClass, this.iconClass !== undefined);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the label icon element
      * @returns { A String with the chained css classes }
      */
     getLabelIconClass: function() {
-      const cssArchitect = new CssArchitect("is-left is-inline-flex");
-      cssArchitect.addClass(
+      const css = new CssArchitect("is-left is-inline-flex");
+      css.addClass(
         this.labelIconClass,
         this.labelIconClass !== undefined
       );
-      return cssArchitect.getClasses();
+      return css.getClasses();
     },
     /**
      * Dynamically adds a transform class

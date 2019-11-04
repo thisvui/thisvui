@@ -135,7 +135,12 @@ export default {
     checkColorModifier(classes) {
       return this.modifiers.some(modifier => classes.includes(modifier));
     },
-    setupColorModifier(cssArchitect) {
+    configureDefault(cssArchitect) {
+      let defaultModifier = "is-primary";
+      cssArchitect.addClass(defaultModifier, !this.hasColorModifier);
+      this.setupColorModifier(cssArchitect);
+    },
+    setupColorModifier(cssArchitect, addDefault = false) {
       this.hasColorModifier = this.checkColorModifier(
         cssArchitect.getClasses()
       );
@@ -145,6 +150,9 @@ export default {
 
       if (filtered && filtered !== null && filtered.length > 0) {
         this.colorModifier = filtered[0];
+      }
+      if (addDefault) {
+        this.configureDefault(cssArchitect);
       }
     },
     filled(
@@ -193,7 +201,7 @@ export default {
     },
     rgb2hex(color) {
       let rgb = color.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-      if(rgb == null){
+      if (rgb == null) {
         rgb = color.match(/^rgba\((\d+),\s*(\d+),\s*(\d+), \s*(\d+)\)$/);
       }
       return "#" + this.hex(rgb[1]) + this.hex(rgb[2]) + this.hex(rgb[3]);

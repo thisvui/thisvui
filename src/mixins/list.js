@@ -213,7 +213,7 @@ export default {
       return icon;
     },
     /**
-     * Determines the sort order giben a sort key
+     * Determines the sort order given a sort key
      */
     sortBy: function(column) {
       if (column.sortable) {

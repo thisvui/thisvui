@@ -1,7 +1,6 @@
 import alignment from "../../mixins/alignment";
 import sizes from "../../mixins/sizes";
 import common from "../../mixins/common";
-import TIcon from "../TIcon/TIcon";
 import colors from "../../mixins/colors";
 import icons from "../../mixins/icons";
 
@@ -10,7 +9,6 @@ import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-tabs",
-  components: { TIcon },
   mixins: [common, colors, alignment, sizes, icons],
   props: {
     selected: Number,
@@ -23,7 +21,8 @@ export default {
     },
     activeClass: {
       type: String
-    }
+    },
+    stateless: Boolean
   },
   computed: {
     /**
@@ -46,7 +45,9 @@ export default {
      */
     getHeadingClasses: function() {
       const css = new CssArchitect("tabs__heading");
-      let colorModifier = this.hasColorModifier ? this.colorModifier : "is-primary";
+      let colorModifier = this.hasColorModifier
+        ? this.colorModifier
+        : "is-primary";
       this.borderedElement(css);
       css.addClass(colorModifier);
       css.addClass("borderless", this.borderless);
@@ -59,11 +60,13 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getItemClasses: function() {
-      let colorModifier = this.hasColorModifier ? this.colorModifier : "is-primary";
+      let colorModifier = this.hasColorModifier
+        ? this.colorModifier
+        : "is-primary";
       const css = new CssArchitect("tabs__item");
       css.addClass("borderless", this.borderless);
       css.addClass("fullwidth", this.fullwidth);
-      this.filled(css, { hoverable : true })
+      this.filled(css, { hoverable: true });
       css.addClass(colorModifier);
       css.addClass(this.getSizesModifiers);
       return css.getClasses();
@@ -73,10 +76,12 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getSliderClasses: function() {
-      let colorModifier = this.hasColorModifier ? this.colorModifier : "is-primary";
+      let colorModifier = this.hasColorModifier
+        ? this.colorModifier
+        : "is-primary";
       const css = new CssArchitect("tab__slider");
-      this.filled(css, { inverted : true })
-      this.alpha(css, { bg : 0.7 })
+      this.filled(css, { inverted: true });
+      this.alpha(css, { bg: 0.7 });
       css.addClass(colorModifier);
       return css.getClasses();
     },
@@ -85,7 +90,9 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getBodyClasses: function() {
-      let colorModifier = this.hasColorModifier ? this.colorModifier : "is-primary";
+      let colorModifier = this.hasColorModifier
+        ? this.colorModifier
+        : "is-primary";
       const css = new CssArchitect("tabs__body");
       this.borderedElement(css);
       css.addClass(colorModifier);
@@ -95,7 +102,7 @@ export default {
     },
     getBodyStyles: function() {
       const css = new CssArchitect();
-      this.alpha(css, { border : 0.7 });
+      this.alpha(css, { border: 0.7 });
       return css.getStyles();
     },
     /**
@@ -156,7 +163,7 @@ export default {
     },
     getSliderStyles: function() {
       const css = new CssArchitect();
-      this.alpha(css, { bg : 0.7 });
+      this.alpha(css, { bg: 0.7 });
       css.addStyle("width", `${this.sliderWidth}px`);
       css.addStyle("left", `${this.sliderLeft}px`);
       return css.getStyles();
@@ -175,6 +182,25 @@ export default {
       architect.addChild(tabSliderWrapper);
     },
     /**
+     * Creates the tab icon
+     */
+    createIcon(architect, $icon) {
+      if ($icon) {
+        let md = "md" === this.iconLibrary;
+        let iconContainer = architect.createSpan("icon medium");
+        let icon = architect.createElement("i");
+        icon.addClass($icon, !md);
+        icon.innerHTML($icon, md);
+        icon.setProps({
+          icon: $icon,
+          iconLib: this.iconLib,
+          preserveDefaults: !this.overrideDefaults
+        });
+        iconContainer.addChild(icon);
+        architect.addChild(iconContainer);
+      }
+    },
+    /**
      * Creates the tab items
      * @param architect
      */
@@ -182,7 +208,7 @@ export default {
       let items = architect.createDiv(this.getHeadingClasses);
       for (let $index in this.tabs) {
         let $tab = this.tabs[$index];
-        let $activeClass = $tab.isActive ? "active" : "inactive"
+        let $activeClass = $tab.isActive ? "active" : "inactive";
 
         let item = architect.createDiv(this.getItemClasses);
         item.addClass($activeClass);
@@ -195,21 +221,7 @@ export default {
           this.selectTab($index);
         });
 
-        if ($tab.icon) {
-          let iconContainer = architect.createSpan(
-            this.getIconContainerClasses
-          );
-          let icon = architect.createIcon(this.iconClass);
-          icon.addClass("icon", $tab.isActive);
-          icon.addClass(`icon ${$tab.iconClass}`, !$tab.isActive);
-          icon.setProps({
-            icon: this.tab.icon,
-            iconLib: this.iconLib,
-            preserveDefaults: !this.overrideDefaults
-          });
-          iconContainer.addChild(icon);
-          link.addChild(iconContainer);
-        }
+        this.createIcon(link, $tab.icon);
 
         if ($tab.name) {
           let name = architect.createSpan();

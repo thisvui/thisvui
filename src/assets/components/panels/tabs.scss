@@ -25,22 +25,21 @@
       box-shadow: none;
       -webkit-box-shadow: none;
     }
-
   }
 
   &__item {
     display: flex;
     align-items: center;
     position: relative;
-    height:$tabs-label-height;
+    height: $tabs-label-height;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
-    text-align:center;
-    line-height:3em;
+    text-align: center;
+    line-height: 3em;
     margin-top: 0;
-    cursor:pointer;
+    cursor: pointer;
 
-    &:not(:last-child){
+    &:not(:last-child) {
       margin-right: 2px;
     }
 
@@ -60,17 +59,15 @@
         flex: 1;
       }
     }
-
   }
 
   &__container {
     width: 100%;
     position: relative;
 
-    &:not(:last-child){
+    &:not(:last-child) {
       margin-bottom: $tabs-bottom-margin;
     }
-
   }
 
   &__body {
@@ -90,26 +87,81 @@
       -webkit-box-shadow: none;
     }
   }
+}
 
-  .tab {
-    &__pane {
-      width: 100%;
-    }
-    &__slider {
-      display: flex;
-      position: relative;
-      height: 2px;
-      transition: all 0.075s cubic-bezier(0.25, 0.8, 0.5, 1) 0s;
-      z-index: 2;
-      bottom: 1px;
-
-      &--wrapper {
-        left: 0;
-        bottom: 0;
-        margin: 0 !important;
-        width: 100%;
-      }
+.tab {
+  &__pane {
+    width: 100%;
+    transition: 0.5s cubic-bezier(0.25, 0.8, 0.5, 1);
+    &.active {
+      visibility: visible;
     }
   }
+  &__slider {
+    display: flex;
+    position: relative;
+    height: 2px;
+    transition: all 0.075s cubic-bezier(0.25, 0.8, 0.5, 1) 0s;
+    z-index: 2;
+    bottom: 1px;
 
+    &--wrapper {
+      left: 0;
+      bottom: 0;
+      margin: 0 !important;
+      width: 100%;
+    }
+  }
+}
+
+@-webkit-keyframes tab-enter {
+  0% {
+    transform: translate3d(100%, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes tab-enter {
+  0% {
+    transform: translate3d(100%, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.tab-enter {
+  -webkit-animation-name: tab-enter;
+  animation-name: tab-enter;
+  animation-duration: 0.5s;
+}
+
+@-webkit-keyframes tab-leave {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes tab-leave {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.tab-leave {
+  -webkit-animation-name: tab-leave;
+  animation-name: tab-leave;
+  animation-duration: 0.5s;
 }

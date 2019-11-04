@@ -41,7 +41,7 @@ export default {
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "transition", this.getClasses);
+    let root = new ElementArchitect(h, "transition");
     root.setProps({ name: "expand" });
 
     root.addEvent("enter", this.enter);

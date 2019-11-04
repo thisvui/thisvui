@@ -159,7 +159,7 @@
     $color-invert: nth($pair, 2);
     &.is-#{$name} {
       tr:nth-child(odd) {
-        $stripped-color: rgba(tint($color, 70%), var(--bg-alpha));
+        $stripped-color: rgba($color, 0.2);
         background-color: $stripped-color;
         &:hover {
           color: $color-invert;

@@ -63,53 +63,53 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("modal-card");
-      cssArchitect.addClass(this.targetClass, this.targetClass);
-      cssArchitect.addClass(this.width);
-      cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass(this.getColorsModifiers);
-      this.setupColorModifier(cssArchitect);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("modal-card");
+      css.addClass(this.targetClass, this.targetClass);
+      css.addClass(this.width);
+      css.addClass(this.getSizesModifiers);
+      css.addClass(this.getColorsModifiers);
+      this.setupColorModifier(css, true);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the modal header
      * @returns { A String with the chained css classes }
      */
     getHeaderClasses: function() {
-      const cssArchitect = new CssArchitect("modal-card-head");
-      this.colorize(cssArchitect, "bg-color", true);
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
-      cssArchitect.addClass(this.headerClass, this.headerClass);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("modal-card-head");
+      this.colorize(css, "bg-color", true);
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.headerClass, this.headerClass);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the modal header title
      * @returns { A String with the chained css classes }
      */
     getTitleClasses: function() {
-      const cssArchitect = new CssArchitect("modal-card-title");
-      this.colorize(cssArchitect, "color-invert", true);
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
-      cssArchitect.addClass(this.titleClass, this.titleClass);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("modal-card-title");
+      this.colorize(css, "color-invert", true);
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.titleClass, this.titleClass);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the modal body
      * @returns { A String with the chained css classes }
      */
     getBodyClasses: function() {
-      const cssArchitect = new CssArchitect("modal-card-body");
-      cssArchitect.addClass(this.bodyClass, this.bodyClass);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("modal-card-body");
+      css.addClass(this.bodyClass, this.bodyClass);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the modal foot
      * @returns { A String with the chained css classes }
      */
     getFootClasses: function() {
-      const cssArchitect = new CssArchitect("modal-card-foot");
-      cssArchitect.addClass(this.footClass, this.footClass);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("modal-card-foot");
+      css.addClass(this.footClass, this.footClass);
+      return css.getClasses();
     }
   },
   methods: {

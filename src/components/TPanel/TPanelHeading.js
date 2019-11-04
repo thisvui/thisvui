@@ -36,7 +36,8 @@ export default {
      */
     getClasses: function() {
       const css = new CssArchitect("panel__heading");
-      css.addClass("filled bordered");
+      this.filled(css);
+      this.borderedElement(css);
       css.addClass("icon-left", this.iconLeft);
       css.addClass(this.getColorsModifiers);
       css.addClass(

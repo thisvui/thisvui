@@ -100,7 +100,7 @@ export default {
       type: Boolean
     },
     view: {
-      type: String
+      type: [ String, Object ]
     },
     rounded: Boolean,
     outlined: Boolean,
@@ -145,7 +145,7 @@ export default {
       css.addClass(this.getSizesModifiers);
       css.addClass(this.getStateModifiers);
       css.addClass(this.getHelpersModifiers);
-      this.setupColorModifier(css);
+      this.setupColorModifier(css, true);
       return css.getClasses();
     },
     /**
@@ -168,29 +168,29 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getConfirmClass: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addClass("is-small");
-      cssArchitect.addClass(this.confirmDialogClass);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect();
+      css.addClass("is-small");
+      css.addClass(this.confirmDialogClass);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the confirmation message element
      * @returns { A String with the chained css classes }
      */
     getMessageClass: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(this.messageClass);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect();
+      css.addClass(this.messageClass);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the confirm button
      * @returns { A String with the chained css classes }
      */
     getConfirmBtnClass: function() {
-      const cssArchitect = new CssArchitect("button");
-      cssArchitect.addClass("filled cursor-pointer");
-      cssArchitect.addClass(this.confirmBtnClass);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("button");
+      css.addClass("filled cursor-pointer");
+      css.addClass(this.confirmBtnClass);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the cancel button
@@ -260,7 +260,8 @@ export default {
       } else {
         this.$emit(this.$thisvui.events.common.click);
         if (this.view) {
-          this.$router.push({ name: this.view });
+          let view = typeof this.view === 'string' ? { name: this.view } : this.view
+          this.$router.push(view);
         }
       }
     },

@@ -52,22 +52,22 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("panel");
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass(this.getHelpersModifiers);
-      this.setupColorModifier(cssArchitect);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("panel");
+      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getHelpersModifiers);
+      this.setupColorModifier(css, true);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the panel body
      * @returns { A String with the chained css classes }
      */
     getBodyClasses: function() {
-      const cssArchitect = new CssArchitect("panel__body");
-      cssArchitect.addClass("is-closed is-shadowless", !this.isExpanded);
-      this.colorize(cssArchitect, "border", true);
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("panel__body");
+      css.addClass("is-closed is-shadowless", !this.isExpanded);
+      this.borderedElement(css);
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the panel heading icon

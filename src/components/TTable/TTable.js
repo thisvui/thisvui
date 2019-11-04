@@ -100,7 +100,7 @@ export default {
       css.addClass("stripped");
       css.addClass(this.targetClass);
       css.addClass(this.getColorsModifiers);
-      this.setupColorModifier(css);
+      this.setupColorModifier(css, true);
       return css.getClasses();
     },
     getContainerClasses: function() {
@@ -125,6 +125,12 @@ export default {
       const css = new CssArchitect();
       this.hovered(css, { hasColor: true });
       css.addClass(this.colorModifier, this.hasColorModifier);
+      return css.getClasses();
+    },
+    getSortIconClasses: function() {
+      const css = new CssArchitect("sort-icon");
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass("inverted", this.hasColorModifier);
       return css.getClasses();
     },
     getRowCheckerClasses: function() {
@@ -214,7 +220,7 @@ export default {
         text.innerHTML(
           this.$options.filters.capitalize(column.display || column.name)
         );
-        let icon = architect.createIcon("sort-icon").setProps({
+        let icon = architect.createIcon(this.getSortIconClasses).setProps({
           icon: this.getSortIcon(column.name)
         });
         icon.addClick(() => {

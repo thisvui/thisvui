@@ -180,7 +180,10 @@ export default {
   mounted() {
     this.$nextTick(function() {
       if (this.allowEmptyValue && this.isNotEmpty(this.initialValue)) {
-        this.search = this.initialValue;
+        this.search = this.display
+          ? this.initialValue[this.display]
+          : this.initialValue;
+        this.hasValue = true;
       }
       if (!this.allowEmptyValue) {
         let value = this.isNotEmpty(this.initialValue)
