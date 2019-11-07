@@ -72,7 +72,6 @@
 
   &__body {
     position: relative;
-    overflow: hidden;
     display: flex;
     padding: 2em;
     border: 1px solid rgba($tabs-body-border-color, 0.3);
@@ -86,16 +85,16 @@
       box-shadow: none;
       -webkit-box-shadow: none;
     }
+
+    &.switching {
+      overflow: hidden;
+    }
   }
 }
 
 .tab {
   &__pane {
     width: 100%;
-    transition: 0.5s cubic-bezier(0.25, 0.8, 0.5, 1);
-    &.active {
-      visibility: visible;
-    }
   }
   &__slider {
     display: flex;
@@ -112,56 +111,4 @@
       width: 100%;
     }
   }
-}
-
-@-webkit-keyframes tab-enter {
-  0% {
-    transform: translate3d(100%, 0, 0);
-  }
-
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-@keyframes tab-enter {
-  0% {
-    transform: translate3d(100%, 0, 0);
-  }
-
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-.tab-enter {
-  -webkit-animation-name: tab-enter;
-  animation-name: tab-enter;
-  animation-duration: 0.5s;
-}
-
-@-webkit-keyframes tab-leave {
-  0% {
-    transform: translate3d(-100%, 0, 0);
-  }
-
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-@keyframes tab-leave {
-  0% {
-    transform: translate3d(-100%, 0, 0);
-  }
-
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-.tab-leave {
-  -webkit-animation-name: tab-leave;
-  animation-name: tab-leave;
-  animation-duration: 0.5s;
 }

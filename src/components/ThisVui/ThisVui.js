@@ -2,7 +2,6 @@ import * as components from "..";
 import { ThisValidate } from "../TValidation/validation-bus";
 import { TIconLib } from "../TIcon/TIconLib";
 import ClickOutside from "../../directives/click-outside";
-import Display from "../../directives/display";
 
 import notification from "../../mixins/notification";
 
@@ -23,7 +22,6 @@ const ThisVui = {
     Vue.use(ThisValidate);
     Vue.use(TIconLib);
     Vue.directive("click-outside", ClickOutside);
-    Vue.directive("display", Display);
   }
 };
 

@@ -19,7 +19,7 @@ export default {
     display: {
       type: String
     },
-    initialValue: {
+    value: {
       type: [ String, Number, Object ]
     },
     height: {

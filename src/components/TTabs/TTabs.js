@@ -21,8 +21,16 @@ export default {
     },
     activeClass: {
       type: String
-    },
-    stateless: Boolean
+    }
+  },
+  data() {
+    return {
+      tabs: [],
+      activeTabIndex: this.selected || 0,
+      sliderWidth: 0,
+      sliderLeft: 0,
+      switching: false
+    };
   },
   computed: {
     /**
@@ -123,14 +131,6 @@ export default {
       return css.getClasses();
     }
   },
-  data() {
-    return {
-      tabs: [],
-      activeTabIndex: this.selected || 0,
-      sliderWidth: 0,
-      sliderLeft: 0
-    };
-  },
   created() {
     this.tabs = this.$children;
   },
@@ -139,7 +139,7 @@ export default {
       if (this.activeTabIndex === $index && !init) {
         return;
       }
-
+      this.switching = true;
       if (this.activeTabIndex < this.tabs.length) {
         this.tabs[this.activeTabIndex].activate(
           this.activeTabIndex,
@@ -150,6 +150,9 @@ export default {
       this.tabs[$index].activate(this.activeTabIndex, $index, true);
       this.activeTabIndex = $index;
       this.configSlider();
+      setTimeout(() => {
+        this.switching = false;
+      }, 370);
       this.$emit(this.$thisvui.events.common.change, $index);
     },
     configSlider(timeout = 0) {
@@ -240,6 +243,7 @@ export default {
      */
     createBody(architect) {
       let body = architect.createDiv(this.getBodyClasses);
+      body.addClass("switching", this.switching);
       body.setStyles(this.getBodyStyles);
       body.setChildren(this.$slots.default);
       architect.addChild(body);

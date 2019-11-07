@@ -173,9 +173,6 @@ export default {
         `Errors: ${this.errors.length} - Error Message: ${errorMessage}`
       );
       this.stateClass = this.errorClass; // Changes the element css class to error when validation failed
-      if (event !== undefined) {
-        this.$emit(event, false);
-      }
       this.validationPassed = false;
       return new Result(false, errorMessage);
     },

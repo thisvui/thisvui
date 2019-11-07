@@ -1,6 +1,6 @@
 import common from "../../mixins/common";
 
-import ElementArchitect from "../../utils/element-architect";
+import { createTransition } from "../../utils/element-architect";
 
 export default {
   name: "t-tab",
@@ -24,65 +24,36 @@ export default {
     },
     transitionPrev: {
       type: String,
-      default: "tab-enter"
+      default: "slidePrev"
     },
     transitionNext: {
       type: String,
-      default: "tab-leave"
-    },
-    stateless: Boolean
+      default: "slideNext"
+    }
   },
   data() {
     return {
       isActive: this.selected,
-      transitionClassName: null,
-      parentProps: this.$parent.$props
+      transitionClassName: null
     };
-  },
-  computed: {
-    /**
-     * Determines if icon must be shown. Check both the parent and child props
-     * @returns { A boolean value }
-     */
-    isStateless: function() {
-      let parentStateless = this.parentProps.stateless
-        ? this.parentProps.stateless
-        : false;
-      let stateless = this.stateless ? this.stateless : parentStateless;
-      return stateless;
-    }
   },
   methods: {
     /**
      * Activate or deactivate tab pane based on the index. Also determines which transition class to use
      */
     activate(oldIndex, index, activate) {
-      let tPrev = this.isStateless ? "slidePrev" : this.transitionPrev;
-      let tNext = this.isStateless ? "slideNext" : this.transitionNext;
-      this.transitionClassName = index < oldIndex ? tNext : tPrev;
+      this.transitionClassName =
+        index < oldIndex ? this.transitionNext : this.transitionPrev;
       this.isActive = activate;
     }
   },
   render: function(h) {
-    let addChild = this.isStateless ? this.isActive : true;
-    let root = new ElementArchitect(h, "transition");
-    root.setProps({ name: this.transitionClassName });
+    let root = createTransition(h, this.transitionClassName);
 
-    let tab = root.createDiv("tab__pane");
+    let tab = root.createDiv("tab__pane")
     tab.setId(this.id).setChildren(this.$slots.default);
 
-    tab.addDirective(
-      {
-        name: "display",
-        value: {
-          active: this.isActive,
-          transitionClass: this.transitionClassName
-        }
-      },
-      !this.isStateless
-    );
-
-    root.addChild(tab, addChild);
+    root.addChild(tab, this.isActive)
     return root.create();
   },
   mounted() {

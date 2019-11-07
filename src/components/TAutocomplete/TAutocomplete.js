@@ -200,8 +200,10 @@ export default {
   },
   mounted() {
     this.$nextTick(function() {
-      if (this.isNotEmpty(this.initialValue)) {
-        this.search = this.initialValue;
+      if (this.isNotEmpty(this.value)) {
+        this.search = this.display ? this.value[this.display] : this.value;
+        this.selectedValue = this.value;
+        this.hasValue = true;
       }
     });
   }
