@@ -1,35 +1,62 @@
+$modal-z-index: 60 !default;
+$modal-radius: 5px !default;
+$modal-heading-border: 1px solid $opaque !default;
+
 .modal {
-  .modal-card {
-    &.is-small {
-      width: calc(30vw);
-    }
+  z-index: $modal-z-index + 1;
+  background-color: $white-bis;
+  border-radius: $modal-radius;
+  @include box-shadow($v-shadow: 2px, $blur: 10px, $color: tint($black, 30%));
 
-    &.is-half {
-      width: calc(50vw);
-    }
-
-    &.is-medium {
-      width: calc(70vw);
-    }
-
-    &.is-large {
-      width: calc(100vw - 40px);
-    }
+  &.small {
+    flex: 0.3;
   }
 
-  .modal-card-head {
-    padding: 1rem;
-
-    &.hero {
-      flex-direction: unset;
-    }
+  &.half {
+    flex: 0.5;
   }
 
-  p:not(:last-child), dl:not(:last-child), ol:not(:last-child), ul:not(:last-child) blockquote:not(:last-child), pre:not(:last-child), table:not(:last-child) {
-    margin-bottom: 0;
+  &.medium {
+    flex: 0.7;
   }
 
-  .modal-card-foot {
-    padding: 1rem;
+  &.large {
+    flex: 0.95;
+  }
+
+  &__mask {
+    width: 100%;
+    height: 100%;
+    background-color: rgba($black-bis, 0.5);
+    position: absolute;
+  }
+  &__wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: $modal-z-index;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__heading {
+    padding: 1em;
+    display: flex;
+    justify-content: space-between;
+    border-top-left-radius: $modal-radius;
+    border-top-right-radius: $modal-radius;
+    border-bottom: $modal-heading-border;
+  }
+
+  &__body {
+    padding: 1em;
+  }
+
+  &__footer {
+    padding: 1em;
   }
 }

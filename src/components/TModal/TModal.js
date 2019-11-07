@@ -3,7 +3,7 @@ import colors from "../../mixins/colors";
 import common from "../../mixins/common";
 
 import CssArchitect from "../../utils/css-architect";
-import ElementArchitect from "../../utils/element-architect";
+import { createTransition } from "../../utils/element-architect";
 
 export default {
   name: "t-modal",
@@ -43,7 +43,10 @@ export default {
     footClass: {
       type: String
     },
-    width: {
+    half: {
+      type: Boolean
+    },
+    size: {
       type: String
     },
     animationType: {
@@ -63,12 +66,21 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const css = new CssArchitect("modal-card");
-      css.addClass(this.targetClass, this.targetClass);
-      css.addClass(this.width);
+      const css = new CssArchitect("modal");
+      css.addClass(this.targetClass);
+      css.addClass(this.size);
+      css.addClass("half", this.half);
       css.addClass(this.getSizesModifiers);
       css.addClass(this.getColorsModifiers);
       this.setupColorModifier(css, true);
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the modal mask
+     * @returns { A String with the chained css classes }
+     */
+    getMaskClasses: function() {
+      const css = new CssArchitect("modal__mask");
       return css.getClasses();
     },
     /**
@@ -76,8 +88,8 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getHeaderClasses: function() {
-      const css = new CssArchitect("modal-card-head");
-      this.colorize(css, "bg-color", true);
+      const css = new CssArchitect("modal__heading");
+      this.filled(css);
       css.addClass(this.colorModifier, this.hasColorModifier);
       css.addClass(this.headerClass, this.headerClass);
       return css.getClasses();
@@ -87,8 +99,8 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getTitleClasses: function() {
-      const css = new CssArchitect("modal-card-title");
-      this.colorize(css, "color-invert", true);
+      const css = new CssArchitect("modal__title");
+      // this.colorize(css, "color-invert", true);
       css.addClass(this.colorModifier, this.hasColorModifier);
       css.addClass(this.titleClass, this.titleClass);
       return css.getClasses();
@@ -98,7 +110,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getBodyClasses: function() {
-      const css = new CssArchitect("modal-card-body");
+      const css = new CssArchitect("modal__body");
       css.addClass(this.bodyClass, this.bodyClass);
       return css.getClasses();
     },
@@ -107,7 +119,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getFootClasses: function() {
-      const css = new CssArchitect("modal-card-foot");
+      const css = new CssArchitect("modal__footer");
       css.addClass(this.footClass, this.footClass);
       return css.getClasses();
     }
@@ -122,11 +134,11 @@ export default {
         architect.addChild(deleteBtn);
       }
     },
-    createHeader(architect) {
+    createHeading(architect) {
       if (this.showHeader) {
-        let header = architect.createElement("header", this.getHeaderClasses);
+        let header = architect.createDiv(this.getHeaderClasses);
         if (this.title) {
-          let title = architect.createP(this.getTitleClasses);
+          let title = architect.createDiv(this.getTitleClasses);
           title.innerHTML(this.title);
           header.addChild(title);
         }
@@ -134,14 +146,18 @@ export default {
         architect.addChild(header);
       }
     },
+    createMask(architect) {
+      let mask = architect.createDiv(this.getMaskClasses);
+      architect.addChild(mask);
+    },
     createBody(architect) {
-      let body = architect.createElement("section", this.getBodyClasses);
+      let body = architect.createDiv(this.getBodyClasses);
       body.setChildren(this.$slots.default);
       architect.addChild(body);
     },
     createFooter(architect) {
       if (this.showFooter && this.$slots["footer"]) {
-        let footer = architect.createElement("footer", this.getFootClasses);
+        let footer = architect.createDiv(this.getFootClasses);
         footer.setChildren(this.$slots["footer"]);
         architect.addChild(footer);
       }
@@ -150,7 +166,7 @@ export default {
       let transition = architect.createTransition(this.animationType);
       if (this.showModal) {
         let modal = architect.createDiv(this.getClasses);
-        this.createHeader(modal);
+        this.createHeading(modal);
         this.createBody(modal);
         this.createFooter(modal);
         transition.addChild(modal);
@@ -160,14 +176,11 @@ export default {
   },
   render: function(h) {
     if (!this.removed) {
-      let root = new ElementArchitect(h, "transition", this.getClasses);
-      root.setProps({ name: "fade" });
-
-      let modal = root.createDiv("modal is-active");
-      let bg = root.createDiv("modal-background");
-      modal.addChild(bg);
-      this.createModal(modal);
-      root.addChild(modal, this.showModal);
+      let root = createTransition(h, "fade", this.getClasses);
+      let wrapper = root.createDiv("modal__wrapper");
+      this.createMask(wrapper);
+      this.createModal(wrapper);
+      root.addChild(wrapper, this.showModal);
       return root.create();
     }
   }
