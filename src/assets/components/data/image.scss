@@ -1,0 +1,73 @@
+$modal-z-index: 60 !default;
+$modal-radius: 5px !default;
+$modal-heading-border: 1px solid $opaque !default;
+
+.image {
+  background-color: $opaque;
+  position: relative;
+  display: block;
+
+  img {
+    display: block;
+    height: auto;
+    width: 100%;
+  }
+
+  &.ratio {
+    img {
+      @include box-overlay;
+    }
+
+    &.aspect {
+      &--1by1 {
+        padding-top: 100%; /* 1:1 Aspect Ratio */
+      }
+
+      &--16by9 {
+        padding-top: 56.25%; /* 16:9 Aspect Ratio */
+      }
+
+      &--4by3 {
+        padding-top: 75%; /* 4:3 Aspect Ratio */
+      }
+
+      &--3by2 {
+        padding-top: 66.66%; /* 3:2 Aspect Ratio */
+      }
+
+      &--5by4 {
+        padding-top: 80%; /* 8:5 Aspect Ratio */
+      }
+
+      &--2by1 {
+        padding-top: 50%; /* 8:5 Aspect Ratio */
+      }
+
+      &--8by5 {
+        padding-top: 62.5%; /* 8:5 Aspect Ratio */
+      }
+    }
+  }
+
+  &.circular {
+    border-radius: 50%;
+
+    img {
+      border-radius: 50%;
+    }
+
+  }
+
+  &__fill {
+    @include box-overlay;
+  }
+
+  &__text {
+    @include box-overlay;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $white-bis;
+  }
+
+}
