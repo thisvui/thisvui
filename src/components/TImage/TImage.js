@@ -6,7 +6,6 @@ import aspect from "../../mixins/aspect";
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
 
-
 export default {
   name: "t-image",
   mixins: [common, dimension, aspect, helper],
@@ -33,7 +32,30 @@ export default {
     },
     targetClass: {
       type: String
+    },
+    is16: {
+      type: Boolean
+    },
+    is32: {
+      type: Boolean
+    },
+    is64: {
+      type: Boolean
+    },
+    is128: {
+      type: Boolean
+    },
+    is256: {
+      type: Boolean
+    },
+    is512: {
+      type: Boolean
     }
+  },
+  data: function() {
+    return {
+      hasError: false
+    };
   },
   computed: {
     /**
@@ -43,6 +65,13 @@ export default {
     getWrapperCss: function() {
       const css = new CssArchitect("image");
       css.addClass("circular", this.circular);
+      css.addClass("is-16", this.is16);
+      css.addClass("is-32", this.is32);
+      css.addClass("is-64", this.is64);
+      css.addClass("is-128", this.is128);
+      css.addClass("is-256", this.is256);
+      css.addClass("is-512", this.is512);
+      css.addClass("broken is-128", this.hasError);
       css.addClass(this.getHelpersModifiers);
       css.addClass(this.getAspectRatioModifiers);
       css.addClass(this.getDimensionModifiers);
@@ -86,16 +115,21 @@ export default {
     let img = root.createImg(this.getImgCss.getClasses());
     img.addAttr("src", this.src);
     img.addAttr("alt", this.alt);
+
+    img.addEvent("error", (e) =>{
+      e.stopPropagation();
+      this.hasError = true;
+    });
     root.addChild(img);
 
     // Creating the fill element if present
-    if(this.isNotNull(this.fillClass)){
+    if (this.isNotNull(this.fillClass)) {
       let fill = root.createDiv(this.getFillCss.getClasses());
       root.addChild(fill);
     }
 
     // Creating the text element if present
-    if(this.isNotNull(this.text)){
+    if (this.isNotNull(this.text)) {
       let text = root.createDiv(this.getTextCss.getClasses());
       text.innerHTML(this.text);
       root.addChild(text);

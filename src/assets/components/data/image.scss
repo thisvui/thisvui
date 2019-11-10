@@ -1,16 +1,43 @@
-$modal-z-index: 60 !default;
-$modal-radius: 5px !default;
-$modal-heading-border: 1px solid $opaque !default;
-
 .image {
-  background-color: $opaque;
   position: relative;
   display: block;
+  overflow: hidden;
+
+  &.is-16 {
+    width: 16px;
+    height: 16px;
+  }
+
+  &.is-32 {
+    width: 32px;
+    height: 32px;
+  }
+
+  &.is-64 {
+    width: 64px;
+    height: 64px;
+  }
+
+  &.is-128 {
+    width: 128px;
+    height: 128px;
+  }
+
+  &.is-256 {
+    width: 256px;
+    height: 256px;
+  }
+
+  &.is-512 {
+    width: 512px;
+    height: 512px;
+  }
 
   img {
     display: block;
     height: auto;
     width: 100%;
+    text-align: center;
   }
 
   &.ratio {
@@ -56,6 +83,27 @@ $modal-heading-border: 1px solid $opaque !default;
       border-radius: 50%;
     }
 
+  }
+
+  &.broken {
+    img {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      &:after, &:before {
+        content: attr(alt);
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        height: 100%;
+        display: flex;
+        background-color: $opaque;
+        color: $opaque-invert;
+        align-items: center;
+        justify-content: center;
+      }
+    }
   }
 
   &__fill {
