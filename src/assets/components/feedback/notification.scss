@@ -1,5 +1,6 @@
 $notification-radius: 4px !default;
 $notification-padding: 1.25rem 2.5rem 1.25rem 1.5rem !default;
+$notification-padding-compact: 0.55rem 1.25rem 0.55rem 1.25rem !default;
 $notification-margin: 0.7rem !default;
 
 @mixin mobile-helper {
@@ -53,6 +54,10 @@ $notification-margin: 0.7rem !default;
   position: relative;
   @include transitions;
   @include notification-shadow;
+
+  &.compact {
+    padding: $notification-padding-compact;
+  }
 
   &__close {
     position: absolute;

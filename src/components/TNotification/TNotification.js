@@ -14,15 +14,16 @@ export default {
       type: String
     },
     closeButton: {
-      type: Boolean,
-      default: false
+      type: Boolean
     },
     closeButtonClass: {
       type: String
     },
+    compact: {
+      type: Boolean
+    },
     timeout: {
-      type: Boolean,
-      default: false
+      type: Boolean
     },
     transition: {
       type: String,
@@ -41,6 +42,7 @@ export default {
     getClasses: function() {
       const css = new CssArchitect("notification");
       this.filled(css);
+      css.addClass("compact", this.compact);
       css.addClass(this.getColorsModifiers);
       css.addClass(this.getDisplayModifiers);
       css.addClass(this.getHelpersModifiers);
