@@ -46,9 +46,12 @@ export default {
     }
   },
   methods: {
-    alpha(cssArchitect, { color = false, border = false, bg = false, bgHover = false  } = {}) {
-      if(!cssArchitect){
-        throw new Error("alpha - Please provide css-architect parameter")
+    alpha(
+      cssArchitect,
+      { color = false, border = false, bg = false, bgHover = false } = {}
+    ) {
+      if (!cssArchitect) {
+        throw new Error("alpha - Please provide css-architect parameter");
       }
       cssArchitect.addStyle(
         "--color-alpha",

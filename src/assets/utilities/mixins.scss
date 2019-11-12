@@ -1,3 +1,11 @@
+@mixin browser_prefix($property, $value) {
+  -webkit-#{$property}: #{$value};
+  -moz-#{$property}: #{$value};
+  -ms-#{$property}: #{$value};
+  -o-#{$property}: #{$value};
+  #{$property}: #{$value};
+}
+
 /* Colors and Backgrounds */
 @mixin center($width, $height: 0) {
   position: absolute;
@@ -316,6 +324,24 @@
   -moz-animation: $animation_name $duration $timing_function;
   -o-animation: $animation_name $duration $timing_function;
   animation: $animation_name $duration $timing_function;
+}
+
+@mixin keyframes($animation-name) {
+  @-webkit-keyframes #{$animation-name} {
+    @content;
+  }
+  @-moz-keyframes #{$animation-name} {
+    @content;
+  }
+  @-ms-keyframes #{$animation-name} {
+    @content;
+  }
+  @-o-keyframes #{$animation-name} {
+    @content;
+  }
+  @keyframes #{$animation-name} {
+    @content;
+  }
 }
 
 /* Other */

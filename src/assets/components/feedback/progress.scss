@@ -1,202 +1,229 @@
-.t-progress {
-  margin-bottom: 5px;
+$progress-bar-bg: #eeeeee !default;
+$progress-bar-margin: 1rem !default;
+$progress-bar-height: 20px !default;
+$progress-bar-compact-height: 7px !default;
+$progress-circular-size: 5em !default;
+$progress-circular-compact-size: 2em !default;
+$progress-circular-margin: 1rem !default;
 
-  &.circular {
-    width: 75px;
-    height: 75px;
+.progress__linear {
+  width: 100%;
+  margin-bottom: $progress-bar-margin;
+  position: relative;
 
-    &.single {
-      margin: 0;
-      background: transparent;
-      border-top: 4px solid #03A9F4;
-      border-right: 4px solid transparent;
-      border-radius: 50%;
-      -webkit-animation: 1s spin linear infinite;
-      animation: 1s spin linear infinite;
-    }
+  &__wrapper {
+    width: 100%;
+    background-color: $progress-bar-bg;
+    box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
 
-    &.double {
-      position: absolute;
-      border-radius: 50%;
-      background-color: transparent;
-      border: 4px solid transparent;
-      border-top: 4px solid #777;
-      border-left: 4px solid #777;
-      -webkit-animation: 2s spin linear infinite;
-      animation: 2s spin linear infinite;
+    &.indeterminate {
+      height: $progress-bar-height;
 
-      &:nth-child(2) {
-        border: 4px solid transparent;
-        border-right: 4px solid #03A9F4;
-        border-bottom: 4px solid #03A9F4;
-        -webkit-animation: 1s spin linear infinite;
-        animation: 1s spin linear infinite;
+      &.compact {
+        height: $progress-bar-compact-height;
       }
     }
+  }
 
-    &.triple {
-      border: 3px solid transparent;
-      border-radius: 50%;
-      border-top: 4px solid #f15e41;
-      -webkit-animation: spin 4s linear infinite;
-      animation: spin 4s linear infinite;
+  &__bar {
+    display: block;
+    position: relative;
+    width: 0%;
+    max-width: 100%;
+    height: $progress-bar-height;
+    background: $progress-bar-bg;
+    box-shadow: inset 0px -1px 2px rgba(0, 0, 0, 0.1);
+    transition: width 0.8s ease-in-out;
+
+    &.compact {
+      height: $progress-bar-compact-height;
+    }
+
+    &.indeterminate {
+      width: 100%;
+      transform-origin: 0% 50%;
+      @include animation("infinite-progress", 1s, linear infinite);
+    }
+
+    &.stripped {
+      background-image: linear-gradient(
+        -45deg,
+        rgba(255, 255, 255, 0.125) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.125) 50%,
+        rgba(255, 255, 255, 0.125) 75%,
+        transparent 75%,
+        transparent
+      );
+      background-size: 35px 35px;
+    }
+
+    &.animated {
+      @include animation("progress-animated", 2s, linear infinite);
+      &--reverse {
+        @include animation("progress-animated-reverse", 2s, linear infinite);
+      }
+    }
+  }
+
+  &__label {
+    position: absolute;
+    overflow: hidden;
+    left: 0px;
+    right: 0px;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 0.7em;
+    text-align: center;
+    text-shadow: 0px 1px rgba(0, 0, 0, 0.3);
+    line-height: $progress-bar-height;
+
+    &.is-top,
+    &.is-bottom {
       position: relative;
-
-      &::before,
-      &::after {
-        content: "";
-        position: absolute;
-        top: 6px;
-        bottom: 6px;
-        left: 6px;
-        right: 6px;
-        border-radius: 50%;
-        border: 4px solid transparent;
-      }
-
-      &::before {
-        border-top-color: #bad375;
-        -webkit-animation: 3s spin linear infinite;
-        animation: 3s spin linear infinite;
-      }
-
-      &::after {
-        border-top-color: #26a9e0;
-        -webkit-animation: spin 1.5s linear infinite;
-        animation: spin 1.5s linear infinite;
-      }
+      margin-bottom: 5px;
     }
 
-    &.dual-ring {
-      width: 75px;
-      height: 75px;
-
-      &::after {
-        content: " ";
-        display: block;
-        width: 75px;
-        height: 75px;
-        margin: 1px;
-        border-radius: 50%;
-        border: 4px solid $primary;
-        border-color: $primary transparent $primary transparent;
-        animation: spin 4s linear infinite;
-      }
+    &.is-bottom {
+      margin-top: 5px;
+    }
+    &.is-left {
+      text-align: left;
+    }
+    &.is-center {
+      text-align: center;
+    }
+    &.is-right {
+      text-align: right;
     }
   }
+}
 
-  &::-webkit-progress-bar {
-    background-color: $progress-bar-background-color;
-  }
-
-  &::-webkit-progress-value {
-    background-color: $progress-value-background-color;
-  }
-
-  &::-moz-progress-bar {
-    background-color: $progress-value-background-color;
-  }
-
-  &::-ms-fill {
-    background-color: $progress-value-background-color;
-    border: none;
-  }
-
-  // Colors
-  @each $name, $pair in $colors {
-    $color: nth($pair, 1);
-
-    &.is-#{$name} {
-      &::-webkit-progress-value {
-        background-color: $color;
-      }
-
-      &::-moz-progress-bar {
-        background-color: $color;
-      }
-
-      &::-ms-fill {
-        background-color: $color;
-      }
-
-      &:indeterminate {
-        background-image: linear-gradient(to right, $color 30%, $progress-bar-background-color 30%);
-      }
-
-      &.circular {
-        border-top-color: $color;
-
-        &.double {
-          border-color: rgba($opaque, 0.2);
-
-          &:nth-child(2) {
-            border-right-color: $color;
-            border-bottom-color: $color;
-          }
-        }
-
-        &.triple {
-          border-top-color: $color;
-
-          &::before {
-            border-top-color: rgba($color, 0.5);
-          }
-
-          &::after {
-            border-top-color: rgba($color, 0.9);
-          }
-        }
-
-        &.dual-ring {
-          &::after {
-            border-color: $color transparent $color transparent;
-          }
-        }
-      }
-    }
-  }
+.progress__circular {
+  --progress-circular-size: #{$progress-circular-size};
+  position: relative;
 
   &.compact {
-    height: 2px;
+    --progress-circular-size: #{$progress-circular-compact-size};
   }
 
-  &:indeterminate {
-    &::-webkit-progress-bar {
-      background-color: transparent;
-    }
+  &__wrapper {
+    --circular-progress: 0;
+    @include dimensions(
+      var(--progress-circular-size),
+      var(--progress-circular-size)
+    );
+    margin: $progress-circular-margin;
+    position: relative;
 
-    &::-moz-progress-bar {
-      background-color: transparent;
+    &:nth-child(3n + 1) {
+      clear: both;
     }
   }
 
-  &-container {
-    &.compact {
-      height: 2px;
+  &__bar {
+    @include dimensions(100%, 100%);
+    clip: rect(
+      0,
+      var(--progress-circular-size),
+      var(--progress-circular-size),
+      calc(var(--progress-circular-size) / 2)
+    );
+    left: 0;
+    position: absolute;
+    top: 0;
+
+    &.indeterminate {
+      @include dimensions(100%, 100%);
+      border: calc(var(--progress-circular-size) / 10) solid;
+      border-color: $grey-lighter;
+      border-radius: 50%;
+      @include animation("progress-rotation", 1s, linear infinite);
     }
+  }
+
+  &__circle {
+    @include dimensions(100%, 100%);
+    border: calc(var(--progress-circular-size) / 10) solid $primary;
+    border-radius: 50%;
+    clip: rect(
+      0,
+      calc(var(--progress-circular-size) / 2),
+      var(--progress-circular-size),
+      0
+    );
+    left: 0;
+    position: absolute;
+    top: 0;
+
+    &.is-left {
+      transform: rotate(calc(var(--circular-progress) * 3.6deg));
+    }
+  }
+
+  &__label {
+    border-radius: 50%;
+    cursor: default;
+    display: block;
+    font-size: 1em;
+    line-height: 14em;
+    position: absolute;
+    text-align: center;
+    top: 0.4em;
+    right: 0.4em;
+    bottom: 0.4em;
+    left: 0.4em;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__fill {
+    @include dimensions(100%, 100%);
+    border: calc(var(--progress-circular-size) / 10) solid;
+    border-color: $grey-lighter;
+    border-radius: 50%;
   }
 }
 
-@-webkit-keyframes spin {
-  from {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
+@include keyframes("infinite-progress") {
+  0% {
+    transform: translateX(0) scaleX(0);
   }
-
-  to {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
+  40% {
+    transform: translateX(0) scaleX(0.4);
+  }
+  100% {
+    transform: translateX(100%) scaleX(0.5);
   }
 }
 
-@keyframes spin {
+@include keyframes("progress-animated") {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 35px 35px;
+  }
+}
+
+@include keyframes("progress-animated-reverse") {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -35px -35px;
+  }
+}
+
+@include keyframes("progress-rotation") {
   from {
     -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
   }
-
   to {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
+    -webkit-transform: rotate(359deg);
   }
 }
