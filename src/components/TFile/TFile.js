@@ -7,16 +7,11 @@ import sizes from "../../mixins/sizes";
 import display from "../../mixins/display";
 import helpers from "../../mixins/helpers";
 
-import TBox from "../TBox/TBox";
-import TIcon from "../TIcon/TIcon";
-import TThumbnails from "../TThumbnail/TThumbnails";
-import TThumbnail from "../TThumbnail/TThumbnail";
 import TButtons from "../TButton/TButtons";
-import TButton from "../TButton/TButton";
-import TTags from "../TTag/TTags";
+import TNotification from "../TNotification/TNotification";
 
 import CssArchitect from "../../utils/css-architect";
-import ElementArchitect from "../../utils/element-architect";
+import { createDiv } from "../../utils/element-architect";
 
 const STATUS_INITIAL = 0;
 const STATUS_SAVING = 1;
@@ -26,13 +21,8 @@ const STATUS_FAILED = 3;
 export default {
   name: "t-file",
   components: {
-    TTags,
-    TButton,
     TButtons,
-    TThumbnail,
-    TThumbnails,
-    TIcon,
-    TBox
+    TNotification
   },
   mixins: [common, alignment, icons, colors, states, sizes, display, helpers],
   props: {
@@ -52,7 +42,7 @@ export default {
     hasName: {
       type: Boolean
     },
-    hasPreview: {
+    showPreview: {
       type: Boolean,
       default: true
     },
@@ -65,9 +55,6 @@ export default {
       default: true
     },
     autoSubmit: {
-      type: Boolean
-    },
-    isBoxed: {
       type: Boolean
     },
     targetClass: {
@@ -91,8 +78,7 @@ export default {
       }
     },
     submitClass: {
-      type: String,
-      default: "has-text-link"
+      type: String
     },
     clearText: {
       type: String,
@@ -105,8 +91,11 @@ export default {
       }
     },
     clearClass: {
+      type: String
+    },
+    errorText: {
       type: String,
-      default: "has-text-danger"
+      default: "Upload Failed"
     }
   },
   data() {
@@ -114,7 +103,7 @@ export default {
       files: [],
       uploadError: null,
       currentStatus: null,
-      showPreview: false,
+      showPreviewBox: false,
       fileName: null,
       fileCount: 0
     };
@@ -124,41 +113,74 @@ export default {
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
      */
-    getClasses: function() {
-      const cssArchitect = new CssArchitect("t-file file");
-      cssArchitect.addClass(this.getSyntaxModifiers);
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass(this.getAlignmentModifiers);
-      cssArchitect.addClass(this.targetClass);
-      cssArchitect.addClass("has-name", this.fileHasName);
-      cssArchitect.addClass("is-boxed", this.isBoxed);
-      this.setupColorModifier(cssArchitect);
-      return cssArchitect.getClasses();
+    getContainerClasses: function() {
+      const css = new CssArchitect("file");
+      return css.getClasses();
     },
-    getPreviewClasses: function() {
-      const cssArchitect = new CssArchitect("t-file-preview");
-      cssArchitect.isFlexible("column");
-      this.colorize(cssArchitect, "border", true);
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
-      return cssArchitect.getClasses();
+    /**
+     * Dynamically build the css classes for the target element
+     * @returns { A String with the chained css classes }
+     */
+    getClasses: function() {
+      const css = new CssArchitect("file__input");
+      return css.getClasses();
+    },
+    getLabelClasses: function() {
+      const css = new CssArchitect("file__label");
+      this.filled(css, { hoverable: true });
+      css.addClass(this.getDisplayModifiers);
+      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getSizesModifiers);
+      css.addClass(this.getAlignmentModifiers);
+      css.addClass(this.targetClass);
+      this.setupColorModifier(css, true);
+      return css.getClasses();
+    },
+    getPreviewCss: function() {
+      const css = new CssArchitect("file__preview");
+      css.flexible({ direction: "column" });
+      this.borderedElement(css);
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      this.alpha(css, { border: 0.7 });
+      return css;
+    },
+    getThumbnailsClasses: function() {
+      const css = new CssArchitect("file__preview--thumbnails");
+      return css.getClasses();
+    },
+    getThumbnailCss: function() {
+      const css = new CssArchitect("file__preview--thumbnail");
+      this.borderedElement(css);
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      this.alpha(css, { border: 0.7 });
+      return css;
+    },
+    getThumbnailTitleCss: function() {
+      const css = new CssArchitect();
+      this.filled(css);
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      this.alpha(css, { bg: 0.9 });
+      return css;
     },
     getClearClasses: function() {
-      const cssArchitect = new CssArchitect("is-shadowless is-radiusless");
-      cssArchitect.addClass(this.clearClass);
-      cssArchitect.addClass(this.getSizesModifiers);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("is-shadowless");
+      css.addClass("halftone");
+      css.addClass(this.clearClass);
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.getSizesModifiers);
+      return css.getClasses();
     },
     getSubmitClasses: function() {
-      const cssArchitect = new CssArchitect("is-shadowless");
-      cssArchitect.addClass(this.submitClass);
-      cssArchitect.addClass(this.getSizesModifiers);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("is-shadowless");
+      css.addClass("halftone");
+      css.addClass(this.submitClass);
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.getSizesModifiers);
+      return css.getClasses();
     },
     getButtonContainerClasses: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addClass("t-flex align-self-end", this.isBoxed);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect();
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the icon element
@@ -169,9 +191,6 @@ export default {
       css.addClass(this.colorModifier, this.hasColorModifier);
       css.addClass("inverted");
       return css.getClasses();
-    },
-    fileHasName() {
-      return this.hasName && this.fileName !== null;
     },
     showSubmitButton() {
       return this.showSubmit && !this.autoSubmit && !this.isUploading;
@@ -200,7 +219,7 @@ export default {
       this.currentStatus = STATUS_INITIAL;
       this.files = [];
       this.uploadError = null;
-      this.showPreview = false;
+      this.showPreviewBox = false;
       this.fileName = null;
       this.fileCount = 0;
     },
@@ -215,7 +234,6 @@ export default {
 
           // Iterate over any file sent over appending the files
           // to the form data.
-
           for (let i = 0; i < this.files.length; i++) {
             let file = this.files[i];
 
@@ -224,6 +242,7 @@ export default {
           await this.onSubmit(formData, this.files);
           this.reset();
           this.$emit(this.$thisvui.events.file.uploaded);
+          this.currentStatus = STATUS_SUCCESS;
         } catch (e) {
           console.error(e);
           this.$emit(this.$thisvui.events.file.failed);
@@ -248,9 +267,10 @@ export default {
       }
       this.fileName = uploadedFiles[0].name;
       this.fileCount = this.files.length;
+
       // Generate image previews for the uploaded files
-      this.showPreview = this.hasPreview;
-      if (this.showPreview) {
+      this.showPreviewBox = this.showPreview;
+      if (this.showPreviewBox) {
         this.getImagePreviews();
       }
       // If autoSubmit is active we submit the files automatically
@@ -293,10 +313,10 @@ export default {
      * Creates the file input section
      */
     createInput(architect) {
-      let root = architect.createLabel("file-label file-label-container");
+      let root = architect.createDiv("file__wrapper");
 
       // Creating the html input element
-      let input = architect.createInput("file-input");
+      let input = architect.createInput("file__input");
       input.setId(this.id);
       input.setRef("files");
       let inputAttrs = {
@@ -310,30 +330,25 @@ export default {
       input.setAttrs(inputAttrs);
       input.addChange(this.handleFilesUpload);
 
-      let fileCta = architect.createSpan("file-cta");
-      let fileIcon = architect.createSpan("file-icon");
+      let fileIcon = architect.createSpan("file__icon");
       let icon = architect.createIcon().setProps({
         icon: this.$thisvui.icons.upload,
         containerClass: this.getIconClasses,
         preserveDefaults: !this.overrideDefaults
       });
-      let fileLabel = architect.createSpan("file-label");
-      let label = architect.createP();
-      label.innerHTML(
-        this.isInitialUpload
-          ? this.label
-          : `Uploading ${this.fileCount} files...`
-      );
-      let filename = architect.createSpan("file-name");
-      filename.innerHTML(this.fileName);
-
       fileIcon.addChild(icon);
-      fileLabel.addChild(label);
-      fileCta.addChild(fileIcon);
-      fileCta.addChild(fileLabel);
+
+      let label = architect.createLabel(this.getLabelClasses);
+      label.addChild(fileIcon);
+      let labelText = this.isUploading
+        ? `Uploading ${this.fileCount} files...`
+        : this.label;
+      label.addVNode(labelText);
+      label.addAttr("for", this.id);
+
       root.addChild(input);
-      root.addChild(fileCta);
-      root.addChild(filename, this.fileHasName);
+      root.addChild(label);
+      this.createButtons(root);
       architect.addChild(root);
     },
     /**
@@ -350,9 +365,7 @@ export default {
       let resetBtn = architect.createButton();
       resetBtn.setProps({
         icon: this.clearIcon,
-        iconClass: "has-text-danger",
         targetClass: this.getClearClasses,
-        compact: true,
         isMarginless: true
       });
       resetBtn.addChild(this.clearText, !this.hideButtonsLabels, true);
@@ -362,9 +375,7 @@ export default {
       let submitBtn = architect.createButton();
       submitBtn.setProps({
         icon: this.submitIcon,
-        iconClass: "has-text-link",
         targetClass: this.getSubmitClasses,
-        compact: true,
         isMarginless: true
       });
       submitBtn.addChild(this.submitText, !this.hideButtonsLabels, true);
@@ -380,73 +391,66 @@ export default {
      * Creates the file preview section
      */
     createPreview(architect) {
-      if (this.showPreview && this.hasPreview) {
-        let root = architect.createDiv(this.getPreviewClasses);
+      if (this.showPreviewBox && this.showPreview) {
+        let root = architect.createDiv(this.getPreviewCss.getClasses());
+        root.setStyles(this.getPreviewCss.getStyles());
+        this.createFailNotification(root);
 
-        let h2 = architect.createH(2, "is-size-6");
-        h2.innerHTML(`Uploaded ${this.files.length} file(s) successfully.`);
-
-        // Creating the reset button
-        let thumbnails = architect.createElement(TThumbnails);
+        // Creating the thumbnails
+        let thumbnails = architect.createDiv(this.getThumbnailsClasses);
         for (let index in this.files) {
           let file = this.files[index];
-          let thumbnail = architect.createElement(TThumbnail);
+          let thumbnail = architect.createDiv(
+            this.getThumbnailCss.getClasses()
+          );
+          thumbnail.setStyles(this.getThumbnailCss.getStyles());
           thumbnail.setKey(`${this.id}-thumb-${index}`);
-          let img = architect.createImg("image is-128x128");
+
+          let img = architect.createImg("image");
           img.setKey(`${this.id}-image-${index}`);
           img.setRef(`${this.id}-image-${index}`, true);
 
-          let name = architect.createH();
-          name.innerHTML(file.name);
+          let name = architect.createH(
+            1,
+            this.getThumbnailTitleCss.getClasses()
+          );
+          name.setStyles(this.getThumbnailTitleCss.getStyles());
+          let text =
+            file.name.length > 16
+              ? file.name.substring(0, 16) + "..."
+              : file.name;
+          name.innerHTML(text);
 
           thumbnail.addChild(img);
           thumbnail.addChild(name);
           thumbnails.addChild(thumbnail);
         }
-        root.addChild(h2, this.isUploadSuccess);
         root.addChild(thumbnails);
 
         architect.addChild(root);
       }
     },
     /**
-     * Creates the fail box section
+     * Creates the fail notification
      */
-    createFailBox(architect) {
-      if (this.isUploadFailed) {
-        let root = architect.createElement(TBox);
-
-        let h2 = architect.createH(2, "is-size-6");
-        h2.innerHTML(`Upload failed.`);
-
-        // Creating the reset button
-        let resetBtn = architect.createButton(this.getClearClasses);
-        resetBtn.setProps({ icon: this.clearIcon });
-        resetBtn.innerHTML(this.clearText, !this.hideButtonsLabels);
-        resetBtn.addClick(this.reset);
-
-        let error = architect.createElement("pre");
-        error.innerHTML(this.uploadError);
-
-        root.addChild(h2);
-        root.addChild(resetBtn);
-        root.addChild(error);
-
-        architect.addChild(root);
+    createFailNotification(architect, condition = true) {
+      if (this.isUploadFailed && condition) {
+        let notification = architect.createElement(TNotification);
+        notification.setProps({
+          isDanger: true,
+          closeButton: true,
+          compact: true
+        });
+        notification.addVNode(this.errorText);
+        architect.addChild(notification);
       }
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "div", this.getContainerClasses);
-
-    let content = root.createDiv(this.getClasses);
-
-    this.createInput(content);
-    this.createButtons(content);
-    root.addChild(content);
-
+    let root = createDiv(h, this.getContainerClasses);
+    this.createInput(root);
+    this.createFailNotification(root, !this.showPreview);
     this.createPreview(root);
-    this.createFailBox(root);
     return root.create();
   },
   mounted() {

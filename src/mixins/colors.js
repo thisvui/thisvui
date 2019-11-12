@@ -162,7 +162,9 @@ export default {
         hoverable = false,
         inverted = false,
         darken = false,
-        lighten = false
+        lighten = false,
+        halftone = false,
+        quarter = false
       } = {}
     ) {
       if (!cssArchitect) {
@@ -174,6 +176,8 @@ export default {
       cssArchitect.addClass(`inverted`, inverted);
       cssArchitect.addClass(`darken`, darken);
       cssArchitect.addClass(`lighten`, lighten);
+      cssArchitect.addClass(`halftone`, halftone);
+      cssArchitect.addClass(`quarter-tone`, quarter);
     },
     colored(cssArchitect, { inverted = false } = {}) {
       if (!cssArchitect) {

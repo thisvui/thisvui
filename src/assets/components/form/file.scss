@@ -1,0 +1,108 @@
+$file-margin: 0.5rem !default;
+$file-padding: 0.95rem 1.5rem !default;
+$file-padding-small: 0.75rem 1.5rem !default;
+$file-transition:  all 0.3s !default;
+
+$file-size-small: 0.75rem !default;
+$file-size-normal: 0.85rem !default;
+$file-size-medium: 1.05rem !default;
+$file-size-large: 1.25rem !default;
+
+$file-radius-small: 3px !default;
+$file-radius-normal: 5px !default;
+$file-radius-medium: 5px !default;
+$file-radius-large: 6px !default;
+
+@mixin file-sizes {
+  &.small {
+    border-radius: $file-radius-small;
+    font-size: $file-size-small;
+    padding: $file-padding-small;
+  }
+
+  &.medium {
+    border-radius: $file-radius-medium;
+    font-size: $file-size-medium;
+  }
+
+  &.large {
+    border-radius: $file-radius-large;
+    font-size: $file-size-large;
+  }
+}
+
+.file {
+  margin: $file-margin;
+
+  &__wrapper {
+    display: flex;
+  }
+
+  &__preview {
+    border: 2px solid;
+    border-radius: 6px;
+
+    @include margin-padding(0.2em 0 0 0, 0.5em);
+    @include material-shadow($dark);
+
+    &--thumbnails {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding-bottom: 0.5rem;
+
+      @include tablet-up {
+        justify-content: flex-start;
+      }
+    }
+
+    &--thumbnail {
+      position: relative;
+      border: 1px solid;
+      margin-top: 0.5rem;
+
+      &:not(:last-child) {
+        margin-right: 0.5rem;
+      }
+
+      img {
+        height: 128px;
+        max-width: 192px;
+      }
+
+      h1 {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+      }
+    }
+  }
+
+  &__input[type="file"] {
+    height: 0;
+    overflow: hidden;
+    width: 0;
+
+    & + label {
+      border: none;
+      border-radius: $file-radius-normal;
+      cursor: pointer;
+      display: inline-block;
+      font-size: inherit;
+      font-weight: 600;
+      outline: none;
+      padding: $file-padding;
+      position: relative;
+      transition: $file-transition;
+      vertical-align: middle;
+      @include btn-shadow;
+      @include file-sizes;
+    }
+  }
+
+  &__icon {
+    margin-right: 0.5rem;
+  }
+
+}
