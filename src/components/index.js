@@ -47,7 +47,6 @@ export { default as TRadio } from "./TRadio";
 
 export { default as TSection } from "./TSection";
 export { default as TSelect } from "./TSelect";
-export { default as TSwitch } from "./TSwitch";
 
 export * from "./TTabs";
 export * from "./TTable";

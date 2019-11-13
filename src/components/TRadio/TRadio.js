@@ -1,6 +1,7 @@
 import inputs from "../../mixins/inputs";
+
 import CssArchitect from "../../utils/css-architect";
-import ElementArchitect from "../../utils/element-architect";
+import { createDiv } from "../../utils/element-architect";
 
 export default {
   name: "t-radio",
@@ -9,17 +10,14 @@ export default {
     items: {
       type: Array
     },
-    isRtl: {
-      type: Boolean,
-      default: false
+    labelLeft: {
+      type: Boolean
     },
-    hasNoBorder: {
-      type: Boolean,
-      default: false
+    noLabel: {
+      type: Boolean
     },
-    hasBackgroundColor: {
-      type: Boolean,
-      default: false
+    solid: {
+      type: Boolean
     }
   },
   computed: {
@@ -28,21 +26,50 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(this.getCheckradioClass);
-      cssArchitect.addClass("is-rtl", this.isRtl);
-      cssArchitect.addClass("has-no-border", this.hasNoBorder);
-      cssArchitect.addClass("has-background-color", this.hasBackgroundColor);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect(this.getRadioClass);
+      css.addClass(this.getColorsModifiers);
+      this.setupColorModifier(css, true);
+      return css.getClasses();
     },
     /**
-     * Dynamically build the css classes for the label element
+     * Dynamically build the css classes for the label that emulates the radio element
      * @returns { A String with the chained css classes }
      */
-    getLabelClass: function() {
-      const cssArchitect = new CssArchitect("label has-text-left");
-      cssArchitect.addClass(this.labelClass, this.labelClass !== undefined);
-      return cssArchitect.getClasses();
+    getRadioLabelCss: function() {
+      const css = new CssArchitect();
+      if (this.solid) {
+        this.alpha(css, { bg: 0.9 });
+        this.filled(css);
+        css.addClass(this.colorModifier, this.hasColorModifier);
+      }
+      css.addClass("solid", this.solid);
+      css.addClass("no-label", this.noLabel);
+      css.addClass(this.getSizesModifiers);
+      return css;
+    },
+    /**
+     * Dynamically build the css classes for the checker element
+     * @returns { A String with the chained css classes }
+     */
+    getRadioCheckedClass: function() {
+      const css = new CssArchitect();
+      if (!this.solid) {
+        this.filled(css);
+        css.addClass(this.colorModifier, this.hasColorModifier);
+      }
+      css.addClass("solid", this.solid);
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the text label element
+     * @returns { A String with the chained css classes }
+     */
+    getTextLabelClass: function() {
+      const css = new CssArchitect("radio__label");
+      css.addClass("is-left", this.labelLeft);
+      css.addClass(this.labelClass, this.labelClass !== undefined);
+      css.addClass(this.getSizesModifiers);
+      return css.getClasses();
     }
   },
   methods: {
@@ -85,21 +112,40 @@ export default {
     /**
      * Creates the field label section
      */
-    createLabel(architect, id, item) {
-      let label = architect.createLabel(this.getLabelClass);
+    createRadioLabel(architect, id) {
+      let label = architect.createLabel();
+      label.addClass(
+        this.getRadioLabelCss.getClasses(),
+        this.isNotEmpty(this.getRadioLabelCss.getClasses())
+      );
+      if (this.isNotEmpty(this.getRadioLabelCss.getClasses())) {
+        label.setStyles(this.getRadioLabelCss.getStyles());
+      }
       label.addAttr("for", id);
-      label.addDomProp("innerHTML", item.label);
-
+      let checked = architect.createSpan(this.getRadioCheckedClass);
+      label.addChild(checked);
       architect.addChild(label);
+    },
+    /**
+     * Creates the field label section
+     */
+    createTextLabel(architect, item, condition = false) {
+      if (item.label && condition) {
+        let label = architect.createSpan(this.getTextLabelClass);
+        label.addDomProp("innerHTML", item.label);
+        architect.addChild(label);
+      }
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "div", this.getContainerClass);
+    let root = createDiv(h, this.getContainerClass);
 
     for (let index in this.items) {
       let item = this.items[index];
+      this.createTextLabel(root, item, this.labelLeft);
       this.createRadio(root, `${this.id}${index}`, item);
-      this.createLabel(root, `${this.id}${index}`, item);
+      this.createRadioLabel(root, `${this.id}${index}`);
+      this.createTextLabel(root, item, !this.labelLeft);
     }
 
     return root.create();

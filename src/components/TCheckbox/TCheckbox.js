@@ -1,6 +1,7 @@
 import inputs from "../../mixins/inputs";
+
 import CssArchitect from "../../utils/css-architect";
-import ElementArchitect from "../../utils/element-architect";
+import { createDiv } from "../../utils/element-architect";
 
 export default {
   name: "t-checkbox",
@@ -9,25 +10,27 @@ export default {
     value: {
       type: Boolean
     },
-    isRtl: {
+    circular: {
       type: Boolean,
       default: false
     },
-    isCircle: {
-      type: Boolean,
-      default: false
+    labelLeft: {
+      type: Boolean
     },
-    isBlock: {
-      type: Boolean,
-      default: false
+    noLabel: {
+      type: Boolean
     },
-    hasNoBorder: {
-      type: Boolean,
-      default: false
+    solid: {
+      type: Boolean
     },
-    hasBackgroundColor: {
-      type: Boolean,
-      default: false
+    switch: {
+      type: Boolean
+    },
+    checkedIcon: {
+      type: String,
+      default: function() {
+        return this.$thisvui.icons.check;
+      }
     }
   },
   watch: {
@@ -41,14 +44,68 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(this.getCheckradioClass);
-      cssArchitect.addClass("is-rtl", this.isRtl);
-      cssArchitect.addClass("is-circle", this.isCircle);
-      cssArchitect.addClass("is-block", this.isBlock);
-      cssArchitect.addClass("has-no-border", this.hasNoBorder);
-      cssArchitect.addClass("has-background-color", this.hasBackgroundColor);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect(this.getCheckboxClass);
+      css.addClass("circular", this.circular);
+      css.addClass(this.getColorsModifiers);
+      this.setupColorModifier(css, true);
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the label that emulates the radio element
+     * @returns { A String with the chained css classes }
+     */
+    getCheckboxLabelCss: function() {
+      const css = new CssArchitect();
+      if (this.solid) {
+        this.alpha(css, { bg: 0.9 });
+        this.filled(css);
+        css.addClass(this.colorModifier, this.hasColorModifier);
+      } else {
+        this.borderedElement(css);
+      }
+      css.addClass("solid", this.solid);
+      css.addClass("circular", this.circular);
+      css.addClass("no-label", this.noLabel);
+      css.addClass("switch", this.switch);
+      css.addClass(this.getSizesModifiers);
+      return css;
+    },
+    /**
+     * Dynamically build the css classes for the checker element
+     * @returns { A String with the chained css classes }
+     */
+    getCheckboxCheckedCss: function() {
+      const css = new CssArchitect();
+      if (this.switch) {
+        this.alpha(css, { bg: 0.9 });
+        this.filled(css);
+        css.addClass(this.colorModifier, this.hasColorModifier);
+      }
+      css.addClass("circular", this.circular);
+      css.addClass("switch", this.switch);
+      return css;
+    },
+    /**
+     * Dynamically build the css classes for the checker icon element
+     * @returns { A String with the chained css classes }
+     */
+    getCheckedIconClass: function() {
+      const css = new CssArchitect();
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass("inverted", this.solid);
+      css.addClass("switch", this.switch);
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the text label element
+     * @returns { A String with the chained css classes }
+     */
+    getTextLabelClass: function() {
+      const css = new CssArchitect("radio__label");
+      css.addClass("is-left", this.labelLeft);
+      css.addClass(this.labelClass, this.labelClass !== undefined);
+      css.addClass(this.getSizesModifiers);
+      return css.getClasses();
     }
   },
   methods: {
@@ -87,19 +144,51 @@ export default {
     /**
      * Creates the field label section
      */
-    createLabel(architect) {
-      let label = architect.createLabel(this.getLabelClass);
+    createCheckboxlabel(architect) {
+      let label = architect.createLabel();
+      label.addClass(
+        this.getCheckboxLabelCss.getClasses(),
+        this.isNotEmpty(this.getCheckboxLabelCss.getClasses())
+      );
+      if (this.isNotEmpty(this.getCheckboxLabelCss.getClasses())) {
+        label.setStyles(this.getCheckboxLabelCss.getStyles());
+      }
       label.addAttr("for", this.id);
-      label.addDomProp("innerHTML", this.label);
-
+      let checked = architect.createSpan(
+        this.getCheckboxCheckedCss.getClasses()
+      );
+      this.createIcon(checked, !this.switch);
+      label.addChild(checked);
       architect.addChild(label);
+    },
+    /**
+     * Creates the label icon
+     */
+    createIcon(architect, condition = true) {
+      if (condition) {
+        let icon = architect.createIcon(this.getCheckedIconClass);
+        icon.addProp("icon", this.checkedIcon);
+        architect.addChild(icon);
+      }
+    },
+    /**
+     * Creates the field label section
+     */
+    createTextLabel(architect, condition = false) {
+      if (this.label && condition) {
+        let label = architect.createSpan(this.getTextLabelClass);
+        label.addDomProp("innerHTML", this.label);
+        architect.addChild(label);
+      }
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "div", this.getContainerClass);
+    let root = createDiv(h, this.getContainerClass);
 
+    this.createTextLabel(root, this.labelLeft);
     this.createCheckbox(root);
-    this.createLabel(root);
+    this.createCheckboxlabel(root);
+    this.createTextLabel(root, !this.labelLeft);
 
     return root.create();
   },
