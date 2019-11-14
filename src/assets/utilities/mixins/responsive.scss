@@ -1,4 +1,4 @@
-/* Responsive */
+/* Device pixels width */
 $big-phone: 500px !default;
 $tablet-portrait: 600px !default;
 $tablet: 768px !default
@@ -9,7 +9,7 @@ $big-desktop: 1800px !default;
 $container-min-gap: 32px !default;
 
 
-/* Responsive */
+/* Responsive Mixins */
 @mixin phone-only {
   @media (max-width: $big-phone - 1) { @content; }
 }

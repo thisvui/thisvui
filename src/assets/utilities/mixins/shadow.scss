@@ -1,0 +1,71 @@
+@mixin elevation($depth) {
+  @if $depth < 1 {
+    box-shadow: none;
+  } @else if $depth > 7 {
+    @warn "Invalid $depth `#{$depth}` for mixin `card`.";
+  } @else {
+    box-shadow: bottom-shadow($depth), top-shadow($depth);
+  }
+}
+
+@mixin material-shadow($color) {
+  box-shadow: 0 3px 1px -2px rgba($color, 0.2), 0 2px 2px 0 rgba($color, 0.14), 0 1px 5px 0 rgba($color, 0.12);
+}
+
+@mixin material-shadow-strong($color) {
+  box-shadow: 0px 5px 5px -3px rgba($color, 0.2), 0px 8px 10px 1px rgba($color, 0.14), 0px 3px 14px 2px rgba($color, 0.12);
+}
+
+@mixin light-shadow($color) {
+  box-shadow: 0 0px 1px 0px rgba($color, 0.1), 0 1px 1px 0px rgba($color, 0.14), 0 3px 3px 0 rgba($color, 0.12);
+}
+
+@mixin icon-shadow($color) {
+  text-shadow: 0px 2px 2px rgba($color ,0.5), 2px 2px 2px rgba($color ,0.07), -2px 2px 5px rgba($color ,0.07);
+}
+
+
+@mixin box-shadow( $h-shadow: 0px, $v-shadow: 1px, $blur: 2px, $spread: 0px, $color: lighten($black, 40%) ) {
+  $args: $h-shadow $v-shadow $blur $spread $color;
+  -webkit-box-shadow: $args;
+  -moz-box-shadow: $args;
+  box-shadow: $args;
+}
+
+@mixin inner-box-shadow( $h-shadow: 0px, $v-shadow: 1px, $blur: 2px, $spread: 0px, $color: lighten($black, 40%) ) {
+  $args: $h-shadow $v-shadow $blur $spread $color;
+  -webkit-box-shadow: inset $args;
+  -moz-box-shadow: inset $args;
+  box-shadow: inset $args;
+}
+
+@mixin box-shadow-none() {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+/* Components */
+@mixin btn-shadow {
+  -webkit-box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
+  -moz-box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
+}
+
+@mixin btn-flat-shadow {
+  -webkit-box-shadow: 0em -0.1rem 0em rgba(0, 0, 0, 0.07) inset;
+  -moz-box-shadow: 0em -0.1rem 0em  rgba(0, 0, 0, 0.07) inset;
+  box-shadow: 0em -0.1rem 0em  rgba(0, 0, 0, 0.07) inset;
+}
+
+@mixin notification-shadow {
+  -webkit-box-shadow: 0 3px 1px -2px rgba(50, 50, 50, 0.1), 0 2px 2px 0 rgba(50, 50, 50, 0.14), 0 1px 5px 0 rgba(50, 50, 50, 0.1), 0em -0.3rem 0em rgba(50, 50, 50, 0.1) inset;
+  -moz-box-shadow: 0 3px 1px -2px rgba(50, 50, 50, 0.1), 0 2px 2px 0 rgba(50, 50, 50, 0.14), 0 1px 5px 0 rgba(50, 50, 50, 0.1), 0em -0.3rem 0em rgba(50, 50, 50, 0.1) inset;
+  box-shadow: 0 3px 1px -2px rgba(50, 50, 50, 0.1), 0 2px 2px 0 rgba(50, 50, 50, 0.14), 0 1px 5px 0 rgba(50, 50, 50, 0.1), 0em -0.3rem 0em rgba(50, 50, 50, 0.1) inset;
+}
+
+@mixin toast-shadow {
+  -webkit-box-shadow: 1px 7px 14px -5px rgba(50,50,50,0.2), 0em -0.3rem 0em rgba(50, 50, 50, 0.1) inset;
+  -moz-box-shadow: 1px 7px 14px -5px rgba(50,50,50,0.2), 0em -0.3rem 0em rgba(50, 50, 50, 0.1) inset;
+  box-shadow: 1px 7px 14px -5px rgba(50,50,50,0.2), 0em -0.3rem 0em rgba(50, 50, 50, 0.1) inset;
+}

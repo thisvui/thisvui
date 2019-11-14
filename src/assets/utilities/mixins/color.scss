@@ -1,0 +1,58 @@
+@mixin color($color, $alpha: 1) {
+  color: rgba($color, $alpha);
+}
+
+@mixin border($border-color, $alpha: 1) {
+  border-color: rgba($border-color, $alpha);
+}
+
+@mixin bg($bg-color, $alpha: 1) {
+  background-color: rgba($bg-color, $alpha);
+}
+
+@mixin bg-color($color, $bg-color) {
+  @include color-props($color, $bg-color, false);
+}
+
+@mixin color-props($color: false, $bg: false, $border: false) {
+  @if $color {
+    color: $color;
+  }
+
+  @if $bg {
+    background-color: $bg;
+  }
+
+  @if $border {
+    border-color: $border;
+  }
+}
+
+@mixin background-cover() {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+@mixin linear-gradient($direction, $color-stops...) {
+  @if is-direction($direction) == false {
+    $color-stops: ($direction, $color-stops);
+    $direction: 180deg;
+  }
+
+  background: nth(nth($color-stops, 1), 1);
+  background: -webkit-linear-gradient(legacy-direction($direction), $color-stops);
+  background: linear-gradient($direction, $color-stops);
+}
+
+@mixin radial-gradient($innerColor, $outerColor)  {
+  background-color: $outerColor;
+  background-image: -webkit-radial-gradient(circle, $innerColor, $outerColor);
+  background-image: -webkit-gradient(radial, center center, 0, center center, 460, from($innerColor), to($outerColor));
+  background-image: -moz-radial-gradient(circle, $innerColor, $outerColor);
+  background-image: -o-radial-gradient(circle, $innerColor, $outerColor);
+  background-image: -ms-radial-gradient(circle, $innerColor, $outerColor);
+  background-image: radial-gradient(circle, $innerColor, $outerColor);
+  background-repeat: no-repeat;
+}

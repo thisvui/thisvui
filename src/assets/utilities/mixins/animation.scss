@@ -1,0 +1,33 @@
+@mixin transitions( $property: all, $duration: 0.3s, $timing: linear, $delay: 0s ) {
+  $args: $property $duration $timing $delay;
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+}
+
+@mixin animation( $animation_name, $duration: 1s, $timing_function: ease ) {
+  -webkit-animation: $animation_name $duration $timing_function;
+  -moz-animation: $animation_name $duration $timing_function;
+  -o-animation: $animation_name $duration $timing_function;
+  animation: $animation_name $duration $timing_function;
+}
+
+@mixin keyframes($animation-name) {
+  @-webkit-keyframes #{$animation-name} {
+    @content;
+  }
+  @-moz-keyframes #{$animation-name} {
+    @content;
+  }
+  @-ms-keyframes #{$animation-name} {
+    @content;
+  }
+  @-o-keyframes #{$animation-name} {
+    @content;
+  }
+  @keyframes #{$animation-name} {
+    @content;
+  }
+}
