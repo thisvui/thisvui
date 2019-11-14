@@ -1,7 +1,22 @@
-// VARIABLES // ============================== //
-$label-color: mix(white, $dark, 70%);
-$transition-delay: 300ms;
-$width: 320px;
+$input-color: rgba($dark, 0.9) !default;
+$input-background-color: rgba($white, 1) !default;
+$input-border-color: rgba($dark, 0.3) !default;
+$input-bottom-border-color: rgba($primary, 0.9) !default;
+$input-hover-color: $opaque !default;
+$input-hover-border-color: $input-border-color !default;
+$input-focus-color: $opaque !default;
+$input-focus-border-color: $input-border-color !default;
+$input-icon-color: rgba($primary, 0.4) !default;
+$input-icon-active-color: rgba($primary, 0.9) !default;
+
+$input-radius: 3px !default;
+$input-shadow: none !default;
+$input-focus-box-shadow-size: 0 0 0.125em !default;
+$input-focus-box-shadow-color: rgba($dark, 0.25) !default;
+
+$label-weight: lighten !default;
+$label-color: mix(white, $dark, 70%) !default;
+$label-transition-delay: 300ms;
 
 .group {
   position: relative;
@@ -107,7 +122,7 @@ $width: 320px;
     pointer-events: none;
     left: 5px;
     top: 25%;
-    transition: $transition-delay ease all;
+    transition: $label-transition-delay ease all;
     &.is-textarea{
       top: 0.5em;
     }

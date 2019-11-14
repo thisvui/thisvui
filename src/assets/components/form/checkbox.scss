@@ -2,7 +2,7 @@ $checkbox-margin: -1px 4px 0 0 !default;
 $checkbox-margin-no-label: -1px 10px 0 0 !default;
 $checkbox-bg: rgba($white-bis, 0.7) !default;
 $checkbox-bg-checked: rgba($white-bis, 0.9) !default;
-$checkbox-border: 1px solid rgba($dark, 0.2) !default;
+$checkbox-border: 1px solid $grey-lighter !default;
 $checkbox-border-radius: 3px !default;
 $checkbox-label-margin: 0 1.2rem 0 0.25rem !default;
 $checkbox-label-left-margin: 0 0.5rem 0 1rem !default;
@@ -18,7 +18,7 @@ $checkbox-font-size-medium: 16px !default;
 $checkbox-font-size-large: 20px !default;
 
 $switch-bg: tint($opaque, 25%) !default;
-$switch-radius: 5px !default;
+$switch-radius: 4px !default;
 $switch-circular-radius: 50px !default;
 $switch-width: 74px;
 $switch-height: 40px;

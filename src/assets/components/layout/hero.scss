@@ -1,3 +1,14 @@
+$hero-title-font-size: 2.5rem;
+$hero-desc-font-size: 1.125rem;
+$hero-padding: 48px 0;
+$hero-padding-medium: 96px 0;
+$hero-padding-large: 192px 0;
+$hero-body-max-width: 580px;
+$hero-content-padding: 1rem 1.2rem;
+$hero-content-padding-img: 2rem 3.2rem;
+$hero-content-padding-medium: 12px 48px;
+$hero-content-padding-big: 24px 96px;
+
 .hero {
   display: flex;
   align-items: stretch;

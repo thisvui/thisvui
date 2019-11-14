@@ -5,6 +5,7 @@ $navbar-dropdown-min-width: 200px !default;
 $navbar-dropdown-radius: $radius-large !default;
 $navbar-dropdown-z: 20 !default;
 $navbar-fixed-z: 50;
+$navbar-item-img-max-height: 100%;
 
 @mixin navbar-fixed {
   left: 0;

@@ -210,33 +210,6 @@
 }
 
 /* Components */
-@mixin panel-heading($add-shadow: false, $add-radius: false) {
-  &__heading {
-    display: flex;
-    border-color: rgba($panel-border-color, 0.2);
-    border-top: 1px solid rgba($panel-border-color, 0.055);
-    border-bottom: 1px solid rgba($panel-border-color, 0.125);
-    cursor: pointer;
-    margin-bottom: 0;
-    padding: 8px 12px 8px 12px;
-    @if $add-radius == true {
-      border-radius: $panel-border-top-left-radius $panel-border-top-right-radius 0 0;
-    }
-    @if $add-shadow == true {
-      @include light-shadow($black);
-    }
-    &__text{
-      flex-grow: 1;
-    }
-    &.icon-left {
-      .icon {
-        margin-right: 0.5rem;
-      }
-    }
-  }
-}
-
-
 @mixin btn-shadow {
   -webkit-box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
   -moz-box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;

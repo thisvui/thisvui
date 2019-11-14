@@ -1,3 +1,10 @@
+$tabs-head-border-bottom-color: $primary !default;
+$tabs-body-border-color: $primary !default;
+$tabs-body-shadow-color: $opaque !default;
+$tabs-delimiter-line-height: 5px;
+$tabs-label-height :3em;
+$tabs-bottom-margin: $separation-margin !default;
+
 .tabs {
   margin: 0;
   position: relative;

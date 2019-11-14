@@ -6,8 +6,8 @@ $tree-view-icon-color: rgba($primary, 0.9) !default;
 $tree-view-label-color: $dark !default;
 $tree-view-label-background-color: $primary !default;
 $tree-view-label-border-radius: 6px !default;
-$tree-view-label-shadow-color: rgba(0, 0, 0, 0.05) !default;
-$tree-view-label-shadow: 0 4px 15px $card-shadow-color !default;
+$tree-view-label-shadow-color: rgba($black, 0.05) !default;
+$tree-view-label-shadow: 0 4px 15px rgba($black, 0.05) !default;
 $tree-view-font-size: 1rem !default;
 $tree-view-font-weight: normal !default;
 
