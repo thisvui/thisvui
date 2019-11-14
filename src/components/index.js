@@ -30,7 +30,6 @@ export * from "./TLayout";
 
 export * from "./TList";
 
-export { default as TMedia } from "./TMedia";
 export { default as TMessage } from "./TMessage";
 export { default as TModal } from "./TModal";
 
