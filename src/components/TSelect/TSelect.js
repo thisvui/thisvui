@@ -177,13 +177,14 @@ export default {
   },
   mounted() {
     this.$nextTick(function() {
-      this.search = this.display ? this.value[this.display] : this.value;
       if (this.allowEmptyValue && this.isNotEmpty(this.value)) {
+        this.search = this.display ? this.value[this.display] : this.value;
         this.hasValue = true;
         this.selectedValue = this.value;
       }
       if (!this.allowEmptyValue) {
         let value = this.isNotEmpty(this.value) ? this.value : this.results[0];
+        this.search = this.display ? value[this.display] : value;
         this.selectedValue = value;
       }
       this.$emit(this.$thisvui.events.common.input, this.selectedValue);
