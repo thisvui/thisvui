@@ -288,7 +288,7 @@ export default {
         compact: true,
         small: true,
         isShadowless: true,
-        initialValue: this.rowsPerPage
+        value: this.rowsPerPage
       };
       sizeSelect.setProps(sizeSelectProps);
       sizeLabel.innerHTML(this.sizeLabel);

@@ -44,7 +44,11 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const css = new CssArchitect(this.getCheckboxClass);
+      const css = new CssArchitect("checkbox__input");
+      css.addClass(
+        this.inputClass,
+        this.isNotNull(this.inputClass) && this.errors.length === 0
+      );
       css.addClass("circular", this.circular);
       css.addClass(this.getColorsModifiers);
       this.setupColorModifier(css, true);

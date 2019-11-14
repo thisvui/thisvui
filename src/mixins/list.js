@@ -1,5 +1,4 @@
 import pagination from "./pagination";
-import icons from "./icons";
 
 import { TInput } from "../components/TInput";
 import { TPaginator } from "../components/TPaginator";
@@ -9,7 +8,8 @@ import { TCheckbox } from "../components/TCheckbox";
 import CssArchitect from "../utils/css-architect";
 
 export default {
-  mixins: [pagination, icons],
+  mixins: [pagination],
+  components: { TProgress, TPaginator, TCheckbox, TInput },
   props: {
     items: {
       type: Array,
@@ -253,11 +253,11 @@ export default {
       });
     },
     createSearch(architect, condition = true) {
-      if(this.filtered && condition) {
+      if (this.filtered && condition) {
         let self = this;
         let input = architect.createElement(TInput);
         input.value(this.searchKey);
-        let inputHandler = function (event) {
+        let inputHandler = function(event) {
           let resultValue = event.target ? event.target.value : event;
           self.searchKey = resultValue;
         };
@@ -299,7 +299,7 @@ export default {
         paginator.addEvent(this.$thisvui.events.paginator.updatePage, data => {
           this.updatePage(data);
         });
-        if(search){
+        if (search) {
           this.createSearch(paginator);
         }
         architect.addChild(paginator);
@@ -310,10 +310,13 @@ export default {
       let transition = architect.createTransition("fade");
       if (this.isLoading) {
         let loading = architect.createDiv("t-loading-block is-absolute");
-        let progress = architect
-          .createElement(TProgress)
-          .setProps({ indeterminate: true, compact: true });
-        progress.addProp("target-class", classes, classes);
+        let progress = architect.createElement(TProgress).setProps({
+          indeterminate: true,
+          compact: true,
+          height: 3,
+          isMarginless: true
+        });
+        progress.addProp("target-class", classes, this.isNotNull(classes));
         let block = architect.createDiv("t-loading-block-ui is-absolute");
         loading.addChild(progress);
         loading.addChild(block);
@@ -349,7 +352,8 @@ export default {
       item,
       { inputClass, container, hasBackgroundColor }
     ) {
-      let checkContainer = container || architect.createDiv("table__column--checkable");
+      let checkContainer =
+        container || architect.createDiv("table__column--checkable");
       let checkbox = architect.createElement(TCheckbox, "table__row--checker");
       checkbox.addAttr("value", this.isRowChecked(item));
       checkbox.addProp("input-class", inputClass, inputClass !== undefined);

@@ -199,50 +199,6 @@ export default {
       return css.getClasses();
     },
     /**
-     * Dynamically build the css classes for the radio element
-     * @returns { A String with the chained css classes }
-     */
-    getRadioClass: function() {
-      const css = new CssArchitect("radio__input");
-      css.addClass(
-        this.inputClass,
-        this.isNotNull(this.inputClass) && this.errors.length === 0
-      );
-      css.addClass(this.stateClass, this.stateClass !== undefined);
-      css.addClass(this.getColorsModifiers);
-      return css.getClasses();
-    },
-    /**
-     * Dynamically build the css classes for the checkbox element
-     * @returns { A String with the chained css classes }
-     */
-    getCheckboxClass: function() {
-      const css = new CssArchitect("checkbox__input");
-      css.addClass(
-        this.inputClass,
-        this.isNotNull(this.inputClass) && this.errors.length === 0
-      );
-      css.addClass(this.stateClass, this.stateClass !== undefined);
-      css.addClass(this.getColorsModifiers);
-      return css.getClasses();
-    },
-    /**
-     * Dynamically build the css classes for the checkbox switch element
-     * @returns { A String with the chained css classes }
-     */
-    getSwitchClass: function() {
-      const css = new CssArchitect("switch");
-      css.addClass(this.getDisplayModifiers);
-      css.addClass(this.getSizesModifiers);
-      css.addClass(
-        this.inputClass,
-        this.isNotNull(this.inputClass) && this.errors.length === 0
-      );
-      css.addClass(this.stateClass, this.stateClass !== undefined);
-      css.addClass(this.getColorsModifiers);
-      return css.getClasses();
-    },
-    /**
      * Dynamically build the css classes for the icon element
      * @returns { A String with the chained css classes }
      */

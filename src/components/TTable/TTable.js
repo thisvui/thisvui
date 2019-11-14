@@ -1,14 +1,9 @@
 import helpers from "../../mixins/helpers";
 import list from "../../mixins/list";
 import common from "../../mixins/common";
-import TInput from "../TInput/TInput";
-import TCheckbox from "../TCheckbox/TCheckbox";
-import TPaginator from "../TPaginator/TPaginator";
-import TExpand from "../TAnimation/TExpand";
 import colors from "../../mixins/colors";
-import TProgress from "../TProgress/TProgress";
-import TIcon from "../TIcon/TIcon";
 
+import TExpand from "../TAnimation/TExpand";
 import { TFlex } from "../TFlex";
 
 import CssArchitect from "../../utils/css-architect";
@@ -16,7 +11,7 @@ import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-table",
-  components: { TIcon, TProgress, TExpand, TPaginator, TCheckbox, TInput },
+  components: { TExpand, TFlex },
   mixins: [common, list, colors, helpers],
   filters: {
     capitalize: function(str) {
@@ -89,7 +84,6 @@ export default {
     getClasses: function() {
       const css = new CssArchitect("table");
       css.isRelative();
-      css.addClass(this.getHelpersModifiers);
       css.addClass("is-responsive", this.isResponsive);
       css.addClass("is-bordered", this.bordered);
       css.addClass("striped", this.striped);
@@ -98,8 +92,9 @@ export default {
       css.addClass("is-fullwidth", this.isFullwidth);
       css.addClass("is-clipped");
       css.addClass("stripped");
-      css.addClass(this.targetClass);
+      css.addClass(this.getHelpersModifiers);
       css.addClass(this.getColorsModifiers);
+      css.addClass(this.targetClass);
       this.setupColorModifier(css, true);
       return css.getClasses();
     },
@@ -141,10 +136,11 @@ export default {
     getCheckAllClasses: function() {
       const css = new CssArchitect();
       let isLight =
-        this.colorModifier == "is-light" || this.colorModifier == "is-white";
-      css.addClass("is-light", this.hasColorModifier && !isLight);
+        this.colorModifier == "is-light" ||
+        this.colorModifier == "is-white" ||
+        this.colorModifier == "is-opaque";
       css.addClass("is-dark", isLight);
-      css.addClass("has-background-color", this.hasColorModifier);
+      css.addClass(this.colorModifier, this.hasColorModifier && !isLight);
       return css.getClasses();
     },
     getProgressClasses: function() {
@@ -333,9 +329,7 @@ export default {
           }
           tbody.addChild(tr);
           if (this.isExpandable(item)) {
-            let expandableRow = architect.createTr(
-              "expandable__row"
-            );
+            let expandableRow = architect.createTr("expandable__row");
             let expandColumn = architect.createCell("expandable__col");
             expandColumn.addAttr("colspan", this.getColspan);
             let expand = architect.createElement(TExpand);
@@ -376,7 +370,11 @@ export default {
   render: function(h) {
     let root = new ElementArchitect(h, "div", this.getContainerClasses);
 
-    this.createPaginator(root, this.isPaginated && this.isPaginatorAtTop, this.filtered);
+    this.createPaginator(
+      root,
+      this.isPaginated && this.isPaginatorAtTop,
+      this.filtered
+    );
     this.createSearch(root, this.isPaginated && !this.isPaginatorAtTop);
     this.createTable(root);
     this.createPaginator(root, this.isPaginated && !this.isPaginatorAtTop);

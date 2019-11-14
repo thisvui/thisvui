@@ -1,13 +1,16 @@
 import TFlex from "../TFlex";
 import colors from "../../mixins/colors";
 import common from "../../mixins/common";
+import dimension from "../../mixins/dimension";
+import margin from "../../mixins/margin";
+import helpers from "../../mixins/helpers";
 
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
 
 export default {
   name: "t-progress",
-  mixins: [common, colors],
+  mixins: [common, colors, dimension, margin, helpers],
   components: { TFlex },
   props: {
     value: {
@@ -103,13 +106,18 @@ export default {
       const css = new CssArchitect(this.baseClass);
       css.addClass("compact", this.compact && this.circular);
       css.addClass(this.containerClass);
+      css.addClass(this.getHelpersModifiers);
       return css.getClasses();
     },
-    getWrapperClasses: function() {
+    getWrapperCss: function() {
       const css = new CssArchitect(`${this.baseClass}__wrapper`);
       css.addClass("compact", this.compact && !this.circular);
       css.addClass("indeterminate", this.indeterminate);
-      return css.getClasses();
+      if (!this.circular) {
+        css.addStyles([this.getDimensionStyles]);
+      }
+      css.addStyles([this.getMarginStyles]);
+      return css;
     },
     getLeftCircleCss: function() {
       const css = new CssArchitect(`${this.baseClass}__circle is-left`);
@@ -265,12 +273,19 @@ export default {
   },
   render: function(h) {
     let root = createDiv(h, this.getContainerClasses);
-    let wrapper = root.createDiv(this.getWrapperClasses);
-    this.createLabel(root, this.labelTop && !this.labelBottom && !this.circular);
+    let wrapper = root.createDiv(this.getWrapperCss.getClasses());
+    wrapper.setStyles(this.getWrapperCss.getStyles());
+    this.createLabel(
+      root,
+      this.labelTop && !this.labelBottom && !this.circular
+    );
     this.createLinearProgress(wrapper);
     this.createCircularProgress(wrapper);
     root.addChild(wrapper);
-    this.createLabel(root, !this.labelTop && this.labelBottom && !this.circular);
+    this.createLabel(
+      root,
+      !this.labelTop && this.labelBottom && !this.circular
+    );
     return root.create();
   }
 };

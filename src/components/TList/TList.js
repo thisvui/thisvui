@@ -1,9 +1,8 @@
-import TPaginator from "../TPaginator/TPaginator";
 import list from "../../mixins/list";
 import responsive from "../../mixins/responsive";
 import dimension from "../../mixins/dimension";
 import common from "../../mixins/common";
-import TProgress from "../TProgress/TProgress";
+
 import TListItem from "./TListItem";
 
 import CssArchitect from "../../utils/css-architect";
@@ -11,7 +10,7 @@ import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-list",
-  components: { TPaginator },
+  components: { TListItem },
   mixins: [common, list, responsive, dimension],
   filters: {
     capitalize: function(str) {
@@ -47,18 +46,25 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("t-list");
-      cssArchitect.isRelative();
-      cssArchitect.addClass(this.getResponsiveModifiers);
-      cssArchitect.addClass(this.getDimensionModifiers);
-      cssArchitect.addClass(this.getHelpersModifiers);
-      cssArchitect.addClass("is-compact", this.compact);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-list");
+      css.isRelative();
+      css.addClass(this.getResponsiveModifiers);
+      css.addClass(this.getDimensionModifiers);
+      css.addClass(this.getHelpersModifiers);
+      css.addClass(this.getColorsModifiers);
+      css.addClass(this.targetClass);
+      css.addClass("is-compact", this.compact);
+      return css.getClasses();
     },
     getHeaderClasses: function() {
       const cssArchitect = new CssArchitect("t-list-header");
       cssArchitect.addClass(this.headerClass, this.headerClass !== undefined);
       return cssArchitect.getClasses();
+    },
+    getProgressClasses: function() {
+      const css = new CssArchitect();
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      return css.getClasses();
     },
     hasHeader: function() {
       return this.showHeader || this.header;
@@ -89,17 +95,7 @@ export default {
     createList(architect) {
       let ul = architect.createUl(this.getClasses);
       let transition = architect.createTransition("fade");
-      if (this.isLoading) {
-        let loading = architect.createDiv("t-loading-block is-absolute");
-        let progress = architect
-          .createElement(TProgress)
-          .setProps({ indeterminate: true, compact: true });
-        let block = architect.createDiv("t-loading-block-ui is-absolute");
-        loading.addChild(progress);
-        loading.addChild(block);
-        transition.addChild(loading);
-      }
-      this.createLoading(ul);
+      this.createLoading(ul, this.getProgressClasses);
       ul.addChild(transition);
 
       for (let index in this.getItems) {
@@ -127,7 +123,11 @@ export default {
   render: function(h) {
     let root = new ElementArchitect(h, "div", "t-list-container");
 
-    this.createPaginator(root, this.isPaginated && this.isPaginatorAtTop, this.filtered);
+    this.createPaginator(
+      root,
+      this.isPaginated && this.isPaginatorAtTop,
+      this.filtered
+    );
     this.createSearch(root, this.isPaginated && !this.isPaginatorAtTop);
     this.createHeader(root);
     this.createList(root);

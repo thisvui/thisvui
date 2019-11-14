@@ -204,6 +204,7 @@ export default {
         this.search = this.display ? this.value[this.display] : this.value;
         this.selectedValue = this.value;
         this.hasValue = true;
+        this.$emit(this.$thisvui.events.common.input, this.selectedValue);
       }
     });
   }
