@@ -73,7 +73,7 @@ $card-min-width: 270px !default;
     text-align: center;
     padding: 3rem 0 0.5rem 0;
 
-    @include mobile(){
+    @include phone-only(){
       padding: 1rem 0 0.5rem 0;
     }
 
@@ -89,7 +89,7 @@ $card-min-width: 270px !default;
     justify-content: center;
     padding: 3rem 0 0.5rem 0;
 
-    @include mobile(){
+    @include phone-only(){
       padding: 1rem 0 0.5rem 0;
     }
 
@@ -121,7 +121,7 @@ $card-min-width: 270px !default;
     @include box-size();
     .day {
       font-size: 1.4rem;
-      @include mobile(){
+      @include phone-only(){
         font-size: 0.9rem;
       }
     }
@@ -131,7 +131,7 @@ $card-min-width: 270px !default;
     }
 
     &.horizontal{
-      @include mobile(){
+      @include phone-only(){
         top: 0.5rem;
         right: 0.5rem;
         left: unset;
@@ -170,7 +170,7 @@ $card-min-width: 270px !default;
       text-align: justify;
     }
 
-    @include mobile(){
+    @include phone-only(){
       padding: 1rem;
       text-align: left;
     }
@@ -184,7 +184,7 @@ $card-min-width: 270px !default;
     font-size: 14px;
     font-weight: 600;
     text-transform: uppercase;
-    @include mobile(){
+    @include phone-only(){
       padding: 0.5rem;
       font-size: 11px;
     }
@@ -195,11 +195,11 @@ $card-min-width: 270px !default;
       padding: 0.5rem 1rem;
       &.has-img {
         top: 1.5rem;
-        @include mobile(){
+        @include phone-only(){
           top: 0;
         }
       }
-      @include mobile(){
+      @include phone-only(){
         top: 0;
         left: 1rem;
         padding: 0.4rem;
@@ -214,7 +214,7 @@ $card-min-width: 270px !default;
     color: $grey-dark;
     font-size: 26px;
     font-weight: 700;
-    @include mobile(){
+    @include phone-only(){
       font-size: 1.4em;
     }
   }
@@ -224,7 +224,7 @@ $card-min-width: 270px !default;
     color: $primary;
     font-size: 20px;
     font-weight: 400;
-    @include mobile(){
+    @include phone-only(){
       font-size: 1em;
     }
   }
@@ -233,7 +233,7 @@ $card-min-width: 270px !default;
     font-size: 14px;
     line-height: 1.8em;
     padding: 0 0 20px;
-    @include mobile(){
+    @include phone-only(){
       font-size: 1em;
     }
   }

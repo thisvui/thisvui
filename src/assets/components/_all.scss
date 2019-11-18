@@ -1,9 +1,6 @@
 @charset "utf-8";
 
 /* Elements */
-@import "~bulma/sass/elements/content.sass";
-@import "~bulma/sass/elements/title.sass";
-@import "~bulma/sass/elements/other.sass";
 
 /* Components */
 @import "../spinners/echo";
@@ -17,4 +14,5 @@
 @import "navigation/all";
 @import "data/all";
 @import "form/all";
+@import "elements/all";
 @import "helpers/all";

@@ -64,11 +64,11 @@ export default {
     },
     messageClass: {
       type: String,
-      default: "has-text-dark"
+      default: "color-dark"
     },
     confirmDialogClass: {
       type: String,
-      default: "has-text-left"
+      default: "text-left"
     },
     confirmHeaderClass: {
       type: String

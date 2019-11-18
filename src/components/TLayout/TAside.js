@@ -32,7 +32,7 @@ export default {
         })
         .isFullwidth()
         .isFullheight();
-      this.filled(css, { removeInit: true });
+      this.filled(css);
       this.colorize(css, "router-link");
       css.addClass(this.getColorsModifiers);
       css.addClass(this.getGradientModifiers);

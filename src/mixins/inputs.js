@@ -34,7 +34,7 @@ export default {
     },
     labelClass: {
       type: String,
-      default: "has-text-left"
+      default: "text-left"
     },
     containerClass: {
       type: String

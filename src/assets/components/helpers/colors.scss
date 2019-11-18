@@ -42,21 +42,21 @@
   }
 }
 .filled {
-  $bg-color-base: lighten($dark, 60%);
-  background-color: $bg-color-base;
+  $bg-color-base: $white-bis;
+  background-color: $white-bis;
   transition: all cubic-bezier(0.47, 0, 0.74, 0.71) 200ms;
   &.hoverable:hover {
-    background-color: lighten($dark, 50%);
+    background-color: shade($white-bis, 50%);
   }
   &.activable:active {
-    background-color: darken($dark, 12%);
+    background-color: shade($white-bis, 12%);
   }
   &.is-loading::after {
-    border-color: $dark-invert !important;
+    border-color: $grey-dark !important;
   }
   &.inverted {
-    color: $dark;
-    background-color: rgba($dark-invert, var(--bg-alpha));
+    color: $white-bis;
+    background-color: rgba($dark, var(--bg-alpha));
   }
   &.disabled {
     background-color: lighten($grey, 40%) !important;
@@ -204,5 +204,33 @@
         }
       }
     }
+  }
+}
+
+@each $name, $pair in $colors {
+  $color: nth($pair, 1);
+
+  .color-#{$name} {
+    color: $color !important;
+  }
+
+  a.color-#{$name} {
+    &:hover,
+    &:focus {
+      color: shade($color, 20%) !important;
+    }
+  }
+
+  .bg-#{$name} {
+    background-color: $color !important;
+  }
+}
+
+@each $name, $shade in $shades {
+  .color-#{$name} {
+    color: $shade !important;
+  }
+
+  .bg-#{$name} {
   }
 }

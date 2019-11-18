@@ -1,3 +1,5 @@
+$displays: "block" "flex" "inline" "inline-block" "inline-flex";
+
 * {
   &.is-fullwidth {
     width: 100%;
@@ -8,22 +10,76 @@
   }
 
   &.is-absolute {
-    position: absolute;
+    position: absolute !important;
+  }
+
+  &.is-relative {
+    position: relative !important;
   }
 
   &.is-fixed {
-    position: fixed;
+    position: fixed !important;
   }
 
   &.is-overflow-auto {
-    overflow: auto;
+    overflow: auto !important;
   }
 
   &.is-bold {
-    font-weight: bold;
+    font-weight: bold !important;
+  }
+
+  &.is-hidden {
+    display: none !important;
+  }
+
+  &.is-marginless {
+    margin: 0 !important;
+  }
+
+  &.is-paddingless {
+    padding: 0 !important;
+  }
+
+  &.is-radiusless {
+    border-radius: 0 !important;
+  }
+
+  &.is-shadowless {
+    box-shadow: none !important;
+  }
+
+  &.is-unselectable {
+    @include unselectable;
+  }
+
+  &.float-left {
+    float: left !important;
+  }
+
+  &.float-right {
+    float: right !important;
   }
 
   &.cursor-pointer {
-    cursor: pointer;
+    cursor: pointer !important;
+  }
+
+  &.v-align {
+    &-top {
+      vertical-align: top;
+    }
+    &-middle {
+      vertical-align: middle;
+    }
+    &-bottom {
+      vertical-align: bottom;
+    }
+  }
+
+  @each $display in $displays {
+    &.is-#{$display} {
+      display: $display !important;
+    }
   }
 }

@@ -220,7 +220,7 @@ export default {
           this.createCloseButton(notification, $notification);
           let messageContainer = architect.createElement(TFlex);
           this.createIcon(messageContainer, $notification);
-          let message = architect.createDiv("has-text-weight-bold");
+          let message = architect.createDiv("font-weight-bold");
           message.innerHTML($notification.text);
           messageContainer.addChild(message);
           notification.addChild(messageContainer);

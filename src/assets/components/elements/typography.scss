@@ -1,0 +1,86 @@
+$font-sizes: $font-size-1 $font-size-2 $font-size-3 $font-size-4 $font-size-5
+  $font-size-6 $font-size-7 !default;
+
+$title-font-size: 2.5rem;
+$subtitle-font-size: 1.5rem;
+
+$font-weight-lighter: lighter;
+$font-weight-light: 300;
+$font-weight-normal: normal;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
+$font-weight-bolder: 900;
+
+@mixin typography-sizes() {
+  @each $size in $font-sizes {
+    $i: index($font-sizes, $size);
+    .font-#{$i} {
+      font-size: $size !important;
+    }
+  }
+}
+
+@include typography-sizes;
+
+.title {
+  font-size: $title-font-size !important;
+  line-height: 1.125 ;
+}
+
+.subtitle {
+  font-size: $subtitle-font-size !important;
+  line-height: $subtitle-font-size;
+}
+
+h1, .heading-1 {
+  font-size: 2em;
+}
+h2, .heading-2 {
+  font-size: 1.75em;
+}
+h3, .heading-3 {
+  font-size: 1.5em;
+}
+h4, .heading-4 {
+  font-size: 1.25em;
+}
+h5, .heading-5 {
+  font-size: 1.125em;
+}
+h6, .heading-6 {
+  font-size: 1em;
+}
+
+.font {
+  &-weight {
+    &-lighter {
+      font-weight: $font-weight-lighter !important;
+    }
+
+    &-light {
+      font-weight: $font-weight-light !important;
+    }
+
+    &-normal {
+      font-weight: $font-weight-normal !important;
+    }
+
+    &-medium {
+      font-weight: $font-weight-medium !important;
+    }
+
+    &-bold {
+      font-weight: $font-weight-bold !important;
+    }
+
+    &-bolder {
+      font-weight: $font-weight-bolder !important;
+    }
+  }
+  &-italic {
+    font-style: italic !important;
+  }
+  &-small {
+    font-size: $font-size-small !important;
+  }
+}

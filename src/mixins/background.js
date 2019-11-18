@@ -51,20 +51,20 @@ export default {
   data() {
     return {
       bgModifiers: [
-        "has-background-primary",
-        "has-background-secondary",
-        "has-background-link",
-        "has-background-info",
-        "has-background-warning",
-        "has-background-moderate",
-        "has-background-danger",
-        "has-background-success",
-        "has-background-happy",
-        "has-background-dark",
-        "has-background-light",
-        "has-background-opaque",
-        "has-background-black",
-        "has-background-white"
+        "bg-primary",
+        "bg-secondary",
+        "bg-link",
+        "bg-info",
+        "bg-warning",
+        "bg-moderate",
+        "bg-danger",
+        "bg-success",
+        "bg-happy",
+        "bg-dark",
+        "bg-light",
+        "bg-opaque",
+        "bg-black",
+        "bg-white"
       ],
       hasBgModifier: false,
       bgModifier: null
@@ -77,22 +77,22 @@ export default {
      */
     getBackgroundModifiers: function() {
       const cssArchitect = new CssArchitect();
-      cssArchitect.addClass("has-background-primary", this.hasBgPrimary);
-      cssArchitect.addClass("has-background-secondary", this.hasBgSecondary);
-      cssArchitect.addClass("has-background-link", this.hasBgLink);
-      cssArchitect.addClass("has-background-info", this.hasBgInfo);
-      cssArchitect.addClass("has-background-success", this.hasBgSuccess);
-      cssArchitect.addClass("has-background-warning", this.hasBgWarning);
-      cssArchitect.addClass("has-background-moderate", this.hasBgModerate);
-      cssArchitect.addClass("has-background-danger", this.hasBgDanger);
-      cssArchitect.addClass("has-background-dark", this.hasBgDark);
-      cssArchitect.addClass("has-background-light", this.hasBgLight);
-      cssArchitect.addClass("has-background-opaque", this.hasBgOpaque);
-      cssArchitect.addClass("has-background-black", this.hasBgBlack);
-      cssArchitect.addClass("has-background-white", this.hasBgWhite);
-      cssArchitect.addClass("has-background-happy", this.hasBgHappy);
+      cssArchitect.addClass("bg-primary", this.hasBgPrimary);
+      cssArchitect.addClass("bg-secondary", this.hasBgSecondary);
+      cssArchitect.addClass("bg-link", this.hasBgLink);
+      cssArchitect.addClass("bg-info", this.hasBgInfo);
+      cssArchitect.addClass("bg-success", this.hasBgSuccess);
+      cssArchitect.addClass("bg-warning", this.hasBgWarning);
+      cssArchitect.addClass("bg-moderate", this.hasBgModerate);
+      cssArchitect.addClass("bg-danger", this.hasBgDanger);
+      cssArchitect.addClass("bg-dark", this.hasBgDark);
+      cssArchitect.addClass("bg-light", this.hasBgLight);
+      cssArchitect.addClass("bg-opaque", this.hasBgOpaque);
+      cssArchitect.addClass("bg-black", this.hasBgBlack);
+      cssArchitect.addClass("bg-white", this.hasBgWhite);
+      cssArchitect.addClass("bg-happy", this.hasBgHappy);
       cssArchitect.addClass(
-        `has-background-${this.background}`,
+        `bg-${this.background}`,
         this.background !== undefined
       );
       return cssArchitect.getClasses();

@@ -69,7 +69,7 @@ export default {
       this.filled(css, { lighten: true });
       css.addClass(this.colorModifier, this.hasColorModifier);
       css.addClass(this.bodyClass, this.bodyClass);
-      css.addClass("has-text-dark");
+      css.addClass("color-dark");
       return css;
     },
     /**
@@ -116,7 +116,7 @@ export default {
       body.setStyles(this.getBodyCss.getStyles());
       body.addVNodeChildren(this.$slots.default);
       if (!this.showHeading) {
-        let deleteContainer = architect.createDiv("has-text-right");
+        let deleteContainer = architect.createDiv("text-right");
         this.createCloseButton(deleteContainer);
         body.addChild(deleteContainer);
       }

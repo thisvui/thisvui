@@ -2,9 +2,8 @@
 @import "utilities/initialize";
 
 @import "themes/winter/winter";
-@import "~bulma/sass/utilities/derived-variables.sass";
-@import "~bulma/sass/utilities/mixins.sass";
-@import "~bulma/sass/base/_all";
+@import "themes/variables";
+@import "base/all";
 
 @import "components/all";
 

@@ -24,14 +24,14 @@ export default {
     },
     labelClass: {
       type: String,
-      default: "has-text-left"
+      default: "text-left"
     },
     value: {
       type: [String, Number]
     },
     valueClass: {
       type: String,
-      default: "has-text-left"
+      default: "text-left"
     },
     icon: {
       type: String
@@ -102,7 +102,7 @@ export default {
       cssArchitect.addClass("is-lowercase", this.lowercase);
       cssArchitect.addClass("is-uppercase", this.uppercase);
       cssArchitect.addClass("is-capitalized", this.capitalized);
-      cssArchitect.addClass("has-text-weight-bold", this.bold);
+      cssArchitect.addClass("font-weight-bold", this.bold);
       cssArchitect.addClass(this.getHelpersModifiers);
       cssArchitect.addClass(this.getDimensionModifiers);
       cssArchitect.addClass(this.getFlexModifiers);
@@ -117,7 +117,7 @@ export default {
       const cssArchitect = new CssArchitect("t-text-label");
       cssArchitect.addClass(this.labelClass, this.isNotNull(this.labelClass));
       cssArchitect.addClass("is-inline-flex", this.isNotNull(this.labelIcon));
-      cssArchitect.addClass("has-text-weight-bold", this.boldLabel);
+      cssArchitect.addClass("font-weight-bold", this.boldLabel);
       cssArchitect.addClass(`is-${this.transformLabel}`, this.isNotNull(this.transformLabel));
       return cssArchitect.getClasses();
     },
@@ -128,7 +128,7 @@ export default {
     getValueClass: function() {
       const cssArchitect = new CssArchitect("t-text-value");
       cssArchitect.addClass(this.valueClass, this.isNotNull(this.valueClass));
-      cssArchitect.addClass("has-text-weight-bold", this.boldValue);
+      cssArchitect.addClass("font-weight-bold", this.boldValue);
       cssArchitect.addClass(`is-${this.transformValue}`, this.isNotNull(this.transformValue));
       return cssArchitect.getClasses();
     },
