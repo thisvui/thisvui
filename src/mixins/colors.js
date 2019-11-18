@@ -199,10 +199,6 @@ export default {
       cssArchitect.addClass(`hovered`);
       cssArchitect.addClass(`has-color`, hasColor);
     },
-    colorize(cssArchitect, type, addColorClass = false) {
-      cssArchitect.addClass(`t-colorize`, addColorClass);
-      cssArchitect.addClass(`has-${type}`);
-    },
     rgb2hex(color) {
       let rgb = color.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
       if (rgb == null) {

@@ -1,15 +1,13 @@
-import utils from "../../utils/utils";
-
 import helpers from "../../mixins/helpers";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
 import TIcon from "../TIcon/TIcon";
 import dimension from "../../mixins/dimension";
 import flex from "../../mixins/flex";
+import alignment from "../../mixins/alignment";
 
 import CssArchitect from "../../utils/css-architect";
-import ElementArchitect from "../../utils/element-architect";
-import alignment from "../../mixins/alignment";
+import { createDiv } from "../../utils/element-architect";
 
 export default {
   name: "t-text",
@@ -94,7 +92,11 @@ export default {
      */
     getContainerClasses: function() {
       const cssArchitect = new CssArchitect("t-text");
-      cssArchitect.isFlexible("row", "start", "normal", false, "normal");
+      cssArchitect.flexible({
+        alignItems: "start",
+        justifyContent: "normal",
+        alignContent: "normal"
+      });
       cssArchitect.addClass(
         this.containerClass,
         this.containerClass !== undefined
@@ -118,7 +120,10 @@ export default {
       cssArchitect.addClass(this.labelClass, this.isNotNull(this.labelClass));
       cssArchitect.addClass("is-inline-flex", this.isNotNull(this.labelIcon));
       cssArchitect.addClass("font-weight-bold", this.boldLabel);
-      cssArchitect.addClass(`is-${this.transformLabel}`, this.isNotNull(this.transformLabel));
+      cssArchitect.addClass(
+        `is-${this.transformLabel}`,
+        this.isNotNull(this.transformLabel)
+      );
       return cssArchitect.getClasses();
     },
     /**
@@ -129,7 +134,10 @@ export default {
       const cssArchitect = new CssArchitect("t-text-value");
       cssArchitect.addClass(this.valueClass, this.isNotNull(this.valueClass));
       cssArchitect.addClass("font-weight-bold", this.boldValue);
-      cssArchitect.addClass(`is-${this.transformValue}`, this.isNotNull(this.transformValue));
+      cssArchitect.addClass(
+        `is-${this.transformValue}`,
+        this.isNotNull(this.transformValue)
+      );
       return cssArchitect.getClasses();
     },
     /**
@@ -137,9 +145,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getIconClass: function() {
-      const cssArchitect = new CssArchitect(
-        "is-small is-left is-inline-flex"
-      );
+      const cssArchitect = new CssArchitect("is-small is-left is-inline-flex");
       cssArchitect.addClass(this.iconClass, this.isNotNull(this.iconClass));
       return cssArchitect.getClasses();
     },
@@ -219,9 +225,9 @@ export default {
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "div", this.getContainerClasses);
+    let root = createDiv(h, this.getContainerClasses);
     root.setId(this.id);
-    root.setKey(`${this.id}-text`)
+    root.setKey(`${this.id}-text`);
     this.createLabel(root);
     this.createValue(root);
     return root.create();

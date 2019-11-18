@@ -33,7 +33,6 @@ export default {
         .isFullwidth()
         .isFullheight();
       this.filled(css);
-      this.colorize(css, "router-link");
       css.addClass(this.getColorsModifiers);
       css.addClass(this.getGradientModifiers);
       css.addClass(this.getFlexModifiers);

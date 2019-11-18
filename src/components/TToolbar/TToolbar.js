@@ -4,7 +4,7 @@ import flex from "../../mixins/flex";
 import alignment from "../../mixins/alignment";
 
 import CssArchitect from "../../utils/css-architect";
-import ElementArchitect from "../../utils/element-architect";
+import { createDiv } from "../../utils/element-architect";
 
 export default {
   name: "t-toolbar",
@@ -24,19 +24,20 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("t-toolbar");
-      cssArchitect.addClass("t-flex");
-      this.colorize(cssArchitect, "bg", true);
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass(this.getFlexModifiers);
-      cssArchitect.addClass(this.getAlignmentModifiers);
-      cssArchitect.addClass("flex-direction-column", this.isVertical);
-      cssArchitect.addClass("is-left", !this.isRight && !this.isCentered);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-toolbar");
+      this.filled(css);
+      css.flexible();
+      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getFlexModifiers);
+      css.addClass(this.getAlignmentModifiers);
+      css.addClass("flex-direction-column", this.isVertical);
+      css.addClass("is-left", !this.isRight && !this.isCentered);
+      this.setupColorModifier(css, true);
+      return css.getClasses();
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "div", this.getClasses);
+    let root = createDiv(h, this.getClasses);
     root.setId(this.id).setChildren(this.$slots.default);
     return root.create();
   }

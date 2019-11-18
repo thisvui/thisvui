@@ -1,4 +1,4 @@
-$displays: "block" "flex" "inline" "inline-block" "inline-flex";
+$displays: 'block' 'flex' 'inline' 'inline-block' 'inline-flex';
 
 * {
   &.is-fullwidth {
@@ -79,7 +79,7 @@ $displays: "block" "flex" "inline" "inline-block" "inline-flex";
 
   @each $display in $displays {
     &.is-#{$display} {
-      display: $display !important;
+      display: #{$display} !important;
     }
   }
 }

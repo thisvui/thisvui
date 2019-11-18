@@ -100,7 +100,6 @@ export default {
      */
     getTitleClasses: function() {
       const css = new CssArchitect("modal__title");
-      // this.colorize(css, "color-invert", true);
       css.addClass(this.colorModifier, this.hasColorModifier);
       css.addClass(this.titleClass, this.titleClass);
       return css.getClasses();

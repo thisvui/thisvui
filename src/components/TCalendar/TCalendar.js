@@ -158,48 +158,49 @@ export default {
       return days;
     },
     getContainerClass: function() {
-      const cssArchitect = new CssArchitect(
+      const css = new CssArchitect(
         `group ${this.className("container")}`
       );
-      cssArchitect.addClass(
+      css.addClass(
         this.containerClass,
         this.containerClass !== undefined
       );
-      cssArchitect.addClass("is-horizontal", this.isHorizontal);
-      return cssArchitect.getClasses();
+      css.addClass("is-horizontal", this.isHorizontal);
+      return css.getClasses();
     },
     getWidgetClass: function() {
-      const cssArchitect = new CssArchitect("t-calendar__widget");
-      cssArchitect.isFlexible("column").isAbsolute();
-      cssArchitect.addClass("inline-calendar", this.inline);
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass(this.widgetClass);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-calendar__widget");
+      css.flexible("column");
+      css.addClass("is-absolute", !this.inline);
+      css.addClass("inline-calendar", this.inline);
+      css.addClass(this.getColorsModifiers);
+      css.addClass(this.widgetClass);
+      return css.getClasses();
     },
     getCalendarBodyClass: function() {
-      const cssArchitect = new CssArchitect("t-calendar__body");
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-calendar__body");
+      return css.getClasses();
     },
     getHeaderClass: function() {
-      const cssArchitect = new CssArchitect("t-calendar__header");
-      cssArchitect.isFlexible().isCentered();
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-calendar__header");
+      css.flexible().isCentered();
+      return css.getClasses();
     },
     getTimePickerClass: function() {
-      const cssArchitect = new CssArchitect("t-timepicker");
-      cssArchitect.isFlexible();
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-timepicker");
+      css.flexible();
+      return css.getClasses();
     },
     getDayClass() {
-      const cssArchitect = new CssArchitect(this.className("day"));
-      return cssArchitect.getClasses();
+      const css = new CssArchitect(this.className("day"));
+      return css.getClasses();
     },
     getClearIconClass: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addClass("colored");
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
-      cssArchitect.addClass("cursor-pointer");
-      return cssArchitect.getClasses();
+      const css = new CssArchitect();
+      css.addClass("colored");
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass("cursor-pointer");
+      return css.getClasses();
     },
     showClearIcon: function() {
       return this.isNotEmpty(this.selectedDate) && !this.disabled;
@@ -242,7 +243,7 @@ export default {
       this.$refs.inputField.value = "";
       this.$emit(this.$thisvui.events.common.input, this.selectedDate);
       this.validateOnEvent("input");
-      this.hasValue = false
+      this.hasValue = false;
     },
     setSelectedDate(day) {
       this.initSelectedTime();
@@ -262,7 +263,7 @@ export default {
       this.$refs.inputField.value = this.inputDate;
       this.$emit(this.$thisvui.events.common.input, this.selectedDate);
       this.validateOnEvent("input");
-      this.hasValue = true
+      this.hasValue = true;
     },
     setSelectedTime(units, value) {
       this.initSelectedTime();
@@ -279,7 +280,7 @@ export default {
           break;
       }
       this.selectedTime = selectedTime;
-      this.hasValue = true
+      this.hasValue = true;
     },
     onInput() {
       this.validateOnEvent("input");
@@ -315,7 +316,7 @@ export default {
       if (this.showClearIcon) {
         let clearIconWrapper = architect.createA();
         let clearIcon = architect.createIcon(this.getClearIconClass);
-        clearIcon.setRef("clear")
+        clearIcon.setRef("clear");
         clearIcon.addProp("icon", this.$thisvui.icons.remove);
         clearIcon.addProp("preserveDefaults", !this.overrideDefaults);
         clearIconWrapper.addClick(this.clearSelectedDay);
@@ -521,7 +522,7 @@ export default {
       this.seconds = getSeconds(this.selectedTime);
     }
     this.$nextTick(function() {
-      this.hasValue = this.getHasValue()
+      this.hasValue = this.getHasValue();
     });
   }
 };

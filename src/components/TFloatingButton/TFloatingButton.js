@@ -3,14 +3,11 @@ import colors from "../../mixins/colors";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
 
-import TIcon from "../TIcon/TIcon";
-
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-floating-button",
-  components: { TIcon },
   mixins: [common, sizes, colors, icons],
   props: {
     items: {
@@ -71,78 +68,77 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("t-floating-btn");
-      cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass("is-top", this.isTop);
-      cssArchitect.addClass("is-bottom", this.isBottom);
-      cssArchitect.addClass("is-right", this.isRight);
-      cssArchitect.addClass("is-left", this.isLeft);
-      this.setupColorModifier(cssArchitect);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-floating-btn");
+      css.addClass(this.getSizesModifiers);
+      css.addClass(this.getColorsModifiers);
+      css.addClass("is-top", this.isTop);
+      css.addClass("is-bottom", this.isBottom);
+      css.addClass("is-right", this.isRight);
+      css.addClass("is-left", this.isLeft);
+      this.setupColorModifier(css);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the main button element
      * @returns { A String with the chained css classes }
      */
     getBtnClasses: function() {
-      const cssArchitect = new CssArchitect("t-floating-btn-icon");
-      cssArchitect.isFlexible().isCentered();
-      this.colorize(cssArchitect, "bg-color", true);
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
-      cssArchitect.addClass(this.btnClass);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-floating-btn-icon");
+      css.flexible().isCentered();
+      this.filled(css);
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.btnClass);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the main label element
      * @returns { A String with the chained css classes }
      */
     getLabelClasses: function() {
-      const cssArchitect = new CssArchitect("t-floating-btn-label");
-      cssArchitect
-        .isFlexible()
+      const css = new CssArchitect("t-floating-btn-label");
+      css
+        .flexible()
         .isCentered()
         .isFullwidth()
         .isFullheight();
-      cssArchitect.addClass(this.labelClass);
-      return cssArchitect.getClasses();
+      css.addClass(this.labelClass);
+      return css.getClasses();
     },
     getIconClasses: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect
-        .isFlexible()
+      const css = new CssArchitect();
+      css
+        .flexible()
         .isCentered()
         .isFullwidth()
         .isFullheight();
-      this.colorize(cssArchitect, "color-invert", true);
-      return cssArchitect.getClasses();
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the options container
      * @returns { A String with the chained css classes }
      */
     getOptionsClasses: function() {
-      const cssArchitect = new CssArchitect("t-floating-btn-options");
-      cssArchitect.addClass(this.optionsClass);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-floating-btn-options");
+      css.addClass(this.optionsClass);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the option button element
      * @returns { A String with the chained css classes }
      */
     getOptionBtnClasses: function() {
-      const cssArchitect = new CssArchitect("t-floating-btn-option");
-      cssArchitect.addClass(this.optionBtnClass);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-floating-btn-option");
+      css.addClass(this.optionBtnClass);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the option label element
      * @returns { A String with the chained css classes }
      */
     getOptionLabelClasses: function() {
-      const cssArchitect = new CssArchitect("t-floating-btn-option-label");
-      cssArchitect.addClass(this.optionLabelClass);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-floating-btn-option-label");
+      css.addClass(this.optionLabelClass);
+      return css.getClasses();
     }
   },
   data() {

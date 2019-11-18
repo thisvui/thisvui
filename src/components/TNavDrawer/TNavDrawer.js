@@ -38,59 +38,59 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getContainerClass: function() {
-      const cssArchitect = new CssArchitect("t-nav-drawer");
-      cssArchitect.isFlexible("column", "stretch").isFullheight();
-      cssArchitect.addClass(
-        this.containerClass,
-        this.containerClass !== undefined
-      );
-      cssArchitect.addClass("is-nav-opened", this.isOpen);
-      cssArchitect.addClass(this.getHelpersModifiers);
-      cssArchitect.addClass(this.getColorsModifiers);
-      this.setupColorModifier(cssArchitect);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-nav-drawer");
+      css
+        .flexible({ direction: "column", alignItems: "stretch" })
+        .isFullheight();
+      css.addClass(this.containerClass, this.containerClass !== undefined);
+      css.addClass("is-nav-opened", this.isOpen);
+      css.addClass(this.getHelpersModifiers);
+      css.addClass(this.getColorsModifiers);
+      this.setupColorModifier(css);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for each label element
      * @returns { A String with the chained css classes }
      */
     getLabelClass: function() {
-      const cssArchitect = new CssArchitect("menu-label");
-      this.colorize(cssArchitect, "bg-color", true);
-      cssArchitect.addClass(this.labelClass, this.labelClass !== undefined);
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("menu-label");
+      this.filled(css);
+      css.addClass(this.labelClass, this.labelClass !== undefined);
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for each item icon
      * @returns { A String with the chained css classes }
      */
     getIconClass: function() {
-      const cssArchitect = new CssArchitect("is-inline-block");
-      cssArchitect.addClass(this.iconClass, this.iconClass !== undefined);
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("is-inline-block");
+      css.addClass(this.iconClass, this.iconClass !== undefined);
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for each item link
      * @returns { A String with the chained css classes }
      */
     getLinkClass: function() {
-      const cssArchitect = new CssArchitect("is-inline-block");
-      this.colorize(cssArchitect, "bg-hover", true);
-      cssArchitect.addClass(this.linkClass, this.linkClass !== undefined);
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("is-inline-block");
+      this.hovered(css);
+      css.addClass(this.linkClass, this.linkClass !== undefined);
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      return css.getClasses();
     },
     getControlIconClass: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect();
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      return css.getClasses();
     },
     getLinkOpenedClass: function() {
-      const cssArchitect = new CssArchitect();
-      this.colorize(cssArchitect, "bg-color");
-      return cssArchitect.getClasses();
+      const css = new CssArchitect();
+      this.filled(css);
+      css.addClass(this.colorModifier, this.hasColorModifier);
+      return css.getClasses();
     }
   },
   data() {
@@ -100,9 +100,9 @@ export default {
   },
   methods: {
     getStyle() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addStyle("width", `${this.calculatedWidth}px`);
-      return cssArchitect.getStyles();
+      const css = new CssArchitect();
+      css.addStyle("width", `${this.calculatedWidth}px`);
+      return css.getStyles();
     },
     /**
      * Creates the menu items
