@@ -59,7 +59,7 @@ export default {
         this.containerClass !== undefined
       );
       cssArchitect.addClass(this.getSyntaxModifiers);
-      cssArchitect.addClass(this.getColorsModifiers);
+      cssArchitect.addClass(this.getThemeModifiers);
       cssArchitect.addClass(this.getAlignmentModifiers);
       return cssArchitect.getClasses();
     },
@@ -84,20 +84,20 @@ export default {
       cssArchitect.isAbsolute().isFullwidth();
       cssArchitect.addClass(this.resultsClass, this.resultsClass !== undefined);
       cssArchitect.addClass("bordered");
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
+      cssArchitect.addClass(this.themeModifier, this.hasThemeModifier);
       return cssArchitect.getClasses();
     },
     getClearIconClass: function() {
       const cssArchitect = new CssArchitect();
       cssArchitect.addClass("colored");
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
+      cssArchitect.addClass(this.themeModifier, this.hasThemeModifier);
       cssArchitect.addClass("cursor-pointer");
       return cssArchitect.getClasses();
     },
     getArrowClass: function() {
       const cssArchitect = new CssArchitect("arrow");
       cssArchitect.addClass("bordered");
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
+      cssArchitect.addClass(this.themeModifier, this.hasThemeModifier);
       return cssArchitect.getClasses();
     },
     getContainerStyles: function() {
@@ -130,7 +130,7 @@ export default {
       const cssArchitect = new CssArchitect("t-select__result");
       cssArchitect.addClass("hovered", this.selectable);
       cssArchitect.addClass("filled", isActive);
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
+      cssArchitect.addClass(this.themeModifier, this.hasThemeModifier);
       cssArchitect.addClass(this.resultClass, this.resultClass !== undefined);
       return cssArchitect.getClasses();
     },

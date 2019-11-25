@@ -1,4 +1,4 @@
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 import common from "../../mixins/common";
 import dimension from "../../mixins/dimension";
 import padding from "../../mixins/padding";
@@ -9,7 +9,7 @@ import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-navbar",
-  mixins: [common, dimension, padding, margin, colors],
+  mixins: [common, dimension, padding, margin, themes],
   props: {
     targetClass: {
       type: String
@@ -35,8 +35,8 @@ export default {
      */
     getCss: function() {
       const css = new CssArchitect("t-navbar navbar");
-      this.filled(css);
-      css.addClass(this.getColorsModifiers);
+      this.isFilled(css);
+      css.addClass(this.getThemeModifiers);
       css.addClass("transparent", this.transparent);
       css.addClass("fixed-top", this.fixedTop);
       css.addClass("fixed-bottom", this.fixedBottom);
@@ -48,7 +48,7 @@ export default {
         this.getMarginStyles
       ]);
       css.addStyles([this.getAlphaModifiers]);
-      this.setupColorModifier(css);
+      this.setupThemeModifier(css);
       return css;
     }
   },

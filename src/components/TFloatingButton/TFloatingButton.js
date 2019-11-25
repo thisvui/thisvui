@@ -1,5 +1,5 @@
 import sizes from "../../mixins/sizes";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
 
@@ -8,7 +8,7 @@ import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-floating-button",
-  mixins: [common, sizes, colors, icons],
+  mixins: [common, sizes, themes, icons],
   props: {
     items: {
       type: Array
@@ -70,12 +70,12 @@ export default {
     getClasses: function() {
       const css = new CssArchitect("t-floating-btn");
       css.addClass(this.getSizesModifiers);
-      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getThemeModifiers);
       css.addClass("is-top", this.isTop);
       css.addClass("is-bottom", this.isBottom);
       css.addClass("is-right", this.isRight);
       css.addClass("is-left", this.isLeft);
-      this.setupColorModifier(css);
+      this.setupThemeModifier(css);
       return css.getClasses();
     },
     /**
@@ -85,8 +85,8 @@ export default {
     getBtnClasses: function() {
       const css = new CssArchitect("t-floating-btn-icon");
       css.flexible().isCentered();
-      this.filled(css);
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      this.isFilled(css);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass(this.btnClass);
       return css.getClasses();
     },

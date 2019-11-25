@@ -1,12 +1,12 @@
 import sizes from "../../mixins/sizes";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 
 import CssArchitect from "../../utils/css-architect";
 import { createSpan } from "../../utils/element-architect";
 
 export default {
   name: "t-tag",
-  mixins: [colors, sizes],
+  mixins: [themes, sizes],
   props: {
     targetClass: {
       type: String
@@ -28,14 +28,14 @@ export default {
      */
     getClasses: function() {
       const css = new CssArchitect("tag");
-      this.filled(css);
-      css.addClass(this.getColorsModifiers);
+      this.isFilled(css);
+      css.addClass(this.getThemeModifiers);
       css.addClass(this.getSizesModifiers);
       css.addClass(this.targetClass);
       css.addClass("classic", this.classic);
       css.addClass("rounded", this.rounded);
       css.addClass("is-delete", this.delete);
-      this.setupColorModifier(css, true);
+      this.setupThemeModifier(css, true);
       return css.getClasses();
     }
   },

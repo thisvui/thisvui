@@ -9,12 +9,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  &.row{
+  &.row {
     flex-direction: row;
   }
 
   &.has-min-height {
-    .t-layout{
+    .t-layout {
       min-height: unset;
       height: -webkit-fill-available;
     }
@@ -44,7 +44,8 @@
     }
   }
 
-  .t-header, .t-footer {
+  .t-header,
+  .t-footer {
     width: 100%;
     padding: 0;
     background-blend-mode: screen;

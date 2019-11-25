@@ -167,7 +167,7 @@ export default class CssArchitect {
     return this;
   }
 
-  colored({ inverted = false } = {}) {
+  isColored({ inverted = false } = {}) {
     this.addClass(`colored`);
     this.addClass(`inverted`, inverted);
   }

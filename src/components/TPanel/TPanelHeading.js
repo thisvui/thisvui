@@ -1,12 +1,12 @@
 import icons from "../../mixins/icons";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-panel-heading",
-  mixins: [icons, colors],
+  mixins: [icons, themes],
   props: {
     text: {
       type: String
@@ -36,13 +36,13 @@ export default {
      */
     getClasses: function() {
       const css = new CssArchitect("panel__heading");
-      this.filled(css);
-      this.borderedElement(css);
+      this.isFilled(css);
+      this.isBordered(css);
       css.addClass("icon-left", this.iconLeft);
-      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getThemeModifiers);
       css.addClass(
-        this.$parent.colorModifier,
-        this.$parent.hasColorModifier && !this.hasColorModifier
+        this.$parent.themeModifier,
+        this.$parent.hasThemeModifier && !this.hasThemeModifier
       );
       return css.getClasses();
     },

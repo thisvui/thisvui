@@ -1,14 +1,14 @@
 import helpers from "../../mixins/helpers";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 
 import ElementArchitect from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
   name: "t-accordion",
-  mixins: [common, icons, colors, helpers],
+  mixins: [common, icons, themes, helpers],
   props: {
     borderless: {
       type: Boolean
@@ -47,12 +47,12 @@ export default {
      */
     getClasses: function() {
       const cssArchitect = new CssArchitect("t-accordion");
-      cssArchitect.addClass(this.getColorsModifiers);
+      cssArchitect.addClass(this.getThemeModifiers);
       cssArchitect.addClass(this.getHelpersModifiers);
       cssArchitect.addClass("borderless", this.borderless);
       cssArchitect.addClass("elevation-1");
       cssArchitect.addClass(this.targetClass, this.targetClass !== undefined);
-      this.setupColorModifier(cssArchitect);
+      this.setupThemeModifier(cssArchitect);
       return cssArchitect.getClasses();
     }
   },

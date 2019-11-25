@@ -11,11 +11,25 @@ $font-weight-medium: 500;
 $font-weight-bold: 700;
 $font-weight-bolder: 900;
 
+@mixin font-modifiers($size) {
+  &-q {
+    font-size: $size + 0.25rem !important;
+  }
+  &-h {
+    font-size: $size + 0.5rem !important;
+  }
+  &-3q {
+    font-size: $size + 0.75rem !important;
+  }
+}
+
 @mixin typography-sizes() {
   @each $size in $font-sizes {
     $i: index($font-sizes, $size);
     .font-#{$i} {
       font-size: $size !important;
+
+      @include font-modifiers($size);
     }
   }
 }
@@ -24,7 +38,7 @@ $font-weight-bolder: 900;
 
 .title {
   font-size: $title-font-size !important;
-  line-height: 1.125 ;
+  line-height: 1.125;
 }
 
 .subtitle {
@@ -32,22 +46,28 @@ $font-weight-bolder: 900;
   line-height: $subtitle-font-size;
 }
 
-h1, .heading-1 {
+h1,
+.heading-1 {
   font-size: 2em;
 }
-h2, .heading-2 {
+h2,
+.heading-2 {
   font-size: 1.75em;
 }
-h3, .heading-3 {
+h3,
+.heading-3 {
   font-size: 1.5em;
 }
-h4, .heading-4 {
+h4,
+.heading-4 {
   font-size: 1.25em;
 }
-h5, .heading-5 {
+h5,
+.heading-5 {
   font-size: 1.125em;
 }
-h6, .heading-6 {
+h6,
+.heading-6 {
   font-size: 1em;
 }
 

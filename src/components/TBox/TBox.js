@@ -3,14 +3,14 @@ import helpers from "../../mixins/helpers";
 import elevation from "../../mixins/elevation";
 import dimension from "../../mixins/dimension";
 import display from "../../mixins/display";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 
 import ElementArchitect from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
   name: "t-box",
-  mixins: [common, display, colors, elevation, dimension, helpers],
+  mixins: [common, display, themes, elevation, dimension, helpers],
   computed: {
     /**
      * Dynamically build the css classes for the target element
@@ -18,8 +18,8 @@ export default {
      */
     getClasses: function() {
       const css = new CssArchitect("box");
-      this.filled(css);
-      css.addClass(this.getColorsModifiers);
+      this.isFilled(css);
+      css.addClass(this.getThemeModifiers);
       css.addClass(this.getSyntaxModifiers);
       css.addClass(this.getElevationModifiers);
       css.addClass(this.getDimensionModifiers);

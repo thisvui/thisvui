@@ -1,5 +1,5 @@
 import alignment from "../../mixins/alignment";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 import common from "../../mixins/common";
 
 import ElementArchitect from "../../utils/element-architect";
@@ -7,7 +7,7 @@ import CssArchitect from "../../utils/css-architect";
 
 export default {
   name: "t-breadcrumb",
-  mixins: [common, colors, alignment],
+  mixins: [common, themes, alignment],
   props: {
     model: {
       type: Array
@@ -41,9 +41,9 @@ export default {
      */
     getClasses: function() {
       const css = new CssArchitect("breadcrumb");
-      this.borderedElement(css);
-      css.addClass(this.getColorsModifiers);
-      this.setupColorModifier(css, true);
+      this.isBordered(css);
+      css.addClass(this.getThemeModifiers);
+      this.setupThemeModifier(css, true);
       return css.getClasses();
     },
     /**
@@ -69,8 +69,8 @@ export default {
      */
     getNumberClasses: function() {
       const css = new CssArchitect("breadcrumb__number");
-      this.filled(css);
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      this.isFilled(css);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
     },
     /**
@@ -79,7 +79,7 @@ export default {
      */
     getIconClasses: function() {
       const css = new CssArchitect("breadcrumb__icon");
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
     },
     /**

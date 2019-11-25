@@ -1,7 +1,7 @@
 import common from "../../mixins/common";
 import sizes from "../../mixins/sizes";
 import states from "../../mixins/states";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 import helpers from "../../mixins/helpers";
 import display from "../../mixins/display";
 
@@ -17,7 +17,7 @@ export default {
   name: "t-button",
   components: { TIcon, TModal },
   inheritAttrs: false,
-  mixins: [common, sizes, states, colors, display, helpers],
+  mixins: [common, sizes, states, themes, display, helpers],
   props: {
     validate: {
       type: Boolean,
@@ -141,11 +141,11 @@ export default {
       css.addClass("disabled", this.disabled);
       css.addClass(this.targetClass, this.targetClass !== undefined);
       css.addClass(this.tooltipClass, this.tooltipClass !== undefined);
-      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getThemeModifiers);
       css.addClass(this.getSizesModifiers);
       css.addClass(this.getStateModifiers);
       css.addClass(this.getHelpersModifiers);
-      this.setupColorModifier(css, true);
+      this.setupThemeModifier(css, true);
       return css.getClasses();
     },
     /**
@@ -208,7 +208,7 @@ export default {
      */
     getIconClasses: function() {
       const css = new CssArchitect();
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass("inverted", !this.outlined && !this.text && !this.inverted);
       css.addClass(this.iconClass, this.isNotNull(this.iconClass));
       return css.getClasses();

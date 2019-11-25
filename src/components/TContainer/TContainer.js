@@ -5,7 +5,7 @@ import background from "../../mixins/background";
 import dimension from "../../mixins/dimension";
 import padding from "../../mixins/padding";
 import margin from "../../mixins/margin";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 import gradient from "../../mixins/gradient";
 
 import CssArchitect from "../../utils/css-architect";
@@ -20,7 +20,7 @@ export default {
     dimension,
     padding,
     margin,
-    colors,
+    themes,
     gradient,
     helper
   ],
@@ -34,12 +34,12 @@ export default {
      */
     css: function() {
       const css = new CssArchitect("container");
-      this.filled(css, { removeInit: true });
+      this.isFilled(css, { removeInit: true });
       css.addClass("fluid", this.fluid);
       css.addClass(this.getScreensModifiers);
       css.addClass(this.getHelpersModifiers);
       css.addClass(this.getBackgroundModifiers);
-      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getThemeModifiers);
       css.addClass(this.getGradientModifiers);
       css.addStyles([this.getAlphaModifiers]);
       css.addStyles([this.getPaddingStyles]);

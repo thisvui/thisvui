@@ -3,14 +3,14 @@ import common from "../../mixins/common";
 import icons from "../../mixins/icons";
 import TPanelHeading from "./TPanelHeading";
 import TExpand from "../TAnimation/TExpand";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-panel",
-  mixins: [common, colors, icons, helpers],
+  mixins: [common, themes, icons, helpers],
   components: { TExpand, TPanelHeading },
   props: {
     title: {
@@ -53,9 +53,9 @@ export default {
      */
     getClasses: function() {
       const css = new CssArchitect("panel");
-      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getThemeModifiers);
       css.addClass(this.getHelpersModifiers);
-      this.setupColorModifier(css, true);
+      this.setupThemeModifier(css, true);
       return css.getClasses();
     },
     /**
@@ -65,8 +65,8 @@ export default {
     getBodyClasses: function() {
       const css = new CssArchitect("panel__body");
       css.addClass("is-closed is-shadowless", !this.isExpanded);
-      this.borderedElement(css);
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      this.isBordered(css);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
     },
     /**
@@ -76,7 +76,7 @@ export default {
     getIconClasses: function() {
       const css = new CssArchitect();
       css.addClass(
-        this.colorModifier, this.hasColorModifier
+        this.themeModifier, this.hasThemeModifier
       );
       css.addClass("inverted");
       return css.getClasses();

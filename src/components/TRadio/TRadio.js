@@ -34,8 +34,8 @@ export default {
         this.inputClass,
         this.isNotNull(this.inputClass) && this.errors.length === 0
       );
-      css.addClass(this.getColorsModifiers);
-      this.setupColorModifier(css, true);
+      css.addClass(this.getThemeModifiers);
+      this.setupThemeModifier(css, true);
       return css.getClasses();
     },
     /**
@@ -46,8 +46,8 @@ export default {
       const css = new CssArchitect();
       if (this.solid) {
         this.alpha(css, { bg: 0.9 });
-        this.filled(css);
-        css.addClass(this.colorModifier, this.hasColorModifier);
+        this.isFilled(css);
+        css.addClass(this.themeModifier, this.hasThemeModifier);
       }
       css.addClass("solid", this.solid);
       css.addClass("no-label", this.noLabel);
@@ -61,8 +61,8 @@ export default {
     getRadioCheckedClass: function() {
       const css = new CssArchitect();
       if (!this.solid) {
-        this.filled(css);
-        css.addClass(this.colorModifier, this.hasColorModifier);
+        this.isFilled(css);
+        css.addClass(this.themeModifier, this.hasThemeModifier);
       }
       css.addClass("solid", this.solid);
       return css.getClasses();

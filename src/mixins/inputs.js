@@ -5,13 +5,13 @@ import helpers from "./helpers";
 import common from "./common";
 import icons from "./icons";
 import utils from "../utils/utils";
-import colors from "./colors";
+import themes from "./themes";
 import display from "./display";
 
 import CssArchitect from "../utils/css-architect";
 
 export default {
-  mixins: [common, validation, display, colors, states, sizes, helpers, icons],
+  mixins: [common, validation, display, themes, states, sizes, helpers, icons],
   props: {
     name: {
       type: String
@@ -116,13 +116,13 @@ export default {
       const css = new CssArchitect(
         "group__wrapper"
       );
-      this.borderedElement(css);
+      this.isBordered(css);
       css.addClass("focused", this.focused);
       css.addClass("transparent", this.transparent);
       css.addClass(this.getTargetClass);
-      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getThemeModifiers);
       css.addClass(this.getBackgroundModifiers);
-      this.setupColorModifier(css, true);
+      this.setupThemeModifier(css, true);
       return css.getClasses();
     },
     /**
@@ -147,7 +147,7 @@ export default {
       css.addClass("is-inline-flex", this.isNotNull(this.labelIcon));
       css.addClass("input-icon-left", this.isNotNull(this.icon) && this.iconPosition.left);
       css.addClass("colored");
-      css.addClass(this.colorModifier, (this.focused || this.hasValue) && this.hasColorModifier);
+      css.addClass(this.themeModifier, (this.focused || this.hasValue) && this.hasThemeModifier);
       return css.getClasses();
     },
     /**
@@ -166,7 +166,7 @@ export default {
       );
       css.addClass(this.stateClass, this.stateClass !== undefined);
       css.addClass("colored", this.coloredText);
-      css.addClass(this.getColorsModifiers, this.coloredText);
+      css.addClass(this.getThemeModifiers, this.coloredText);
       return css.getClasses();
     },
     /**
@@ -204,7 +204,7 @@ export default {
      */
     getIconClass: function() {
       const css = new CssArchitect("is-left");
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass(this.iconClass, this.iconClass !== undefined);
       return css.getClasses();
     },
@@ -214,7 +214,7 @@ export default {
      */
     getValidStateIconClass: function() {
       const css = new CssArchitect("is-small is-right");
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass(this.iconClass, this.iconClass !== undefined);
       return css.getClasses();
     },

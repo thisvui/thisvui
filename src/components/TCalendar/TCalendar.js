@@ -173,7 +173,7 @@ export default {
       css.flexible("column");
       css.addClass("is-absolute", !this.inline);
       css.addClass("inline-calendar", this.inline);
-      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getThemeModifiers);
       css.addClass(this.widgetClass);
       return css.getClasses();
     },
@@ -198,7 +198,7 @@ export default {
     getClearIconClass: function() {
       const css = new CssArchitect();
       css.addClass("colored");
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass("cursor-pointer");
       return css.getClasses();
     },

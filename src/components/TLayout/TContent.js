@@ -1,4 +1,4 @@
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 import gradient from "../../mixins/gradient";
 import common from "../../mixins/common";
 import overflow from "../../mixins/overflow";
@@ -8,7 +8,7 @@ import CssArchitect from "../../utils/css-architect";
 
 export default {
   name: "t-content",
-  mixins: [common, colors, gradient, overflow],
+  mixins: [common, themes, gradient, overflow],
   computed: {
     /**
      * Dynamically build the css classes for the target element
@@ -16,8 +16,8 @@ export default {
      */
     getClasses: function() {
       const css = new CssArchitect("t-content");
-      this.filled(css, { removeInit: true });
-      css.addClass(this.getColorsModifiers);
+      this.isFilled(css, { removeInit: true });
+      css.addClass(this.getThemeModifiers);
       css.addClass(this.getGradientModifiers);
       css.addClass(this.getFlexModifiers);
       return css.getClasses();

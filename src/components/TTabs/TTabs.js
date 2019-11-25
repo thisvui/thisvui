@@ -1,7 +1,7 @@
 import alignment from "../../mixins/alignment";
 import sizes from "../../mixins/sizes";
 import common from "../../mixins/common";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 import icons from "../../mixins/icons";
 
 import CssArchitect from "../../utils/css-architect";
@@ -9,7 +9,7 @@ import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-tabs",
-  mixins: [common, colors, alignment, sizes, icons],
+  mixins: [common, themes, alignment, sizes, icons],
   props: {
     selected: Number,
     borderless: {
@@ -39,12 +39,12 @@ export default {
      */
     getClasses: function() {
       const css = new CssArchitect("tabs");
-      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getThemeModifiers);
       css.addClass(this.getSizesModifiers);
       css.addClass("borderless", this.borderless);
       css.addClass(this.targetClass);
-      this.setupColorModifier(css);
-      css.addClass("is-primary", !this.hasColorModifier);
+      this.setupThemeModifier(css);
+      css.addClass("is-primary", !this.hasThemeModifier);
       return css.getClasses();
     },
     /**
@@ -53,11 +53,11 @@ export default {
      */
     getHeadingClasses: function() {
       const css = new CssArchitect("tabs__heading");
-      let colorModifier = this.hasColorModifier
-        ? this.colorModifier
+      let themeModifier = this.hasThemeModifier
+        ? this.themeModifier
         : "is-primary";
-      this.borderedElement(css);
-      css.addClass(colorModifier);
+      this.isBordered(css);
+      css.addClass(themeModifier);
       css.addClass("borderless", this.borderless);
       css.addClass(this.getAlignmentModifiers);
       css.addClass(this.getSizesModifiers);
@@ -68,14 +68,14 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getItemClasses: function() {
-      let colorModifier = this.hasColorModifier
-        ? this.colorModifier
+      let themeModifier = this.hasThemeModifier
+        ? this.themeModifier
         : "is-primary";
       const css = new CssArchitect("tabs__item");
       css.addClass("borderless", this.borderless);
       css.addClass("fullwidth", this.fullwidth);
-      this.filled(css, { hoverable: true });
-      css.addClass(colorModifier);
+      this.isFilled(css, { hoverable: true });
+      css.addClass(themeModifier);
       css.addClass(this.getSizesModifiers);
       return css.getClasses();
     },
@@ -84,13 +84,13 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getSliderClasses: function() {
-      let colorModifier = this.hasColorModifier
-        ? this.colorModifier
+      let themeModifier = this.hasThemeModifier
+        ? this.themeModifier
         : "is-primary";
       const css = new CssArchitect("tab__slider");
-      this.filled(css, { inverted: true });
+      this.isFilled(css, { inverted: true });
       this.alpha(css, { bg: 0.7 });
-      css.addClass(colorModifier);
+      css.addClass(themeModifier);
       return css.getClasses();
     },
     /**
@@ -98,12 +98,12 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getBodyClasses: function() {
-      let colorModifier = this.hasColorModifier
-        ? this.colorModifier
+      let themeModifier = this.hasThemeModifier
+        ? this.themeModifier
         : "is-primary";
       const css = new CssArchitect("tabs__body");
-      this.borderedElement(css);
-      css.addClass(colorModifier);
+      this.isBordered(css);
+      css.addClass(themeModifier);
       css.addClass("borderless", this.borderless);
       css.addClass(this.getSizesModifiers);
       return css.getClasses();
@@ -215,6 +215,7 @@ export default {
 
         let item = architect.createDiv(this.getItemClasses);
         item.addClass($activeClass);
+        item.addClass("halftone", !$tab.isActive);
         item.setKey(`${this.id}${$index}`);
         item.setRef(`${this.id}${$index}`, true);
 

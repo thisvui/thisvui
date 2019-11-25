@@ -1,6 +1,6 @@
 import alignment from "../../mixins/alignment";
 import icons from "../../mixins/icons";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 import common from "../../mixins/common";
 import states from "../../mixins/states";
 import sizes from "../../mixins/sizes";
@@ -24,7 +24,7 @@ export default {
     TButtons,
     TNotification
   },
-  mixins: [common, alignment, icons, colors, states, sizes, display, helpers],
+  mixins: [common, alignment, icons, themes, states, sizes, display, helpers],
   props: {
     name: {
       type: String
@@ -127,20 +127,20 @@ export default {
     },
     getLabelClasses: function() {
       const css = new CssArchitect("file__label");
-      this.filled(css, { hoverable: true });
+      this.isFilled(css, { hoverable: true });
       css.addClass(this.getDisplayModifiers);
-      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getThemeModifiers);
       css.addClass(this.getSizesModifiers);
       css.addClass(this.getAlignmentModifiers);
       css.addClass(this.targetClass);
-      this.setupColorModifier(css, true);
+      this.setupThemeModifier(css, true);
       return css.getClasses();
     },
     getPreviewCss: function() {
       const css = new CssArchitect("file__preview");
       css.flexible({ direction: "column" });
-      this.borderedElement(css);
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      this.isBordered(css);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       this.alpha(css, { border: 0.7 });
       return css;
     },
@@ -150,15 +150,15 @@ export default {
     },
     getThumbnailCss: function() {
       const css = new CssArchitect("file__preview--thumbnail");
-      this.borderedElement(css);
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      this.isBordered(css);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       this.alpha(css, { border: 0.7 });
       return css;
     },
     getThumbnailTitleCss: function() {
       const css = new CssArchitect();
-      this.filled(css);
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      this.isFilled(css);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       this.alpha(css, { bg: 0.9 });
       return css;
     },
@@ -166,7 +166,7 @@ export default {
       const css = new CssArchitect("is-shadowless");
       css.addClass("halftone");
       css.addClass(this.clearClass);
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass(this.getSizesModifiers);
       return css.getClasses();
     },
@@ -174,7 +174,7 @@ export default {
       const css = new CssArchitect("is-shadowless");
       css.addClass("halftone");
       css.addClass(this.submitClass);
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass(this.getSizesModifiers);
       return css.getClasses();
     },
@@ -188,7 +188,7 @@ export default {
      */
     getIconClasses: function() {
       const css = new CssArchitect();
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass("inverted");
       return css.getClasses();
     },

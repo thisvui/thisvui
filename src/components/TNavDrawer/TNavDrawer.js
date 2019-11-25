@@ -2,7 +2,7 @@ import helpers from "../../mixins/helpers";
 import tree from "../../mixins/tree";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 import slide from "../../mixins/slide";
 
 import TTreeNav from "../TTree/TTreeNav";
@@ -15,7 +15,7 @@ import ElementArchitect from "../../utils/element-architect";
 export default {
   name: "t-nav-drawer",
   components: { TAside, TSlide, TTreeNav },
-  mixins: [common, slide, tree, icons, colors, helpers],
+  mixins: [common, slide, tree, icons, themes, helpers],
   props: {
     model: {
       type: Array,
@@ -45,8 +45,8 @@ export default {
       css.addClass(this.containerClass, this.containerClass !== undefined);
       css.addClass("is-nav-opened", this.isOpen);
       css.addClass(this.getHelpersModifiers);
-      css.addClass(this.getColorsModifiers);
-      this.setupColorModifier(css);
+      css.addClass(this.getThemeModifiers);
+      this.setupThemeModifier(css);
       return css.getClasses();
     },
     /**
@@ -55,9 +55,9 @@ export default {
      */
     getLabelClass: function() {
       const css = new CssArchitect("menu-label");
-      this.filled(css);
+      this.isFilled(css);
       css.addClass(this.labelClass, this.labelClass !== undefined);
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
     },
     /**
@@ -67,7 +67,7 @@ export default {
     getIconClass: function() {
       const css = new CssArchitect("is-inline-block");
       css.addClass(this.iconClass, this.iconClass !== undefined);
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
     },
     /**
@@ -76,20 +76,20 @@ export default {
      */
     getLinkClass: function() {
       const css = new CssArchitect("is-inline-block");
-      this.hovered(css);
+      this.isHovered(css);
       css.addClass(this.linkClass, this.linkClass !== undefined);
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
     },
     getControlIconClass: function() {
       const css = new CssArchitect();
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
     },
     getLinkOpenedClass: function() {
       const css = new CssArchitect();
-      this.filled(css);
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      this.isFilled(css);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
     }
   },

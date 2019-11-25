@@ -50,8 +50,8 @@ export default {
         this.isNotNull(this.inputClass) && this.errors.length === 0
       );
       css.addClass("circular", this.circular);
-      css.addClass(this.getColorsModifiers);
-      this.setupColorModifier(css, true);
+      css.addClass(this.getThemeModifiers);
+      this.setupThemeModifier(css, true);
       return css.getClasses();
     },
     /**
@@ -62,10 +62,10 @@ export default {
       const css = new CssArchitect();
       if (this.solid) {
         this.alpha(css, { bg: 0.9 });
-        this.filled(css);
-        css.addClass(this.colorModifier, this.hasColorModifier);
+        this.isFilled(css);
+        css.addClass(this.themeModifier, this.hasThemeModifier);
       } else {
-        this.borderedElement(css);
+        this.isBordered(css);
       }
       css.addClass("solid", this.solid);
       css.addClass("circular", this.circular);
@@ -82,8 +82,8 @@ export default {
       const css = new CssArchitect();
       if (this.switch) {
         this.alpha(css, { bg: 0.9 });
-        this.filled(css);
-        css.addClass(this.colorModifier, this.hasColorModifier);
+        this.isFilled(css);
+        css.addClass(this.themeModifier, this.hasThemeModifier);
       }
       css.addClass("circular", this.circular);
       css.addClass("switch", this.switch);
@@ -95,7 +95,7 @@ export default {
      */
     getCheckedIconClass: function() {
       const css = new CssArchitect();
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass("inverted", this.solid);
       css.addClass("switch", this.switch);
       return css.getClasses();

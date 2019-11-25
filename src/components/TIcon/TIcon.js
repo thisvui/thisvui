@@ -61,7 +61,7 @@ export default {
      */
     getContainerClass: function() {
       const css = new CssArchitect("t-icon icon");
-      css.colored();
+      css.isColored();
       css.addClass(this.getSyntaxModifiers);
       css.addClass(this.getSizesModifiers);
       css.addClass("resize-font", this.resizeFont);

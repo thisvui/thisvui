@@ -46,7 +46,7 @@ export default {
     getOpenIconClass: function() {
       const cssArchitect = new CssArchitect();
       cssArchitect.addClass("colored");
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
+      cssArchitect.addClass(this.themeModifier, this.hasThemeModifier);
       cssArchitect.addClass("cursor-pointer");
       return cssArchitect.getClasses();
     },

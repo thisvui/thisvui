@@ -51,7 +51,7 @@ export default {
       css.addClass(this.getResponsiveModifiers);
       css.addClass(this.getDimensionModifiers);
       css.addClass(this.getHelpersModifiers);
-      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getThemeModifiers);
       css.addClass(this.targetClass);
       css.addClass("is-compact", this.compact);
       return css.getClasses();
@@ -63,7 +63,7 @@ export default {
     },
     getProgressClasses: function() {
       const css = new CssArchitect();
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
     },
     hasHeader: function() {

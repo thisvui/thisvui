@@ -1,5 +1,5 @@
 import TFlex from "../TFlex";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 import common from "../../mixins/common";
 import dimension from "../../mixins/dimension";
 import margin from "../../mixins/margin";
@@ -10,7 +10,7 @@ import { createDiv } from "../../utils/element-architect";
 
 export default {
   name: "t-progress",
-  mixins: [common, colors, dimension, margin, helpers],
+  mixins: [common, themes, dimension, margin, helpers],
   components: { TFlex },
   props: {
     value: {
@@ -86,7 +86,7 @@ export default {
     getClasses: function() {
       const css = new CssArchitect(`${this.baseClass}__bar`);
       if (!this.circular) {
-        this.filled(css);
+        this.isFilled(css);
       }
 
       css.addClass("compact", this.compact && !this.circular);
@@ -95,11 +95,11 @@ export default {
       css.addClass("animated--reverse", this.animated && this.reverse);
       if (this.indeterminate) {
         css.addClass("indeterminate");
-        this.borderedElement(css);
+        this.isBordered(css);
       }
-      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getThemeModifiers);
       css.addClass(this.targetClass);
-      this.setupColorModifier(css, true);
+      this.setupThemeModifier(css, true);
       return css.getClasses();
     },
     getContainerClasses: function() {
@@ -121,22 +121,22 @@ export default {
     },
     getLeftCircleCss: function() {
       const css = new CssArchitect(`${this.baseClass}__circle is-left`);
-      this.borderedElement(css);
+      this.isBordered(css);
       if (this.pie) {
-        this.filled(css);
+        this.isFilled(css);
         css.addClass("quarter-tone");
       }
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       return css;
     },
     getRightCircleCss: function() {
       const css = new CssArchitect(`${this.baseClass}__circle is-right`);
-      this.borderedElement(css);
+      this.isBordered(css);
       if (this.pie) {
-        this.filled(css);
+        this.isFilled(css);
         css.addClass("quarter-tone");
       }
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       return css;
     },
     getLabelClasses: function() {
@@ -147,8 +147,8 @@ export default {
       css.addClass("is-center", this.labelCenter && !this.circular);
       css.addClass("is-right", this.labelRight && !this.circular);
       if (this.circular && this.solid) {
-        this.filled(css, { lighten: true });
-        css.addClass(this.colorModifier, this.hasColorModifier);
+        this.isFilled(css, { lighten: true });
+        css.addClass(this.themeModifier, this.hasThemeModifier);
       }
       css.addClass(this.labelClass);
       return css.getClasses();
@@ -163,10 +163,10 @@ export default {
           !this.labelDark &&
           !this.labelLight);
       let solid = this.solid && !this.labelDark && !this.labelLight;
-      this.colored(css, { inverted: inverted });
+      this.isColored(css, { inverted: inverted });
       css.addClass(
-        this.colorModifier,
-        this.hasColorModifier && (solid || inverted)
+        this.themeModifier,
+        this.hasThemeModifier && (solid || inverted)
       );
       css.addClass("is-dark", this.labelDark);
       css.addClass("is-light", this.labelLight);
@@ -176,9 +176,9 @@ export default {
       const css = new CssArchitect(`${this.baseClass}__fill`);
       if (this.pie) {
         this.alpha(css, { border: 0.5 });
-        this.filled(css, { lighten: true });
-        this.borderedElement(css);
-        css.addClass(this.colorModifier, this.hasColorModifier);
+        this.isFilled(css, { lighten: true });
+        this.isBordered(css);
+        css.addClass(this.themeModifier, this.hasThemeModifier);
       }
       return css;
     }

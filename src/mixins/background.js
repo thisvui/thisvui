@@ -2,46 +2,46 @@ import CssArchitect from "../utils/css-architect";
 
 export default {
   props: {
-    hasBgPrimary: {
+    bgPrimary: {
       type: Boolean
     },
-    hasBgSecondary: {
+    bgSecondary: {
       type: Boolean
     },
-    hasBgLink: {
+    bgLink: {
       type: Boolean
     },
-    hasBgInfo: {
+    bgInfo: {
       type: Boolean
     },
-    hasBgSuccess: {
+    bgSuccess: {
       type: Boolean
     },
-    hasBgWarning: {
+    bgWarning: {
       type: Boolean
     },
-    hasBgModerate: {
+    bgModerate: {
       type: Boolean
     },
-    hasBgDanger: {
+    bgDanger: {
       type: Boolean
     },
-    hasBgDark: {
+    bgDark: {
       type: Boolean
     },
-    hasBgLight: {
+    bgLight: {
       type: Boolean
     },
-    hasBgOpaque: {
+    bgOpaque: {
       type: Boolean
     },
-    hasBgBlack: {
+    bgBlack: {
       type: Boolean
     },
-    hasBgWhite: {
+    bgWhite: {
       type: Boolean
     },
-    hasBgHappy: {
+    bgHappy: {
       type: Boolean
     },
     background: {
@@ -77,20 +77,20 @@ export default {
      */
     getBackgroundModifiers: function() {
       const cssArchitect = new CssArchitect();
-      cssArchitect.addClass("bg-primary", this.hasBgPrimary);
-      cssArchitect.addClass("bg-secondary", this.hasBgSecondary);
-      cssArchitect.addClass("bg-link", this.hasBgLink);
-      cssArchitect.addClass("bg-info", this.hasBgInfo);
-      cssArchitect.addClass("bg-success", this.hasBgSuccess);
-      cssArchitect.addClass("bg-warning", this.hasBgWarning);
-      cssArchitect.addClass("bg-moderate", this.hasBgModerate);
-      cssArchitect.addClass("bg-danger", this.hasBgDanger);
-      cssArchitect.addClass("bg-dark", this.hasBgDark);
-      cssArchitect.addClass("bg-light", this.hasBgLight);
-      cssArchitect.addClass("bg-opaque", this.hasBgOpaque);
-      cssArchitect.addClass("bg-black", this.hasBgBlack);
-      cssArchitect.addClass("bg-white", this.hasBgWhite);
-      cssArchitect.addClass("bg-happy", this.hasBgHappy);
+      cssArchitect.addClass("bg-primary", this.bgPrimary);
+      cssArchitect.addClass("bg-secondary", this.bgSecondary);
+      cssArchitect.addClass("bg-link", this.bgLink);
+      cssArchitect.addClass("bg-info", this.bgInfo);
+      cssArchitect.addClass("bg-success", this.bgSuccess);
+      cssArchitect.addClass("bg-warning", this.bgWarning);
+      cssArchitect.addClass("bg-moderate", this.bgModerate);
+      cssArchitect.addClass("bg-danger", this.bgDanger);
+      cssArchitect.addClass("bg-dark", this.bgDark);
+      cssArchitect.addClass("bg-light", this.bgLight);
+      cssArchitect.addClass("bg-opaque", this.bgOpaque);
+      cssArchitect.addClass("bg-black", this.bgBlack);
+      cssArchitect.addClass("bg-white", this.bgWhite);
+      cssArchitect.addClass("bg-happy", this.bgHappy);
       cssArchitect.addClass(
         `bg-${this.background}`,
         this.background !== undefined
@@ -103,7 +103,7 @@ export default {
       return this.bgModifiers.some(modifier => classes.includes(modifier));
     },
     setupBgModifier(cssArchitect) {
-      this.hasBgModifier = this.checkColorModifier(cssArchitect.getClasses());
+      this.hasBgModifier = this.checkThemeModifier(cssArchitect.getClasses());
       this.bgModifier = cssArchitect
         .getClassesArray()
         .filter(this.checkBgModifier);

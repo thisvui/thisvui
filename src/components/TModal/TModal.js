@@ -1,5 +1,5 @@
 import sizes from "../../mixins/sizes";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 import common from "../../mixins/common";
 
 import CssArchitect from "../../utils/css-architect";
@@ -7,7 +7,7 @@ import { createTransition } from "../../utils/element-architect";
 
 export default {
   name: "t-modal",
-  mixins: [common, sizes, colors],
+  mixins: [common, sizes, themes],
   props: {
     title: {
       type: String
@@ -71,8 +71,8 @@ export default {
       css.addClass(this.size);
       css.addClass("half", this.half);
       css.addClass(this.getSizesModifiers);
-      css.addClass(this.getColorsModifiers);
-      this.setupColorModifier(css, true);
+      css.addClass(this.getThemeModifiers);
+      this.setupThemeModifier(css, true);
       return css.getClasses();
     },
     /**
@@ -89,8 +89,8 @@ export default {
      */
     getHeaderClasses: function() {
       const css = new CssArchitect("modal__heading");
-      this.filled(css);
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      this.isFilled(css);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass(this.headerClass, this.headerClass);
       return css.getClasses();
     },
@@ -100,7 +100,7 @@ export default {
      */
     getTitleClasses: function() {
       const css = new CssArchitect("modal__title");
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass(this.titleClass, this.titleClass);
       return css.getClasses();
     },

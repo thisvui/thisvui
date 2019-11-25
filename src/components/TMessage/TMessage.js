@@ -46,7 +46,7 @@ export default {
       css.addClass(this.getHelpersModifiers);
       css.addClass(this.targetClass);
       css.addClass("is-bold", this.isBold);
-      this.setupColorModifier(css);
+      this.setupThemeModifier(css);
       return css.getClasses();
     },
     /**
@@ -55,8 +55,8 @@ export default {
      */
     getHeadingClasses: function() {
       const css = new CssArchitect("message__heading");
-      this.filled(css);
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      this.isFilled(css);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass(this.headingClass, this.headingClass);
       return css.getClasses();
     },
@@ -66,8 +66,8 @@ export default {
      */
     getBodyCss: function() {
       const css = new CssArchitect("message__body");
-      this.filled(css, { lighten: true });
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      this.isFilled(css, { lighten: true });
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass(this.bodyClass, this.bodyClass);
       css.addClass("color-dark");
       return css;

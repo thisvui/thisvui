@@ -40,7 +40,7 @@ export default {
         this.containerClass !== undefined
       );
       cssArchitect.addClass(this.getSyntaxModifiers);
-      cssArchitect.addClass(this.getColorsModifiers);
+      cssArchitect.addClass(this.getThemeModifiers);
       cssArchitect.addClass(this.getAlignmentModifiers);
       return cssArchitect.getClasses();
     }

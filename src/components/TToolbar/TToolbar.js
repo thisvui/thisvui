@@ -1,4 +1,4 @@
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 import common from "../../mixins/common";
 import flex from "../../mixins/flex";
 import alignment from "../../mixins/alignment";
@@ -8,7 +8,7 @@ import { createDiv } from "../../utils/element-architect";
 
 export default {
   name: "t-toolbar",
-  mixins: [common, colors, flex, alignment],
+  mixins: [common, themes, flex, alignment],
   props: {
     isVertical: {
       type: Boolean,
@@ -25,14 +25,14 @@ export default {
      */
     getClasses: function() {
       const css = new CssArchitect("t-toolbar");
-      this.filled(css);
+      this.isFilled(css);
       css.flexible();
-      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getThemeModifiers);
       css.addClass(this.getFlexModifiers);
       css.addClass(this.getAlignmentModifiers);
       css.addClass("flex-direction-column", this.isVertical);
       css.addClass("is-left", !this.isRight && !this.isCentered);
-      this.setupColorModifier(css, true);
+      this.setupThemeModifier(css, true);
       return css.getClasses();
     }
   },

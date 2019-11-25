@@ -1,9 +1,11 @@
 import CssArchitect from "../utils/css-architect";
+
 import background from "./background";
+import color from "./color";
 import alpha from "./alpha";
 
 export default {
-  mixins: [background, alpha],
+  mixins: [background, color, alpha],
   props: {
     isPrimary: {
       type: Boolean
@@ -46,9 +48,6 @@ export default {
     },
     isHappy: {
       type: Boolean
-    },
-    color: {
-      type: String
     }
   },
   data() {
@@ -69,9 +68,10 @@ export default {
         "is-black",
         "is-white"
       ],
-      hasColorModifier: false,
+      themeModifier: null,
+      hasThemeModifier: false,
       includeBgModifiers: true,
-      colorModifier: null,
+      includeColorModifiers: true,
       hexDigits: [
         "0",
         "1",
@@ -97,7 +97,7 @@ export default {
      * Dynamically adds the modifiers css classes based on mixin props
      * @returns { A String with the chained css classes }
      */
-    getColorsModifiers: function() {
+    getThemeModifiers: function() {
       const cssArchitect = new CssArchitect();
       cssArchitect.addClass("is-primary", this.isPrimary);
       cssArchitect.addClass("is-secondary", this.isSecondary);
@@ -113,49 +113,49 @@ export default {
       cssArchitect.addClass("is-black", this.isBlack);
       cssArchitect.addClass("is-white", this.isWhite);
       cssArchitect.addClass("is-happy", this.isHappy);
-      cssArchitect.addClass(`color-${this.color}`, this.color !== undefined);
       cssArchitect.addClass(
         this.getBackgroundModifiers,
         this.includeBgModifiers
       );
+      cssArchitect.addClass(this.getColorModifiers, this.includeColorModifiers);
       return cssArchitect.getClasses();
     }
   },
   methods: {
-    getColorModifier(addDefault = false) {
-      let colorModifier;
+    getThemeModifier(addDefault = false) {
+      let themeModifier;
       if (addDefault) {
-        colorModifier = "is-primary";
+        themeModifier = "is-primary";
       }
-      if (this.hasColorModifier) {
-        colorModifier = this.colorModifier;
+      if (this.hasThemeModifier) {
+        themeModifier = this.themeModifier;
       }
-      return colorModifier;
+      return themeModifier;
     },
-    checkColorModifier(classes) {
+    checkThemeModifier(classes) {
       return this.modifiers.some(modifier => classes.includes(modifier));
     },
     configureDefault(cssArchitect) {
       let defaultModifier = "is-primary";
-      cssArchitect.addClass(defaultModifier, !this.hasColorModifier);
-      this.setupColorModifier(cssArchitect);
+      cssArchitect.addClass(defaultModifier, !this.hasThemeModifier);
+      this.setupThemeModifier(cssArchitect);
     },
-    setupColorModifier(cssArchitect, addDefault = false) {
-      this.hasColorModifier = this.checkColorModifier(
+    setupThemeModifier(cssArchitect, addDefault = false) {
+      this.hasThemeModifier = this.checkThemeModifier(
         cssArchitect.getClasses()
       );
       let filtered = cssArchitect
         .getClassesArray()
-        .filter(this.checkColorModifier);
+        .filter(this.checkThemeModifier);
 
       if (filtered && filtered !== null && filtered.length > 0) {
-        this.colorModifier = filtered[0];
+        this.themeModifier = filtered[0];
       }
       if (addDefault) {
         this.configureDefault(cssArchitect);
       }
     },
-    filled(
+    isFilled(
       cssArchitect,
       {
         removeInit = false,
@@ -179,20 +179,20 @@ export default {
       cssArchitect.addClass(`halftone`, halftone);
       cssArchitect.addClass(`quarter-tone`, quarter);
     },
-    colored(cssArchitect, { inverted = false } = {}) {
+    isColored(cssArchitect, { inverted = false } = {}) {
       if (!cssArchitect) {
         throw new Error("colored - Please provide css-architect parameter");
       }
       cssArchitect.addClass(`colored`);
       cssArchitect.addClass(`inverted`, inverted);
     },
-    borderedElement(cssArchitect) {
+    isBordered(cssArchitect) {
       if (!cssArchitect) {
         throw new Error("bordered - Please provide css-architect parameter");
       }
       cssArchitect.addClass(`bordered`);
     },
-    hovered(cssArchitect, { hasColor = false } = {}) {
+    isHovered(cssArchitect, { hasColor = false } = {}) {
       if (!cssArchitect) {
         throw new Error("hovered - Please provide css-architect parameter");
       }

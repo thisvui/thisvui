@@ -1,7 +1,7 @@
 import helpers from "../../mixins/helpers";
 import list from "../../mixins/list";
 import common from "../../mixins/common";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 
 import TExpand from "../TAnimation/TExpand";
 import { TFlex } from "../TFlex";
@@ -12,7 +12,7 @@ import ElementArchitect from "../../utils/element-architect";
 export default {
   name: "t-table",
   components: { TExpand, TFlex },
-  mixins: [common, list, colors, helpers],
+  mixins: [common, list, themes, helpers],
   filters: {
     capitalize: function(str) {
       return str.charAt(0).toUpperCase() + str.slice(1);
@@ -93,9 +93,9 @@ export default {
       css.addClass("is-clipped");
       css.addClass("stripped");
       css.addClass(this.getHelpersModifiers);
-      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getThemeModifiers);
       css.addClass(this.targetClass);
-      this.setupColorModifier(css, true);
+      this.setupThemeModifier(css, true);
       return css.getClasses();
     },
     getContainerClasses: function() {
@@ -106,46 +106,46 @@ export default {
     },
     getTableFunctionsClasses: function() {
       const css = new CssArchitect("table__functions");
-      this.filled(css);
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      this.isFilled(css);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
     },
     getThClasses: function() {
       const css = new CssArchitect();
-      this.filled(css);
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      this.isFilled(css);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
     },
     getTrClasses: function() {
       const css = new CssArchitect();
-      this.hovered(css, { hasColor: true });
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      this.isHovered(css, { hasColor: true });
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
     },
     getSortIconClasses: function() {
       const css = new CssArchitect("sort-icon");
-      css.addClass(this.colorModifier, this.hasColorModifier);
-      css.addClass("inverted", this.hasColorModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
+      css.addClass("inverted", this.hasThemeModifier);
       return css.getClasses();
     },
     getRowCheckerClasses: function() {
       const css = new CssArchitect();
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
     },
     getCheckAllClasses: function() {
       const css = new CssArchitect();
       let isLight =
-        this.colorModifier == "is-light" ||
-        this.colorModifier == "is-white" ||
-        this.colorModifier == "is-opaque";
+        this.themeModifier == "is-light" ||
+        this.themeModifier == "is-white" ||
+        this.themeModifier == "is-opaque";
       css.addClass("is-dark", isLight);
-      css.addClass(this.colorModifier, this.hasColorModifier && !isLight);
+      css.addClass(this.themeModifier, this.hasThemeModifier && !isLight);
       return css.getClasses();
     },
     getProgressClasses: function() {
       const css = new CssArchitect();
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
     },
     getColumns() {

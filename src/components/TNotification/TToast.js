@@ -1,7 +1,7 @@
 import TNotification from "./TNotification";
 import common from "../../mixins/common";
 import check from "../../mixins/check";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 import { NotificationBus } from "./notification-bus";
 
 import { TFlex } from "../TFlex";
@@ -12,7 +12,7 @@ import CssArchitect from "../../utils/css-architect";
 
 export default {
   name: "t-toast",
-  mixins: [common, check, colors],
+  mixins: [common, check, themes],
   components: {
     TNotification
   },
@@ -70,9 +70,9 @@ export default {
       const css = new CssArchitect("notification");
 
       if(this.outlined){
-        this.borderedElement(css);
+        this.isBordered(css);
       }else{
-        this.filled(css);
+        this.isFilled(css);
       }
       css.addClass(this.targetClass);
       return css.getClasses();

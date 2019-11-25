@@ -97,16 +97,10 @@
         color: inherit;
       }
       &.hoverable:hover {
-        background-color: lighten($color, 12%);
+        background-color: tint($color, 25%);
       }
       &.activable:active {
-        background-color: darken($color, 12%);
-      }
-      &.active {
-        background-color: darken($color, 7%);
-      }
-      &.inactive {
-        background-color: lighten($color, 7%);
+        background-color: shade($color, 25%);
       }
       &.is-loading::after {
         border-color: $color-invert !important;
@@ -189,7 +183,7 @@
     }
     &:hover {
       color: $dark;
-      background-color: lighten($dark, 70%);
+      background-color: tint($dark, 50%);
     }
     @each $name, $pair in $colors {
       $color: nth($pair, 1);
@@ -232,5 +226,6 @@
   }
 
   .bg-#{$name} {
+    background-color: $shade !important;
   }
 }

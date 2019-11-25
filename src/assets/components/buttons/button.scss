@@ -97,7 +97,6 @@ $btn-margin-compact: 4px;
   &:active {
     top: 0.1em;
   }
-
 }
 
 /* Floating Buttons */
@@ -128,7 +127,8 @@ $floating-button-left: 50px;
     &:hover {
       opacity: 0.9;
 
-      & + .t-floating-btn-options, .t-floating-btn-options:hover {
+      & + .t-floating-btn-options,
+      .t-floating-btn-options:hover {
         opacity: 1;
         transform: scale(1);
       }
@@ -217,9 +217,9 @@ $floating-button-left: 50px;
 }
 
 .buttons {
-  &.attached{
+  &.attached {
     .t-button-container {
-      &:not(:first-child){
+      &:not(:first-child) {
         .button {
           margin-left: 0;
           margin-right: 0;

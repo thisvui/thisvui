@@ -1,5 +1,5 @@
 import helper from "../../mixins/helpers";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 import common from "../../mixins/common";
 import padding from "../../mixins/padding";
 
@@ -8,7 +8,7 @@ import { createElement } from "../../utils/element-architect";
 
 export default {
   name: "t-navbar-item",
-  mixins: [common, colors, padding, helper],
+  mixins: [common, themes, padding, helper],
   props: {
     view: String,
     dropdown: Boolean,
@@ -23,15 +23,15 @@ export default {
      */
     getCss: function() {
       const css = new CssArchitect("navbar__item");
-      css.colored({ inverted: this.$parent.hasColorModifier });
+      css.isColored({ inverted: this.$parent.hasThemeModifier });
       css.addClass("hovered", this.hoverable);
       css.addClass("has-dropdown", this.dropdown);
       css.addClass("is-hoverable", this.hoverable);
       css.addClass("is-active", this.active);
       css.addClass("mobile", this.mobile);
       css.addClass(this.targetClass);
-      css.addClass(this.$parent.colorModifier, this.$parent.hasColorModifier);
-      this.setupColorModifier(css);
+      css.addClass(this.$parent.themeModifier, this.$parent.hasThemeModifier);
+      this.setupThemeModifier(css);
       css.addClass(this.getHelpersModifiers);
       css.addStyles([this.getPaddingStyles]);
       return css;

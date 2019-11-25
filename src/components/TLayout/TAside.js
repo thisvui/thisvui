@@ -1,4 +1,4 @@
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 import gradient from "../../mixins/gradient";
 import common from "../../mixins/common";
 import TSlide from "../TAnimation/TSlide";
@@ -11,7 +11,7 @@ import ElementArchitect from "../../utils/element-architect";
 export default {
   name: "t-aside",
   components: { TSlide },
-  mixins: [common, colors, gradient, slide, padding],
+  mixins: [common, themes, gradient, slide, padding],
   props: {
     containerClass: {
       type: String
@@ -32,8 +32,8 @@ export default {
         })
         .isFullwidth()
         .isFullheight();
-      this.filled(css);
-      css.addClass(this.getColorsModifiers);
+      this.isFilled(css);
+      css.addClass(this.getThemeModifiers);
       css.addClass(this.getGradientModifiers);
       css.addClass(this.getFlexModifiers);
       css.addClass(this.containerClass, this.containerClass !== undefined);
