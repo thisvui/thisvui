@@ -215,7 +215,7 @@ export default {
 
         let item = architect.createDiv(this.getItemClasses);
         item.addClass($activeClass);
-        item.addClass("halftone", !$tab.isActive);
+        item.addClass("tint-50", !$tab.isActive);
         item.setKey(`${this.id}${$index}`);
         item.setRef(`${this.id}${$index}`, true);
 

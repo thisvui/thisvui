@@ -16,7 +16,7 @@ export default {
     getClasses: function() {
       const css = new CssArchitect("dropdown__item");
       this.isFilled(css);
-      css.addClass("hovered lighten color-dark");
+      css.addClass("hovered tint-75 color-dark");
       css.addClass(this.targetClass);
       return css.getClasses();
     },

@@ -1,5 +1,5 @@
 import inputs from "../../mixins/inputs";
-import ElementArchitect from "../../utils/element-architect";
+import { createDiv } from "../../utils/element-architect";
 
 export default {
   name: "t-input",
@@ -59,7 +59,7 @@ export default {
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "div", this.getContainerClass);
+    let root = createDiv(h, this.getContainerClass);
     this.createInput(root);
     return root.create();
   }

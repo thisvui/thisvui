@@ -146,7 +146,7 @@ export default {
       css.addClass(this.labelClass, this.isNotNull(this.labelClass));
       css.addClass("is-inline-flex", this.isNotNull(this.labelIcon));
       css.addClass("input-icon-left", this.isNotNull(this.icon) && this.iconPosition.left);
-      css.addClass("colored");
+      this.isColored(css, { shade: 25})
       css.addClass(this.themeModifier, (this.focused || this.hasValue) && this.hasThemeModifier);
       return css.getClasses();
     },

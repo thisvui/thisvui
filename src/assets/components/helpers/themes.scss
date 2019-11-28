@@ -1,3 +1,38 @@
+$shade-percents: 25 50 75 !default;
+
+@mixin bg-shades($color) {
+  @each $shade-percent in $shade-percents {
+    &.tint-#{$shade-percent} {
+      background-color: tint($color, $shade-percent);
+    }
+    &.shade-#{$shade-percent} {
+      background-color: shade($color, $shade-percent);
+    }
+  }
+}
+
+@mixin border-shades($color) {
+  @each $shade-percent in $shade-percents {
+    &.tint-#{$shade-percent} {
+      border-color: tint($color, $shade-percent);
+    }
+    &.shade-#{$shade-percent} {
+      border-color: shade($color, $shade-percent);
+    }
+  }
+}
+
+@mixin color-shades($color) {
+  @each $shade-percent in $shade-percents {
+    &.tint-#{$shade-percent} {
+      color: tint($color, $shade-percent);
+    }
+    &.shade-#{$shade-percent} {
+      color: shade($color, $shade-percent);
+    }
+  }
+}
+
 * {
   .colored {
     color: $dark;
@@ -6,9 +41,11 @@
       $color-invert: nth($pair, 2);
       &.is-#{$name} {
         color: rgba($color, var(--color-alpha));
+        @include color-shades($color);
         &.inverted {
           color: rgba($color-invert, var(--color-alpha));
         }
+
       }
     }
   }
@@ -22,6 +59,7 @@
       $border-color: rgba($color, var(--border-alpha));
       &.is-#{$name} {
         border-color: $border-color;
+        @include border-shades($color);
         &.inverted {
           border-color: rgba($color-invert, var(--border-alpha));
         }
@@ -29,13 +67,7 @@
           border-color: $border-color;
         }
         &.focused {
-          border-color: darken($color, 15%);
-        }
-        &.halftone {
-          border-color: tint($color, 50%);
-        }
-        &.quarter-tone {
-          border-color: tint($color, 25%);
+          border-color: shade($color, 25%);
         }
       }
     }
@@ -78,12 +110,6 @@
   &.transparent {
     background-color: transparent !important;
   }
-  &.darken {
-    background-color: darken($bg-color-base, 10%);
-  }
-  &.lighten {
-    background-color: lighten($bg-color-base, 10%);
-  }
   @each $name, $pair in $colors {
     $color: nth($pair, 1);
     $color-invert: nth($pair, 2);
@@ -119,18 +145,8 @@
         background-size: 100%;
         transition: background 0s;
       }
-      &.darken {
-        background-color: shade($color, 80%);
-      }
-      &.lighten {
-        background-color: tint($color, 80%);
-      }
-      &.halftone {
-        background-color: tint($color, 50%);
-      }
-      &.quarter-tone {
-        background-color: tint($color, 25%);
-      }
+      @include bg-shades($color);
+
       &.linear {
         $gradient-top-left: darken(
           saturate(adjust-hue($color, -7deg), 7%),

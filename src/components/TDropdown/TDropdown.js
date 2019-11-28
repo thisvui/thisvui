@@ -49,7 +49,7 @@ export default {
       css.addClass(this.getAlignmentModifiers);
       css.addClass(this.getDimensionModifiers);
       css.addClass(this.getThemeModifiers);
-      this.setupThemeModifier(css);
+      this.setupThemeModifier(css, true);
       css.addClass("is-hoverable", this.hoverable);
       css.addClass("is-active", this.active || this.isDropdownActive);
       css.addStyles([this.getDimensionStyles]);
@@ -59,7 +59,7 @@ export default {
       const css = new CssArchitect("dropdown__menu");
       css.addClass("is-up", this.up);
       css.addClass("is-right", this.rightAligned);
-      css.addClass(this.getThemeModifiers);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addStyle(
         "width",
         css.addPercent(this.menuWidth),
@@ -70,7 +70,7 @@ export default {
     getIconClasses: function() {
       const css = new CssArchitect("dropdown__icon");
       this.isColored(css, { inverted: true });
-      css.addClass(this.getThemeModifiers);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
     },
     /**
@@ -80,7 +80,7 @@ export default {
     getTriggerClasses: function() {
       const css = new CssArchitect("dropdown__trigger button");
       this.isFilled(css);
-      css.addClass(this.getThemeModifiers);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
     }
   },

@@ -161,10 +161,8 @@ export default {
         removeInit = false,
         hoverable = false,
         inverted = false,
-        darken = false,
-        lighten = false,
-        halftone = false,
-        quarter = false
+        tint = false,
+        shade = false
       } = {}
     ) {
       if (!cssArchitect) {
@@ -174,23 +172,25 @@ export default {
       cssArchitect.addClass(`remove-init`, removeInit);
       cssArchitect.addClass(`hoverable`, hoverable);
       cssArchitect.addClass(`inverted`, inverted);
-      cssArchitect.addClass(`darken`, darken);
-      cssArchitect.addClass(`lighten`, lighten);
-      cssArchitect.addClass(`halftone`, halftone);
-      cssArchitect.addClass(`quarter-tone`, quarter);
+      cssArchitect.addClass(`tint-${tint}`, tint);
+      cssArchitect.addClass(`shade-${shade}`, shade);
     },
-    isColored(cssArchitect, { inverted = false } = {}) {
+    isColored(cssArchitect, { inverted = false, tint = false, shade = false } = {}) {
       if (!cssArchitect) {
         throw new Error("colored - Please provide css-architect parameter");
       }
       cssArchitect.addClass(`colored`);
       cssArchitect.addClass(`inverted`, inverted);
+      cssArchitect.addClass(`tint-${tint}`, tint);
+      cssArchitect.addClass(`shade-${shade}`, shade);
     },
-    isBordered(cssArchitect) {
+    isBordered(cssArchitect, { tint = false, shade = false } = {}) {
       if (!cssArchitect) {
         throw new Error("bordered - Please provide css-architect parameter");
       }
       cssArchitect.addClass(`bordered`);
+      cssArchitect.addClass(`tint-${tint}`, tint);
+      cssArchitect.addClass(`shade-${shade}`, shade);
     },
     isHovered(cssArchitect, { hasColor = false } = {}) {
       if (!cssArchitect) {

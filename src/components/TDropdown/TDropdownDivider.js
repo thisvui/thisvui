@@ -14,7 +14,7 @@ export default {
   computed: {
     getClasses: function() {
       const css = new CssArchitect("dropdown__divider");
-      this.isFilled(css);
+      this.isFilled(css, { tint: 50 });
       css.addClass(this.getThemeModifiers);
       css.addClass(this.targetClass);
       this.setupThemeModifier(css);
@@ -22,7 +22,6 @@ export default {
         this.$parent.themeModifier,
         this.$parent.hasThemeModifier && !this.hasThemeModifier
       );
-      css.addClass("halftone");
       return css.getClasses();
     },
   },

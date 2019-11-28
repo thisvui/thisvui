@@ -69,13 +69,13 @@ $file-radius-large: 6px !default;
         height: 128px;
         max-width: 192px;
       }
+    }
 
-      h1 {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        text-align: center;
-      }
+    &--title {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
     }
   }
 

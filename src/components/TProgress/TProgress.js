@@ -123,8 +123,7 @@ export default {
       const css = new CssArchitect(`${this.baseClass}__circle is-left`);
       this.isBordered(css);
       if (this.pie) {
-        this.isFilled(css);
-        css.addClass("quarter-tone");
+        this.isFilled(css, { tint: 25 });
       }
       css.addClass(this.themeModifier, this.hasThemeModifier);
       return css;
@@ -133,8 +132,7 @@ export default {
       const css = new CssArchitect(`${this.baseClass}__circle is-right`);
       this.isBordered(css);
       if (this.pie) {
-        this.isFilled(css);
-        css.addClass("quarter-tone");
+        this.isFilled(css, { tint: 25 });
       }
       css.addClass(this.themeModifier, this.hasThemeModifier);
       return css;
@@ -147,7 +145,7 @@ export default {
       css.addClass("is-center", this.labelCenter && !this.circular);
       css.addClass("is-right", this.labelRight && !this.circular);
       if (this.circular && this.solid) {
-        this.isFilled(css, { lighten: true });
+        this.isFilled(css, { tint: 75 });
         css.addClass(this.themeModifier, this.hasThemeModifier);
       }
       css.addClass(this.labelClass);
@@ -176,7 +174,7 @@ export default {
       const css = new CssArchitect(`${this.baseClass}__fill`);
       if (this.pie) {
         this.alpha(css, { border: 0.5 });
-        this.isFilled(css, { lighten: true });
+        this.isFilled(css, { tint: 75 });
         this.isBordered(css);
         css.addClass(this.themeModifier, this.hasThemeModifier);
       }

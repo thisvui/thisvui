@@ -66,7 +66,7 @@ export default {
      */
     getBodyCss: function() {
       const css = new CssArchitect("message__body");
-      this.isFilled(css, { lighten: true });
+      this.isFilled(css, { tint: 75 });
       css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass(this.bodyClass, this.bodyClass);
       css.addClass("color-dark");

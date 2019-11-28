@@ -156,7 +156,7 @@ export default {
       return css;
     },
     getThumbnailTitleCss: function() {
-      const css = new CssArchitect();
+      const css = new CssArchitect("file__preview--title");
       this.isFilled(css);
       css.addClass(this.themeModifier, this.hasThemeModifier);
       this.alpha(css, { bg: 0.9 });
@@ -164,7 +164,7 @@ export default {
     },
     getClearClasses: function() {
       const css = new CssArchitect("is-shadowless");
-      css.addClass("halftone");
+      css.addClass("tint-50");
       css.addClass(this.clearClass);
       css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass(this.getSizesModifiers);
@@ -172,7 +172,7 @@ export default {
     },
     getSubmitClasses: function() {
       const css = new CssArchitect("is-shadowless");
-      css.addClass("halftone");
+      css.addClass("tint-50");
       css.addClass(this.submitClass);
       css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass(this.getSizesModifiers);
@@ -411,7 +411,7 @@ export default {
           img.setRef(`${this.id}-image-${index}`, true);
 
           let name = architect.createH(
-            1,
+            6,
             this.getThumbnailTitleCss.getClasses()
           );
           name.setStyles(this.getThumbnailTitleCss.getStyles());
