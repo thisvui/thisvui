@@ -4,14 +4,15 @@ $table-cell-border-color: rgba($dark, 0.2) !default;
 $table-cell-padding: 15px !default;
 $table-head-cell-border-color: rgba($dark, 0.3) !default;
 $table-head-cell-color: $dark !default;
+$table-font-size: 12px !default;
 
 .table {
-  font-size: 0.85rem;
+  font-size: $table-font-size;
   border-radius: 6px;
   width: 100%;
   border-collapse: collapse;
-  overflow: hidden;
   box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  table-layout: fixed;
 
   @include material-shadow($dark);
 
@@ -45,18 +46,6 @@ $table-head-cell-color: $dark !default;
     td {
       position: relative;
       font-weight: 400;
-      &:hover {
-        &:before {
-          content: "";
-          position: absolute;
-          left: 0;
-          right: 0;
-          top: -9999px;
-          bottom: -9999px;
-          background-color: rgba(255,255,255,0.2);
-          z-index: -1;
-        }
-      }
     }
 
     th {
@@ -76,6 +65,10 @@ $table-head-cell-color: $dark !default;
     }
   }
 
+  &__wrapper {
+    width: 100%;
+  }
+
   &__row {
     &--checker {
       .is-checkradio[type="checkbox"] + label {
@@ -89,6 +82,7 @@ $table-head-cell-color: $dark !default;
   }
 
   &__cell {
+    vertical-align: middle;
     &.left {
       text-align: left;
     }

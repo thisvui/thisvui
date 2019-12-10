@@ -2,6 +2,7 @@ import helpers from "../../mixins/helpers";
 import list from "../../mixins/list";
 import common from "../../mixins/common";
 import themes from "../../mixins/themes";
+import dimension from "../../mixins/dimension";
 
 import TExpand from "../TAnimation/TExpand";
 import { TFlex } from "../TFlex";
@@ -12,7 +13,7 @@ import ElementArchitect from "../../utils/element-architect";
 export default {
   name: "t-table",
   components: { TExpand, TFlex },
-  mixins: [common, list, themes, helpers],
+  mixins: [common, list, themes, dimension, helpers],
   filters: {
     capitalize: function(str) {
       return str.charAt(0).toUpperCase() + str.slice(1);
@@ -58,14 +59,7 @@ export default {
     striped: {
       type: Boolean
     },
-    isNarrow: {
-      type: Boolean
-    },
     isHoverable: {
-      type: Boolean,
-      default: true
-    },
-    isFullwidth: {
       type: Boolean,
       default: true
     },
@@ -81,25 +75,24 @@ export default {
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
      */
-    getClasses: function() {
+    getCss: function() {
       const css = new CssArchitect("table");
       css.isRelative();
       css.addClass("is-responsive", this.isResponsive);
       css.addClass("is-bordered", this.bordered);
       css.addClass("striped", this.striped);
-      css.addClass("is-narrow", this.isNarrow);
       css.addClass("is-hoverable", this.isHoverable);
-      css.addClass("is-fullwidth", this.isFullwidth);
-      css.addClass("is-clipped");
       css.addClass("stripped");
       css.addClass(this.getHelpersModifiers);
       css.addClass(this.getThemeModifiers);
+      css.addClass(this.getDimensionModifiers);
       css.addClass(this.targetClass);
+      css.addStyles([this.getDimensionStyles]);
       this.setupThemeModifier(css, true);
-      return css.getClasses();
+      return css;
     },
     getContainerClasses: function() {
-      const css = new CssArchitect("t-table-container");
+      const css = new CssArchitect("t-table__container");
       css.isRelative();
       css.addClass("is-fullwidth", this.isFullwidth);
       return css.getClasses();
@@ -110,17 +103,19 @@ export default {
       css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
     },
-    getThClasses: function() {
+    getThCss: function() {
       const css = new CssArchitect();
       this.isFilled(css);
       css.addClass(this.themeModifier, this.hasThemeModifier);
-      return css.getClasses();
+      css.addStyles([this.getAlphaModifiers]);
+      return css;
     },
-    getTrClasses: function() {
+    getTrCss: function() {
       const css = new CssArchitect();
       this.isHovered(css, { hasColor: true });
       css.addClass(this.themeModifier, this.hasThemeModifier);
-      return css.getClasses();
+      css.addStyles([this.getAlphaModifiers]);
+      return css;
     },
     getSortIconClasses: function() {
       const css = new CssArchitect("sort-icon");
@@ -205,7 +200,8 @@ export default {
     },
     createTableColumns(architect) {
       for (let column of this.mappedColumns) {
-        let th = architect.createCell(this.getThClasses, true);
+        let th = architect.createCell(this.getThCss.getClasses(), true);
+        th.setStyles(this.getThCss.getStyles());
         th.setKey(column.name);
         th.addClick(() => {
           this.sortBy(column);
@@ -255,7 +251,11 @@ export default {
         tr.addVNodeChildren(this.$slots["header"]);
       }
       if (this.hasActionColumn) {
-        let actionColumn = architect.createCell(this.getThClasses, true);
+        let actionColumn = architect.createCell(
+          this.getThCss.getClasses(),
+          true
+        );
+        actionColumn.setStyles(this.getThCss.getStyles());
         actionColumn.innerHTML(this.actionText);
         tr.addChild(actionColumn);
       }
@@ -279,7 +279,8 @@ export default {
       } else {
         for (let index in this.getItems) {
           let item = this.getItems[index];
-          let tr = architect.createTr(this.getTrClasses);
+          let tr = architect.createTr(this.getTrCss.getClasses());
+          tr.setStyles(this.getTrCss.getStyles());
           tr.addClick(() => this.toggleExpand(item), this.isExpandable(item));
 
           if (this.isCheckable(item) || this.isExpandable(item)) {
@@ -357,14 +358,17 @@ export default {
       architect.addChild(tbody);
     },
     createTable(architect) {
-      let table = architect.createElement("table", this.getClasses);
+      let tableWrapper = architect.createDiv("table__wrapper");
+      let table = architect.createElement("table", this.getCss.getClasses());
+      table.setStyles(this.getCss.getStyles());
       table.setId(this.id);
 
       this.createTableHead(table);
       this.createTableBody(table);
       this.createTableFoot(table);
 
-      architect.addChild(table);
+      tableWrapper.addChild(table);
+      architect.addChild(tableWrapper);
     }
   },
   render: function(h) {
