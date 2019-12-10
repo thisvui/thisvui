@@ -158,19 +158,14 @@ export default {
       return days;
     },
     getContainerClass: function() {
-      const css = new CssArchitect(
-        `group ${this.className("container")}`
-      );
-      css.addClass(
-        this.containerClass,
-        this.containerClass !== undefined
-      );
+      const css = new CssArchitect(`group ${this.className("container")}`);
+      css.addClass(this.containerClass, this.containerClass !== undefined);
       css.addClass("is-horizontal", this.isHorizontal);
       return css.getClasses();
     },
     getWidgetClass: function() {
       const css = new CssArchitect("t-calendar__widget");
-      css.flexible("column");
+      css.flexible({ direction: "column" });
       css.addClass("is-absolute", !this.inline);
       css.addClass("inline-calendar", this.inline);
       css.addClass(this.getThemeModifiers);
@@ -187,7 +182,7 @@ export default {
       return css.getClasses();
     },
     getTimePickerClass: function() {
-      const css = new CssArchitect("t-timepicker");
+      const css = new CssArchitect("t-calendar__time");
       css.flexible();
       return css.getClasses();
     },
@@ -225,7 +220,6 @@ export default {
     },
     getDayNumberClass(day) {
       const cssArchitect = new CssArchitect("day-number");
-      cssArchitect.isFullheight();
       cssArchitect.addClass("is-today", day.isToday);
       cssArchitect.addClass("is-current", day.isCurrentMonth);
       cssArchitect.addClass("is-selected", day.isSelected);
@@ -402,7 +396,7 @@ export default {
           disabled: this.disabled,
           max: 12,
           min: 0,
-          small: true,
+          compact: true,
           hideStateIcon: true
         });
         hoursInput.addEvent("input", value => {
@@ -416,7 +410,7 @@ export default {
           disabled: this.disabled,
           max: 60,
           min: 0,
-          small: true,
+          compact: true,
           hideStateIcon: true
         });
         minutesInput.addEvent("input", value => {
@@ -430,7 +424,7 @@ export default {
           disabled: this.disabled,
           max: 60,
           min: 0,
-          small: true,
+          compact: true,
           hideStateIcon: true
         });
         secondsInput.addEvent("input", value => {
