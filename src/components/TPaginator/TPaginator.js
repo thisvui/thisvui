@@ -287,7 +287,7 @@ export default {
         inputClass: "size-select",
         compact: true,
         small: true,
-        isShadowless: true,
+        shadowless: true,
         value: this.rowsPerPage
       };
       sizeSelect.setProps(sizeSelectProps);

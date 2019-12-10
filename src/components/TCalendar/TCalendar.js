@@ -327,8 +327,8 @@ export default {
         icon: icon,
         iconClass: "change-month-arrow",
         text: true,
-        isMarginless: true,
-        isPaddingless: true
+        marginless: true,
+        paddingless: true
       });
       arrow.addEvent("click", method);
       return arrow;

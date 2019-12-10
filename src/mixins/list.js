@@ -266,7 +266,7 @@ export default {
           containerClass: this.getSearchClasses,
           overrideDefaults: this.overrideDefaults,
           icon: this.$thisvui.icons.search,
-          isShadowless: true,
+          shadowless: true,
           isOpaque: true
         });
         architect.addChild(input);
@@ -287,8 +287,8 @@ export default {
           isRight: true,
           isLeft: true,
           isRounded: true,
-          isShadowless: true,
-          isPaddingless: true,
+          shadowless: true,
+          paddingless: true,
           isSmall: true,
           showNumbers: this.showNumbers,
           linkClass: this.linkClass,
@@ -314,7 +314,7 @@ export default {
           indeterminate: true,
           compact: true,
           height: 3,
-          isMarginless: true
+          marginless: true
         });
         progress.addProp("target-class", classes, this.isNotNull(classes));
         let block = architect.createDiv("t-loading-block-ui is-absolute");

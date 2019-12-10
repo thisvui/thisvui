@@ -45,12 +45,20 @@ $displays: 'block' 'flex' 'inline' 'inline-block' 'inline-flex';
     border-radius: 0 !important;
   }
 
+  &.is-borderless {
+    border: none !important;
+  }
+
   &.is-shadowless {
     box-shadow: none !important;
   }
 
   &.is-unselectable {
     @include unselectable;
+  }
+
+  &.is-invisible {
+    display: none;
   }
 
   &.float-left {

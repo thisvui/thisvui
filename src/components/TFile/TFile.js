@@ -366,7 +366,7 @@ export default {
       resetBtn.setProps({
         icon: this.clearIcon,
         targetClass: this.getClearClasses,
-        isMarginless: true
+        marginless: true
       });
       resetBtn.addChild(this.clearText, !this.hideButtonsLabels, true);
       resetBtn.addClick(this.reset);
@@ -376,7 +376,7 @@ export default {
       submitBtn.setProps({
         icon: this.submitIcon,
         targetClass: this.getSubmitClasses,
-        isMarginless: true
+        marginless: true
       });
       submitBtn.addChild(this.submitText, !this.hideButtonsLabels, true);
       submitBtn.addClick(this.submitFiles);
