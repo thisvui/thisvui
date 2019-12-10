@@ -117,4 +117,11 @@ $radio-font-size-large: 20px !default;
       }
     }
   }
+
+  &__container {
+    display: flex;
+    flex: 1;
+    padding: 2px;
+    margin: 2px;
+  }
 }

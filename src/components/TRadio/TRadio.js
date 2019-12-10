@@ -25,6 +25,17 @@ export default {
   },
   computed: {
     /**
+     * Dynamically build the css classes for the field div
+     * @returns { A String with the chained css classes }
+     */
+    getContainerClass: function() {
+      const css = new CssArchitect("group");
+      css.flexible({ flexWrap: true });
+      css.addClass(this.containerClass, this.containerClass !== undefined);
+      css.addClass("is-horizontal", this.isHorizontal);
+      return css.getClasses();
+    },
+    /**
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
      */
@@ -84,6 +95,10 @@ export default {
       this.validateOnEvent("input");
       this.$emit(this.$thisvui.events.common.input, value);
     },
+    onChange(value) {
+      this.validateOnEvent("change");
+      this.$emit(this.$thisvui.events.common.change, value);
+    },
     compare(obj1, obj2) {
       if (!obj1 || !obj2) {
         return false;
@@ -119,6 +134,17 @@ export default {
       return true;
     },
     /**
+     * Creates the radio container section
+     */
+    createRadioContainer(architect, id, item) {
+      let container = architect.createDiv("radio__container");
+      this.createTextLabel(container, item, this.labelLeft);
+      this.createRadio(container, id, item);
+      this.createRadioLabel(container, id);
+      this.createTextLabel(container, item, !this.labelLeft);
+      architect.addChild(container);
+    },
+    /**
      * Creates the radio inputs
      */
     createRadio(architect, id, item) {
@@ -142,7 +168,7 @@ export default {
       input.value(item.value);
       input.setAttrs(inputAttrs);
       input.addEvent("change", () => {
-        this.onInput(item);
+        this.onChange(item);
       });
       input.addEvent("input", () => {
         this.onInput(item);
@@ -183,10 +209,7 @@ export default {
 
     for (let index in this.items) {
       let item = this.items[index];
-      this.createTextLabel(root, item, this.labelLeft);
-      this.createRadio(root, `${this.id}${index}`, item);
-      this.createRadioLabel(root, `${this.id}${index}`);
-      this.createTextLabel(root, item, !this.labelLeft);
+      this.createRadioContainer(root, `${this.id}${index}`, item);
     }
 
     return root.create();
