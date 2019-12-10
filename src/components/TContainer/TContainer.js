@@ -41,6 +41,7 @@ export default {
       css.addClass(this.getBackgroundModifiers);
       css.addClass(this.getThemeModifiers);
       css.addClass(this.getGradientModifiers);
+      css.addClass(this.getDimensionModifiers);
       css.addStyles([this.getAlphaModifiers]);
       css.addStyles([this.getPaddingStyles]);
       css.addStyles([this.getMarginStyles]);
