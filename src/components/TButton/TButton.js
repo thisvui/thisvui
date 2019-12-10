@@ -100,7 +100,7 @@ export default {
       type: Boolean
     },
     view: {
-      type: [ String, Object ]
+      type: [String, Object]
     },
     rounded: Boolean,
     outlined: Boolean,
@@ -125,7 +125,7 @@ export default {
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
      */
-    getClasses: function() {
+    getCss: function() {
       const css = new CssArchitect("t-button button");
       css.addClass("tooltip", this.dataTooltip !== undefined);
       css.addClass("rounded", this.rounded);
@@ -142,11 +142,13 @@ export default {
       css.addClass(this.targetClass, this.targetClass !== undefined);
       css.addClass(this.tooltipClass, this.tooltipClass !== undefined);
       css.addClass(this.getThemeModifiers);
+      css.addStyles([this.targetStyle]);
+      css.addStyles([this.getAlphaModifiers]);
       css.addClass(this.getSizesModifiers);
       css.addClass(this.getStateModifiers);
       css.addClass(this.getHelpersModifiers);
       this.setupThemeModifier(css, true);
-      return css.getClasses();
+      return css;
     },
     /**
      * Dynamically build the css classes for the confirmation modal component
@@ -155,11 +157,8 @@ export default {
     getContainerClass: function() {
       const css = new CssArchitect("t-button-container");
       css.flexible();
-      css.addClass("is-centered")
-      css.addClass(
-        this.containerClass,
-        this.containerClass !== undefined
-      );
+      css.addClass("is-centered");
+      css.addClass(this.containerClass, this.containerClass !== undefined);
       css.addClass(this.getDisplayModifiers);
       return css.getClasses();
     },
@@ -260,7 +259,8 @@ export default {
       } else {
         this.$emit(this.$thisvui.events.common.click);
         if (this.view) {
-          let view = typeof this.view === 'string' ? { name: this.view } : this.view
+          let view =
+            typeof this.view === "string" ? { name: this.view } : this.view;
           this.$router.push(view);
         }
       }
@@ -302,7 +302,7 @@ export default {
     createButtonIcon(architect, condition = false) {
       if (this.icon && condition) {
         let icon = architect.createIcon(this.getIconClasses);
-        icon.setKey(`${this.id}-btn-icon`)
+        icon.setKey(`${this.id}-btn-icon`);
         icon.setProps({ icon: this.icon });
         architect.addChild(icon);
       }
@@ -313,14 +313,14 @@ export default {
     createButton(architect) {
       let button = architect.createElement(
         this.getActive ? "a" : "span",
-        this.getClasses
+        this.getCss.getClasses()
       );
       button.setId(this.id);
 
       if (this.getActive) {
         button.setRef("button");
         button.setAttrs(this.$attrs);
-        button.setStyles(this.targetStyle);
+        button.setStyles(this.getCss.getStyles());
         button.addAttr("data-tooltip", this.dataTooltip);
         button.addAttr("disabled", this.disabled);
         button.addClick(this.onClick);
@@ -369,14 +369,10 @@ export default {
         let modalFoot = architect.createSpan();
         modalFoot.setSlot("footer");
 
-        let confirmBtn = architect.createSpan(
-          this.getConfirmBtnClass
-        );
+        let confirmBtn = architect.createSpan(this.getConfirmBtnClass);
         confirmBtn.innerHTML(this.confirmText);
         confirmBtn.addClick(this.confirmed);
-        let cancelBtn = architect.createSpan(
-          this.getCancelBtnClass
-        );
+        let cancelBtn = architect.createSpan(this.getCancelBtnClass);
         cancelBtn.innerHTML(this.cancelText);
         cancelBtn.addClick(this.close);
 

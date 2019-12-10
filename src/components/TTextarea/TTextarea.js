@@ -6,7 +6,7 @@ export default {
   mixins: [inputs],
   props: {
     value: {
-      type: String
+      type: [String, Number]
     },
     rows: {
       type: Number
