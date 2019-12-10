@@ -42,9 +42,15 @@ $tabs-bottom-margin: $separation-margin !default;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     text-align: center;
-    line-height: 3em;
+    line-height: 1em;
+    font-size: 0.8em;
     margin-top: 0;
     cursor: pointer;
+
+    @include big-phone-up {
+      line-height: 3em;
+      font-size: 1em;
+    }
 
     &:not(:last-child) {
       margin-right: 2px;
