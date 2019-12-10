@@ -101,10 +101,7 @@ export default {
      */
     getContainerClass: function() {
       const css = new CssArchitect("group");
-      css.addClass(
-        this.containerClass,
-        this.containerClass !== undefined
-      );
+      css.addClass(this.containerClass, this.containerClass !== undefined);
       css.addClass("is-horizontal", this.isHorizontal);
       return css.getClasses();
     },
@@ -113,9 +110,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getWrapperClass: function() {
-      const css = new CssArchitect(
-        "group__wrapper"
-      );
+      const css = new CssArchitect("group__wrapper");
       this.isBordered(css);
       css.addClass("focused", this.focused);
       css.addClass("transparent", this.transparent);
@@ -130,9 +125,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getControlClass: function() {
-      const css = new CssArchitect(
-        "control"
-      );
+      const css = new CssArchitect("control");
       css.addClass("compact", this.compact);
       return css.getClasses();
     },
@@ -145,9 +138,15 @@ export default {
       css.addClass("has-value", this.hasValue);
       css.addClass(this.labelClass, this.isNotNull(this.labelClass));
       css.addClass("is-inline-flex", this.isNotNull(this.labelIcon));
-      css.addClass("input-icon-left", this.isNotNull(this.icon) && this.iconPosition.left);
-      this.isColored(css, { shade: 25})
-      css.addClass(this.themeModifier, (this.focused || this.hasValue) && this.hasThemeModifier);
+      css.addClass(
+        "input-icon-left",
+        this.isNotNull(this.icon) && this.iconPosition.left
+      );
+      this.isColored(css, { shade: 25 });
+      css.addClass(
+        this.themeModifier,
+        (this.focused || this.hasValue) && this.hasThemeModifier
+      );
       return css.getClasses();
     },
     /**
@@ -224,10 +223,7 @@ export default {
      */
     getLabelIconClass: function() {
       const css = new CssArchitect("is-left is-inline-flex");
-      css.addClass(
-        this.labelIconClass,
-        this.labelIconClass !== undefined
-      );
+      css.addClass(this.labelIconClass, this.labelIconClass !== undefined);
       return css.getClasses();
     },
     /**
@@ -263,14 +259,14 @@ export default {
       }
       return this.getValidationPassed;
     },
-    iconPosition(){
-      let left = this.iconLeft
-      let right = this.iconRight
-      if((!left && !right) || (left && right)){
-        left = false
-        right = true
+    iconPosition() {
+      let left = this.iconLeft;
+      let right = this.iconRight;
+      if ((!left && !right) || (left && right)) {
+        left = false;
+        right = true;
       }
-      return { left, right}
+      return { left, right };
     }
   },
   methods: {
@@ -316,7 +312,7 @@ export default {
       if (this.transformValue && this.isNotEmpty(this.transform)) {
         value = utils.text.transform(value, this.transform);
       }
-      this.hasValue = this.getHasValue()
+      this.hasValue = this.getHasValue();
       if (result && result.valid) {
         this.$emit(this.$thisvui.events.common.input, value);
       }
@@ -326,7 +322,7 @@ export default {
      */
     createLabel(architect, cssClasses) {
       let label = architect.createLabel(this.getLabelClass);
-      label.addClass(cssClasses)
+      label.addClass(cssClasses);
       label.addAttr("for", this.id);
       label.addDomProp("innerHTML", this.label);
       architect.addChild(label, this.isNotEmpty(this.label));
@@ -337,7 +333,7 @@ export default {
     createIcon(architect, condition, cssClasses) {
       if (this.icon && condition) {
         let inputIcon = architect.createIcon(this.getIconClass);
-        inputIcon.addClass(cssClasses)
+        inputIcon.addClass(cssClasses);
         inputIcon.addProp("icon", this.icon);
         architect.addChild(inputIcon, this.icon !== undefined);
       }
@@ -377,8 +373,8 @@ export default {
         this.formId = el.form.id;
       }
       this.addValidator(); // Registers the validator
-      if(this.$refs.inputField){
-        this.hasValue = this.getHasValue()
+      if (this.$refs.inputField) {
+        this.hasValue = this.getHasValue();
       }
     });
     this.includeBgModifiers = false;

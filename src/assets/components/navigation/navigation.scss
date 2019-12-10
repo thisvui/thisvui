@@ -167,26 +167,3 @@ $navbar-item-img-max-height: 100%;
     margin-bottom: 0;
   }
 }
-
-.navbar-burger {
-  position: absolute;
-  right: 0;
-  left: auto;
-  top: 0;
-  margin: 0;
-
-  @include from($tablet) {
-    left: 0;
-    right: auto;
-    position: relative;
-  }
-
-
-  &.is-mobile-only {
-    display: none;
-
-    @include until($tablet) {
-      display: flex;
-    }
-  }
-}
