@@ -188,6 +188,7 @@ export default {
         this.selectedValue = value;
       }
       this.$emit(this.$thisvui.events.common.input, this.selectedValue);
+      this.$emit(this.$thisvui.events.common.change, this.selectedValue);
     });
   }
 };

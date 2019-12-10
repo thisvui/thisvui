@@ -155,6 +155,7 @@ export default {
         this.selectedValue = null;
         this.hasValue = false;
         this.$emit(this.$thisvui.events.common.input, this.selectedValue);
+        this.$emit(this.$thisvui.events.common.change, this.selectedValue);
         this.validateOnEvent("input");
       }
     },
@@ -169,6 +170,7 @@ export default {
             ? this.selectedValue
             : this.selectedValue[this.display];
         this.$emit(this.$thisvui.events.common.input, this.selectedValue);
+        this.$emit(this.$thisvui.events.common.change, this.selectedValue);
         this.validateOnEvent("input");
         this.hasValue = true;
       } else {
