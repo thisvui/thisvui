@@ -114,6 +114,7 @@ export default {
       this.isBordered(css);
       css.addClass("focused", this.focused);
       css.addClass("transparent", this.transparent);
+      css.addClass("is-borderless", this.borderless);
       css.addClass(this.getTargetClass);
       css.addClass(this.getThemeModifiers);
       css.addClass(this.getBackgroundModifiers);
