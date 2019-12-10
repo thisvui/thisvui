@@ -3,11 +3,16 @@
   display: -ms-flexbox;
   display: flex;
   flex-grow: var(--flex-grow);
+  flex: var(--flex);
   flex-direction: var(--flex-direction);
   align-items: var(--align-items);
   align-content: var(--align-content);
   align-self: var(--align-self);
   justify-content: var(--justify-content);
+
+  &.full {
+    flex: 1;
+  }
 
   &.is-row {
     flex-direction: row;

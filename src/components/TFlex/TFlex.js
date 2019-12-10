@@ -3,13 +3,15 @@ import flex from "../../mixins/flex";
 import alignment from "../../mixins/alignment";
 import background from "../../mixins/background";
 import overflow from "../../mixins/overflow";
+import margin from "../../mixins/margin";
+import padding from "../../mixins/padding";
 
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
 
 export default {
   name: "t-flex",
-  mixins: [flex, dimension, alignment, background, overflow],
+  mixins: [flex, dimension, alignment, background, overflow, margin, padding],
   computed: {
     /**
      * Dynamically build the css classes for the target element
@@ -22,7 +24,12 @@ export default {
       css.addClass(this.getAlignmentModifiers);
       css.addClass(this.getBackgroundModifiers);
       css.addClass(this.getOverflowModifiers);
-      css.addStyles([this.getFlexStyles, this.getDimensionStyles]);
+      css.addStyles([
+        this.getFlexStyles,
+        this.getDimensionStyles,
+        this.getMarginStyles,
+        this.getMarginStyles
+      ]);
       return css;
     }
   },
