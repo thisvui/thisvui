@@ -93,15 +93,17 @@ export default {
     /**
      * Creates the open/close icon
      */
-    createToggleIcon(architect) {
-      let openIconWrapper = architect.createA();
-      let openIcon = architect.createIcon(this.getOpenIconClass);
-      openIcon.addProp("icon", this.arrowIcon);
-      openIcon.setRef("arrow");
-      openIcon.addProp("preserveDefaults", !this.overrideDefaults);
-      openIconWrapper.addClick(this.onClick);
-      openIconWrapper.addChild(openIcon);
-      architect.addChild(openIconWrapper);
+    createToggleIcon(architect, condition = true) {
+      if(condition) {
+        let openIconWrapper = architect.createA();
+        let openIcon = architect.createIcon(this.getOpenIconClass);
+        openIcon.addProp("icon", this.arrowIcon);
+        openIcon.setRef("arrow");
+        openIcon.addProp("preserveDefaults", !this.overrideDefaults);
+        openIconWrapper.addClick(this.onClick);
+        openIconWrapper.addChild(openIcon);
+        architect.addChild(openIconWrapper);
+      }
     },
     /**
      * Creates the input element
@@ -162,7 +164,7 @@ export default {
         this.createClearIcon(root);
       }
       this.createIcon(root, this.iconPosition.right);
-      this.createToggleIcon(root);
+      this.createToggleIcon(root, !this.disabled);
       this.createErrorHelpers(root);
       architect.addChild(root);
     }
