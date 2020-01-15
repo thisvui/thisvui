@@ -63,6 +63,9 @@ export default {
       type: Boolean,
       default: true
     },
+    containerClass: {
+      type: String
+    },
     targetClass: {
       type: String
     }
@@ -95,6 +98,7 @@ export default {
       const css = new CssArchitect("t-table__container");
       css.isRelative();
       css.addClass("is-fullwidth", this.isFullwidth);
+      css.addClass(this.containerClass);
       return css.getClasses();
     },
     getTableFunctionsClasses: function() {
