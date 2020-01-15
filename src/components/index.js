@@ -38,6 +38,7 @@ export { default as TNavDrawer } from "./TNavDrawer";
 
 export * from "./TNotification";
 
+export * from "./TPair";
 export * from "./TPaginator";
 export * from "./TPanel";
 export * from "./TProgress";
