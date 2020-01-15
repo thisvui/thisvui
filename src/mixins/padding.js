@@ -17,7 +17,7 @@ export default {
     paddingLeft: {
       type: Number
     },
-    unit: {
+    paddingUnit: {
       type: String,
       default: "px"
     }
@@ -29,11 +29,11 @@ export default {
      */
     getPaddingStyles() {
       const css = new CssArchitect();
-      css.addStyle("padding", css.addUnit(this.padding, this.unit), this.padding !== undefined);
-      css.addStyle("padding-top", css.addUnit(this.paddingTop, this.unit), this.paddingTop !== undefined);
-      css.addStyle("padding-right", css.addUnit(this.paddingRight, this.unit), this.paddingRight !== undefined);
-      css.addStyle("padding-bottom", css.addUnit(this.paddingBottom, this.unit), this.paddingBottom !== undefined);
-      css.addStyle("padding-left", css.addUnit(this.paddingLeft, this.unit), this.paddingLeft !== undefined);
+      css.addStyle("padding", css.addUnit(this.padding, this.paddingUnit), this.padding !== undefined);
+      css.addStyle("padding-top", css.addUnit(this.paddingTop, this.paddingUnit), this.paddingTop !== undefined);
+      css.addStyle("padding-right", css.addUnit(this.paddingRight, this.paddingUnit), this.paddingRight !== undefined);
+      css.addStyle("padding-bottom", css.addUnit(this.paddingBottom, this.paddingUnit), this.paddingBottom !== undefined);
+      css.addStyle("padding-left", css.addUnit(this.paddingLeft, this.paddingUnit), this.paddingLeft !== undefined);
       return css.getStyles();
     },
   }

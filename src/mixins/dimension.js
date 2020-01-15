@@ -26,7 +26,11 @@ export default {
     minHeight: {
       type: Number
     },
-    unit: {
+    heightUnit: {
+      type: String,
+      default: "px"
+    },
+    widthUnit: {
       type: String,
       default: "px"
     }
@@ -46,32 +50,32 @@ export default {
       const css = new CssArchitect();
       css.addStyle(
         "width",
-        css.addUnit(this.width, this.unit),
+        css.addUnit(this.width, this.widthUnit),
         this.width !== undefined
       );
       css.addStyle(
         "height",
-        css.addUnit(this.height, this.unit),
+        css.addUnit(this.height, this.heightUnit),
         this.height !== undefined
       );
       css.addStyle(
         "min-width",
-        css.addUnit(this.minWidth, this.unit),
+        css.addUnit(this.minWidth, this.widthUnit),
         this.minWidth !== undefined
       );
       css.addStyle(
         "min-height",
-        css.addUnit(this.minHeight, this.unit),
+        css.addUnit(this.minHeight, this.heightUnit),
         this.minHeight !== undefined
       );
       css.addStyle(
         "max-width",
-        css.addUnit(this.maxWidth, this.unit),
+        css.addUnit(this.maxWidth, this.widthUnit),
         this.maxWidth !== undefined
       );
       css.addStyle(
         "max-height",
-        css.addUnit(this.maxHeight, this.unit),
+        css.addUnit(this.maxHeight, this.heightUnit),
         this.maxHeight !== undefined
       );
       return css.getStyles();
