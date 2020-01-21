@@ -109,7 +109,8 @@ export default {
      * Creates the input element
      */
     createInput(architect) {
-      let root = architect.createDiv(this.getWrapperClass);
+      let root = architect.createDiv(this.getWrapperCss.getClasses());
+      root.setStyles(this.getWrapperCss.getStyles());
       let control = architect.createDiv(this.getControlClass); // The control element
       root.addDirective({
         name: "click-outside",

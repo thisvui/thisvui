@@ -20,7 +20,8 @@ export default {
      * Creates the field input section
      */
     createTextarea(architect) {
-      let root = architect.createDiv(this.getWrapperClass);
+      let root = architect.createDiv(this.getWrapperCss.getClasses());
+      root.setStyles(this.getWrapperCss.getStyles());
       let control = architect.createDiv(this.getControlClass); // The control element
       control.addClass("align-items-start");
 

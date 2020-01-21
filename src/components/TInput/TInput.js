@@ -18,7 +18,8 @@ export default {
      * Creates the field input with controls
      */
     createInput(architect) {
-      let root = architect.createDiv(this.getWrapperClass);
+      let root = architect.createDiv(this.getWrapperCss.getClasses());
+      root.setStyles(this.getWrapperCss.getStyles());
       let control = architect.createDiv(this.getControlClass); // The control element
 
       this.createIcon(root, this.iconPosition.left);

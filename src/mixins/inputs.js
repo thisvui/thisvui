@@ -109,7 +109,7 @@ export default {
      * Dynamically build the css classes for the control div
      * @returns { A String with the chained css classes }
      */
-    getWrapperClass: function() {
+    getWrapperCss: function() {
       const css = new CssArchitect("group__wrapper");
       this.isBordered(css);
       css.addClass("focused", this.focused);
@@ -118,8 +118,9 @@ export default {
       css.addClass(this.getTargetClass);
       css.addClass(this.getThemeModifiers);
       css.addClass(this.getBackgroundModifiers);
+      css.addStyles([this.getAlphaModifiers]);
       this.setupThemeModifier(css, true);
-      return css.getClasses();
+      return css;
     },
     /**
      * Dynamically build the css classes for the control div

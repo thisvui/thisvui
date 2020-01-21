@@ -14,7 +14,7 @@ $input-shadow: none !default;
 $input-focus-box-shadow-size: 0 0 0.125em !default;
 $input-focus-box-shadow-color: rgba($dark, 0.25) !default;
 
-$label-weight: lighten !default;
+$label-weight: normal !default;
 $label-color: tint($dark, 50%) !default;
 $label-transition-delay: 300ms;
 
@@ -116,7 +116,7 @@ $label-transition-delay: 300ms;
   .label {
     color: $label-color;
     font-size: 1rem;
-    font-weight: normal;
+    font-weight: $label-weight;
     position: absolute;
     pointer-events: none;
     left: 5px;
