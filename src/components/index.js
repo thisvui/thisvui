@@ -45,6 +45,8 @@ export * from "./TProgress";
 
 export { default as TRadio } from "./TRadio";
 
+export * from "./TRich";
+
 export { default as TSection } from "./TSection";
 export { default as TSelect } from "./TSelect";
 
