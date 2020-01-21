@@ -332,9 +332,11 @@ export default {
         }
         this.createButtonIcon(button, this.iconRight);
       } else {
+        this.createButtonIcon(button, !this.iconRight);
         if (this.hasSlot) {
           button.setChildren(this.$slots.default);
         }
+        this.createButtonIcon(button, this.iconRight);
       }
       architect.addChild(button);
     },
