@@ -103,7 +103,7 @@ const EVENTS = {
     input: "input",
     change: "change",
     blur: "blur",
-    onEnter: "on-enter"
+    enter: "keyup.enter"
   },
   accordion: {
     collapseOthers: "collapse-others"

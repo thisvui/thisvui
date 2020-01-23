@@ -159,6 +159,10 @@ export default class ElementArchitect {
     return this;
   }
 
+  addListeners(listeners) {
+    this.listeners = listeners;
+  }
+
   addClick(handler, conditionStatement = true, native = false) {
     return this.addEvent("click", handler, conditionStatement, native);
   }
@@ -392,8 +396,17 @@ export default class ElementArchitect {
     if (this.slot) {
       element.slot = this.slot;
     }
+    if (this.listeners) {
+      if (!element.on) {
+        element.on = {};
+      }
+      element.on = { ...element.on, ...this.listeners };
+    }
     if (this.events) {
-      element.on = this.events;
+      if (!element.on) {
+        element.on = {};
+      }
+      element.on = { ...element.on, ...this.events };
     }
     if (this.native) {
       element.nativeOn = this.native;

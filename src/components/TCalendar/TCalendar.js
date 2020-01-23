@@ -462,6 +462,9 @@ export default {
       input.value(this.inputDate);
       input.setAttrs(inputAttrs);
       input.setRef("inputField");
+
+      // Handling events
+      input.addListeners(this.$listeners);
       input.addEvent("change", this.onChange);
       input.addEvent("change", this.onChange);
       input.addEvent("input", this.onInput);

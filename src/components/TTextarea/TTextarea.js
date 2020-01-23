@@ -43,14 +43,14 @@ export default {
       textarea.value(this.value);
       textarea.setAttrs(textareaAttrs);
       textarea.setRef("inputField");
+
+      // Handling events
+      input.addListeners(this.$listeners);
       textarea.addChange(this.onChange);
       textarea.addInput(this.onInput);
       textarea.addFocus(this.onFocus);
       textarea.addBlur(this.onBlur);
-      textarea.addKeyup({
-        key: architect.keycode.enter,
-        handler: this.onKeyup
-      });
+
       control.addChild(textarea);
 
       let labelParent = this.classic ? architect : control;

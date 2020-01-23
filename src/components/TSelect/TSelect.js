@@ -136,6 +136,9 @@ export default {
       input.value(this.search);
       input.setAttrs(inputAttrs);
       input.setRef("inputField");
+
+      // Handling events
+      input.addListeners(this.$listeners);
       input.addChange(this.onChange);
       input.addInput(this.onInput);
       input.addBlur(this.onBlur);

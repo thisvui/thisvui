@@ -39,14 +39,13 @@ export default {
       input.value(this.value);
       input.setAttrs(inputAttrs);
       input.setRef("inputField");
+
+      // Handling events
+      input.addListeners(this.$listeners);
       input.addChange(this.onChange);
       input.addInput(this.onInput);
       input.addFocus(this.onFocus);
       input.addBlur(this.onBlur);
-      input.addKeyup({
-        key: architect.keycode.enter,
-        handler: this.onKeyup
-      });
       control.addChild(input);
 
       let labelParent = this.classic ? architect : control;
