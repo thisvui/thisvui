@@ -31,7 +31,7 @@ export default {
     },
     isFullwidth: Boolean,
     infinite: Boolean,
-    isFixed: Boolean,
+    fixed: Boolean,
     top: Boolean,
     right: Boolean,
     bottom: Boolean,
@@ -58,7 +58,7 @@ export default {
      */
     getContainerClasses: function() {
       const css = new CssArchitect("t-toast");
-      css.addClass("is-fixed", this.isFixed);
+      css.addClass("is-fixed", this.fixed);
       css.addClass("empty", this.isEmpty());
       return css.getClasses();
     },
@@ -103,7 +103,7 @@ export default {
       let containerHeight = this.height;
       if (this.$refs.toast) {
         container = this.$refs.toast;
-        if (!this.isFixed) {
+        if (!this.fixed) {
           parent = container.parentElement;
           parentWidth = parseInt(getComputedStyle(parent).width);
           parentHeight = parseInt(getComputedStyle(parent).height);
