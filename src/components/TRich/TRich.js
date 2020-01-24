@@ -138,6 +138,11 @@ export default {
       return css.getClasses();
     }
   },
+  watch: {
+    disabled: function(newVal, oldVal) {
+      this.configEditable(this.editor);
+    }
+  },
   data() {
     return {
       focused: false,
@@ -264,6 +269,19 @@ export default {
         this.editor.execCommand(command, false, arg);
       }
     },
+    configEditable(editor){
+      let editorBody = editor.body;
+      if ("contentEditable" in editorBody) {
+        // allow contentEditable
+        editorBody.contentEditable = !this.disabled;
+      } else {
+        // Firefox earlier than version 3
+        if ("designMode" in editor) {
+          // turn on designMode
+          editor.designMode = !this.disabled ? "on": "off";
+        }
+      }
+    },
     configBody(editor) {
       if (editor) {
         if (this.isNotEmpty(this.value)) {
@@ -279,16 +297,7 @@ export default {
             editorBody.spellcheck = false;
           }
 
-          if ("contentEditable" in editorBody) {
-            // Allow contentEditable for modern browsers
-            editorBody.contentEditable = "true";
-          } else {
-            // For older browsers
-            if ("designMode" in editor) {
-              // Turn on designMode
-              editor.designMode = "on";
-            }
-          }
+          this.configEditable(editor);
           editorBody.oninput = e => {
             this.onChange(editorBody.innerHTML);
           };
