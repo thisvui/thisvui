@@ -37,6 +37,7 @@ $table-font-size: 12px !default;
   tbody {
     tr {
       --bg-hover-alpha: 0.5;
+      height: fit-content;
 
       &:hover {
         cursor: pointer;
@@ -83,6 +84,7 @@ $table-font-size: 12px !default;
 
   &__cell {
     vertical-align: middle;
+    height: 100%;
     &.left {
       text-align: left;
     }
