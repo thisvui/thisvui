@@ -87,11 +87,27 @@ export default {
     msgPosition: {
       type: String,
       default: "right"
+    },
+    showSuccessIcon: Boolean,
+    showErrorIcon: Boolean,
+    popupMessage: Boolean,
+    successIcon: {
+      type: String,
+      default: function() {
+        return this.$thisvui.icons.validationSuccess;
+      }
+    },
+    errorIcon: {
+      type: String,
+      default: function() {
+        return this.$thisvui.icons.validationError;
+      }
     }
   },
   data() {
     return {
       validationPassed: false,
+      validationResult: null,
       stateClass: "",
       errors: [],
       rules: [],
@@ -127,29 +143,30 @@ export default {
       const element = validator.element;
       this.errors = [];
       if (this.getRequired && !utils.check.notEmpty(element.value)) {
-        return this.getValidationResult(RULES.REQUIRED, event);
+        return this.getValidationError(RULES.REQUIRED, event);
       }
       if (this.getNumeric && !utils.check.isNumeric(element.value)) {
-        return this.getValidationResult(RULES.NUMERIC, event);
+        return this.getValidationError(RULES.NUMERIC, event);
       }
       if (this.getEmail && !utils.check.validEmail(element.value)) {
-        return this.getValidationResult(RULES.EMAIL, event);
+        return this.getValidationError(RULES.EMAIL, event);
       }
       if (this.min && utils.check.isLessThan(this.min)) {
-        return this.getValidationResult(RULES.MIN, event);
+        return this.getValidationError(RULES.MIN, event);
       }
       if (this.max && utils.check.isGreaterThan(this.max)) {
-        return this.getValidationResult(RULES.MAX, event);
+        return this.getValidationError(RULES.MAX, event);
       }
       if (this.minLength && !utils.check.minLength(this.minLength)) {
-        return this.getValidationResult(RULES.MINLENGTH, event);
+        return this.getValidationError(RULES.MINLENGTH, event);
       }
       if (this.maxLength && !utils.check.maxLength(this.maxLength)) {
-        return this.getValidationResult(RULES.MAXLENGTH, event);
+        return this.getValidationError(RULES.MAXLENGTH, event);
       }
       this.stateClass = ""; // Changes the element css class to success when all validations passed
       this.validationPassed = true;
-      return new Result(true, "success");
+      this.validationResult = new Result(true, "success");
+      return this.validationResult;
     },
     /**
      * Executes the validations for specific event
@@ -157,16 +174,17 @@ export default {
     validateOnEvent(event) {
       let events = this.validateOn.split(",").map(item => item.trim());
       let validate = events.indexOf(event) > -1;
-      if (this.hasRules && validate) {
-        return this.validate(event);
-      }
-      return new Result(true, "success");
+      let result =
+        this.hasRules && validate
+          ? this.validate(event)
+          : new Result(true, "success");
+      return result;
     },
     /**
      * Retrieves the validation result
      * return { A @link Result class object }
      */
-    getValidationResult(rule, event) {
+    getValidationError(rule, event) {
       const errorMessage = this.getErrorMessage(rule);
       this.errors.push(errorMessage);
       console.error(
@@ -174,7 +192,9 @@ export default {
       );
       this.stateClass = this.errorClass; // Changes the element css class to error when validation failed
       this.validationPassed = false;
-      return new Result(false, errorMessage);
+      let result = new Result(false, errorMessage);
+      this.validationResult = result;
+      return result;
     },
     /**
      * Builds the rules list based on props

@@ -7,11 +7,22 @@ import icons from "./icons";
 import utils from "../utils/utils";
 import themes from "./themes";
 import display from "./display";
+import dimension from "./dimension";
 
 import CssArchitect from "../utils/css-architect";
 
 export default {
-  mixins: [common, validation, display, themes, states, sizes, helpers, icons],
+  mixins: [
+    common,
+    validation,
+    display,
+    dimension,
+    themes,
+    states,
+    sizes,
+    helpers,
+    icons
+  ],
   props: {
     name: {
       type: String
@@ -103,6 +114,8 @@ export default {
       const css = new CssArchitect("group");
       css.addClass(this.containerClass, this.containerClass !== undefined);
       css.addClass("is-horizontal", this.isHorizontal);
+      css.addClass(this.getDimensionModifiers);
+      css.addStyles([this.getDimensionStyles]);
       return css.getClasses();
     },
     /**
@@ -115,8 +128,22 @@ export default {
       css.addClass("focused", this.focused);
       css.addClass("transparent", this.transparent);
       css.addClass("is-borderless", this.borderless);
-      css.addClass(this.getTargetClass);
-      css.addClass(this.getThemeModifiers);
+      css.addClass(
+        this.inputClass,
+        this.isNotNull(this.inputClass) && this.errors.length === 0
+      );
+      css.addClass("colored", this.coloredText);
+
+      css.addClass(this.getTransformClass);
+      css.addClass(this.getDisplayModifiers);
+      css.addClass(this.getSizesModifiers);
+      css.addClass(this.getHelpersModifiers);
+      css.addClass(
+        this.getThemeModifiers,
+        !this.isNotNull(this.validationResult) ||
+          (this.isNotNull(this.validationResult) && this.validationResult.valid)
+      );
+      css.addClass(this.stateClass, this.isNotNull(this.stateClass));
       css.addClass(this.getBackgroundModifiers);
       css.addStyles([this.getAlphaModifiers]);
       this.setupThemeModifier(css, true);
@@ -149,25 +176,6 @@ export default {
         this.themeModifier,
         (this.focused || this.hasValue) && this.hasThemeModifier
       );
-      return css.getClasses();
-    },
-    /**
-     * Dynamically build the css classes for the target element
-     * @returns { A String with the chained css classes }
-     */
-    getTargetClass: function() {
-      const css = new CssArchitect();
-      css.addClass(this.getTransformClass);
-      css.addClass(this.getDisplayModifiers);
-      css.addClass(this.getSizesModifiers);
-      css.addClass(this.getHelpersModifiers);
-      css.addClass(
-        this.inputClass,
-        this.isNotNull(this.inputClass) && this.errors.length === 0
-      );
-      css.addClass(this.stateClass, this.stateClass !== undefined);
-      css.addClass("colored", this.coloredText);
-      css.addClass(this.getThemeModifiers, this.coloredText);
       return css.getClasses();
     },
     /**
@@ -213,10 +221,9 @@ export default {
      * Dynamically build the css classes for the icon when value is valid
      * @returns { A String with the chained css classes }
      */
-    getValidStateIconClass: function() {
+    getStateIconClass: function() {
       const css = new CssArchitect("is-small is-right");
       css.addClass(this.themeModifier, this.hasThemeModifier);
-      css.addClass(this.iconClass, this.iconClass !== undefined);
       return css.getClasses();
     },
     /**
@@ -283,14 +290,14 @@ export default {
       this.focused = true;
     },
     onBlur() {
-      let result = this.validateOnEvent("blur");
+      let result = this.validateOnEvent(this.$thisvui.events.common.blur);
       if (result && result.valid) {
         this.$emit(this.$thisvui.events.common.blur);
       }
       this.focused = false;
     },
     onChange() {
-      let result = this.validateOnEvent("change");
+      let result = this.validateOnEvent(this.$thisvui.events.common.change);
       if (result && result.valid) {
         this.$emit(this.$thisvui.events.common.change);
       }
@@ -309,7 +316,7 @@ export default {
     },
     onInput() {
       let value = this.getInputValue();
-      let result = this.validateOnEvent("input");
+      let result = this.validateOnEvent(this.$thisvui.events.common.input);
       // Transforms the value if transform is active
       if (this.transformValue && this.isNotEmpty(this.transform)) {
         value = utils.text.transform(value, this.transform);
@@ -344,14 +351,22 @@ export default {
      * Creates the icon for the validation state
      */
     createStateIcon(architect) {
+      let stateIcon = architect.createIcon(this.getStateIconClass);
+      stateIcon.addProp("preserveDefaults", !this.overrideDefaults);
       if (
-        this.showValidStateIcon &&
-        !this.hideStateIcon &&
-        this.showStateIcon
+        utils.check.notEmpty(this.validationResult) &&
+        this.validationResult.valid &&
+        this.showSuccessIcon
       ) {
-        let stateIcon = architect.createIcon(this.getValidStateIconClass);
-        stateIcon.addProp("icon", this.$thisvui.icons.check);
-        stateIcon.addProp("preserveDefaults", !this.overrideDefaults);
+        stateIcon.addProp("icon", this.successIcon);
+        architect.addChild(stateIcon);
+      }
+      if (
+        utils.check.notEmpty(this.validationResult) &&
+        !this.validationResult.valid &&
+        this.showErrorIcon
+      ) {
+        stateIcon.addProp("icon", this.errorIcon);
         architect.addChild(stateIcon);
       }
     },

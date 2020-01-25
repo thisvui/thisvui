@@ -52,8 +52,8 @@ export default {
       this.createLabel(labelParent);
 
       root.addChild(control);
-      this.createStateIcon(root);
       this.createIcon(root, this.iconPosition.right);
+      this.createStateIcon(root);
       this.createErrorHelpers(root);
       architect.addChild(root);
     }

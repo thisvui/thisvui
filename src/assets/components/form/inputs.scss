@@ -25,6 +25,7 @@ $label-transition-delay: 300ms;
     padding: 0.2rem;
     display: flex;
     align-items: center;
+    height: inherit;
     .label {
       font-size: 16px;
       position: relative;

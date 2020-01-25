@@ -18,6 +18,8 @@ const ICONS_FA5 = {
   expand: "fas fa-plus-circle",
   collapse: "fas fa-minus-circle",
   notification: "fas fa-exclamation-triangle",
+  validationError: "fas fa-exclamation-circle",
+  validationSuccess: "fas fa-check-circle",
   richBold: "fas fa-bold",
   richItalic: "fas fa-italic",
   richUnderline: "fas fa-underline",
@@ -28,7 +30,7 @@ const ICONS_FA5 = {
   richAlignRight: "fas fa-align-right",
   richAlignCenter: "fas fa-align-center",
   richAlignJustify: "fas fa-align-justify",
-  richRemoveFormat: "fas fa-remove-format"
+  richRemoveFormat: "fas fa-remove-format",
 };
 
 const ICONS_FA4 = {
@@ -51,6 +53,8 @@ const ICONS_FA4 = {
   expand: "fa fa-plus-circle",
   collapse: "fa fa-minus-circle",
   notification: "fas fa-exclamation-triangle",
+  validationError: "fas fa-exclamation-circle",
+  validationSuccess: "fas fa-check-circle",
   richBold: "fas fa-bold",
   richItalic: "fas fa-italic",
   richUnderline: "fas fa-underline",
@@ -84,6 +88,8 @@ const ICONS_MATERIAL_DESIGN = {
   expand: "add_circle",
   collapse: "remove_circle",
   notification: "warning",
+  validationError: "error",
+  validationSuccess: "check_circle",
   richBold: "format_bold",
   richItalic: "format_italic",
   richUnderline: "format_underline",
