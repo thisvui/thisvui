@@ -126,7 +126,7 @@ export default {
   methods: {
     createDeleteButton(architect) {
       if (this.showClose) {
-        let deleteBtn = architect.createElement("button", "delete");
+        let deleteBtn = architect.createA( "delete");
         deleteBtn.addClick(() => {
           this.$emit(this.closeEvent);
         });

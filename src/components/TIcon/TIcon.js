@@ -19,16 +19,10 @@ export default {
       type: Boolean,
       default: false
     },
-    dataTooltip: {
-      type: String
-    },
     targetClass: {
       type: String
     },
     containerClass: {
-      type: String
-    },
-    tooltipClass: {
       type: String
     },
     layerClass: {
@@ -67,17 +61,6 @@ export default {
       css.addClass("resize-font", this.resizeFont);
       css.addClass("has-shadow", this.hasShadow);
       css.addClass(this.containerClass, this.containerClass !== undefined);
-      css.addClass(this.getTooltipClass);
-      return css.getClasses();
-    },
-    /**
-     * Dynamically build the css classes for the tooltip element
-     * @returns { A String with the chained css classes }
-     */
-    getTooltipClass: function() {
-      const css = new CssArchitect();
-      css.addClass("tooltip", this.dataTooltip !== undefined);
-      css.addClass(this.tooltipClass);
       return css.getClasses();
     },
     /**
@@ -112,7 +95,6 @@ export default {
     let root = new ElementArchitect(h, "span", this.getContainerClass);
     root.setId(this.id);
     root.setKey(`${this.id}-${this.icon}`);
-    root.addAttr("data-tooltip", this.dataTooltip);
 
     let icon = root.createElement("i");
     icon.addClass(this.isMd ? this.getMaterialIconsClass : this.getClasses);

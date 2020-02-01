@@ -169,6 +169,7 @@ export default {
       }
       this.createIcon(root, this.iconPosition.right);
       this.createToggleIcon(root, !this.disabled);
+      this.createStateIcon(root);
       this.createErrorHelpers(root);
       architect.addChild(root);
     }

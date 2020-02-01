@@ -482,6 +482,7 @@ export default {
 
       this.createClearIcon(root);
       this.createIcon(root);
+      this.createStateIcon(root);
       this.createErrorHelpers(root);
       architect.addChild(root);
     }

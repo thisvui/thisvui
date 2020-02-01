@@ -66,10 +66,6 @@ export default {
     placeholder: {
       type: String
     },
-    dataTooltip: {
-      type: String,
-      default: ""
-    },
     removeLabel: {
       type: Boolean,
       default: false
@@ -102,8 +98,14 @@ export default {
     return {
       formId: "",
       hasValue: false,
-      focused: false
+      focused: false,
+      currentPopupMessage: ""
     };
+  },
+  watch: {
+    required: function(newVal, oldVal) {
+      this.addValidator();
+    }
   },
   computed: {
     /**
@@ -351,7 +353,8 @@ export default {
      * Creates the icon for the validation state
      */
     createStateIcon(architect) {
-      let stateIcon = architect.createIcon(this.getStateIconClass);
+      let stateIconContainer = architect.createA();
+      let stateIcon = stateIconContainer.createIcon(this.getStateIconClass);
       stateIcon.addProp("preserveDefaults", !this.overrideDefaults);
       if (
         utils.check.notEmpty(this.validationResult) &&
@@ -359,7 +362,8 @@ export default {
         this.showSuccessIcon
       ) {
         stateIcon.addProp("icon", this.successIcon);
-        architect.addChild(stateIcon);
+        stateIconContainer.addChild(stateIcon);
+        architect.addChild(stateIconContainer);
       }
       if (
         utils.check.notEmpty(this.validationResult) &&
@@ -367,19 +371,39 @@ export default {
         this.showErrorIcon
       ) {
         stateIcon.addProp("icon", this.errorIcon);
-        architect.addChild(stateIcon);
+        stateIconContainer.addChild(stateIcon);
+        architect.addChild(stateIconContainer);
       }
     },
     /**
      * Creates the error message helpers
      */
     createErrorHelpers(architect) {
-      for (let error of this.errors) {
-        let help = architect.createP("help is-danger");
-        help.setKey(error);
-        help.addAttr("msg", error);
-        help.addAttr("msg-position", this.msgPosition);
-        architect.addChild(help);
+      let hasErrors = this.errors != null && this.errors.length > 0;
+      if (!this.popupMessage) {
+        for (let error of this.errors) {
+          let help = architect.createP("help is-danger");
+          help.setKey(error);
+          help.addAttr("msg", error);
+          help.addAttr("msg-position", this.msgPosition);
+          architect.addChild(help);
+        }
+      } else {
+        if (hasErrors) {
+          this.currentPopupMessage = this.errors[this.errors.length - 1];
+          architect.addDirective({
+            name: "tooltip",
+            value: {
+              text: this.currentPopupMessage,
+              event: this.popupEvent,
+              top: true,
+              right: true,
+              cssClass: "is-danger"
+            }
+          });
+        } else {
+          architect.setDirectives([]);
+        }
       }
     }
   },

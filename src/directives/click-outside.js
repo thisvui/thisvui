@@ -1,7 +1,8 @@
 let handleOutsideClick;
 
 export default {
-  bind(el, binding, vnode) {
+  name: 'click-outside',
+  bind: function(el, binding, vnode) {
     handleOutsideClick = e => {
       e.stopPropagation();
       const { handler, exclude } = binding.value;
@@ -41,7 +42,7 @@ export default {
     document.addEventListener("click", handleOutsideClick);
     document.addEventListener("touchstart", handleOutsideClick);
   },
-  unbind() {
+  unbind: function() {
     // Unbind click/touchstart listeners from the whole page
     document.removeEventListener("click", handleOutsideClick);
     document.removeEventListener("touchstart", handleOutsideClick);

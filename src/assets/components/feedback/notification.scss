@@ -59,17 +59,18 @@ $notification-margin: 0.7rem !default;
 }
 
 $error-help-color: $danger !default;
+$error-help-background: tint($danger, 50%) !default;
 
 @mixin mobile-helper {
   content: attr(msg);
   position: absolute;
   color: $error-help-color;
+  background: none;
   right: 2px;
+  left: unset;
   top: -24px;
   margin-left: 8px;
   border: none;
-  background: none;
-  left: unset;
   font-size: 0.7em;
   text-transform: uppercase;
   text-align: right;
@@ -93,7 +94,7 @@ $error-help-color: $danger !default;
   margin: 0;
   display: flex;
 
-  &::after {
+  &:not(.popup)::after {
     @include mobile-helper;
   }
 

@@ -45,7 +45,7 @@ export default {
       textarea.setRef("inputField");
 
       // Handling events
-      input.addListeners(this.$listeners);
+      textarea.addListeners(this.$listeners);
       textarea.addChange(this.onChange);
       textarea.addInput(this.onInput);
       textarea.addFocus(this.onFocus);
@@ -56,8 +56,8 @@ export default {
       let labelParent = this.classic ? architect : control;
       this.createLabel(labelParent, "is-textarea");
       root.addChild(control);
-      this.createStateIcon(root);
       this.createIcon(root, this.iconPosition.right, "is-textarea");
+      this.createStateIcon(root);
       this.createErrorHelpers(root);
       architect.addChild(root);
     }

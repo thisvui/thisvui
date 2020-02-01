@@ -91,6 +91,10 @@ export default {
     showSuccessIcon: Boolean,
     showErrorIcon: Boolean,
     popupMessage: Boolean,
+    popupEvent: {
+      type: String,
+      default: "mouseenter"
+    },
     successIcon: {
       type: String,
       default: function() {
@@ -151,16 +155,16 @@ export default {
       if (this.getEmail && !utils.check.validEmail(element.value)) {
         return this.getValidationError(RULES.EMAIL, event);
       }
-      if (this.min && utils.check.isLessThan(this.min)) {
+      if (this.min && utils.check.isLessThan(element.value, this.min)) {
         return this.getValidationError(RULES.MIN, event);
       }
-      if (this.max && utils.check.isGreaterThan(this.max)) {
+      if (this.max && utils.check.isGreaterThan(element.value, this.max)) {
         return this.getValidationError(RULES.MAX, event);
       }
-      if (this.minLength && !utils.check.minLength(this.minLength)) {
+      if (this.minLength && !utils.check.minLength(element.value, this.minLength)) {
         return this.getValidationError(RULES.MINLENGTH, event);
       }
-      if (this.maxLength && !utils.check.maxLength(this.maxLength)) {
+      if (this.maxLength && !utils.check.maxLength(element.value, this.maxLength)) {
         return this.getValidationError(RULES.MAXLENGTH, event);
       }
       this.stateClass = ""; // Changes the element css class to success when all validations passed

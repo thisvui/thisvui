@@ -84,12 +84,6 @@ export default {
       type: String,
       default: "is-danger"
     },
-    dataTooltip: {
-      type: String
-    },
-    tooltipClass: {
-      type: String
-    },
     icon: {
       type: String
     },
@@ -127,7 +121,6 @@ export default {
      */
     getCss: function() {
       const css = new CssArchitect("t-button button");
-      css.addClass("tooltip", this.dataTooltip !== undefined);
       css.addClass("rounded", this.rounded);
       css.addClass("flat", this.flat);
       css.addClass("raised", this.raised);
@@ -140,7 +133,6 @@ export default {
       css.addClass("is-loading", this.isLoading);
       css.addClass("disabled", this.disabled);
       css.addClass(this.targetClass, this.targetClass !== undefined);
-      css.addClass(this.tooltipClass, this.tooltipClass !== undefined);
       css.addClass(this.getThemeModifiers);
       css.addStyles([this.targetStyle]);
       css.addStyles([this.getAlphaModifiers]);
@@ -321,7 +313,6 @@ export default {
         button.setRef("button");
         button.setAttrs(this.$attrs);
         button.setStyles(this.getCss.getStyles());
-        button.addAttr("data-tooltip", this.dataTooltip);
         button.addAttr("disabled", this.disabled);
         button.addClick(this.onClick);
 
