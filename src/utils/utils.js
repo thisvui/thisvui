@@ -214,6 +214,18 @@ const convert = {
   }
 };
 
+const number = {
+  format(num, { thousandsSeparator = ".", decimalSeparator = "," }) {
+    return num
+      .toFixed(0)
+      .replace(".", decimalSeparator)
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, `$1${thousandsSeparator}`);
+  },
+  unFormat(num) {
+    return num.replace(/[^0-9$]/g, "");
+  }
+};
+
 const date = {
   /**
    * Formats a specific date using the date-fns format module
@@ -232,6 +244,7 @@ export default {
   json,
   check,
   text,
+  number,
   convert,
   css,
   date
