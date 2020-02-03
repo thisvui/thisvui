@@ -99,7 +99,8 @@ export default {
       formId: "",
       hasValue: false,
       focused: false,
-      currentPopupMessage: ""
+      currentPopupMessage: "",
+      complexValidation: false
     };
   },
   watch: {
@@ -409,13 +410,15 @@ export default {
   },
   mounted() {
     this.$nextTick(function() {
-      let el = document.getElementById(this.id);
-      if (el && el.form) {
-        this.formId = el.form.id;
-      }
-      this.addValidator(); // Registers the validator
-      if (this.$refs.inputField) {
-        this.hasValue = this.getHasValue();
+      if(!this.complexValidation) {
+        let el = document.getElementById(this.id);
+        if (el && el.form) {
+          this.formId = el.form.id;
+        }
+        this.addValidator(); // Registers the validator
+        if (this.$refs.inputField) {
+          this.hasValue = this.getHasValue();
+        }
       }
     });
     this.includeBgModifiers = false;

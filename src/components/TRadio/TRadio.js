@@ -213,5 +213,8 @@ export default {
     }
 
     return root.create();
+  },
+  beforeMount() {
+    this.complexValidation = true;
   }
 };
