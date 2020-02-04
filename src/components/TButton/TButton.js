@@ -341,11 +341,11 @@ export default {
           targetClass: this.getConfirmClass,
           headerClass: this.confirmHeaderClass,
           titleClass: this.confirmTitleClass,
-          bodyClass: "is-size-6",
           title: this.dialogTitle,
           showModal: this.showConfirmModal,
           showFooter: true,
-          showClose: false
+          showClose: false,
+          small: true
         });
 
         if (this.message) {
