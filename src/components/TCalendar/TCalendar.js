@@ -5,24 +5,27 @@ import { TInput } from "../TInput";
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
+
 import format from "date-fns/format";
-import startOfMonth from "date-fns/start_of_month";
-import endOfMonth from "date-fns/end_of_month";
-import lastDayOfMonth from "date-fns/last_day_of_month";
-import isSameMonth from "date-fns/is_same_month";
-import isSameDay from "date-fns/is_same_day";
-import addMonths from "date-fns/add_months";
-import getDay from "date-fns/get_day";
-import addDays from "date-fns/add_days";
-import eachDay from "date-fns/each_day";
-import setDate from "date-fns/set_date";
-import setHours from "date-fns/set_hours";
-import getHours from "date-fns/get_hours";
-import setMinutes from "date-fns/set_minutes";
-import getMinutes from "date-fns/get_minutes";
-import setSeconds from "date-fns/set_seconds";
-import getSeconds from "date-fns/get_seconds";
-import getTime from "date-fns/get_time";
+import startOfMonth from "date-fns/startOfMonth";
+import endOfMonth from "date-fns/endOfMonth";
+import lastDayOfMonth from "date-fns/lastDayOfMonth";
+import isSameMonth from "date-fns/isSameMonth";
+import isSameDay from "date-fns/isSameDay";
+import addMonths from "date-fns/addMonths";
+import getDay from "date-fns/getDay";
+import addDays from "date-fns/addDays";
+import eachDayOfInterval from "date-fns/eachDayOfInterval";
+import setDate from "date-fns/setDate";
+import setHours from "date-fns/setHours";
+import getHours from "date-fns/getHours";
+import setMinutes from "date-fns/setMinutes";
+import getMinutes from "date-fns/getMinutes";
+import setSeconds from "date-fns/setSeconds";
+import getSeconds from "date-fns/getSeconds";
+import getTime from "date-fns/getTime";
+import isValid from "date-fns/isValid";
+import parseISO from "date-fns/parseISO";
 
 const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -43,7 +46,7 @@ export default {
     dateFormat: {
       type: String,
       default: function() {
-        return this.$thisvui.dateFormat;
+        return "dd/MM/yyyy";
       }
     },
     enableTime: {
@@ -119,7 +122,10 @@ export default {
       const startOfMonthDate = startOfMonth(date);
       const endOfMonthDate = endOfMonth(date);
 
-      const days = eachDay(startOfMonthDate, endOfMonthDate).map(day => ({
+      const days = eachDayOfInterval({
+        start: startOfMonthDate,
+        end: endOfMonthDate
+      }).map(day => ({
         date: day,
         isCurrentMonth: isSameMonth(
           new Date(this.currentYear, this.currentMonth),
@@ -203,7 +209,7 @@ export default {
   },
   methods: {
     formatDateToDay(val) {
-      return format(val, "D");
+      return format(val, "dd");
     },
     initSelectedTime() {
       if (!this.selectedTime) {
@@ -507,11 +513,16 @@ export default {
     this.currentDate = this.today;
   },
   mounted() {
-    if (this.startDate) {
-      this.currentDate = this.startDate;
-      this.selectedDate = this.startDate;
-      this.selectedTime = this.startDate;
+    let value = this.value;
+
+    if (value != null && !isValid(value)) {
+      value = parseISO(value);
     }
+    if (value != null) {
+      this.currentDate = value;
+    }
+    this.selectedDate = value;
+    this.selectedTime = value;
     if (this.inline) {
       this.showCalendar = true;
     }
