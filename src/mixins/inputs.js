@@ -103,11 +103,6 @@ export default {
       complexValidation: false
     };
   },
-  watch: {
-    required: function(newVal, oldVal) {
-      this.addValidator();
-    }
-  },
   computed: {
     /**
      * Dynamically build the css classes for the field div
@@ -291,6 +286,7 @@ export default {
     },
     onFocus() {
       this.focused = true;
+      this.$emit(this.$thisvui.events.common.focus);
     },
     onBlur() {
       let result = this.validateOnEvent(this.$thisvui.events.common.blur);
@@ -327,6 +323,12 @@ export default {
       this.hasValue = this.getHasValue();
       if (result && result.valid) {
         this.$emit(this.$thisvui.events.common.input, value);
+      }
+    },
+    allowOnlyNumber($event) {
+      let keyCode = $event.keyCode ? $event.keyCode : $event.which;
+      if (keyCode < 48 || keyCode > 57) {
+        $event.preventDefault();
       }
     },
     /**
@@ -406,22 +408,25 @@ export default {
           architect.setDirectives([]);
         }
       }
+    },
+    commonMount() {
+      this.$nextTick(function() {
+        if (!this.complexValidation) {
+          let el = document.getElementById(this.id);
+          if (el && el.form) {
+            this.formId = el.form.id;
+          }
+          this.addValidator(); // Registers the validator
+          if (this.$refs.inputField) {
+            this.hasValue = this.getHasValue();
+          }
+        }
+      });
+      this.includeBgModifiers = false;
     }
   },
   mounted() {
-    this.$nextTick(function() {
-      if(!this.complexValidation) {
-        let el = document.getElementById(this.id);
-        if (el && el.form) {
-          this.formId = el.form.id;
-        }
-        this.addValidator(); // Registers the validator
-        if (this.$refs.inputField) {
-          this.hasValue = this.getHasValue();
-        }
-      }
-    });
-    this.includeBgModifiers = false;
+    this.commonMount();
   },
   /**
    * Removes input validator before component destroys

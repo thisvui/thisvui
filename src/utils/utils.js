@@ -105,6 +105,9 @@ const check = {
    * @returns { A Boolean value }
    */
   isLessThan: (value, minValue) => {
+    if (!value) {
+      return false;
+    }
     if (!check.isNumeric(value)) {
       console.error("Values is not numeric");
       return false;
@@ -119,6 +122,9 @@ const check = {
    * @returns { A Boolean value }
    */
   isGreaterThan: (value, maxValue) => {
+    if (!value) {
+      return false;
+    }
     if (!check.isNumeric(value)) {
       console.error("Values is not numeric");
       return false;
@@ -133,6 +139,9 @@ const check = {
    * @returns { A Boolean value }
    */
   minLength: (value, minLength) => {
+    if (!value) {
+      return false;
+    }
     if (value.length < minLength) {
       return false;
     }
@@ -143,6 +152,9 @@ const check = {
    * @returns { A Boolean value }
    */
   maxLength: (value, maxLength) => {
+    if (!value) {
+      return false;
+    }
     if (value.length > maxLength) {
       return false;
     }

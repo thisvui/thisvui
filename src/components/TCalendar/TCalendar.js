@@ -5,7 +5,6 @@ import { TInput } from "../TInput";
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
-
 import format from "date-fns/format";
 import startOfMonth from "date-fns/startOfMonth";
 import endOfMonth from "date-fns/endOfMonth";
@@ -26,6 +25,7 @@ import getSeconds from "date-fns/getSeconds";
 import getTime from "date-fns/getTime";
 import isValid from "date-fns/isValid";
 import parseISO from "date-fns/parseISO";
+import compareAsc from "date-fns/compareAsc";
 
 const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -39,14 +39,10 @@ export default {
     widgetClass: {
       type: String
     },
-    startDate: {
-      required: false,
-      type: Date
-    },
     dateFormat: {
       type: String,
       default: function() {
-        return "dd/MM/yyyy";
+        return this.$thisvui.dateFormat;
       }
     },
     enableTime: {
@@ -59,15 +55,24 @@ export default {
       type: Boolean,
       default: false
     },
+    today: {
+      type: Boolean
+    },
     noCalendar: {
       type: Boolean,
       default: false
     },
     minDate: {
-      type: [String, Date]
+      type: [String, Date, Array]
+    },
+    minDateMessage: {
+      type: String
     },
     maxDate: {
-      type: [String, Date]
+      type: [String, Date, Array]
+    },
+    maxDateMessage: {
+      type: String
     },
     validateOn: {
       type: String,
@@ -77,7 +82,7 @@ export default {
   data() {
     return {
       inputDate: null,
-      today: null,
+      todayDate: null,
       selectedDate: null,
       selectedTime: null,
       hours: null,
@@ -103,8 +108,24 @@ export default {
       this.setSelectedTime("s", newVal);
     },
     selectedTime: function(newVal, oldVal) {
-      this.initSelectedDate();
-      this.setSelectedDate();
+      if (newVal || this.today) {
+        this.initSelectedDate();
+        this.setSelectedDate();
+      }
+    },
+    validatorLoaded: function(newVal, oldVal) {
+      if (this.validatorLoaded) {
+        if (this.minDate) {
+          let minDateMessage =
+            this.minDateMessage || `Value can't be before ${this.minDate}`;
+          this.addCustomRule("MIN_DATE", minDateMessage, this.validateMin);
+        }
+        if (this.maxDate) {
+          let maxDateMessage =
+            this.maxDateMessage || `Value can't be after ${this.maxDate}`;
+          this.addCustomRule("MAX_DATE", maxDateMessage, this.validateMax);
+        }
+      }
     }
   },
   computed: {
@@ -309,6 +330,50 @@ export default {
         this.showCalendar = false;
       }
     },
+    validateMin() {
+      let minDate = this.minDate;
+      if (!this.isNotEmpty(minDate)) {
+        return false;
+      }
+      const isArray = Array.isArray(minDate);
+      if (!isArray) {
+        minDate = !isValid(minDate) ? parseISO(minDate) : minDate;
+        let isBefore = compareAsc(this.selectedDate, minDate) === -1;
+        return isBefore;
+      }
+      if (isArray) {
+        for (let date of minDate) {
+          let minDateValue = !isValid(date) ? parseISO(date) : date;
+          let isBefore = compareAsc(this.selectedDate, minDateValue) === -1;
+          if (isBefore) {
+            return isBefore;
+          }
+        }
+      }
+      return false;
+    },
+    validateMax() {
+      let maxDate = this.maxDate;
+      if (!this.isNotEmpty(maxDate)) {
+        return false;
+      }
+      const isArray = Array.isArray(maxDate);
+      if (!isArray) {
+        maxDate = !isValid(maxDate) ? parseISO(maxDate) : maxDate;
+        let isBefore = compareAsc(this.selectedDate, maxDate) === 1;
+        return isBefore;
+      }
+      if (isArray) {
+        for (let date of maxDate) {
+          let maxDateValue = !isValid(date) ? parseISO(date) : date;
+          let isBefore = compareAsc(this.selectedDate, maxDateValue) === 1;
+          if (isBefore) {
+            return isBefore;
+          }
+        }
+      }
+      return false;
+    },
     /**
      * Creates the clear icon
      */
@@ -509,10 +574,11 @@ export default {
   },
   created() {
     this.dayLabels = DAY_LABELS.slice();
-    this.today = new Date();
-    this.currentDate = this.today;
+    this.todayDate = new Date();
+    this.currentDate = this.todayDate;
   },
   mounted() {
+    this.commonMount();
     let value = this.value;
 
     if (value != null && !isValid(value)) {

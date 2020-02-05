@@ -3,6 +3,7 @@ $modal-radius: 5px !default;
 $modal-margin: 32px !default;
 $modal-mobile-width: calc(100vw - #{$modal-margin}) !default;
 $modal-heading-border: 1px solid $opaque !default;
+$modal-max-height: 98vh !default;
 
 .modal {
   z-index: $modal-z-index + 1;
@@ -11,6 +12,8 @@ $modal-heading-border: 1px solid $opaque !default;
   margin-left: auto;
   margin-right: auto;
   width: $modal-mobile-width;
+  max-height: $modal-max-height;
+  overflow-y: auto;
   @include box-shadow($v-shadow: 2px, $blur: 10px, $color: tint($black, 30%));
 
   &.small {

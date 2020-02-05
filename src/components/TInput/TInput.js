@@ -13,27 +13,18 @@ export default {
     type: {
       type: String,
       default: "text"
-    },
-    mask: {
-      type: Boolean
-    },
-    thousandsSeparator: {
-      type: String,
-      default: "."
-    },
-    decimalSeparator: {
-      type: String,
-      default: ","
     }
   },
   computed: {
     formattedValue: {
       get: function() {
-        if (!this.mask) {
+        if (!this.mask || !this.value) {
           return this.value;
         }
         if (this.focused) {
-          return this.value.toString();
+          return this.numeric
+            ? parseFloat(this.value.toString())
+            : this.value.toString();
         } else {
           // Format display value when user is not modifying
           return utils.number.format(parseFloat(this.value), {
@@ -89,6 +80,7 @@ export default {
       input.addInput(this.onInput);
       input.addFocus(this.onFocus);
       input.addBlur(this.onBlur);
+      input.addEvent("keypress", this.allowOnlyNumber, this.numeric);
       control.addChild(input);
 
       let labelParent = this.classic ? architect : control;

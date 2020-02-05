@@ -1,9 +1,11 @@
+import mask from "./mask";
+
 import utils from "../utils/utils";
 import {
   Result,
   Rule,
   ValidationBus
-} from "../components/TValidation/validation-bus.js";
+} from "../components/TValidation/validation-bus";
 
 export const RULES = Object.freeze({
   REQUIRED: Symbol("required"),
@@ -16,6 +18,7 @@ export const RULES = Object.freeze({
 });
 
 export default {
+  mixins: [mask],
   props: {
     required: {
       type: Boolean,
@@ -88,6 +91,7 @@ export default {
       type: String,
       default: "right"
     },
+    customValidators: Array,
     showSuccessIcon: Boolean,
     showErrorIcon: Boolean,
     popupMessage: Boolean,
@@ -112,6 +116,7 @@ export default {
     return {
       validationPassed: false,
       validationResult: null,
+      validatorLoaded: false,
       stateClass: "",
       errors: [],
       rules: [],
@@ -135,37 +140,38 @@ export default {
       return this.validationPassed;
     }
   },
+  watch: {
+    required: function(newVal, oldVal) {
+      if (this.getValidator()) {
+        this.addValidator();
+      }
+    },
+    customValidators: function(newVal, oldVal) {
+      if (this.getValidator()) {
+        this.addValidator();
+      }
+    }
+  },
   methods: {
     /**
      * Executes the validations for current element
      */
     validate(event) {
-      const validator = ValidationBus.getValidator(
-        this.id,
-        this.validationScope
-      );
+      const validator = this.getValidator();
       const element = validator.element;
       this.errors = [];
-      if (this.getRequired && !utils.check.notEmpty(element.value)) {
-        return this.getValidationError(RULES.REQUIRED, event);
-      }
-      if (this.getNumeric && !utils.check.isNumeric(element.value)) {
-        return this.getValidationError(RULES.NUMERIC, event);
-      }
-      if (this.getEmail && !utils.check.validEmail(element.value)) {
-        return this.getValidationError(RULES.EMAIL, event);
-      }
-      if (this.min && utils.check.isLessThan(element.value, this.min)) {
-        return this.getValidationError(RULES.MIN, event);
-      }
-      if (this.max && utils.check.isGreaterThan(element.value, this.max)) {
-        return this.getValidationError(RULES.MAX, event);
-      }
-      if (this.minLength && !utils.check.minLength(element.value, this.minLength)) {
-        return this.getValidationError(RULES.MINLENGTH, event);
-      }
-      if (this.maxLength && !utils.check.maxLength(element.value, this.maxLength)) {
-        return this.getValidationError(RULES.MAXLENGTH, event);
+      if (this.hasRules) {
+        for (let rule of this.rules) {
+          let error = !rule.custom
+            ? rule.validationFunction(element.value)
+            : rule.validationFunction();
+          if (error === true) {
+            return this.getValidationError(rule.message, event);
+          }
+          if (error && error.message) {
+            return this.getValidationError(error.message, event);
+          }
+        }
       }
       this.stateClass = ""; // Changes the element css class to success when all validations passed
       this.validationPassed = true;
@@ -188,8 +194,7 @@ export default {
      * Retrieves the validation result
      * return { A @link Result class object }
      */
-    getValidationError(rule, event) {
-      const errorMessage = this.getErrorMessage(rule);
+    getValidationError(errorMessage, event) {
       this.errors.push(errorMessage);
       console.error(
         `Errors: ${this.errors.length} - Error Message: ${errorMessage}`
@@ -206,33 +211,78 @@ export default {
     generateRules() {
       this.rules = [];
       if (this.getRequired) {
-        const rule = new Rule(RULES.REQUIRED);
-        this.rules.push(rule);
+        this.addRule(
+          RULES.REQUIRED,
+          this.getErrorMessage(RULES.REQUIRED),
+          value => {
+            return !utils.check.notEmpty(value);
+          }
+        );
       }
       if (this.getNumeric) {
-        const rule = new Rule(RULES.NUMERIC);
-        this.rules.push(rule);
+        this.addRule(
+          RULES.NUMERIC,
+          this.getErrorMessage(RULES.NUMERIC),
+          value => {
+            let numericValue =
+              this.mask && value
+                ? parseFloat(utils.number.unFormat(value))
+                : value;
+            return !utils.check.isNumeric(numericValue);
+          }
+        );
       }
       if (this.getEmail) {
-        const rule = new Rule(RULES.EMAIL);
-        this.rules.push(rule);
+        this.addRule(RULES.EMAIL, this.getErrorMessage(RULES.EMAIL), value => {
+          return !utils.check.validEmail(value);
+        });
       }
       if (this.min) {
-        const rule = new Rule(RULES.MIN);
-        this.rules.push(rule);
+        this.addRule(RULES.MIN, this.getErrorMessage(RULES.MIN), value => {
+          return utils.check.isLessThan(value, this.min);
+        });
       }
       if (this.max) {
-        const rule = new Rule(RULES.MAX);
-        this.rules.push(rule);
+        this.addRule(RULES.MAX, this.getErrorMessage(RULES.MAX), value => {
+          return utils.check.isGreaterThan(value, this.max);
+        });
       }
       if (this.minLength) {
-        const rule = new Rule(RULES.MINLENGTH);
-        this.rules.push(rule);
+        this.addRule(
+          RULES.MINLENGTH,
+          this.getErrorMessage(RULES.MINLENGTH),
+          value => {
+            return !utils.check.minLength(value, this.minLength);
+          }
+        );
       }
       if (this.maxLength) {
-        const rule = new Rule(RULES.MAXLENGTH);
-        this.rules.push(rule);
+        this.addRule(
+          RULES.MAXLENGTH,
+          this.getErrorMessage(RULES.MAXLENGTH),
+          value => {
+            return !utils.check.maxLength(value, this.maxLength);
+          }
+        );
       }
+      if (utils.check.notEmpty(this.customValidators)) {
+        for (let cValidator of this.customValidators) {
+          let { name, message, validationFunction } = cValidator;
+          if (
+            utils.check.notEmpty(name) &&
+            utils.check.notEmpty(validationFunction)
+          ) {
+            this.addCustomRule(name, message, validationFunction);
+          }
+        }
+      }
+    },
+    addRule(name, message, validationFunction, custom = false) {
+      const rule = new Rule(name, message, validationFunction, custom);
+      this.rules.push(rule);
+    },
+    addCustomRule(name, message, validationFunction) {
+      this.addRule(name, message, validationFunction, true);
     },
     /**
      * Register a validator in the validation bus
@@ -246,6 +296,7 @@ export default {
           this.rules,
           this.validationScope
         );
+        this.validatorLoaded = true;
       }
     },
     /**
@@ -253,6 +304,12 @@ export default {
      */
     removeValidator(formId) {
       ValidationBus.unregisterValidator(this.id, formId, this.validationScope);
+    },
+    /**
+     * Removes a validator from the validation bus
+     */
+    getValidator() {
+      return ValidationBus.getValidator(this.id, this.validationScope);
     },
     /**
      * Returns the error message for specific rule type

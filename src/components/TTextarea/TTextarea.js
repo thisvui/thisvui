@@ -50,7 +50,7 @@ export default {
       textarea.addInput(this.onInput);
       textarea.addFocus(this.onFocus);
       textarea.addBlur(this.onBlur);
-
+      textarea.addEvent("keypress", this.allowOnlyNumber, this.numeric);
       control.addChild(textarea);
 
       let labelParent = this.classic ? architect : control;

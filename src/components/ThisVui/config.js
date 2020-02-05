@@ -30,7 +30,7 @@ const ICONS_FA5 = {
   richAlignRight: "fas fa-align-right",
   richAlignCenter: "fas fa-align-center",
   richAlignJustify: "fas fa-align-justify",
-  richRemoveFormat: "fas fa-remove-format",
+  richRemoveFormat: "fas fa-remove-format"
 };
 
 const ICONS_FA4 = {
@@ -109,6 +109,7 @@ const EVENTS = {
     input: "input",
     change: "change",
     blur: "blur",
+    focus: "focus",
     enter: "keyup.enter"
   },
   accordion: {

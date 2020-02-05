@@ -262,9 +262,11 @@ export class Validator {
 
 /** @class */
 export class Rule {
-  constructor(name, message) {
+  constructor(name, message, validationFunction, custom = false) {
     this.name = name;
     this.message = message;
+    this.validationFunction = validationFunction;
+    this.custom = custom;
   }
 }
 
