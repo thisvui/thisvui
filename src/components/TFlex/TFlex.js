@@ -17,7 +17,7 @@ export default {
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
      */
-    getCss: function() {
+    css: function() {
       const css = new CssArchitect("t-flex");
       css.addClass(this.getFlexModifiers);
       css.addClass(this.getDimensionModifiers);
@@ -27,15 +27,15 @@ export default {
       css.addStyles([
         this.getFlexStyles,
         this.getDimensionStyles,
-        this.getMarginStyles,
+        this.getPaddingStyles,
         this.getMarginStyles
       ]);
       return css;
     }
   },
   render: function(h) {
-    let root = createDiv(h, this.getCss.getClasses());
-    root.setStyles(this.getCss.getStyles());
+    let root = createDiv(h, this.css.getClasses());
+    root.setStyles(this.css.getStyles());
     root.setChildren(this.$slots.default);
     return root.create();
   }

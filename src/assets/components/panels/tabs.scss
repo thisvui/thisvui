@@ -1,6 +1,7 @@
 $tabs-head-border-bottom-color: $primary !default;
 $tabs-body-border-color: $primary !default;
 $tabs-body-shadow-color: $opaque !default;
+$tabs-body-content-padding: $box-content-padding !default;
 $tabs-delimiter-line-height: 5px;
 $tabs-label-height :3em;
 $tabs-bottom-margin: $separation-margin !default;
@@ -86,7 +87,7 @@ $tabs-bottom-margin: $separation-margin !default;
   &__body {
     position: relative;
     display: flex;
-    padding: 2em;
+    padding: $tabs-body-content-padding;
     border: 1px solid rgba($tabs-body-border-color, 0.3);
     border-top-style: none;
     border-bottom-left-radius: 5px;
