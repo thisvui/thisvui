@@ -76,10 +76,7 @@ export default {
     },
     createCloseButton(architect) {
       if (this.closeButton) {
-        let deleteBtn = architect.createElement(
-          "button",
-          this.getCloseButtonClasses
-        );
+        let deleteBtn = architect.createA(this.getCloseButtonClasses);
         deleteBtn.addClick(this.removeElement);
         architect.addChild(deleteBtn);
       }
