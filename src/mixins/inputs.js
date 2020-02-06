@@ -392,21 +392,20 @@ export default {
           architect.addChild(help);
         }
       } else {
-        if (hasErrors) {
+        if (this.hasErrors) {
           this.currentPopupMessage = this.errors[this.errors.length - 1];
-          architect.addDirective({
-            name: "tooltip",
-            value: {
-              text: this.currentPopupMessage,
-              event: this.popupEvent,
-              top: true,
-              right: true,
-              cssClass: "is-danger"
-            }
-          });
-        } else {
-          architect.setDirectives([]);
         }
+        architect.addDirective({
+          name: "tooltip",
+          value: {
+            text: this.currentPopupMessage,
+            event: this.popupEvent,
+            top: true,
+            right: true,
+            cssClass: "is-danger",
+            showOn: this.hasErrors
+          }
+        });
       }
     },
     commonMount() {

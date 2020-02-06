@@ -138,7 +138,10 @@ export default {
     },
     getValidationPassed: function() {
       return this.validationPassed;
-    }
+    },
+    hasErrors: function() {
+      return this.errors != null && this.errors.length > 0;
+    },
   },
   watch: {
     required: function(newVal, oldVal) {
