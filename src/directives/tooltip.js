@@ -198,5 +198,7 @@ export default {
     let { event = "mouseenter" } = binding.value;
     el.removeEventListener(event, el.enterCallback);
     el.removeEventListener("mouseleave", el.leaveCallback);
+    let id = el.getAttribute("tooltip");
+    leaveListener(id);
   }
 };
