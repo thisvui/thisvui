@@ -49,7 +49,7 @@ export default {
   },
   watch: {
     items: function(newVal, oldVal) {
-      this.updateData(!this.serverSide);
+      this.updateData(!this.serverSide, false);
     }
   },
   computed: {
@@ -223,7 +223,14 @@ export default {
     }
   },
   methods: {
-    updateData(emitEvent = true) {
+    updateData(emitEvent = true, ignoreAuto=true) {
+      let numberOfPages = this.numberOfPages - 1;
+      if (numberOfPages >= 0 && this.currentPageNumber > numberOfPages) {
+        this.currentPageNumber = this.numberOfPages - 1;
+      }
+      if (this.autoNavigate && !ignoreAuto && this.currentPageNumber < numberOfPages) {
+        this.currentPageNumber = numberOfPages;
+      }
       let data = {
         items: this.paginatedItems,
         page: this.currentPageNumber,

@@ -280,6 +280,7 @@ export default {
           serverSide: this.serverSide,
           totalItems: this.totalItems,
           showText: this.showText,
+          autoNavigate: this.autoNavigate,
           previousText: this.previousText,
           nextText: this.nextText,
           previousBtnClass: this.previousBtnClass,

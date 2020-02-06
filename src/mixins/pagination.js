@@ -18,6 +18,10 @@ export default {
       type: Boolean,
       default: true
     },
+    autoNavigate: {
+      type: Boolean,
+      default: false
+    },
     previousClass: {
       type: String
     },
