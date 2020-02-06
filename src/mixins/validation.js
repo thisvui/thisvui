@@ -49,28 +49,36 @@ export default {
     },
     minMessage: {
       type: String,
-      default: "Min value allowed is "
+      default: function() {
+        return `Min value allowed is ${this.min}`;
+      }
     },
     max: {
       type: Number
     },
     maxMessage: {
       type: String,
-      default: "Max Value allowed is "
+      default: function() {
+        return `MinMax value allowed is ${this.max}`;
+      }
     },
     minLength: {
       type: Number
     },
     minLengthMessage: {
       type: String,
-      default: "Min length allowed is "
+      default: function() {
+        return `Min length allowed is ${this.minLength}`;
+      }
     },
     maxLength: {
       type: Number
     },
     maxLengthMessage: {
       type: String,
-      default: "Max length allowed is "
+      default: function() {
+        return `Max length allowed is ${this.maxLength}`;
+      }
     },
     validateOn: {
       type: String,
@@ -141,7 +149,7 @@ export default {
     },
     hasErrors: function() {
       return this.errors != null && this.errors.length > 0;
-    },
+    }
   },
   watch: {
     required: function(newVal, oldVal) {
@@ -327,13 +335,13 @@ export default {
         case RULES.EMAIL:
           return this.emailMessage;
         case RULES.MIN:
-          return this.minMessage + this.min;
+          return this.minMessage;
         case RULES.MAX:
-          return this.maxMessage + this.max;
+          return this.maxMessage;
         case RULES.MINLENGTH:
-          return this.minLengthMessage + this.minLength;
+          return this.minLengthMessage;
         case RULES.MAXLENGTH:
-          return this.maxLengthMessage + this.maxLength;
+          return this.maxLengthMessage;
         default:
           return this.defaultErrorMessage;
       }
