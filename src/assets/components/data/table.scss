@@ -10,6 +10,10 @@ $table-font-size: 12px !default;
   font-size: $table-font-size;
   border-radius: 6px;
   width: auto;
+  width: -moz-max-content;
+  width: -webkit-max-content;
+  width: -o-max-content;
+  width: max-content;
   min-width: 100%;
   border-collapse: collapse;
   box-shadow: 0 0 20px rgba(0,0,0,0.1);
@@ -69,6 +73,7 @@ $table-font-size: 12px !default;
 
   &__wrapper {
     width: 100%;
+    overflow-x: auto;
   }
 
   &__row {

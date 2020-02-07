@@ -98,6 +98,11 @@ export default {
     };
   },
   watch: {
+    focused: function(newVal, oldVal) {
+      if (!this.inline) {
+        this.showCalendar = newVal;
+      }
+    },
     hours: function(newVal, oldVal) {
       this.setSelectedTime("h", newVal);
     },
@@ -308,9 +313,8 @@ export default {
       this.$emit(this.$thisvui.events.common.input, this.selectedDate);
     },
     onFocus() {
-      if (!this.inline) {
-        this.showCalendar = true;
-      }
+      this.focused = true;
+      this.$emit(this.$thisvui.events.common.focus);
     },
     onTimeInput(type, value) {
       switch (type) {
@@ -408,7 +412,6 @@ export default {
      * Creates the calendar widget
      */
     createWidget(architect) {
-      let root = architect.createTransition("fade");
       let widget = architect.createDiv(this.getWidgetClass);
 
       // Creating the calendar
@@ -506,14 +509,21 @@ export default {
         timePicker.addChild(secondsInput);
         widget.addChild(timePicker);
       }
-      root.addChild(widget, this.showCalendar);
-      architect.addChild(root);
+      widget.addDirective({
+        name: "overlay-box",
+        value: {
+          showOn: this.showCalendar,
+          target: `${this.id}-wrapper`
+        }
+      });
+      architect.addChild(widget);
     },
     /**
      * Creates the input element
      */
     createInput(architect) {
       let root = architect.createDiv(this.getWrapperCss.getClasses());
+      root.setId(`${this.id}-wrapper`)
       root.setStyles(this.getWrapperCss.getStyles());
       let control = architect.createDiv(this.getControlClass); // The control element
 

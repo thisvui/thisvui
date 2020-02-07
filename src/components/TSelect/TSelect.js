@@ -79,9 +79,16 @@ export default {
      * Executed on focus
      */
     onFocus(event) {
-      if (this.search !== undefined && this.search !== "") {
-        this.isOpen = true;
+      this.focused = true;
+      this.$emit(this.$thisvui.events.common.focus);
+    },
+    onBlur() {
+      let result = this.validateOnEvent(this.$thisvui.events.common.blur);
+      if (result && result.valid) {
+        this.$emit(this.$thisvui.events.common.blur);
       }
+      this.focused = false;
+      this.isOpen = false;
     },
     /**
      * Handles behavior for outside clicks
@@ -94,7 +101,7 @@ export default {
      * Creates the open/close icon
      */
     createToggleIcon(architect, condition = true) {
-      if(condition) {
+      if (condition) {
         let openIconWrapper = architect.createA();
         let openIcon = architect.createIcon(this.getOpenIconClass);
         openIcon.addProp("icon", this.arrowIcon);
@@ -110,6 +117,7 @@ export default {
      */
     createInput(architect) {
       let root = architect.createDiv(this.getWrapperCss.getClasses());
+      root.setId(`${this.id}-wrapper`);
       root.setStyles(this.getWrapperCss.getStyles());
       let control = architect.createDiv(this.getControlClass); // The control element
       root.addDirective({

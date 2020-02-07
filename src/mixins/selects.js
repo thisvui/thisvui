@@ -20,7 +20,7 @@ export default {
       type: String
     },
     value: {
-      type: [ String, Number, Object ]
+      type: [String, Number, Object]
     },
     height: {
       type: String,
@@ -70,7 +70,7 @@ export default {
     getResultsClass: function() {
       const cssArchitect = new CssArchitect("t-select__results");
       cssArchitect.addClass("opened", this.isOpen);
-      cssArchitect.isAbsolute().isFullwidth();
+      cssArchitect.isAbsolute();
       return cssArchitect.getClasses();
     },
     /**
@@ -149,7 +149,7 @@ export default {
       this.setSelected();
     },
     empty() {
-      if(this.$refs.inputField){
+      if (this.$refs.inputField) {
         this.$refs.inputField.value = "";
         this.search = "";
         this.selectedValue = null;
@@ -205,7 +205,7 @@ export default {
       if (this.showClearIcon) {
         let clearIconWrapper = architect.createA();
         let clearIcon = architect.createIcon(this.getClearIconClass);
-        clearIcon.setRef("clear")
+        clearIcon.setRef("clear");
         clearIcon.addProp("icon", this.$thisvui.icons.remove);
         clearIcon.addProp("isSmall", small);
         clearIcon.addProp("preserveDefaults", !this.overrideDefaults);
@@ -225,7 +225,6 @@ export default {
      * Creates the results
      */
     createResults(architect) {
-      let transition = architect.createTransition("dropdown");
       let results = architect.createDiv(this.getResultsClass);
       this.createArrow(results);
       let content = architect.createUl(this.getResultsContentClass);
@@ -269,10 +268,16 @@ export default {
           content.addChild(resultEl);
         }
       }
+      results.addDirective({
+        name: "overlay-box",
+        value: {
+          showOn: this.isOpen,
+          target: `${this.id}-wrapper`
+        }
+      });
 
-      results.addChild(content, this.isOpen);
-      transition.addChild(results, this.isOpen)
-      architect.addChild(transition);
+      results.addChild(content);
+      architect.addChild(results);
     }
   }
 };
