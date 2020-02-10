@@ -42,6 +42,11 @@ export default {
       };
       textarea.value(this.value);
       textarea.setAttrs(textareaAttrs);
+      textarea.addAttr(
+        "maxlength",
+        this.maxLength,
+        this.isNotEmpty(this.maxLength)
+      );
       textarea.setRef("inputField");
 
       // Handling events

@@ -72,6 +72,11 @@ export default {
       };
       input.value(this.formattedValue);
       input.setAttrs(inputAttrs);
+      input.addAttr(
+        "maxlength",
+        this.maxLength,
+        this.isNotEmpty(this.maxLength)
+      );
       input.setRef("inputField");
 
       // Handling events
