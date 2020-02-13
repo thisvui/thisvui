@@ -7,7 +7,8 @@ export { default as TAutocomplete } from "./TAutocomplete";
 export { default as TBox } from "./TBox";
 export { default as TBreadcrumb } from "./TBreadcrumb";
 
-export { default as TCalendar } from "./TCalendar";
+export * from "./TCalendar";
+export * from "./TTimepicker";
 export { default as TCard } from "./TCard";
 export { default as TCheckbox } from "./TCheckbox";
 export * from "./TColumn";
