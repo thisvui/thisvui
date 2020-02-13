@@ -17,6 +17,7 @@ $input-focus-box-shadow-color: rgba($dark, 0.25) !default;
 $label-weight: normal !default;
 $label-color: tint($dark, 50%) !default;
 $label-transition-delay: 300ms;
+$label-font-size: 1rem;
 
 .group {
   position: relative;
@@ -27,7 +28,7 @@ $label-transition-delay: 300ms;
     align-items: center;
     height: inherit;
     .label {
-      font-size: 16px;
+      font-size: 18px;
       position: relative;
       text-transform: uppercase;
     }
@@ -84,9 +85,9 @@ $label-transition-delay: 300ms;
     }
 
     &:not(.select):focus ~ .label {
-      top: -1.6em;
-      font-size: 12px;
-      left: 5px;
+      top: -1.8em;
+      font-size: $label-font-size;
+      left: 0;
 
       &.input-icon-left {
         left: -24px;
@@ -116,7 +117,7 @@ $label-transition-delay: 300ms;
 
   .label {
     color: $label-color;
-    font-size: 1rem;
+    font-size: $label-font-size;
     font-weight: $label-weight;
     position: absolute;
     pointer-events: none;
@@ -127,9 +128,9 @@ $label-transition-delay: 300ms;
       top: 0.5em;
     }
     &.has-value {
-      top: -1.6em;
-      font-size: 12px;
-      left: 5px;
+      top: -1.8em;
+      font-size: $label-font-size;
+      left: 0;
     }
   }
 

@@ -1,15 +1,15 @@
-$column-phone-max-width: 200px;
-$column-desktop-max-width: 200px;
+$pairs-column-phone-max-width: 200px;
+$pairs-column-desktop-max-width: 200px;
 .pairs {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax($column-phone-max-width, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax($pairs-column-phone-max-width, 1fr));
   grid-gap: 2em;
   margin: 1rem 0 4rem 0;
   padding: 2em;
   border-radius: 4px;
 
   @include desktop-up {
-    grid-template-columns: repeat(auto-fit, minmax($column-desktop-max-width, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax($pairs-column-desktop-max-width, 1fr));
   }
 
   &--vertical {

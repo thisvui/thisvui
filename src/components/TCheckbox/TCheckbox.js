@@ -46,8 +46,8 @@ export default {
     getClasses: function() {
       const css = new CssArchitect("checkbox__input");
       css.addClass(
-        this.inputClass,
-        this.isNotNull(this.inputClass) && this.errors.length === 0
+        this.targetClass,
+        this.isNotNull(this.targetClass) && this.errors.length === 0
       );
       css.addClass("circular", this.circular);
       css.addClass(this.getThemeModifiers);

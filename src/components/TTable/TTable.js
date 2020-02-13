@@ -309,7 +309,7 @@ export default {
 
             if (this.isCheckable(item)) {
               this.createRowChecker(flex, item, {
-                inputClass: this.getRowCheckerClasses,
+                targetClass: this.getRowCheckerClasses,
                 hasBackgroundColor: true
               });
             }

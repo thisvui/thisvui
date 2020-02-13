@@ -74,6 +74,7 @@ $table-font-size: 12px !default;
   &__wrapper {
     width: 100%;
     overflow-x: auto;
+    padding: 0.5px;
   }
 
   &__row {

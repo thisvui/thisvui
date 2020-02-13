@@ -91,14 +91,14 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getContainerClasses: function() {
-      const cssArchitect = new CssArchitect("t-text pair");
+      const cssArchitect = new CssArchitect("pair");
       cssArchitect.addClass(
         this.containerClass,
         this.containerClass !== undefined
       );
-      cssArchitect.addClass("is-lowercase", this.lowercase);
-      cssArchitect.addClass("is-uppercase", this.uppercase);
-      cssArchitect.addClass("is-capitalized", this.capitalized);
+      cssArchitect.addClass("text-lowercase", this.lowercase);
+      cssArchitect.addClass("text-uppercase", this.uppercase);
+      cssArchitect.addClass("text-capitalized", this.capitalized);
       cssArchitect.addClass("font-weight-bold", this.bold);
       cssArchitect.addClass(this.getHelpersModifiers);
       cssArchitect.addClass(this.getDimensionModifiers);
@@ -111,7 +111,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getLabelClass: function() {
-      const cssArchitect = new CssArchitect("t-text-label");
+      const cssArchitect = new CssArchitect("pair__label");
       cssArchitect.addClass(this.labelClass, this.isNotNull(this.labelClass));
       cssArchitect.addClass("is-inline-flex", this.isNotNull(this.labelIcon));
       cssArchitect.addClass("font-weight-bold", this.boldLabel);
@@ -126,7 +126,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getValueClass: function() {
-      const cssArchitect = new CssArchitect("t-text-value");
+      const cssArchitect = new CssArchitect("pair__value");
       cssArchitect.addClass(this.valueClass, this.isNotNull(this.valueClass));
       cssArchitect.addClass("font-weight-bold", this.boldValue);
       cssArchitect.addClass(

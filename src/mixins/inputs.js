@@ -40,7 +40,7 @@ export default {
       type: Boolean,
       default: false
     },
-    inputClass: {
+    targetClass: {
       type: String
     },
     labelClass: {
@@ -92,7 +92,10 @@ export default {
     compact: Boolean,
     classic: Boolean,
     transparent: Boolean,
-    coloredText: Boolean
+    coloredText: Boolean,
+    alignCenter: Boolean,
+    alignLeft: Boolean,
+    alignRight: Boolean
   },
   data() {
     return {
@@ -127,8 +130,8 @@ export default {
       css.addClass("transparent", this.transparent);
       css.addClass("is-borderless", this.borderless);
       css.addClass(
-        this.inputClass,
-        this.isNotNull(this.inputClass) && this.errors.length === 0
+        this.targetClass,
+        this.isNotNull(this.targetClass) && this.errors.length === 0
       );
       css.addClass("colored", this.coloredText);
 
@@ -184,6 +187,9 @@ export default {
       const css = new CssArchitect("input");
       css.isFullwidth();
       css.addClass("compact", this.compact);
+      css.addClass("text-left", this.alignLeft);
+      css.addClass("text-center", this.alignCenter);
+      css.addClass("text-right", this.alignRight);
       return css.getClasses();
     },
 

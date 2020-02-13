@@ -291,7 +291,7 @@ export default {
         removeLabel: true,
         allowEmptyValue: false,
         containerClass: "pagination__select",
-        inputClass: "size-select",
+        targetClass: "size-select",
         compact: true,
         small: true,
         shadowless: true,

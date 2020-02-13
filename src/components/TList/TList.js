@@ -104,7 +104,7 @@ export default {
         if (this.isCheckable(item)) {
           let listItem = architect.createElement(TListItem);
           this.createRowChecker(li, item, {
-            inputClass: this.getRowCheckerClasses,
+            targetClass: this.getRowCheckerClasses,
             container: listItem
           });
         }

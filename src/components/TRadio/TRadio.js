@@ -16,6 +16,9 @@ export default {
     labelLeft: {
       type: Boolean
     },
+    centered: {
+      type: Boolean
+    },
     noLabel: {
       type: Boolean
     },
@@ -42,9 +45,10 @@ export default {
     getClasses: function() {
       const css = new CssArchitect("radio__input");
       css.addClass(
-        this.inputClass,
-        this.isNotNull(this.inputClass) && this.errors.length === 0
+        this.targetClass,
+        this.isNotNull(this.targetClass) && this.errors.length === 0
       );
+      css.addClass("is-centered", this.centered);
       css.addClass(this.getThemeModifiers);
       this.setupThemeModifier(css, true);
       return css.getClasses();
@@ -85,6 +89,7 @@ export default {
     getTextLabelClass: function() {
       const css = new CssArchitect("radio__label");
       css.addClass("is-left", this.labelLeft);
+      css.addClass("is-centered", this.centered);
       css.addClass(this.labelClass, this.labelClass !== undefined);
       css.addClass(this.getSizesModifiers);
       return css.getClasses();

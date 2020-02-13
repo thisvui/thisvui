@@ -20,6 +20,7 @@ export default {
       type: String
     },
     labelIcon: String,
+    labelClass: String,
     disabled: Boolean,
     defaultFontFamily: {
       type: String,

@@ -7,11 +7,13 @@ $rich-content-padding: 1rem !default;
 
 $rich-label-weight: normal !default;
 $rich-label-color: tint($dark, 50%) !default;
+$rich-label-font-size: 1rem;
 $rich-label-transition-delay: 300ms;
 
 @mixin rich-toolbar($add-shadow: false, $add-radius: false) {
   &__toolbar {
     display: flex;
+    flex-wrap: wrap;
     border-color: rgba($rich-border-color, 0.2);
     border-top: 1px solid rgba($rich-border-color, 0.055);
     border-bottom: 1px solid rgba($rich-border-color, 0.125);
@@ -75,7 +77,7 @@ $rich-label-transition-delay: 300ms;
   }
   &__label {
     color: $rich-label-color;
-    font-size: 12px;
+    font-size: $rich-label-font-size;
     font-weight: $rich-label-weight;
     position: relative;
     pointer-events: none;

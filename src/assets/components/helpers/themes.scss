@@ -221,7 +221,7 @@ $shade-percents: 25 50 75 !default;
   $color: nth($pair, 1);
 
   .color-#{$name} {
-    color: $color !important;
+    color: rgba($color,  var(--color-alpha)) !important;
   }
 
   a.color-#{$name} {
@@ -232,16 +232,16 @@ $shade-percents: 25 50 75 !default;
   }
 
   .bg-#{$name} {
-    background-color: $color !important;
+    background-color: rgba($color,  var(--bg-alpha)) !important;
   }
 }
 
 @each $name, $shade in $shades {
   .color-#{$name} {
-    color: $shade !important;
+    color: rgba($shade,  var(--color-alpha)) !important;
   }
 
   .bg-#{$name} {
-    background-color: $shade !important;
+    background-color: rgba($shade,  var(--bg-alpha)) !important;
   }
 }

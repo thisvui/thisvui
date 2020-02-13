@@ -99,6 +99,12 @@ $radio-font-size-large: 20px !default;
       }
     }
 
+    &.is-centered {
+      + label {
+        margin: auto;
+      }
+    }
+
     &:checked + label span {
       opacity: 1;
     }
@@ -116,6 +122,14 @@ $radio-font-size-large: 20px !default;
         margin-left: 0;
       }
     }
+
+    &.is-centered {
+      margin: auto;
+
+      &:first-child {
+        margin-left: auto;
+      }
+    }
   }
 
   &__container {
@@ -123,5 +137,7 @@ $radio-font-size-large: 20px !default;
     flex: 1;
     padding: 2px;
     margin: 2px;
+    align-items: center;
+    justify-content: center;
   }
 }
