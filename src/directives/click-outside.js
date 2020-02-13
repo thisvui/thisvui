@@ -7,11 +7,13 @@ function handleOutsideClick(event, el, binding, vnode) {
       // We only run this code if there are exclude elements
       if (!clickedOnExcludedEl) {
         // Get the element using the reference name
-        const excludedEl = vnode.context.$refs[refName];
-
+        let excludedEl = vnode.context.$refs[refName];
+        if(excludedEl){
+          excludedEl = excludedEl.$el || excludedEl
+        }
         let parent = event.target.parentElement;
-        let isParent = parent && excludedEl && excludedEl.$el.id === parent.id;
-        let containsEl = excludedEl && excludedEl.$el.contains(event.target);
+        let isParent = parent && excludedEl && excludedEl.id === parent.id;
+        let containsEl = excludedEl && excludedEl.contains(event.target);
         // Check if this excluded element
         // is the same element the user just clicked on
         clickedOnExcludedEl = isParent || containsEl;
@@ -29,7 +31,12 @@ function handleOutsideClick(event, el, binding, vnode) {
   let contains = containsElement || containsParent;
   if (!contains && !clickedOnExcludedEl) {
     // Calls the handler to executed when clicked outside
-    vnode.context[handler](event);
+    if(vnode.context[handler]){
+      vnode.context[handler](event);
+    }else{
+      handler(event);
+    }
+
   }
 }
 
