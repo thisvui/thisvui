@@ -9,15 +9,19 @@ $table-font-size: 12px !default;
 .table {
   font-size: $table-font-size;
   border-radius: 6px;
-  width: auto;
-  width: -moz-max-content;
-  width: -webkit-max-content;
-  width: -o-max-content;
-  width: max-content;
+  width: 100%;
   min-width: 100%;
   border-collapse: collapse;
   box-shadow: 0 0 20px rgba(0,0,0,0.1);
   table-layout: fixed;
+
+  &.fit-content {
+    width: auto;
+    width: -moz-max-content;
+    width: -webkit-max-content;
+    width: -o-max-content;
+    width: max-content;
+  }
 
   @include material-shadow($dark);
 

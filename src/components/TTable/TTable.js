@@ -37,6 +37,10 @@ export default {
       type: Boolean,
       default: false
     },
+    fitContent: {
+      type: Boolean,
+      default: false
+    },
     openedIcon: {
       type: String,
       default: function() {
@@ -85,7 +89,7 @@ export default {
       css.addClass("is-bordered", this.bordered);
       css.addClass("striped", this.striped);
       css.addClass("is-hoverable", this.isHoverable);
-      css.addClass("stripped");
+      css.addClass("fit-content", this.fitContent);
       css.addClass(this.getHelpersModifiers);
       css.addClass(this.getThemeModifiers);
       css.addClass(this.getDimensionModifiers);
