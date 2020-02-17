@@ -220,6 +220,11 @@ export default class ElementArchitect {
     return this;
   }
 
+  setScopedSlots(scopedSlots) {
+    this.scopedSlots = scopedSlots;
+    return this;
+  }
+
   setChildren(children) {
     if (children) {
       this.children = children;
@@ -395,6 +400,10 @@ export default class ElementArchitect {
     }
     if (this.slot) {
       element.slot = this.slot;
+    }
+
+    if (this.scopedSlots) {
+      element.scopedSlots = this.scopedSlots;
     }
     if (this.listeners) {
       if (!element.on) {
