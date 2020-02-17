@@ -1,10 +1,9 @@
-$tabs-head-border-bottom-color: $primary !default;
-$tabs-body-border-color: $primary !default;
-$tabs-body-shadow-color: $opaque !default;
 $tabs-body-content-padding: $box-content-padding !default;
-$tabs-delimiter-line-height: 5px;
-$tabs-label-height :3em;
+$tabs-delimiter-line-height: 5px !default;
+$tabs-item-height:3em !default;
+$tabs-border-radius: 4px !default;
 $tabs-bottom-margin: $separation-margin !default;
+$tabs-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !default;
 
 .tabs {
   margin: 0;
@@ -17,8 +16,8 @@ $tabs-bottom-margin: $separation-margin !default;
     align-items: center;
     justify-content: flex-start;
     position: relative;
-    border-bottom: 1px solid;
     margin-left: 0;
+    border-radius: $tabs-border-radius $tabs-border-radius 0 0;
 
     &.is-right {
       justify-content: flex-end;
@@ -28,7 +27,7 @@ $tabs-bottom-margin: $separation-margin !default;
       justify-content: center;
     }
 
-    &.borderless {
+    &.shadowless {
       border: none;
       box-shadow: none;
       -webkit-box-shadow: none;
@@ -39,9 +38,7 @@ $tabs-bottom-margin: $separation-margin !default;
     display: flex;
     align-items: center;
     position: relative;
-    height: $tabs-label-height;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
+    height: $tabs-item-height;
     text-align: center;
     line-height: 1em;
     font-size: 0.8em;
@@ -53,8 +50,8 @@ $tabs-bottom-margin: $separation-margin !default;
       font-size: 1em;
     }
 
-    &:not(:last-child) {
-      margin-right: 2px;
+    &:first-child {
+      border-top-left-radius: $tabs-border-radius;
     }
 
     a {
@@ -78,6 +75,9 @@ $tabs-bottom-margin: $separation-margin !default;
   &__container {
     width: 100%;
     position: relative;
+    display: block;
+    box-shadow: $tabs-shadow;
+    border-radius: $tabs-border-radius;
 
     &:not(:last-child) {
       margin-bottom: $tabs-bottom-margin;
@@ -88,7 +88,6 @@ $tabs-bottom-margin: $separation-margin !default;
     position: relative;
     display: flex;
     padding: $tabs-body-content-padding;
-    border: 1px solid rgba($tabs-body-border-color, 0.3);
     border-top-style: none;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
@@ -116,7 +115,7 @@ $tabs-bottom-margin: $separation-margin !default;
     height: 2px;
     transition: all 0.075s cubic-bezier(0.25, 0.8, 0.5, 1) 0s;
     z-index: 2;
-    bottom: 1px;
+    bottom: 0px;
 
     &--wrapper {
       left: 0;

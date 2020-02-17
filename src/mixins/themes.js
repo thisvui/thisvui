@@ -162,42 +162,51 @@ export default {
         hoverable = false,
         inverted = false,
         tint = false,
-        shade = false
+        shade = false,
+        active = true
       } = {}
     ) {
       if (!cssArchitect) {
         throw new Error("filled - Please provide css-architect parameter");
       }
-      cssArchitect.addClass(`filled`);
-      cssArchitect.addClass(`remove-init`, removeInit);
-      cssArchitect.addClass(`hoverable`, hoverable);
-      cssArchitect.addClass(`inverted`, inverted);
-      cssArchitect.addClass(`tint-${tint}`, tint);
-      cssArchitect.addClass(`shade-${shade}`, shade);
+      if(active) {
+        cssArchitect.addClass(`filled`);
+        cssArchitect.addClass(`remove-init`, removeInit);
+        cssArchitect.addClass(`hoverable`, hoverable);
+        cssArchitect.addClass(`inverted`, inverted);
+        cssArchitect.addClass(`tint-${tint}`, tint);
+        cssArchitect.addClass(`shade-${shade}`, shade);
+      }
     },
-    isColored(cssArchitect, { inverted = false, tint = false, shade = false } = {}) {
+    isColored(cssArchitect, { inverted = false, tint = false, shade = false, active = true } = {}) {
       if (!cssArchitect) {
         throw new Error("colored - Please provide css-architect parameter");
       }
-      cssArchitect.addClass(`colored`);
-      cssArchitect.addClass(`inverted`, inverted);
-      cssArchitect.addClass(`tint-${tint}`, tint);
-      cssArchitect.addClass(`shade-${shade}`, shade);
+      if(active) {
+        cssArchitect.addClass(`colored`);
+        cssArchitect.addClass(`inverted`, inverted);
+        cssArchitect.addClass(`tint-${tint}`, tint);
+        cssArchitect.addClass(`shade-${shade}`, shade);
+      }
     },
-    isBordered(cssArchitect, { tint = false, shade = false } = {}) {
+    isBordered(cssArchitect, { tint = false, shade = false,  active = true } = {}) {
       if (!cssArchitect) {
         throw new Error("bordered - Please provide css-architect parameter");
       }
-      cssArchitect.addClass(`bordered`);
-      cssArchitect.addClass(`tint-${tint}`, tint);
-      cssArchitect.addClass(`shade-${shade}`, shade);
+      if(active) {
+        cssArchitect.addClass(`bordered`);
+        cssArchitect.addClass(`tint-${tint}`, tint);
+        cssArchitect.addClass(`shade-${shade}`, shade);
+      }
     },
-    isHovered(cssArchitect, { hasColor = false } = {}) {
+    isHovered(cssArchitect, { hasColor = false, active = true } = {}) {
       if (!cssArchitect) {
         throw new Error("hovered - Please provide css-architect parameter");
       }
-      cssArchitect.addClass(`hovered`);
-      cssArchitect.addClass(`has-color`, hasColor);
+      if(active){
+        cssArchitect.addClass(`hovered`);
+        cssArchitect.addClass(`has-color`, hasColor);
+      }
     },
     rgb2hex(color) {
       let rgb = color.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);

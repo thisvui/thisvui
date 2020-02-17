@@ -12,16 +12,11 @@ export default {
   mixins: [common, themes, alignment, sizes, icons],
   props: {
     selected: Number,
-    borderless: {
-      type: Boolean
-    },
+    filled: Boolean,
+    shadowless: Boolean,
     fullwidth: Boolean,
-    targetClass: {
-      type: String
-    },
-    activeClass: {
-      type: String
-    }
+    targetClass: String,
+    activeClass: String
   },
   data() {
     return {
@@ -41,10 +36,8 @@ export default {
       const css = new CssArchitect("tabs");
       css.addClass(this.getThemeModifiers);
       css.addClass(this.getSizesModifiers);
-      css.addClass("borderless", this.borderless);
       css.addClass(this.targetClass);
-      this.setupThemeModifier(css);
-      css.addClass("is-primary", !this.hasThemeModifier);
+      this.setupThemeModifier(css, true);
       return css.getClasses();
     },
     /**
@@ -53,12 +46,8 @@ export default {
      */
     getHeadingClasses: function() {
       const css = new CssArchitect("tabs__heading");
-      let themeModifier = this.hasThemeModifier
-        ? this.themeModifier
-        : "is-primary";
-      this.isBordered(css);
-      css.addClass(themeModifier);
-      css.addClass("borderless", this.borderless);
+      this.isFilled(css, { active: this.filled });
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass(this.getAlignmentModifiers);
       css.addClass(this.getSizesModifiers);
       return css.getClasses();
@@ -68,29 +57,21 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getItemClasses: function() {
-      let themeModifier = this.hasThemeModifier
-        ? this.themeModifier
-        : "is-primary";
       const css = new CssArchitect("tabs__item");
-      css.addClass("borderless", this.borderless);
       css.addClass("fullwidth", this.fullwidth);
-      this.isFilled(css, { hoverable: true });
-      css.addClass(themeModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass(this.getSizesModifiers);
-      return css.getClasses();
+      return css;
     },
     /**
      * Dynamically build the css classes for the slider element
      * @returns { A String with the chained css classes }
      */
     getSliderClasses: function() {
-      let themeModifier = this.hasThemeModifier
-        ? this.themeModifier
-        : "is-primary";
       const css = new CssArchitect("tab__slider");
-      this.isFilled(css, { inverted: true });
+      this.isFilled(css, { inverted: this.filled });
       this.alpha(css, { bg: 0.7 });
-      css.addClass(themeModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
     },
     /**
@@ -98,13 +79,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getBodyClasses: function() {
-      let themeModifier = this.hasThemeModifier
-        ? this.themeModifier
-        : "is-primary";
       const css = new CssArchitect("tabs__body");
-      this.isBordered(css);
-      css.addClass(themeModifier);
-      css.addClass("borderless", this.borderless);
       css.addClass(this.getSizesModifiers);
       return css.getClasses();
     },
@@ -119,6 +94,7 @@ export default {
      */
     getContainerClasses: function() {
       const css = new CssArchitect("tabs__container");
+      css.addClass("shadowless", this.shadowless);
       return css.getClasses();
     },
     /**
@@ -213,9 +189,15 @@ export default {
         let $tab = this.tabs[$index];
         let $activeClass = $tab.isActive ? "active" : "inactive";
 
-        let item = architect.createDiv(this.getItemClasses);
+        let itemCss = this.getItemClasses;
+        this.isFilled(itemCss, {
+          hoverable: true,
+          tint: 10,
+          active: $tab.isActive && this.filled
+        });
+        this.isColored(itemCss, { active: !this.filled });
+        let item = architect.createDiv(itemCss.getClasses());
         item.addClass($activeClass);
-        item.addClass("tint-50", !$tab.isActive);
         item.setKey(`${this.id}${$index}`);
         item.setRef(`${this.id}${$index}`, true);
 
