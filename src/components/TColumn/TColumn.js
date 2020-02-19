@@ -17,6 +17,13 @@ export default {
       parent: []
     };
   },
+  watch: {
+    span: function(val, oldVal) {
+      if (val) {
+        this.parent.$emit("update:auto", val);
+      }
+    }
+  },
   computed: {
     /**
      * Dynamically build the css classes for the target element
@@ -55,5 +62,10 @@ export default {
   },
   created() {
     this.parent = this.$parent;
+  },
+  mounted() {
+    if (this.span) {
+      this.parent.$emit("update:auto", this.span);
+    }
   }
 };
