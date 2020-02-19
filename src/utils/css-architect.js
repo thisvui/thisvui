@@ -81,13 +81,39 @@ export default class CssArchitect {
     return resultStyles.trim();
   }
 
+  isString(obj) {
+    if (obj === undefined || obj === null) {
+      return false;
+    }
+    let toString = Object.prototype.toString;
+    return toString.call(obj) == "[object String]";
+  }
+
+  isNumber(n) {
+    if (n === undefined || n === null) {
+      return false;
+    }
+    return !isNaN(parseFloat(n)) && !isNaN(n - 0);
+  }
+
+  /**
+   * Attach a unit if param is a valid number. If not return the string.
+   * @returns {string}
+   */
+  addUnitOrString(number, unit = "px") {
+    if (this.isString(number)) {
+      return number;
+    }
+    return this.addUnit(number, unit);
+  }
+
   /**
    * Attach a unit to number value
    * @returns {string}
    */
   addUnit(number, unit = "px") {
     if (number !== undefined) {
-      if (Number.isNaN(number)) {
+      if (!this.isNumber(number)) {
         throw new Error(
           `To attach a ${unit} unit value must be a valid number`
         );
@@ -101,7 +127,7 @@ export default class CssArchitect {
    * @returns {string}
    */
   addPx(number) {
-    return this.addUnit(number);
+    return this.addUnitOrString(number);
   }
 
   /**
@@ -109,7 +135,7 @@ export default class CssArchitect {
    * @returns {string}
    */
   addEm(number) {
-    return this.addUnit(number, "em");
+    return this.addUnitOrString(number, "em");
   }
 
   /**
@@ -117,7 +143,7 @@ export default class CssArchitect {
    * @returns {string}
    */
   addPercent(number) {
-    return this.addUnit(number, "%");
+    return this.addUnitOrString(number, "%");
   }
 
   getClassesArray() {

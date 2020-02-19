@@ -9,22 +9,22 @@ export default {
       type: Boolean
     },
     width: {
-      type: Number
+      type: [String, Number]
     },
     height: {
-      type: Number
+      type: [String, Number]
     },
     maxWidth: {
-      type: Number
+      type: [String, Number]
     },
     maxHeight: {
-      type: Number
+      type: [String, Number]
     },
     minWidth: {
-      type: Number
+      type: [String, Number]
     },
     minHeight: {
-      type: Number
+      type: [String, Number]
     },
     heightUnit: {
       type: String,
@@ -50,32 +50,32 @@ export default {
       const css = new CssArchitect();
       css.addStyle(
         "width",
-        css.addUnit(this.width, this.widthUnit),
+        css.addUnitOrString(this.width, this.widthUnit),
         this.width !== undefined
       );
       css.addStyle(
         "height",
-        css.addUnit(this.height, this.heightUnit),
+        css.addUnitOrString(this.height, this.heightUnit),
         this.height !== undefined
       );
       css.addStyle(
         "min-width",
-        css.addUnit(this.minWidth, this.widthUnit),
+        css.addUnitOrString(this.minWidth, this.widthUnit),
         this.minWidth !== undefined
       );
       css.addStyle(
         "min-height",
-        css.addUnit(this.minHeight, this.heightUnit),
+        css.addUnitOrString(this.minHeight, this.heightUnit),
         this.minHeight !== undefined
       );
       css.addStyle(
         "max-width",
-        css.addUnit(this.maxWidth, this.widthUnit),
+        css.addUnitOrString(this.maxWidth, this.widthUnit),
         this.maxWidth !== undefined
       );
       css.addStyle(
         "max-height",
-        css.addUnit(this.maxHeight, this.heightUnit),
+        css.addUnitOrString(this.maxHeight, this.heightUnit),
         this.maxHeight !== undefined
       );
       return css.getStyles();
