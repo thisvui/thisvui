@@ -26,12 +26,6 @@ $tabs-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !defa
     &.is-centered {
       justify-content: center;
     }
-
-    &.shadowless {
-      border: none;
-      box-shadow: none;
-      -webkit-box-shadow: none;
-    }
   }
 
   &__item {
@@ -82,6 +76,12 @@ $tabs-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !defa
     &:not(:last-child) {
       margin-bottom: $tabs-bottom-margin;
     }
+
+    &.shadowless {
+      border: none;
+      box-shadow: none;
+      -webkit-box-shadow: none;
+    }
   }
 
   &__body {
@@ -91,13 +91,6 @@ $tabs-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !defa
     border-top-style: none;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-    @include light-shadow($dark);
-
-    &.borderless {
-      border: none;
-      box-shadow: none;
-      -webkit-box-shadow: none;
-    }
 
     &.switching {
       overflow: hidden;

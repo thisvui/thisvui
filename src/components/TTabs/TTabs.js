@@ -53,17 +53,6 @@ export default {
       return css.getClasses();
     },
     /**
-     * Dynamically build the css classes for the tabs heading item
-     * @returns { A String with the chained css classes }
-     */
-    getItemClasses: function() {
-      const css = new CssArchitect("tabs__item");
-      css.addClass("fullwidth", this.fullwidth);
-      css.addClass(this.themeModifier, this.hasThemeModifier);
-      css.addClass(this.getSizesModifiers);
-      return css;
-    },
-    /**
      * Dynamically build the css classes for the slider element
      * @returns { A String with the chained css classes }
      */
@@ -180,6 +169,23 @@ export default {
       }
     },
     /**
+     * Dynamically build the css classes for the tabs heading item
+     * @returns { A String with the chained css classes }
+     */
+    getItemClasses: function(active) {
+      const css = new CssArchitect("tabs__item");
+      this.isFilled(css, {
+        hoverable: true,
+        tint: 10,
+        active: active && this.filled
+      });
+      this.isColored(css, { active: !this.filled });
+      css.addClass("fullwidth", this.fullwidth);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
+      css.addClass(this.getSizesModifiers);
+      return css;
+    },
+    /**
      * Creates the tab items
      * @param architect
      */
@@ -189,13 +195,7 @@ export default {
         let $tab = this.tabs[$index];
         let $activeClass = $tab.isActive ? "active" : "inactive";
 
-        let itemCss = this.getItemClasses;
-        this.isFilled(itemCss, {
-          hoverable: true,
-          tint: 10,
-          active: $tab.isActive && this.filled
-        });
-        this.isColored(itemCss, { active: !this.filled });
+        let itemCss = this.getItemClasses($tab.isActive);
         let item = architect.createDiv(itemCss.getClasses());
         item.addClass($activeClass);
         item.setKey(`${this.id}${$index}`);
