@@ -6,6 +6,7 @@
   height: 100%;
   width: 100%;
   min-height: 100vh;
+  max-width: 100vw;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
@@ -21,12 +22,13 @@
   }
 
   .t-content {
-    overflow-y: var(--overflow-y);
     margin: 0;
     background: $white-bis;
     border-radius: 0;
-    flex-grow: 1;
+    flex: 1;
     position: relative;
+    overflow-x: hidden;
+    overflow-y: var(--overflow-y);
   }
 
   .t-aside {

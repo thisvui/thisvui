@@ -8,6 +8,10 @@ export default {
       type: Boolean,
       default: false
     },
+    hasShadow: {
+      type: Boolean,
+      default: false
+    },
     width: {
       type: [Number, String],
       default: 300

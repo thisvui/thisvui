@@ -4,6 +4,7 @@ import common from "../../mixins/common";
 import TSlide from "../TAnimation/TSlide";
 import slide from "../../mixins/slide";
 import padding from "../../mixins/padding";
+import helpers from "../../mixins/helpers";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
@@ -11,7 +12,7 @@ import ElementArchitect from "../../utils/element-architect";
 export default {
   name: "t-aside",
   components: { TSlide },
-  mixins: [common, themes, gradient, slide, padding],
+  mixins: [common, themes, gradient, slide, padding, helpers],
   props: {
     containerClass: {
       type: String
@@ -55,13 +56,15 @@ export default {
   },
   render: function(h) {
     let root = new ElementArchitect(h, TSlide);
+    root.addClass(this.getHelpersModifiers);
     let rootProps = {
       isOpen: this.isOpen,
       width: this.width,
       animationDuration: this.animationDuration,
       animationFill: this.animationFill,
       isAbsolute: this.isAbsolute,
-      zIndex: this.zIndex
+      zIndex: this.zIndex,
+      hasShadow: this.hasShadow
     };
     root.setProps(rootProps);
     root.addEvent("clicked-outside", this.handleOutsideClick);

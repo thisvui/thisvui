@@ -160,7 +160,8 @@ export default {
       width: this.width,
       zIndex: this.zIndex,
       animationDuration: this.animationDuration,
-      animationFill: this.animationFill
+      animationFill: this.animationFill,
+      hasShadow: this.hasShadow
     });
     root.addEvent("clicked-outside", this.handleOutsideClick);
     root.addEvent("change-width", this.updateCalculatedWith);

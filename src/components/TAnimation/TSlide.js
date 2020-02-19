@@ -14,7 +14,7 @@ export default {
     getClasses: function() {
       const cssArchitect = new CssArchitect("t-animation-container slide");
       cssArchitect.addClass("is-absolute", this.isAbsolute);
-      cssArchitect.addClass("has-shadow-1");
+      cssArchitect.addClass("has-shadow-1", this.hasShadow);
       return cssArchitect.getClasses();
     }
   },
