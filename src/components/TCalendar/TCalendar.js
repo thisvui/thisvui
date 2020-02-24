@@ -51,6 +51,9 @@ export default {
         return this.$thisvui.enableTimePicker;
       }
     },
+    isoFormat: {
+      type: Boolean
+    },
     inline: {
       type: Boolean,
       default: false
@@ -111,6 +114,9 @@ export default {
     },
     seconds: function(newVal, oldVal) {
       this.setSelectedTime("s", newVal);
+    },
+    selectedDate: function(newVal, oldVal) {
+      this.emit();
     },
     selectedTime: function(newVal, oldVal) {
       if (newVal || this.today) {
@@ -234,6 +240,19 @@ export default {
     }
   },
   methods: {
+    formatISO() {
+      let tzOffset = this.selectedDate.getTimezoneOffset() * 60000; //offset in milliseconds
+      let selectedDate = new Date(this.selectedDate - tzOffset)
+        .toISOString()
+        .slice(0, -1);
+      return selectedDate;
+    },
+    emit() {
+      let value = this.isoFormat
+        ? this.formatISO(this.selectedDate)
+        : this.selectedDate;
+      this.$emit(this.$thisvui.events.common.input, value);
+    },
     formatDateToDay(val) {
       return format(val, "dd");
     },
@@ -267,7 +286,6 @@ export default {
       this.selectedDate = null;
       this.inputDate = null;
       this.$refs.inputField.value = "";
-      this.$emit(this.$thisvui.events.common.input, this.selectedDate);
       this.validateOnEvent("input");
       this.hasValue = false;
     },
@@ -287,7 +305,6 @@ export default {
       let formattedDate = format(this.selectedDate, this.dateFormat);
       this.inputDate = formattedDate;
       this.$refs.inputField.value = this.inputDate;
-      this.$emit(this.$thisvui.events.common.input, this.selectedDate);
       this.validateOnEvent("input");
       this.hasValue = true;
     },
@@ -310,7 +327,7 @@ export default {
     },
     onInput() {
       this.validateOnEvent("input");
-      this.$emit(this.$thisvui.events.common.input, this.selectedDate);
+      this.emit();
     },
     onFocus() {
       this.focused = true;
@@ -523,7 +540,7 @@ export default {
      */
     createInput(architect) {
       let root = architect.createDiv(this.getWrapperCss.getClasses());
-      root.setId(`${this.id}-wrapper`)
+      root.setId(`${this.id}-wrapper`);
       root.setStyles(this.getWrapperCss.getStyles());
       let control = architect.createDiv(this.getControlClass); // The control element
 

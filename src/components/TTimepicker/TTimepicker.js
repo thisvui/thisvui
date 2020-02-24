@@ -15,6 +15,9 @@ import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 import setSeconds from "date-fns/setSeconds";
 import format from "date-fns/format";
+import isValid from "date-fns/isValid";
+import parseISO from "date-fns/parseISO";
+import compareAsc from "date-fns/compareAsc";
 
 export default {
   name: "TTimepicker",
@@ -32,14 +35,44 @@ export default {
         return this.showSeconds ? "HH:mm:ss" : "HH:mm";
       }
     },
+    isoFormat: {
+      type: Boolean
+    },
+    minTime: {
+      type: [String, Date, Array]
+    },
+    minTimeMessage: {
+      type: String
+    },
+    maxTime: {
+      type: [String, Date, Array]
+    },
+    maxTimeMessage: {
+      type: String
+    },
     validateOn: {
       type: String,
       default: "blur, input"
     }
   },
-  mounted() {
-    this.loadTime();
-    this.$on("close", this.close);
+  watch: {
+    selectedTime: function(newVal, oldVal) {
+      this.emit();
+    },
+    validatorLoaded: function(newVal, oldVal) {
+      if (this.validatorLoaded) {
+        if (this.minTime) {
+          let minTimeMessage =
+            this.minTimeMessage || `Value can't be before ${this.minTime}`;
+          this.addCustomRule("MIN_DATE", minTimeMessage, this.validateMin);
+        }
+        if (this.maxTime) {
+          let maxTimeMessage =
+            this.maxTimeMessage || `Value can't be after ${this.maxTime}`;
+          this.addCustomRule("MAX_DATE", maxTimeMessage, this.validateMax);
+        }
+      }
+    }
   },
   computed: {
     filteredDigits() {
@@ -102,6 +135,63 @@ export default {
     }
   },
   methods: {
+    formatISO() {
+      let tzOffset = this.selectedTime.getTimezoneOffset() * 60000; //offset in milliseconds
+      let selectedTime = new Date(this.selectedTime - tzOffset)
+        .toISOString()
+        .slice(0, -1);
+      return selectedTime;
+    },
+    emit() {
+      let value = this.isoFormat
+        ? this.formatISO(this.selectedTime)
+        : this.selectedTime;
+      this.$emit(this.$thisvui.events.common.input, value);
+    },
+    validateMin() {
+      let minTime = this.minTime;
+      if (!this.isNotEmpty(minTime)) {
+        return false;
+      }
+      const isArray = Array.isArray(minTime);
+      if (!isArray) {
+        minTime = !isValid(minTime) ? parseISO(minTime) : minTime;
+        let isBefore = compareAsc(this.selectedDate, minTime) === -1;
+        return isBefore;
+      }
+      if (isArray) {
+        for (let date of minTime) {
+          let minTimeValue = !isValid(date) ? parseISO(date) : date;
+          let isBefore = compareAsc(this.selectedDate, minTimeValue) === -1;
+          if (isBefore) {
+            return isBefore;
+          }
+        }
+      }
+      return false;
+    },
+    validateMax() {
+      let maxTime = this.maxTime;
+      if (!this.isNotEmpty(maxTime)) {
+        return false;
+      }
+      const isArray = Array.isArray(maxTime);
+      if (!isArray) {
+        maxTime = !isValid(maxTime) ? parseISO(maxTime) : maxTime;
+        let isBefore = compareAsc(this.selectedDate, maxTime) === 1;
+        return isBefore;
+      }
+      if (isArray) {
+        for (let date of maxTime) {
+          let maxTimeValue = !isValid(date) ? parseISO(date) : date;
+          let isBefore = compareAsc(this.selectedDate, maxTimeValue) === 1;
+          if (isBefore) {
+            return isBefore;
+          }
+        }
+      }
+      return false;
+    },
     getDigits(number) {
       number =
         number == 0 || number.toString().length == 1
@@ -116,6 +206,9 @@ export default {
         value = new Date();
       }
       if (this.isNotNull(value)) {
+        if (!isValid(value)) {
+          value = parseISO(value);
+        }
         let hours = getHours(value);
         let minutes = getMinutes(value);
         let seconds = getSeconds(value);
@@ -164,19 +257,17 @@ export default {
     },
     setTime() {
       this.setSelectedTime(this.selectedTime);
-      this.$emit("input", this.selectedTime);
     },
     clearSelectedTime() {
       this.selectedTime = null;
       this.inputTime = null;
       this.$refs.timeInput.value = null;
-      this.$emit(this.$thisvui.events.common.input, this.selectedTime);
       this.validateOnEvent("input");
       this.hasValue = false;
     },
     onInput() {
       this.validateOnEvent("input");
-      this.$emit(this.$thisvui.events.common.input, this.selectedTime);
+      this.emit();
     },
     onFocus() {
       this.focused = true;
@@ -331,5 +422,9 @@ export default {
     this.createInput(root);
     this.createTimepicker(root);
     return root.create();
+  },
+  mounted() {
+    this.loadTime();
+    this.$on("close", this.close);
   }
 };
