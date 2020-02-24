@@ -145,6 +145,7 @@ $shade-percents: 10 20 25 30 40 50 60 70 75 80 90 !default;
         background-size: 100%;
         transition: background 0s;
       }
+
       @include bg-shades($color);
 
       &.linear {
@@ -177,14 +178,18 @@ $shade-percents: 10 20 25 30 40 50 60 70 75 80 90 !default;
     $color: nth($pair, 1);
     $color-invert: nth($pair, 2);
     &.is-#{$name} {
-      tr:nth-child(odd) {
-        $stripped-color: rgba($color, 0.2);
-        background-color: $stripped-color;
-        &:hover {
-          color: $color-invert;
-          background-color: rgba($color, var(--bg-hover-alpha));
-          &.has-color {
+      tbody {
+        tr:nth-child(odd) {
+          $stripped-color: rgba($color, 0.2);
+          background-color: $stripped-color;
+
+          &:hover {
             color: $color-invert;
+            background-color: rgba($color, var(--bg-hover-alpha));
+
+            &.has-color {
+              color: $color-invert;
+            }
           }
         }
       }

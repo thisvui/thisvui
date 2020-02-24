@@ -204,7 +204,7 @@ export default {
   methods: {
     getLinearStyles: function() {
       const css = new CssArchitect();
-      css.addStyle("width", css.addPercent(this.progressValue));
+      css.addStyle("width", css.addPercent(this.progressValue), !this.indeterminate);
       return css.getStyles();
     },
     getCircularStyles: function() {

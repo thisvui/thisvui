@@ -35,6 +35,13 @@
   background-size: cover;
 }
 
+@mixin background-size($arg) {
+  -webkit-background-size: $arg;
+  -moz-background-size: $arg;
+  -o-background-size: $arg;
+  background-size: $arg;
+}
+
 @mixin linear-gradient($direction, $color-stops...) {
   @if is-direction($direction) == false {
     $color-stops: ($direction, $color-stops);

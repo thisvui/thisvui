@@ -22,7 +22,7 @@ export default {
     paginated: {
       type: Boolean
     },
-    paginatorAtBottom: {
+    paginatorAtTop: {
       type: Boolean
     },
     filtered: {
@@ -62,13 +62,7 @@ export default {
      * @returns { A String value }
      */
     getItems() {
-      return this.isPaginated ? this.paginatedList : this.getFilteredItems;
-    },
-    isPaginated() {
-      return this.paginated;
-    },
-    isPaginatorAtTop() {
-      return !this.paginatorAtBottom;
+      return this.paginated ? this.paginatedList : this.getFilteredItems;
     },
     /**
      * Filters and sorts the items
@@ -275,28 +269,21 @@ export default {
     createPaginator(architect, condition = false, search = false) {
       if (condition) {
         let paginator = architect.createElement(TPaginator);
+        let pProps = this.getPaginationProps();
         paginator.setProps({
           items: this.getFilteredItems,
-          serverSide: this.serverSide,
-          totalItems: this.totalItems,
-          showText: this.showText,
-          autoNavigate: this.autoNavigate,
-          previousText: this.previousText,
-          nextText: this.nextText,
-          previousBtnClass: this.previousBtnClass,
-          nextBtnClass: this.nextBtnClass,
           isRight: true,
           isLeft: true,
-          isRounded: true,
+          rounded: true,
           shadowless: true,
           paddingless: true,
+          transparent: true,
+          end: true,
           isSmall: true,
-          showNumbers: this.showNumbers,
-          linkClass: this.linkClass,
-          currentLinkClass: this.currentLinkClass,
           iconLib: this.iconLib,
           overrideDefaults: this.overrideDefaults
         });
+        paginator.setProps(pProps);
         paginator.addEvent(this.$thisvui.events.paginator.updatePage, data => {
           this.updatePage(data);
         });

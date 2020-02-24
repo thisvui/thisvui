@@ -8,7 +8,7 @@ import TExpand from "../TAnimation/TExpand";
 import { TFlex } from "../TFlex";
 
 import CssArchitect from "../../utils/css-architect";
-import ElementArchitect from "../../utils/element-architect";
+import { createDiv } from "../../utils/element-architect";
 
 export default {
   name: "t-table",
@@ -21,26 +21,13 @@ export default {
   },
   props: {
     columns: Array,
-    actionColumn: {
-      type: Boolean,
-      default: false
-    },
+    actionColumn: Boolean,
     actionText: {
       type: String,
       default: "Actions"
     },
-    simple: {
-      type: Boolean,
-      default: false
-    },
-    expandable: {
-      type: Boolean,
-      default: false
-    },
-    fitContent: {
-      type: Boolean,
-      default: false
-    },
+    simple: Boolean,
+    expandable: Boolean,
     openedIcon: {
       type: String,
       default: function() {
@@ -53,26 +40,22 @@ export default {
         return this.$thisvui.icons.arrowRight;
       }
     },
-    isResponsive: {
+    fitContent: Boolean,
+    bordered: Boolean,
+    striped: Boolean,
+    hoverable: {
       type: Boolean,
       default: true
     },
-    bordered: {
-      type: Boolean
-    },
-    striped: {
-      type: Boolean
-    },
-    isHoverable: {
-      type: Boolean,
-      default: true
-    },
-    containerClass: {
-      type: String
-    },
-    targetClass: {
-      type: String
-    }
+    title: String,
+    containerClass: String,
+    targetClass: String
+  },
+  data: function() {
+    return {
+      mappedColumns: [],
+      expandedRows: []
+    };
   },
   computed: {
     hasActionColumn() {
@@ -82,13 +65,12 @@ export default {
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
      */
-    getCss: function() {
+    css: function() {
       const css = new CssArchitect("table");
       css.isRelative();
-      css.addClass("is-responsive", this.isResponsive);
       css.addClass("is-bordered", this.bordered);
       css.addClass("striped", this.striped);
-      css.addClass("is-hoverable", this.isHoverable);
+      css.addClass("is-hoverable", this.hoverable);
       css.addClass("fit-content", this.fitContent);
       css.addClass(this.getHelpersModifiers);
       css.addClass(this.getThemeModifiers);
@@ -98,45 +80,66 @@ export default {
       this.setupThemeModifier(css, true);
       return css;
     },
-    getContainerClasses: function() {
-      const css = new CssArchitect("t-table__container");
+    containerCss: function() {
+      const css = new CssArchitect("table__container");
       css.isRelative();
       css.addClass("is-fullwidth", this.isFullwidth);
       css.addClass(this.containerClass);
-      return css.getClasses();
+      return css;
     },
-    getTableFunctionsClasses: function() {
+    wrapperCss: function() {
+      const css = new CssArchitect("table__wrapper");
+      css.addClass("has-header", this.headerActive);
+      css.addClass("has-footer", this.footerActive);
+      return css;
+    },
+    headingCss: function() {
+      const css = new CssArchitect("table__heading");
+      css.addClass(this.headingClass, this.headingClass !== undefined);
+      return css;
+    },
+    headingContentCss: function() {
+      const css = new CssArchitect("table__heading--horizontal");
+      css.addClass("not-header", !this.hasHeading);
+      return css;
+    },
+    footerCss: function() {
+      const css = new CssArchitect("table__footer");
+      css.addClass(this.footerClass, this.footerClass !== undefined);
+      return css;
+    },
+    functionsCss: function() {
       const css = new CssArchitect("table__functions");
       this.isFilled(css);
       css.addClass(this.themeModifier, this.hasThemeModifier);
-      return css.getClasses();
+      return css;
     },
-    getThCss: function() {
+    thCss: function() {
       const css = new CssArchitect();
       this.isFilled(css);
       css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addStyles([this.getAlphaModifiers]);
       return css;
     },
-    getTrCss: function() {
+    trCss: function() {
       const css = new CssArchitect();
       this.isHovered(css, { hasColor: true });
       css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addStyles([this.getAlphaModifiers]);
       return css;
     },
-    getSortIconClasses: function() {
+    sortIconCss: function() {
       const css = new CssArchitect("sort-icon");
       css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass("inverted", this.hasThemeModifier);
-      return css.getClasses();
+      return css;
     },
-    getRowCheckerClasses: function() {
+    rowCheckerCss: function() {
       const css = new CssArchitect();
       css.addClass(this.themeModifier, this.hasThemeModifier);
-      return css.getClasses();
+      return css;
     },
-    getCheckAllClasses: function() {
+    checkAllCss: function() {
       const css = new CssArchitect();
       let isLight =
         this.themeModifier == "is-light" ||
@@ -144,12 +147,12 @@ export default {
         this.themeModifier == "is-opaque";
       css.addClass("is-dark", isLight);
       css.addClass(this.themeModifier, this.hasThemeModifier && !isLight);
-      return css.getClasses();
+      return css;
     },
-    getProgressClasses: function() {
+    progressCss: function() {
       const css = new CssArchitect();
       css.addClass(this.themeModifier, this.hasThemeModifier);
-      return css.getClasses();
+      return css;
     },
     getColumns() {
       let columns = [];
@@ -173,14 +176,25 @@ export default {
       let columnsNumber = this.columns.length;
       let additionalColumns = this.actionColumn ? 2 : 1;
       return columnsNumber + additionalColumns;
+    },
+    headerActive() {
+      return (
+        this.hasHeading ||
+        (this.paginated && this.paginatorAtTop) ||
+        this.filtered
+      );
+    },
+    footerActive() {
+      return this.hasFooter || (this.paginated && !this.paginatorAtTop);
+    },
+    hasHeading: function() {
+      return this.title || this.$slots["heading"];
+    },
+    hasFooter: function() {
+      return this.$slots["footer"];
     }
   },
-  data: function() {
-    return {
-      mappedColumns: [],
-      expandedRows: []
-    };
-  },
+
   methods: {
     isExpandable(item) {
       return (
@@ -206,10 +220,51 @@ export default {
       }
       return width;
     },
+    createHeading(architect) {
+      if (this.headerActive) {
+        let heading = architect.createDiv(this.headingCss.getClasses());
+        let headingContent = architect.createDiv(
+          this.headingContentCss.getClasses()
+        );
+
+        if (this.title) {
+          let text = architect.createH(2);
+          text.innerHTML(this.title);
+          headingContent.addChild(text);
+        }
+        if (this.$slots["heading"]) {
+          let slotHeading = architect
+            .createSpan()
+            .setChildren(this.$slots["heading"]);
+          headingContent.addChild(slotHeading);
+        }
+        this.createSearch(headingContent, this.filtered);
+        let pagParent = this.filtered
+          ? architect.createDiv(this.headingContentCss.getClasses())
+          : headingContent;
+        this.createPaginator(pagParent, this.paginated && this.paginatorAtTop);
+        heading.addChild(headingContent);
+        heading.addChild(pagParent, this.filtered);
+        architect.addChild(heading);
+      }
+    },
+    createFooter(architect) {
+      if (this.footerActive) {
+        let footer = architect.createDiv(this.footerCss.getClasses());
+        if (this.$slots["footer"]) {
+          let slotFooter = architect
+            .createSpan()
+            .setChildren(this.$slots["footer"]);
+          footer.addChild(slotFooter);
+        }
+        this.createPaginator(footer, this.paginated && !this.paginatorAtTop);
+        architect.addChild(footer);
+      }
+    },
     createTableColumns(architect) {
       for (let column of this.mappedColumns) {
-        let th = architect.createCell(this.getThCss.getClasses(), true);
-        th.setStyles(this.getThCss.getStyles());
+        let th = architect.createCell(this.thCss.getClasses(), true);
+        th.setStyles(this.thCss.getStyles());
         th.setKey(column.name);
         th.addClick(() => {
           this.sortBy(column);
@@ -220,9 +275,11 @@ export default {
         text.innerHTML(
           this.$options.filters.capitalize(column.display || column.name)
         );
-        let icon = architect.createIcon(this.getSortIconClasses).setProps({
-          icon: this.getSortIcon(column.name)
-        });
+        let icon = architect
+          .createIcon(this.sortIconCss.getClasses())
+          .setProps({
+            icon: this.getSortIcon(column.name)
+          });
         icon.addClick(() => {
           this.sortBy(column);
         });
@@ -236,7 +293,7 @@ export default {
       let thead = architect.createElement("thead");
       let tr = architect.createTr();
       if (this.checkable || this.expandable) {
-        let th = architect.createCell(this.getTableFunctionsClasses, true);
+        let th = architect.createCell(this.functionsCss.getClasses(), true);
         let flex = architect.createElement(TFlex);
 
         if (this.expandable) {
@@ -247,7 +304,7 @@ export default {
         }
 
         if (this.checkable) {
-          this.createCheckAll(flex, this.getCheckAllClasses);
+          this.createCheckAll(flex, this.checkAllCss.getClasses());
         }
 
         th.addChild(flex);
@@ -255,15 +312,12 @@ export default {
       }
 
       this.createTableColumns(tr);
-      if (this.$slots["header"]) {
-        tr.addVNodeChildren(this.$slots["header"]);
+      if (this.$slots["table-head"]) {
+        tr.addVNodeChildren(this.$slots["table-head"]);
       }
       if (this.hasActionColumn) {
-        let actionColumn = architect.createCell(
-          this.getThCss.getClasses(),
-          true
-        );
-        actionColumn.setStyles(this.getThCss.getStyles());
+        let actionColumn = architect.createCell(this.thCss.getClasses(), true);
+        actionColumn.setStyles(this.thCss.getStyles());
         actionColumn.innerHTML(this.actionText);
         tr.addChild(actionColumn);
       }
@@ -274,21 +328,21 @@ export default {
     },
     createTableFoot(architect) {
       let tfoot = architect.createElement("tfoot");
-      if (this.$slots["footer"]) {
-        tfoot.addVNodeChildren(this.$slots["footer"]);
+      if (this.$slots["table-foot"]) {
+        tfoot.addVNodeChildren(this.$slots["table-foot"]);
       }
       architect.addChild(tfoot);
     },
     createTableBody(architect) {
       let tbody = architect.createElement("tbody", "is-relative");
-      this.createLoading(tbody, this.getProgressClasses);
+      this.createLoading(tbody, this.progressCss.getClasses());
       if (this.simple) {
         tbody.setChildren(this.$slots["items"]);
       } else {
         for (let index in this.getItems) {
           let item = this.getItems[index];
-          let tr = architect.createTr(this.getTrCss.getClasses());
-          tr.setStyles(this.getTrCss.getStyles());
+          let tr = architect.createTr(this.trCss.getClasses());
+          tr.setStyles(this.trCss.getStyles());
           tr.addClick(() => this.toggleExpand(item), this.isExpandable(item));
 
           if (this.isCheckable(item) || this.isExpandable(item)) {
@@ -313,7 +367,7 @@ export default {
 
             if (this.isCheckable(item)) {
               this.createRowChecker(flex, item, {
-                targetClass: this.getRowCheckerClasses,
+                targetClass: this.rowCheckerCss.getClasses(),
                 hasBackgroundColor: true
               });
             }
@@ -366,9 +420,9 @@ export default {
       architect.addChild(tbody);
     },
     createTable(architect) {
-      let tableWrapper = architect.createDiv("table__wrapper");
-      let table = architect.createElement("table", this.getCss.getClasses());
-      table.setStyles(this.getCss.getStyles());
+      let tableWrapper = architect.createDiv(this.wrapperCss.getClasses());
+      let table = architect.createElement("table", this.css.getClasses());
+      table.setStyles(this.css.getStyles());
       table.setId(this.id);
 
       this.createTableHead(table);
@@ -380,16 +434,11 @@ export default {
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "div", this.getContainerClasses);
+    let root = new createDiv(h, this.containerCss.getClasses());
 
-    this.createPaginator(
-      root,
-      this.isPaginated && this.isPaginatorAtTop,
-      this.filtered
-    );
-    this.createSearch(root, this.isPaginated && !this.isPaginatorAtTop);
+    this.createHeading(root);
     this.createTable(root);
-    this.createPaginator(root, this.isPaginated && !this.isPaginatorAtTop);
+    this.createFooter(root);
 
     return root.create();
   },

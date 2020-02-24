@@ -17,17 +17,17 @@
   }
 }
 
-@mixin border-radius($radius: 3px) {
+@mixin border-radius($radius: 4px) {
   -webkit-border-radius: $radius;
   -moz-border-radius: $radius;
   border-radius: $radius;
 }
 
 @mixin border-radius-specific(
-  $tl-radius: 3px,
-  $tr-radius: 3px,
-  $bl-radius: 3px,
-  $br-radius: 3px
+  $tl-radius: 4px,
+  $tr-radius: 4px,
+  $bl-radius: 4px,
+  $br-radius: 4px
 ) {
   $args: $tl-radius $tr-radius $bl-radius $br-radius;
   -webkit-border-radius: $args;
