@@ -1,9 +1,9 @@
 $tabs-body-content-padding: $box-content-padding !default;
-$tabs-delimiter-line-height: 5px !default;
-$tabs-item-height:3em !default;
+$tabs-item-height:3rem !default;
+$tabs-item-line-height: 1rem !default;
 $tabs-border-radius: 4px !default;
 $tabs-bottom-margin: $separation-margin !default;
-$tabs-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !default;
+$tabs-shadow: 0 0px 1px 0px rgba($black, 0.25), 0 1px 1px 0px rgba($black, 0.14), 0 3px 3px 0 rgba($black, 0.12) !default;
 
 .tabs {
   margin: 0;
@@ -34,24 +34,50 @@ $tabs-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !defa
     position: relative;
     height: $tabs-item-height;
     text-align: center;
-    line-height: 1em;
+    line-height: $tabs-item-line-height;
     font-size: 0.8em;
     margin-top: 0;
     cursor: pointer;
 
     @include big-phone-up {
-      line-height: 3em;
-      font-size: 1em;
+      font-size: 1rem;
     }
 
     &:first-child {
       border-top-left-radius: $tabs-border-radius;
     }
 
+    &.is-right {
+      &:first-child {
+        border-top-left-radius: 0;
+      }
+      &:last-child {
+        border-top-right-radius: $tabs-border-radius;
+      }
+    }
+
+    &.is-centered {
+      justify-content: center;
+
+      &:first-child {
+        border-top-left-radius: 0;
+      }
+      &:last-child {
+        border-top-right-radius: 0;
+      }
+    }
+
     a {
-      padding: 1rem 2rem 1rem 2rem;
+      padding: 0 2rem;
       background-position: center;
       transition: background 0.5s;
+      display: flex;
+      padding: 0 2rem;
+      background-position: center;
+      transition: background 0.5s;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
 
       &:active {
         transition: background 0s;
@@ -63,7 +89,15 @@ $tabs-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !defa
       a {
         flex: 1;
       }
+
+      &:first-child {
+        border-top-left-radius: $tabs-border-radius;
+      }
+      &:last-child {
+        border-top-right-radius: $tabs-border-radius;
+      }
     }
+
   }
 
   &__container {

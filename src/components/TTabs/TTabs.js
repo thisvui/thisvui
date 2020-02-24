@@ -13,6 +13,7 @@ export default {
   props: {
     selected: Number,
     filled: Boolean,
+    transparent: Boolean,
     shadowless: Boolean,
     fullwidth: Boolean,
     targetClass: String,
@@ -58,7 +59,7 @@ export default {
      */
     getSliderClasses: function() {
       const css = new CssArchitect("tab__slider");
-      this.isFilled(css, { inverted: this.filled });
+      this.isFilled(css, { inverted: !this.transparent });
       this.alpha(css, { bg: 0.7 });
       css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
@@ -174,15 +175,28 @@ export default {
      */
     getItemClasses: function(active) {
       const css = new CssArchitect("tabs__item");
-      this.isFilled(css, {
-        hoverable: true,
-        tint: 10,
-        active: active && this.filled
-      });
-      this.isColored(css, { active: !this.filled });
+      let config = {
+        hoverable: true
+      };
+
+      if (this.filled) {
+        config.tint = active ? 40 : false;
+        config.active = active && !this.transparent;
+      }
+
+      if (!this.filled) {
+        config.tint = active ? false : 30;
+        config.shade = active ? 5 : false;
+        config.active = !this.transparent;
+      }
+
+      this.isFilled(css, config);
+      this.isColored(css, { active: this.transparent });
       css.addClass("fullwidth", this.fullwidth);
+      css.addClass("ripple");
       css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass(this.getSizesModifiers);
+      css.addClass(this.getAlignmentModifiers);
       return css;
     },
     /**
