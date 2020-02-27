@@ -23,8 +23,8 @@ export default {
       type: [String, Number, Object]
     },
     height: {
-      type: String,
-      default: "270"
+      type: [ Number, String ],
+      default: 270
     },
     resultsClass: {
       type: String
@@ -53,57 +53,57 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getSelectContainerClass: function() {
-      const cssArchitect = new CssArchitect("t-select group");
-      cssArchitect.addClass(
+      const css = new CssArchitect("t-select group");
+      css.addClass(
         this.containerClass,
         this.containerClass !== undefined
       );
-      cssArchitect.addClass(this.getSyntaxModifiers);
-      cssArchitect.addClass(this.getThemeModifiers);
-      cssArchitect.addClass(this.getAlignmentModifiers);
-      return cssArchitect.getClasses();
+      css.addClass(this.getSyntaxModifiers);
+      css.addClass(this.getThemeModifiers);
+      css.addClass(this.getAlignmentModifiers);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the results
      * @returns { A String with the chained css classes }
      */
     getResultsClass: function() {
-      const cssArchitect = new CssArchitect("t-select__results");
-      cssArchitect.addClass("opened", this.isOpen);
-      cssArchitect.isAbsolute();
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-select__results");
+      css.addClass("opened", this.isOpen);
+      css.isAbsolute();
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the results content
      * @returns { A String with the chained css classes }
      */
     getResultsContentClass: function() {
-      const cssArchitect = new CssArchitect(
+      const css = new CssArchitect(
         "t-select__results__content marginless"
       );
-      cssArchitect.isAbsolute().isFullwidth();
-      cssArchitect.addClass(this.resultsClass, this.resultsClass !== undefined);
-      cssArchitect.addClass("bordered");
-      cssArchitect.addClass(this.themeModifier, this.hasThemeModifier);
-      return cssArchitect.getClasses();
+      css.isAbsolute().isFullwidth();
+      css.addClass(this.resultsClass, this.resultsClass !== undefined);
+      css.addClass("bordered");
+      css.addClass(this.themeModifier, this.hasThemeModifier);
+      return css.getClasses();
     },
     getClearIconClass: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addClass("colored");
-      cssArchitect.addClass(this.themeModifier, this.hasThemeModifier);
-      cssArchitect.addClass("cursor-pointer");
-      return cssArchitect.getClasses();
+      const css = new CssArchitect();
+      css.addClass("colored");
+      css.addClass(this.themeModifier, this.hasThemeModifier);
+      css.addClass("cursor-pointer");
+      return css.getClasses();
     },
     getArrowClass: function() {
-      const cssArchitect = new CssArchitect("arrow");
-      cssArchitect.addClass("bordered");
-      cssArchitect.addClass(this.themeModifier, this.hasThemeModifier);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("arrow");
+      css.addClass("bordered");
+      css.addClass(this.themeModifier, this.hasThemeModifier);
+      return css.getClasses();
     },
     getContainerStyles: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addStyle("max-height", `${this.height}px`, this.isOpen);
-      return cssArchitect.getStyles();
+      const css = new CssArchitect();
+      css.addStyle("max-height", css.addPx(this.height), this.isOpen);
+      return css.getStyles();
     },
     isPrimitive() {
       let isString = this.items.every(function(i) {
@@ -127,12 +127,12 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getResultClass: function(isActive = false) {
-      const cssArchitect = new CssArchitect("t-select__result");
-      cssArchitect.addClass("hovered", this.selectable);
-      cssArchitect.addClass("filled", isActive);
-      cssArchitect.addClass(this.themeModifier, this.hasThemeModifier);
-      cssArchitect.addClass(this.resultClass, this.resultClass !== undefined);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-select__result");
+      css.addClass("hovered", this.selectable);
+      css.addClass("filled", isActive);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
+      css.addClass(this.resultClass, this.resultClass !== undefined);
+      return css.getClasses();
     },
     /**
      * Returns the result
@@ -272,7 +272,8 @@ export default {
         name: "overlay-box",
         value: {
           showOn: this.isOpen,
-          target: `${this.id}-wrapper`
+          target: `${this.id}-wrapper`,
+          height: this.height
         }
       });
 
