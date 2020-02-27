@@ -1,7 +1,7 @@
 .t-calendar {
   &__widget {
     z-index: 40;
-    width: 300px;
+    min-width: 250px;
     border: 1px solid rgba($dark, 0.2);
     box-shadow: $card-shadow;
     border-bottom-left-radius: 5px;

@@ -239,7 +239,7 @@ export default {
               this.mask && value
                 ? parseFloat(utils.number.unFormat(value))
                 : value;
-            return !utils.check.isNumeric(numericValue);
+            return !utils.check.isNumber(numericValue);
           }
         );
       }

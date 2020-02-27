@@ -91,14 +91,25 @@ const check = {
     return regex.test(String(email).toLowerCase());
   },
   /**
-   * Checks if value is numeric
+   * Checks if value is a string
    * @returns { A Boolean value }
    */
-  isNumeric: value => {
-    if (isNaN(value)) {
+  isString(obj) {
+    if (obj === undefined || obj === null) {
       return false;
     }
-    return true;
+    let toString = Object.prototype.toString;
+    return toString.call(obj) == "[object String]";
+  },
+  /**
+   * Checks if value is a number
+   * @returns { A Boolean value }
+   */
+  isNumber(arg) {
+    if (arg === undefined || arg === null) {
+      return false;
+    }
+    return !isNaN(parseFloat(arg)) && !isNaN(arg - 0);
   },
   /**
    * Checks if a number is less than a given number
@@ -108,7 +119,7 @@ const check = {
     if (!value) {
       return false;
     }
-    if (!check.isNumeric(value)) {
+    if (!check.isNumber(value)) {
       console.error("Values is not numeric");
       return false;
     }
@@ -125,7 +136,7 @@ const check = {
     if (!value) {
       return false;
     }
-    if (!check.isNumeric(value)) {
+    if (!check.isNumber(value)) {
       console.error("Values is not numeric");
       return false;
     }
@@ -227,12 +238,40 @@ const convert = {
 };
 
 const number = {
+  /**
+   * Extract number from string
+   * @returns { A String representation of the number }
+   */
+  extractNumberFromString(arg){
+    if (arg === undefined || arg === null) {
+      throw new DOMException(
+        "Utils.check.extractNumberFromString : arg is undefined"
+      );
+    }
+    if(check.isNumber(arg)){
+      return arg;
+    }
+    if(!check.isString(arg)){
+      throw new DOMException(
+        "Utils.check.extractNumberFromString : arg is no a string or number"
+      );
+    }
+    return arg.replace( /^\D+/g, '');
+  },
+  /**
+   * Format a number
+   * @returns { A String value }
+   */
   format(num, { thousandsSeparator = ".", decimalSeparator = "," }) {
     return num
       .toFixed(0)
       .replace(".", decimalSeparator)
       .replace(/(\d)(?=(\d{3})+(?!\d))/g, `$1${thousandsSeparator}`);
   },
+  /**
+   * reverse format
+   * @returns { A String value }
+   */
   unFormat(num) {
     return num.replace(/[^0-9$]/g, "");
   }

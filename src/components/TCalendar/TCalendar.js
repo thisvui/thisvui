@@ -65,6 +65,13 @@ export default {
       type: Boolean,
       default: false
     },
+    height: {
+      type: [ Number, String ],
+      default: 270
+    },
+    width: {
+      type: [ Number, String ]
+    },
     minDate: {
       type: [String, Date, Array]
     },
@@ -526,13 +533,17 @@ export default {
         timePicker.addChild(secondsInput);
         widget.addChild(timePicker);
       }
-      widget.addDirective({
-        name: "overlay-box",
-        value: {
-          showOn: this.showCalendar,
-          target: `${this.id}-wrapper`
-        }
-      });
+      if(!this.inline) {
+        widget.addDirective({
+          name: "overlay-box",
+          value: {
+            showOn: this.showCalendar,
+            target: `${this.id}-wrapper`,
+            height: this.height,
+            width: this.width
+          }
+        });
+      }
       architect.addChild(widget);
     },
     /**

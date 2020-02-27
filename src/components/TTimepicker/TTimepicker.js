@@ -18,6 +18,7 @@ import format from "date-fns/format";
 import isValid from "date-fns/isValid";
 import parseISO from "date-fns/parseISO";
 import compareAsc from "date-fns/compareAsc";
+import utils from "../../utils/utils";
 
 export default {
   name: "TTimepicker",
@@ -37,6 +38,14 @@ export default {
     },
     isoFormat: {
       type: Boolean
+    },
+    height: {
+      type: [ Number, String ],
+      default: 250
+    },
+    width: {
+      type: [ Number, String ],
+      default: 250
     },
     minTime: {
       type: [String, Date, Array]
@@ -405,12 +414,14 @@ export default {
       timepicker.addChild(timepickerTime);
       timepicker.addChild(numpad);
       timepicker.addChild(hiddenInput);
+      let height = utils.number.extractNumberFromString(this.height);
       timepicker.addDirective({
         name: "overlay-box",
         value: {
           showOn: this.isOpen,
           target: `${this.id}-wrapper`,
-          width: 250
+          height: (parseFloat(height) / 2),
+          width: this.width
         }
       });
       architect.addChild(timepicker);
