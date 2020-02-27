@@ -1,17 +1,23 @@
+import CssArchitect from "../utils/css-architect";
+import { createDiv } from "../utils/element-architect";
+
 export default {
   props: {
     isOpen: {
       type: Boolean,
       default: true
     },
-    isAbsolute: {
+    animated: {
       type: Boolean,
-      default: false
+      default: true
     },
-    hasShadow: {
-      type: Boolean,
-      default: false
-    },
+    absolute: Boolean,
+    sticky: Boolean,
+    fixed: Boolean,
+    right: Boolean,
+    tablet: Boolean,
+    desktop: Boolean,
+    hasShadow: Boolean,
     width: {
       type: [Number, String],
       default: 300
@@ -32,18 +38,129 @@ export default {
       default: "forwards"
     }
   },
+  watch: {
+    isOpen: function(newVal, oldVal) {
+      if (this.animated) {
+        this.toggleSlide();
+      }
+    }
+  },
   data() {
     return {
-      calculatedWidth: parseInt(this.width)
+      initialWidth: 0,
+      calculatedWidth: parseInt(this.width),
+      slideTargets: [],
+      timer: null
     };
   },
+  computed: {
+    /**
+     * Dynamically build the css classes for the target element
+     * @returns { A String with the chained css classes }
+     */
+    slideCss: function() {
+      const css = new CssArchitect("t-slide");
+      css.addClass("is-fixed", this.fixed);
+      css.addClass("is-sticky", this.sticky);
+      css.addClass("is-absolute", this.absolute);
+      css.addClass("is-right", this.right);
+      css.addClass("tablet", this.tablet);
+      css.addClass("desktop", this.desktop);
+      css.addClass("has-shadow-1", this.hasShadow);
+      return css;
+    },
+    targetsEmpty() {
+      return !this.slideTargets || this.slideTargets.length == 0;
+    }
+  },
   methods: {
+    getStyle() {
+      const css = new CssArchitect();
+      css.addStyle("width", css.addPx(this.initialWidth), this.animated);
+      css.addStyle("width", css.addPx(this.width), !this.animated);
+      css.addStyle("zIndex", parseInt(this.zIndex), this.zIndex !== undefined);
+      return css.getStyles();
+    },
+    addSlideTarget(target) {
+      if (!target) {
+        throw new DOMException("Cannot animate undefined element");
+      }
+      this.slideTargets.push(target);
+    },
+    getDefaultTarget() {
+      let element = this.$refs.slideContainer;
+      if (!element) {
+        throw new DOMException("Cannot animate undefined element");
+      }
+      return element;
+    },
+    getWidth: function() {
+      let width = parseInt(this.width);
+      let baseWitdh = window.innerWidth < width ? window.innerWidth : width;
+      this.updateCalculatedWidth(
+        window.innerWidth < 352 ? baseWitdh - 52 : baseWitdh
+      );
+      let resultWidth = `${this.calculatedWidth}${this.unit}`;
+      return this.isOpen ? resultWidth : this.initialWidth;
+    },
+    clearSlideTimer() {
+      if (this.timer) {
+        clearTimeout(this.timer);
+      }
+    },
+    toggleSlide() {
+      this.changeWidth(this.getWidth());
+    },
+    changeWidth(width) {
+      this.clearSlideTimer();
+      if (this.targetsEmpty) {
+        this.getDefaultTarget().style.width = width;
+      } else {
+        let zero = width == 0;
+        if (zero) {
+          for (let $target of this.slideTargets) {
+            $target.style.width = width;
+          }
+          this.timer = setTimeout(() => {
+            this.getDefaultTarget().style.width = width;
+          }, 10);
+        } else {
+          this.getDefaultTarget().style.width = width;
+          this.timer = setTimeout(() => {
+            for (let $target of this.slideTargets) {
+              $target.style.width = width;
+            }
+          }, 10);
+        }
+      }
+    },
+    handleResize(event) {
+      this.changeWidth(this.getWidth());
+    },
     handleOutsideClick(e) {
       this.$emit(this.$thisvui.events.slide.clickedOutside, e);
     },
-    updateCalculatedWith(width) {
+    updateCalculatedWidth(width) {
       this.calculatedWidth = width;
       this.$emit(this.$thisvui.events.slide.changeWidth, this.calculatedWidth);
+    },
+    createSlideContainer: function(h) {
+      let root = createDiv(h, this.slideCss.getClasses());
+      root.setRef("slideContainer");
+      root.setStyles(this.getStyle());
+      root.addDirective({
+        name: "click-outside",
+        value: {
+          handler: "handleOutsideClick"
+        }
+      });
+      return root;
+    },
+    addResizeListener() {
+      window.addEventListener("resize", this.handleResize);
+    },
+    removeResizeListener() {
+      window.removeEventListener("resize", this.handleResize);
     }
   }
 };

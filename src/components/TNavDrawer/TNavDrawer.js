@@ -3,23 +3,24 @@ import tree from "../../mixins/tree";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
 import themes from "../../mixins/themes";
-import slide from "../../mixins/slide";
 
 import TTreeNav from "../TTree/TTreeNav";
-import TSlide from "../TAnimation/TSlide";
-import TAside from "../TLayout/TAside";
 
 import CssArchitect from "../../utils/css-architect";
-import ElementArchitect from "../../utils/element-architect";
+import { createDiv } from "../../utils/element-architect";
 
 export default {
   name: "t-nav-drawer",
-  components: { TAside, TSlide, TTreeNav },
-  mixins: [common, slide, tree, icons, themes, helpers],
+  components: { TTreeNav },
+  mixins: [common, tree, icons, themes, helpers],
   props: {
     model: {
       type: Array,
       required: true
+    },
+    width: {
+      type: [Number, String],
+      default: 300
     },
     hideLabel: {
       type: Boolean,
@@ -37,7 +38,7 @@ export default {
      * Dynamically build the css classes for the main container
      * @returns { A String with the chained css classes }
      */
-    getContainerClass: function() {
+    containerCss: function() {
       const css = new CssArchitect("t-nav-drawer");
       css
         .flexible({ direction: "column", alignItems: "stretch" })
@@ -46,8 +47,9 @@ export default {
       css.addClass("is-nav-opened", this.isOpen);
       css.addClass(this.getHelpersModifiers);
       css.addClass(this.getThemeModifiers);
+      css.addStyle("width", css.addPx(this.width), this.isNotEmpty(this.width));
       this.setupThemeModifier(css);
-      return css.getClasses();
+      return css;
     },
     /**
      * Dynamically build the css classes for each label element
@@ -99,36 +101,29 @@ export default {
     };
   },
   methods: {
-    getStyle() {
-      const css = new CssArchitect();
-      css.addStyle("width", `${this.calculatedWidth}px`);
-      return css.getStyles();
-    },
     /**
      * Creates the menu items
      * @param architect
      */
     createMenuItems(architect) {
-      let menuItems = architect.createDiv("menu");
-      menuItems.setStyles(this.getStyle());
-
+      let menu = architect.createDiv("menu");
       for (let $index in this.model) {
         let $menu = this.model[$index];
 
         if (!this.hideLabel) {
-          let label = architect.createP(this.getLabelClass);
+          let label = menu.createP(this.getLabelClass);
           label.setKey(`${this.id}-ml-${$index}`);
           label.innerHTML($menu.name);
-          menuItems.addChild(label);
+          menu.addChild(label);
         }
 
-        let treeContainer = architect.createUl("menu-list");
+        let treeContainer = menu.createUl("menu-list");
         treeContainer.setKey(`${this.id}-ml-tree${$index}`);
 
         for (let $treeIndex in $menu.children) {
           let $treeItem = $menu.children[$treeIndex];
 
-          let treeNav = architect.createElement(TTreeNav, "item");
+          let treeNav = menu.createElement(TTreeNav, "item");
           treeNav.setKey(`${this.id}-ml-tree-item${$treeIndex}`);
           treeNav.setProps({
             tagClass: this.tagClass,
@@ -145,27 +140,21 @@ export default {
           });
           treeContainer.addChild(treeNav);
         }
-        menuItems.addChild(treeContainer);
+        menu.addChild(treeContainer);
       }
-      architect.addChild(menuItems);
+      architect.addChild(menu);
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, TAside);
-    root.setId(this.id);
-    root.setProps({
-      containerClass: this.getContainerClass,
-      isOpen: this.isOpen,
-      isAbsolute: this.isAbsolute,
-      width: this.width,
-      zIndex: this.zIndex,
-      animationDuration: this.animationDuration,
-      animationFill: this.animationFill,
-      hasShadow: this.hasShadow
-    });
-    root.addEvent("clicked-outside", this.handleOutsideClick);
-    root.addEvent("change-width", this.updateCalculatedWith);
+    let root = createDiv(h, this.containerCss.getClasses());
+    root.setStyles(this.containerCss.getStyles());
     this.createMenuItems(root);
     return root.create();
+  },
+  mounted(){
+    this.$on("close-siblings", id => {
+      this.$emit("close-children", id);
+    });
+
   }
 };

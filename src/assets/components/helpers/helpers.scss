@@ -9,16 +9,21 @@ $displays: 'block' 'flex' 'inline' 'inline-block' 'inline-flex';
     height: 100%;
   }
 
-  &.is-absolute {
-    position: absolute !important;
-  }
-
   &.is-relative {
     position: relative !important;
   }
 
   &.is-fixed {
     position: fixed !important;
+  }
+
+  &.is-sticky {
+    position: -webkit-sticky !important;/* Safari */
+    position: sticky !important;
+  }
+
+  &.is-absolute {
+    position: absolute !important;
   }
 
   &.is-overflow-auto {
