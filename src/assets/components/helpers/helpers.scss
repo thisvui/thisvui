@@ -96,3 +96,7 @@ $displays: 'block' 'flex' 'inline' 'inline-block' 'inline-flex';
     }
   }
 }
+
+.fix-translate {
+  transform: translate3d(0px, 0px, 0px) !important;
+}

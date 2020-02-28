@@ -125,6 +125,7 @@ export default {
       validationPassed: false,
       validationResult: null,
       validatorLoaded: false,
+      registrationFirstAttempt: false,
       stateClass: "",
       errors: [],
       rules: [],
@@ -141,9 +142,6 @@ export default {
     getEmail: function() {
       return this.email;
     },
-    hasRules: function() {
-      return this.rules.length > 0;
-    },
     getValidationPassed: function() {
       return this.validationPassed;
     },
@@ -154,16 +152,19 @@ export default {
   watch: {
     required: function(newVal, oldVal) {
       if (this.getValidator()) {
-        this.addValidator();
+        this.generateRules();
       }
     },
     customValidators: function(newVal, oldVal) {
       if (this.getValidator()) {
-        this.addValidator();
+        this.generateRules();
       }
     }
   },
   methods: {
+    hasRules() {
+      return this.rules.length > 0;
+    },
     /**
      * Executes the validations for current element
      */
@@ -171,7 +172,7 @@ export default {
       const validator = this.getValidator();
       const element = validator.element;
       this.errors = [];
-      if (this.hasRules) {
+      if (this.hasRules()) {
         for (let rule of this.rules) {
           let error = !rule.custom
             ? rule.validationFunction(element.value)
@@ -196,7 +197,7 @@ export default {
       let events = this.validateOn.split(",").map(item => item.trim());
       let validate = events.indexOf(event) > -1;
       let result =
-        this.hasRules && validate
+        this.hasRules() && validate
           ? this.validate(event)
           : new Result(true, "success");
       return result;
@@ -291,16 +292,15 @@ export default {
     addRule(name, message, validationFunction, custom = false) {
       const rule = new Rule(name, message, validationFunction, custom);
       this.rules.push(rule);
+      if(this.registrationFirstAttempt && !this.validatorLoaded){
+        this.registerValidator();
+      }
     },
     addCustomRule(name, message, validationFunction) {
       this.addRule(name, message, validationFunction, true);
     },
-    /**
-     * Register a validator in the validation bus
-     */
-    addValidator() {
-      this.generateRules();
-      if (this.hasRules) {
+    registerValidator(){
+      if (this.hasRules()) {
         ValidationBus.registerValidator(
           this.id,
           this,
@@ -309,12 +309,24 @@ export default {
         );
         this.validatorLoaded = true;
       }
+      if(!this.registrationFirstAttempt){
+        this.registrationFirstAttempt = true
+      }
+    },
+    /**
+     * Register a validator in the validation bus
+     */
+    addValidator() {
+      this.generateRules();
+      this.registerValidator();
     },
     /**
      * Removes a validator from the validation bus
      */
     removeValidator(formId) {
-      ValidationBus.unregisterValidator(this.id, formId, this.validationScope);
+      if (this.hasRules()) {
+        ValidationBus.unregisterValidator(this.id, formId, this.validationScope);
+      }
     },
     /**
      * Removes a validator from the validation bus

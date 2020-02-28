@@ -65,10 +65,6 @@ export default {
       type: Boolean,
       default: false
     },
-    height: {
-      type: [ Number, String ],
-      default: 270
-    },
     width: {
       type: [ Number, String ]
     },
@@ -131,18 +127,9 @@ export default {
         this.setSelectedDate();
       }
     },
-    validatorLoaded: function(newVal, oldVal) {
-      if (this.validatorLoaded) {
-        if (this.minDate) {
-          let minDateMessage =
-            this.minDateMessage || `Value can't be before ${this.minDate}`;
-          this.addCustomRule("MIN_DATE", minDateMessage, this.validateMin);
-        }
-        if (this.maxDate) {
-          let maxDateMessage =
-            this.maxDateMessage || `Value can't be after ${this.maxDate}`;
-          this.addCustomRule("MAX_DATE", maxDateMessage, this.validateMax);
-        }
+    registrationFirstAttempt: function(newVal, oldVal) {
+      if (this.registrationFirstAttempt) {
+        this.loadValidators();
       }
     }
   },
@@ -247,6 +234,18 @@ export default {
     }
   },
   methods: {
+    loadValidators(){
+      if (this.minDate) {
+        let minDateMessage =
+          this.minDateMessage || `Value can't be before ${this.minDate}`;
+        this.addCustomRule("MIN_DATE", minDateMessage, this.validateMin);
+      }
+      if (this.maxDate) {
+        let maxDateMessage =
+          this.maxDateMessage || `Value can't be after ${this.maxDate}`;
+        this.addCustomRule("MAX_DATE", maxDateMessage, this.validateMax);
+      }
+    },
     formatISO() {
       let tzOffset = this.selectedDate.getTimezoneOffset() * 60000; //offset in milliseconds
       let selectedDate = new Date(this.selectedDate - tzOffset)
@@ -539,7 +538,6 @@ export default {
           value: {
             showOn: this.showCalendar,
             target: `${this.id}-wrapper`,
-            height: this.height,
             width: this.width
           }
         });

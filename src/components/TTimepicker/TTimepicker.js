@@ -39,12 +39,8 @@ export default {
     isoFormat: {
       type: Boolean
     },
-    height: {
-      type: [ Number, String ],
-      default: 250
-    },
     width: {
-      type: [ Number, String ],
+      type: [Number, String],
       default: 250
     },
     minTime: {
@@ -68,18 +64,9 @@ export default {
     selectedTime: function(newVal, oldVal) {
       this.emit();
     },
-    validatorLoaded: function(newVal, oldVal) {
-      if (this.validatorLoaded) {
-        if (this.minTime) {
-          let minTimeMessage =
-            this.minTimeMessage || `Value can't be before ${this.minTime}`;
-          this.addCustomRule("MIN_DATE", minTimeMessage, this.validateMin);
-        }
-        if (this.maxTime) {
-          let maxTimeMessage =
-            this.maxTimeMessage || `Value can't be after ${this.maxTime}`;
-          this.addCustomRule("MAX_DATE", maxTimeMessage, this.validateMax);
-        }
+    registrationFirstAttempt: function(newVal, oldVal) {
+      if (this.registrationFirstAttempt) {
+        this.loadValidators();
       }
     }
   },
@@ -144,6 +131,20 @@ export default {
     }
   },
   methods: {
+    loadValidators() {
+      if (this.validatorLoaded) {
+        if (this.minTime) {
+          let minTimeMessage =
+            this.minTimeMessage || `Value can't be before ${this.minTime}`;
+          this.addCustomRule("MIN_DATE", minTimeMessage, this.validateMin);
+        }
+        if (this.maxTime) {
+          let maxTimeMessage =
+            this.maxTimeMessage || `Value can't be after ${this.maxTime}`;
+          this.addCustomRule("MAX_DATE", maxTimeMessage, this.validateMax);
+        }
+      }
+    },
     formatISO() {
       let tzOffset = this.selectedTime.getTimezoneOffset() * 60000; //offset in milliseconds
       let selectedTime = new Date(this.selectedTime - tzOffset)
@@ -414,13 +415,12 @@ export default {
       timepicker.addChild(timepickerTime);
       timepicker.addChild(numpad);
       timepicker.addChild(hiddenInput);
-      let height = utils.number.extractNumberFromString(this.height);
       timepicker.addDirective({
         name: "overlay-box",
         value: {
           showOn: this.isOpen,
           target: `${this.id}-wrapper`,
-          height: (parseFloat(height) / 2),
+          fixTranslate: true,
           width: this.width
         }
       });

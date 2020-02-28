@@ -272,8 +272,7 @@ export default {
         name: "overlay-box",
         value: {
           showOn: this.isOpen,
-          target: `${this.id}-wrapper`,
-          height: this.height
+          target: `${this.id}-wrapper`
         }
       });
 
