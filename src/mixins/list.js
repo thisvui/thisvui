@@ -1,5 +1,4 @@
 import pagination from "./pagination";
-import icons from "./icons";
 
 import { TInput } from "../components/TInput";
 import { TPaginator } from "../components/TPaginator";
@@ -9,7 +8,8 @@ import { TCheckbox } from "../components/TCheckbox";
 import CssArchitect from "../utils/css-architect";
 
 export default {
-  mixins: [pagination, icons],
+  mixins: [pagination],
+  components: { TProgress, TPaginator, TCheckbox, TInput },
   props: {
     items: {
       type: Array,
@@ -22,7 +22,7 @@ export default {
     paginated: {
       type: Boolean
     },
-    paginatorAtBottom: {
+    paginatorAtTop: {
       type: Boolean
     },
     filtered: {
@@ -62,13 +62,7 @@ export default {
      * @returns { A String value }
      */
     getItems() {
-      return this.isPaginated ? this.paginatedList : this.getFilteredItems;
-    },
-    isPaginated() {
-      return this.paginated;
-    },
-    isPaginatorAtTop() {
-      return !this.paginatorAtBottom;
+      return this.paginated ? this.paginatedList : this.getFilteredItems;
     },
     /**
      * Filters and sorts the items
@@ -101,10 +95,6 @@ export default {
      */
     getSearchClasses: function() {
       const cssArchitect = new CssArchitect("t-search");
-      cssArchitect.addClass(
-        "is-absolute",
-        this.isPaginated && this.isPaginatorAtTop
-      );
       return cssArchitect.getClasses();
     }
   },
@@ -217,7 +207,7 @@ export default {
       return icon;
     },
     /**
-     * Determines the sort order giben a sort key
+     * Determines the sort order given a sort key
      */
     sortBy: function(column) {
       if (column.sortable) {
@@ -256,51 +246,50 @@ export default {
         ...this.paginationData
       });
     },
-    createSearch(architect) {
-      let self = this;
-      let input = architect.createElement(TInput);
-      input.value(this.searchKey);
-      let inputHandler = function(event) {
-        let resultValue = event.target ? event.target.value : event;
-        self.searchKey = resultValue;
-      };
-      input.addInput(inputHandler);
-      input.setProps({
-        containerClass: this.getSearchClasses,
-        overrideDefaults: this.overrideDefaults,
-        icon: this.$thisvui.icons.search,
-        isShadowless: true,
-        isOpaque: true
-      });
-      architect.addChild(input, this.filtered);
+    createSearch(architect, condition = true) {
+      if (this.filtered && condition) {
+        let self = this;
+        let input = architect.createElement(TInput);
+        input.value(this.searchKey);
+        let inputHandler = function(event) {
+          let resultValue = event.target ? event.target.value : event;
+          self.searchKey = resultValue;
+        };
+        input.addInput(inputHandler);
+        input.setProps({
+          containerClass: this.getSearchClasses,
+          overrideDefaults: this.overrideDefaults,
+          icon: this.$thisvui.icons.search,
+          shadowless: true,
+          isOpaque: true
+        });
+        architect.addChild(input);
+      }
     },
-    createPaginator(architect, condition = false) {
+    createPaginator(architect, condition = false, search = false) {
       if (condition) {
         let paginator = architect.createElement(TPaginator);
+        let pProps = this.getPaginationProps();
         paginator.setProps({
           items: this.getFilteredItems,
-          serverSide: this.serverSide,
-          totalItems: this.totalItems,
-          showText: this.showText,
-          previousText: this.previousText,
-          nextText: this.nextText,
-          previousBtnClass: this.previousBtnClass,
-          nextBtnClass: this.nextBtnClass,
           isRight: true,
           isLeft: true,
-          isRounded: true,
-          isShadowless: true,
-          isPaddingless: true,
+          rounded: true,
+          shadowless: true,
+          paddingless: true,
+          transparent: true,
+          end: true,
           isSmall: true,
-          showNumbers: this.showNumbers,
-          linkClass: this.linkClass,
-          currentLinkClass: this.currentLinkClass,
           iconLib: this.iconLib,
           overrideDefaults: this.overrideDefaults
         });
+        paginator.setProps(pProps);
         paginator.addEvent(this.$thisvui.events.paginator.updatePage, data => {
           this.updatePage(data);
         });
+        if (search) {
+          this.createSearch(paginator);
+        }
         architect.addChild(paginator);
       }
     },
@@ -309,10 +298,13 @@ export default {
       let transition = architect.createTransition("fade");
       if (this.isLoading) {
         let loading = architect.createDiv("t-loading-block is-absolute");
-        let progress = architect
-          .createElement(TProgress)
-          .setProps({ indeterminate: true, compact: true });
-        progress.addProp("target-class", classes, classes);
+        let progress = architect.createElement(TProgress).setProps({
+          indeterminate: true,
+          compact: true,
+          height: 3,
+          marginless: true
+        });
+        progress.addProp("target-class", classes, this.isNotNull(classes));
         let block = architect.createDiv("t-loading-block-ui is-absolute");
         loading.addChild(progress);
         loading.addChild(block);
@@ -348,7 +340,8 @@ export default {
       item,
       { inputClass, container, hasBackgroundColor }
     ) {
-      let checkContainer = container || architect.createDiv("table__column--checkable");
+      let checkContainer =
+        container || architect.createDiv("table__column--checkable");
       let checkbox = architect.createElement(TCheckbox, "table__row--checker");
       checkbox.addAttr("value", this.isRowChecked(item));
       checkbox.addProp("input-class", inputClass, inputClass !== undefined);

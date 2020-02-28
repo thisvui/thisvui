@@ -1,9 +1,11 @@
 import CssArchitect from "../utils/css-architect";
+
 import background from "./background";
+import color from "./color";
 import alpha from "./alpha";
 
 export default {
-  mixins: [background, alpha],
+  mixins: [background, color, alpha],
   props: {
     isPrimary: {
       type: Boolean
@@ -46,9 +48,6 @@ export default {
     },
     isHappy: {
       type: Boolean
-    },
-    color: {
-      type: String
     }
   },
   data() {
@@ -69,9 +68,10 @@ export default {
         "is-black",
         "is-white"
       ],
-      hasColorModifier: false,
+      themeModifier: null,
+      hasThemeModifier: false,
       includeBgModifiers: true,
-      colorModifier: null,
+      includeColorModifiers: true,
       hexDigits: [
         "0",
         "1",
@@ -97,7 +97,7 @@ export default {
      * Dynamically adds the modifiers css classes based on mixin props
      * @returns { A String with the chained css classes }
      */
-    getColorsModifiers: function() {
+    getThemeModifiers: function() {
       const cssArchitect = new CssArchitect();
       cssArchitect.addClass("is-primary", this.isPrimary);
       cssArchitect.addClass("is-secondary", this.isSecondary);
@@ -113,87 +113,104 @@ export default {
       cssArchitect.addClass("is-black", this.isBlack);
       cssArchitect.addClass("is-white", this.isWhite);
       cssArchitect.addClass("is-happy", this.isHappy);
-      cssArchitect.addClass(`has-text-${this.color}`, this.color !== undefined);
       cssArchitect.addClass(
         this.getBackgroundModifiers,
         this.includeBgModifiers
       );
+      cssArchitect.addClass(this.getColorModifiers, this.includeColorModifiers);
       return cssArchitect.getClasses();
     }
   },
   methods: {
-    getColorModifier(addDefault = false) {
-      let colorModifier;
+    getThemeModifier(addDefault = false) {
+      let themeModifier;
       if (addDefault) {
-        colorModifier = "is-primary";
+        themeModifier = "is-primary";
       }
-      if (this.hasColorModifier) {
-        colorModifier = this.colorModifier;
+      if (this.hasThemeModifier) {
+        themeModifier = this.themeModifier;
       }
-      return colorModifier;
+      return themeModifier;
     },
-    checkColorModifier(classes) {
+    checkThemeModifier(classes) {
       return this.modifiers.some(modifier => classes.includes(modifier));
     },
-    setupColorModifier(cssArchitect) {
-      this.hasColorModifier = this.checkColorModifier(
+    configureDefault(cssArchitect) {
+      let defaultModifier = "is-primary";
+      cssArchitect.addClass(defaultModifier, !this.hasThemeModifier);
+      this.setupThemeModifier(cssArchitect);
+    },
+    setupThemeModifier(cssArchitect, addDefault = false) {
+      this.hasThemeModifier = this.checkThemeModifier(
         cssArchitect.getClasses()
       );
       let filtered = cssArchitect
         .getClassesArray()
-        .filter(this.checkColorModifier);
+        .filter(this.checkThemeModifier);
 
       if (filtered && filtered !== null && filtered.length > 0) {
-        this.colorModifier = filtered[0];
+        this.themeModifier = filtered[0];
+      }
+      if (addDefault) {
+        this.configureDefault(cssArchitect);
       }
     },
-    filled(
+    isFilled(
       cssArchitect,
       {
         removeInit = false,
         hoverable = false,
         inverted = false,
-        darken = false,
-        lighten = false
+        tint = false,
+        shade = false,
+        active = true
       } = {}
     ) {
       if (!cssArchitect) {
         throw new Error("filled - Please provide css-architect parameter");
       }
-      cssArchitect.addClass(`filled`);
-      cssArchitect.addClass(`remove-init`, removeInit);
-      cssArchitect.addClass(`hoverable`, hoverable);
-      cssArchitect.addClass(`inverted`, inverted);
-      cssArchitect.addClass(`darken`, darken);
-      cssArchitect.addClass(`lighten`, lighten);
+      if(active) {
+        cssArchitect.addClass(`filled`);
+        cssArchitect.addClass(`remove-init`, removeInit);
+        cssArchitect.addClass(`hoverable`, hoverable);
+        cssArchitect.addClass(`inverted`, inverted);
+        cssArchitect.addClass(`tint-${tint}`, tint);
+        cssArchitect.addClass(`shade-${shade}`, shade);
+      }
     },
-    colored(cssArchitect, { inverted = false } = {}) {
+    isColored(cssArchitect, { inverted = false, tint = false, shade = false, active = true } = {}) {
       if (!cssArchitect) {
         throw new Error("colored - Please provide css-architect parameter");
       }
-      cssArchitect.addClass(`colored`);
-      cssArchitect.addClass(`inverted`, inverted);
+      if(active) {
+        cssArchitect.addClass(`colored`);
+        cssArchitect.addClass(`inverted`, inverted);
+        cssArchitect.addClass(`tint-${tint}`, tint);
+        cssArchitect.addClass(`shade-${shade}`, shade);
+      }
     },
-    borderedElement(cssArchitect) {
+    isBordered(cssArchitect, { tint = false, shade = false,  active = true } = {}) {
       if (!cssArchitect) {
         throw new Error("bordered - Please provide css-architect parameter");
       }
-      cssArchitect.addClass(`bordered`);
+      if(active) {
+        cssArchitect.addClass(`bordered`);
+        cssArchitect.addClass(`tint-${tint}`, tint);
+        cssArchitect.addClass(`shade-${shade}`, shade);
+      }
     },
-    hovered(cssArchitect, { hasColor = false } = {}) {
+    isHovered(cssArchitect, { hasColor = false, active = true } = {}) {
       if (!cssArchitect) {
         throw new Error("hovered - Please provide css-architect parameter");
       }
-      cssArchitect.addClass(`hovered`);
-      cssArchitect.addClass(`has-color`, hasColor);
-    },
-    colorize(cssArchitect, type, addColorClass = false) {
-      cssArchitect.addClass(`t-colorize`, addColorClass);
-      cssArchitect.addClass(`has-${type}`);
+      if(active){
+        cssArchitect.addClass(`hovered`);
+        cssArchitect.addClass(`has-color`, hasColor);
+      }
     },
     rgb2hex(color) {
       let rgb = color.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-      if(rgb == null){
+      if (rgb == null) {
         rgb = color.match(/^rgba\((\d+),\s*(\d+),\s*(\d+), \s*(\d+)\)$/);
       }
       return "#" + this.hex(rgb[1]) + this.hex(rgb[2]) + this.hex(rgb[3]);

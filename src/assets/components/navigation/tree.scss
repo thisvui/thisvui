@@ -1,0 +1,117 @@
+$tree-view-item-color: $dark !default;
+$tree-view-active-color: $link !default;
+$tree-view-active-background-color: rgba($primary, 0.4) !default;
+$tree-view-hover-background-color: rgba($primary, 0.4) !default;
+$tree-view-icon-color: rgba($primary, 0.9) !default;
+$tree-view-label-color: $dark !default;
+$tree-view-label-background-color: $primary !default;
+$tree-view-label-border-radius: 6px !default;
+$tree-view-label-shadow-color: rgba($black, 0.05) !default;
+$tree-view-label-shadow: 0 4px 15px rgba($black, 0.05) !default;
+$tree-view-font-size: 1rem !default;
+$tree-view-font-weight: normal !default;
+
+.t-tree-view {
+  min-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: all 0.5s ease-in;
+
+  @include margin-padding(0, 0);
+
+  .tree-view {
+    font-size: 1rem;
+    padding: 1em 2em 1em 1em;
+
+    .tree-view-list {
+      a {
+        padding: 0.4em 0.4em 0.2em 1em;
+        font-size: $tree-view-font-size;
+        font-weight: $tree-view-font-weight;
+        color: $tree-view-item-color;
+
+        &.router-link-active {
+          color: $tree-view-active-color;
+        }
+
+        &.is-active {
+          background-color: $tree-view-active-background-color;
+          border-radius: $tree-view-label-border-radius;
+        }
+
+        &:hover {
+          background-color: $tree-view-hover-background-color;
+        }
+      }
+
+      li {
+        padding: 7px 0 1px 0;
+        list-style: none;
+        margin-top: 0;
+
+        ul {
+          border-left: 1px solid #dbdbdb;
+          margin: 0 0 0 0.55em;
+          padding-left: 0.75em;
+        }
+
+        .icon {
+          color: $tree-view-icon-color;
+        }
+      }
+
+      li + li {
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+.t-tree-nav {
+  .list-style-none {
+    list-style: none !important;
+  }
+
+  .item {
+    cursor: pointer;
+  }
+
+  .icon {
+    display: inline-flex;
+    vertical-align: middle;
+    transition: 0.5s ease all;
+  }
+
+  .tree-nav-link {
+    display: inline-flex;
+    padding-left: 5px;
+    padding-top: 5px;
+  }
+
+  .tree-children {
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+  }
+
+  .router-link-exact-active {
+    background: none;
+    outline: none;
+  }
+
+  .tag {
+    margin-left: 0.5rem;
+    vertical-align: top;
+    font-size: 0.7em;
+    border-radius: 0.3em;
+  }
+
+  ul, li {
+    list-style: none;
+  }
+
+  li + li {
+    margin-top: 0;
+  }
+}

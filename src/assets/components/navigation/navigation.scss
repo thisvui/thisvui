@@ -1,10 +1,11 @@
 $navbar-height: 4rem !default;
 $navbar-dropdown-background-color: $white !default;
-$navbar-dropdown-border-top: 2px solid $border !default;
+$navbar-dropdown-border-top: 2px solid $grey-lighter  !default;
 $navbar-dropdown-min-width: 200px !default;
 $navbar-dropdown-radius: $radius-large !default;
 $navbar-dropdown-z: 20 !default;
 $navbar-fixed-z: 50;
+$navbar-item-img-max-height: 100%;
 
 @mixin navbar-fixed {
   left: 0;
@@ -164,28 +165,5 @@ $navbar-fixed-z: 50;
 
   h1 {
     margin-bottom: 0;
-  }
-}
-
-.navbar-burger {
-  position: absolute;
-  right: 0;
-  left: auto;
-  top: 0;
-  margin: 0;
-
-  @include from($tablet) {
-    left: 0;
-    right: auto;
-    position: relative;
-  }
-
-
-  &.is-mobile-only {
-    display: none;
-
-    @include until($tablet) {
-      display: flex;
-    }
   }
 }

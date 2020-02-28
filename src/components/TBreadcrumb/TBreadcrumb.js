@@ -1,39 +1,18 @@
 import alignment from "../../mixins/alignment";
-import sizes from "../../mixins/sizes";
+import themes from "../../mixins/themes";
 import common from "../../mixins/common";
-import TImage from "../TImage/TImage";
-import TIcon from "../TIcon/TIcon";
+
 import ElementArchitect from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
   name: "t-breadcrumb",
-  mixins: [common, alignment, sizes],
-  components: { TIcon, TImage },
+  mixins: [common, themes, alignment],
   props: {
     model: {
       type: Array
     },
-    hasCustomContent: {
-      type: Boolean,
-      default: false
-    },
-    hasArrowSeparator: {
-      type: Boolean,
-      default: false
-    },
-    hasBulletSeparator: {
-      type: Boolean,
-      default: false
-    },
-    hasDotSeparator: {
-      type: Boolean,
-      default: false
-    },
-    hasSucceedsSeparator: {
-      type: Boolean,
-      default: false
-    },
+    custom: Boolean,
     preventUrlNavigation: {
       type: Boolean,
       default: true
@@ -61,17 +40,55 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("breadcrumb");
-      cssArchitect.addClass(this.getAlignmentModifiers);
-      cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass("has-arrow-separator", this.hasArrowSeparator);
-      cssArchitect.addClass("has-bullet-separator", this.hasBulletSeparator);
-      cssArchitect.addClass("has-dot-separator", this.hasDotSeparator);
-      cssArchitect.addClass(
-        "has-succeeds-separator",
-        this.hasSucceedsSeparator
-      );
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("breadcrumb");
+      this.isBordered(css);
+      css.addClass(this.getThemeModifiers);
+      this.setupThemeModifier(css, true);
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the content element
+     * @returns { A String with the chained css classes }
+     */
+    getContentClasses: function() {
+      const css = new CssArchitect("breadcrumb__content");
+      css.addClass(this.getAlignmentModifiers);
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the list element
+     * @returns { A String with the chained css classes }
+     */
+    getItemsClasses: function() {
+      const css = new CssArchitect("breadcrumb__items");
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the number element
+     * @returns { A String with the chained css classes }
+     */
+    getNumberClasses: function() {
+      const css = new CssArchitect("breadcrumb__number");
+      this.isFilled(css);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the icon element
+     * @returns { A String with the chained css classes }
+     */
+    getIconClasses: function() {
+      const css = new CssArchitect("breadcrumb__icon");
+      css.addClass(this.themeModifier, this.hasThemeModifier);
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the name element
+     * @returns { A String with the chained css classes }
+     */
+    getNameClasses: function() {
+      const css = new CssArchitect("breadcrumb__name");
+      return css.getClasses();
     }
   },
   methods: {
@@ -93,31 +110,33 @@ export default {
       if (event && this.preventUrlNavigation) {
         event.preventDefault();
       }
-      if (!this.hasCustomContent) {
+      if (!this.custom) {
         this.toggleActive(name);
         this.$emit(this.$thisvui.events.common.click, name);
       }
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "nav", this.getClasses);
-    root.setId(this.id)
-    root.addAttr("aria-label", "breadcrumbs");
+    let root = new ElementArchitect(h, "div", this.getClasses);
+    root.setId(this.id);
 
-    if (!this.hasCustomContent) {
-      let ul = root.createUl();
+    let content = root.createDiv(this.getContentClasses);
+
+    if (!this.custom) {
+      let ul = root.createUl(this.getItemsClasses);
       for (let index in this.items) {
         let item = this.items[index];
         let li = root.createLi();
         li.setKey(`breadcrumb-item${index}`);
         li.addClass("is-active", item.isActive);
 
-        let name = root.createSpan();
+        let name = root.createDiv(this.getNameClasses);
         name.innerHTML(item.name);
 
         // Creating the link element. if item.view is present creates a router-link
         let link = root.createElement(
-          item.url || (!item.url && !item.view) ? "a" : "router-link"
+          item.url || (!item.url && !item.view) ? "a" : "router-link",
+          "breadcrumb__item"
         );
         link.addAttr("href", item.url, item.url);
         link.addProp("to", { name: item.view }, item.view);
@@ -127,23 +146,29 @@ export default {
 
         // Creating the icon element if present
         if (item.icon) {
-          let icon = root.createIcon();
+          let icon = root.createIcon(this.getIconClasses);
           icon.addProp("icon", item.icon);
           link.addChild(icon);
+        } else {
+          // Creating the number element if no icon is present
+          let number = root.createDiv(this.getNumberClasses);
+          number.innerHTML(parseInt(index) + 1);
+          link.addChild(number);
         }
 
         link.addChild(name);
         li.addChild(link);
         ul.addChild(li);
       }
-      root.addChild(ul);
+      content.addChild(ul);
     } else {
-      root.setChildren(this.$slots.default);
+      content.setChildren(this.$slots.default);
     }
+    root.addChild(content);
     return root.create();
   },
   created() {
-    if (!this.hasCustomContent) {
+    if (!this.custom) {
       this.model.forEach(item => {
         item.isActive = false;
         this.items.push(item);

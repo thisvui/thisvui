@@ -1,0 +1,143 @@
+$radio-margin: -1px 4px 0 0 !default;
+$radio-margin-no-label: -1px 10px 0 0 !default;
+$radio-padding: 4px !default;
+$radio-bg: rgba($white-bis, 0.7) !default;
+$radio-bg-checked: rgba($white-bis, 0.9) !default;
+$radio-label-margin: 0 1.2rem 0 0.25rem !default;
+$radio-label-left-margin: 0 0.5rem 0 1rem !default;
+
+$radio-size-small: 20px !default;
+$radio-size-normal: 30px !default;
+$radio-size-medium: 40px !default;
+$radio-size-large: 50px !default;
+
+$radio-font-size-small: 12px !default;
+$radio-font-size-normal: 14px !default;
+$radio-font-size-medium: 16px !default;
+$radio-font-size-large: 20px !default;
+
+@mixin radio-sizes {
+  font-size: $radio-font-size-normal;
+  height: $radio-size-normal;
+  width: $radio-size-normal;
+  line-height: $radio-size-normal;
+  &.small {
+    height: $radio-size-small;
+    width: $radio-size-small;
+    line-height: $radio-size-small;
+    font-size: $radio-font-size-small;
+  }
+
+  &.medium {
+    height: $radio-size-medium;
+    width: $radio-size-medium;
+    line-height: $radio-size-medium;
+    font-size: $radio-font-size-medium;
+  }
+
+  &.large {
+    height: $radio-size-large;
+    width: $radio-size-large;
+    line-height: $radio-size-large;
+    font-size: $radio-font-size-large;
+  }
+}
+
+@mixin radio-font-sizes {
+  font-size: $radio-font-size-normal;
+  &.small {
+    font-size: $radio-font-size-small;
+  }
+
+  &.medium {
+    font-size: $radio-font-size-medium;
+  }
+
+  &.large {
+    font-size: $radio-font-size-large;
+  }
+}
+
+.radio {
+  &__input[type="radio"] {
+    display: none;
+
+    + label {
+      display: inline-block;
+      border-radius: 50%;
+      margin: $radio-margin;
+      padding: $radio-padding;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      @include radio-sizes;
+      @include material-shadow(shade($dark, 10%));
+
+      &:not(.solid) {
+        background: $radio-bg;
+      }
+
+      &.no-label {
+        margin: $radio-margin-no-label;
+      }
+
+      span {
+        display: block;
+        height: 100%;
+        width: 100%;
+        vertical-align: middle;
+        border-radius: 50%;
+        background-repeat: no-repeat;
+        background-position: center;
+        text-align: center;
+        opacity: 0;
+        transition: all cubic-bezier(0.47, 0, 0.74, 0.71) 200ms;
+
+        &.solid {
+          background: $radio-bg-checked;
+        }
+      }
+    }
+
+    &.is-centered {
+      + label {
+        margin: auto;
+      }
+    }
+
+    &:checked + label span {
+      opacity: 1;
+    }
+  }
+
+  &__label {
+    display: inline-block;
+    margin: $radio-label-margin;
+    @include radio-font-sizes;
+
+    &.is-left {
+      margin: $radio-label-left-margin;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+
+    &.is-centered {
+      margin: auto;
+
+      &:first-child {
+        margin-left: auto;
+      }
+    }
+  }
+
+  &__container {
+    display: flex;
+    flex: 1;
+    padding: 2px;
+    margin: 2px;
+    align-items: center;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,152 @@
+$tp-digit-width: 34px;
+$tp-bg: $white-ter;
+$tp-header-bg: $dark;
+$tp-time-bg: lighten($tp-header-bg, 10%);
+$tp-active-unit-bg: $tp-header-bg;
+$tp-digit-color: $grey-dark;
+$tp-border-radius: 3px;
+$tp-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+$tp-input-width: 34px;
+
+.timepicker {
+  position: absolute;
+  background: $tp-bg;
+  width: 100vw;
+  box-shadow: $tp-box-shadow;
+  border-radius: $tp-border-radius;
+  overflow: hidden;
+  left: 50%;
+  top: -135px;
+  opacity: 0;
+  transition: transform 0.2s 0.2s ease-in-out, opacity 0.2s 0.15s ease-in-out;
+  transform: translate3d(-50%, 0, 0) scale(0.8);
+  pointer-events: none;
+  z-index: 100;
+
+
+  @include big-phone-up {
+    width: 250px;
+    border-radius: 0;
+  }
+
+  &:before {
+    z-index: -1;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: #fff;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: transform 0.2s ease-in-out;
+  }
+
+  &.is-open {
+    opacity: 1;
+    transform: translate3d(0, -50%, 0) scale(1);
+    pointer-events: auto;
+
+    &:before {
+      border-radius: $tp-border-radius;
+      transform: scale(1);
+    }
+  }
+
+  &__header {
+    padding: 5px 15px;
+    font-size: 14px;
+    color: #fff;
+    background: $tp-header-bg;
+  }
+  &__time {
+    position: relative;
+    overflow: hidden;
+    background: $tp-time-bg;
+    display: flex;
+    justify-content: center;
+    font-size: 50px;
+    color: #fff;
+    line-height: 1;
+    padding: 12px 10px;
+  }
+
+  &__unit {
+    z-index: 4;
+    position: relative;
+    transition: transform 0.2s ease;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &-bg{
+      position: absolute;
+      top: -25%;
+      left: 0;
+      width: $tp-input-width;
+      height: 200%;
+      background: $tp-active-unit-bg;
+      transition: transform 0.4s ease;
+    }
+  }
+
+  &__value {
+    position: relative;
+    display: inline-block;
+    z-index: 2;
+    color: #fff;
+    font-size: 50px;
+    line-height: 50px;
+    padding: 0 2px;
+    text-align: center;
+    width: $tp-digit-width;
+    height: 50px;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:focus,
+    &:active {
+      background: transparent;
+    }
+
+    &-enter {
+      opacity: 0;
+      transform: translate3d(0, 2rem, 0) scale(0.7);
+    }
+
+    &-leave-active {
+      position: absolute;
+      opacity: 0;
+      transform: translate3d(0, -2rem, 0) scale(0.7);
+    }
+
+    &--reverse {
+      &-enter {
+        opacity: 0;
+        transform: translate3d(0, -2rem, 0) scale(0.7);
+      }
+
+      &-leave-active {
+        position: absolute;
+        opacity: 0;
+        transform: translate3d(0, 2rem, 0) scale(0.7);
+      }
+    }
+  }
+
+  &__separator {
+    z-index: 2;
+    position: relative;
+    width: $tp-input-width;
+    text-align: center;
+    font-size: 90%;
+  }
+}

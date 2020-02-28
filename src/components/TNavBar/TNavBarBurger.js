@@ -1,13 +1,13 @@
 import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-navbar-burger",
-  mixins: [common, helper, colors],
+  mixins: [common, helper, themes],
   props: {
     active: {
       type: Boolean
@@ -25,19 +25,19 @@ export default {
       const css = new CssArchitect("navbar__burger");
       css.addClass("is-active", this.active);
       css.addClass("is-mobile-only", this.mobileOnly);
-      css.colored();
-      css.addClass(this.getColorsModifiers);
-      this.setupColorModifier(css);
+      css.isColored();
+      css.addClass(this.getThemeModifiers);
+      this.setupThemeModifier(css);
       css.addClass(this.targetClass);
       css.addClass(
-        this.$parent.colorModifier,
-        this.$parent.hasColorModifier && !this.hasColorModifier
+        this.$parent.themeModifier,
+        this.$parent.hasThemeModifier && !this.hasThemeModifier
       );
       css.addClass(
         "inverted",
-        this.$parent.hasColorModifier && !this.hasColorModifier
+        this.$parent.hasThemeModifier && !this.hasThemeModifier
       );
-      this.setupColorModifier(css);
+      this.setupThemeModifier(css);
       return css.getClasses();
     }
   },

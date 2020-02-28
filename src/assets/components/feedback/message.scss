@@ -1,7 +1,7 @@
 $message-radius: $radius !default;
 $message-margin: 0.7rem !default;
 
-$message-heading-color: $text-invert !default;
+$message-heading-color:  findColorInvert($grey-dark) !default;
 $message-heading-weight: $weight-bold !default;
 $message-heading-padding: 0.75em 1em !default;
 $message-heading-radius: $radius !default;
@@ -10,13 +10,14 @@ $message-body-border-width: 0 0 0 4px !default;
 $message-body-color: $dark !default;
 $message-body-padding: 1.25em 1.5em !default;
 $message-body-radius: $radius !default;
+$message-font-size: $font-size-1 !default;
 
 $message-heading-body-border-width: 0 !default;
 
 .message {
   display: block;
   border-radius: $message-radius;
-  font-size: $size-normal;
+  font-size: $message-font-size;
   margin: $message-margin;
 
   strong {
@@ -30,15 +31,15 @@ $message-heading-body-border-width: 0 !default;
 
   // Sizes
   &.is-small {
-    font-size: $size-small;
+    font-size: $font-size-small;
   }
 
   &.is-medium {
-    font-size: $size-medium;
+    font-size: 1.5rem;
   }
 
   &.is-large {
-    font-size: $size-large;
+    font-size: $font-size-2;
   }
 
   &__close {

@@ -1,9 +1,11 @@
 import * as components from "..";
+import * as directives from "../../directives";
 import { ThisValidate } from "../TValidation/validation-bus";
 import { TIconLib } from "../TIcon/TIconLib";
-import ClickOutside from "../../directives/click-outside";
-import ThisvuiConfig from "./config";
+
 import notification from "../../mixins/notification";
+
+import ThisvuiConfig from "./config";
 
 const ThisVui = {
   install(Vue, options = {}) {
@@ -17,9 +19,13 @@ const ThisVui = {
     Object.values(components).forEach(component => {
       Vue.component(component.name, component);
     });
+
+    Object.values(directives).forEach(directive => {
+      Vue.directive(directive.name, directive);
+    });
+
     Vue.use(ThisValidate);
     Vue.use(TIconLib);
-    Vue.directive("click-outside", ClickOutside);
   }
 };
 

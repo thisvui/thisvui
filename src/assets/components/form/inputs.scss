@@ -1,7 +1,23 @@
-// VARIABLES // ============================== //
-$label-color: mix(white, $dark, 70%);
-$transition-delay: 300ms;
-$width: 320px;
+$input-color: rgba($dark, 0.9) !default;
+$input-background-color: rgba($white, 1) !default;
+$input-border-color: rgba($dark, 0.3) !default;
+$input-bottom-border-color: rgba($primary, 0.9) !default;
+$input-hover-color: $opaque !default;
+$input-hover-border-color: $input-border-color !default;
+$input-focus-color: $opaque !default;
+$input-focus-border-color: $input-border-color !default;
+$input-icon-color: rgba($primary, 0.4) !default;
+$input-icon-active-color: rgba($primary, 0.9) !default;
+
+$input-radius: 3px !default;
+$input-shadow: none !default;
+$input-focus-box-shadow-size: 0 0 0.125em !default;
+$input-focus-box-shadow-color: rgba($dark, 0.25) !default;
+
+$label-weight: normal !default;
+$label-color: tint($dark, 50%) !default;
+$label-transition-delay: 300ms;
+$label-font-size: 1rem;
 
 .group {
   position: relative;
@@ -10,14 +26,15 @@ $width: 320px;
     padding: 0.2rem;
     display: flex;
     align-items: center;
+    height: inherit;
     .label {
-      font-size: 16px;
+      font-size: 18px;
       position: relative;
       text-transform: uppercase;
     }
 
     &.bordered {
-      border: 1px solid lighten($primary, 25%);
+      border: 1px solid tint($primary, 25%);
       &.focused {
         border: 1px solid $primary;
       }
@@ -26,15 +43,14 @@ $width: 320px;
     &.transparent {
       background: transparent;
     }
-
   }
-  &:not(:last-child){
+  &:not(:last-child) {
     margin-bottom: 1.5rem;
   }
 }
 
 // INPUTS // ============================== //
-.control{
+.control {
   background: transparent;
   border-radius: 3px;
   padding: 2px;
@@ -42,9 +58,14 @@ $width: 320px;
   display: block;
   flex: 1;
 
-  .input, .textarea {
+  &.compact {
+    padding: 0;
+  }
+
+  .input,
+  .textarea {
     background: none;
-    color: lighten($dark, 15%);
+    color: tint($dark, 15%);
     font-size: 18px;
     padding: 10px 10px 10px 5px;
     display: block;
@@ -53,32 +74,31 @@ $width: 320px;
     width: 100%;
 
     &.compact {
-      padding: 7px 7px 7px 5px;
+      padding: 2px;
     }
     &::placeholder {
       opacity: 0;
-      color: lighten($dark, 45%);
+      color: tint($dark, 45%);
     }
     &:focus {
       outline: none;
     }
 
     &:not(.select):focus ~ .label {
-      top: -1.6em;
-      font-size: 12px;
-      left: 5px;
+      top: -1.8em;
+      font-size: $label-font-size;
+      left: 0;
 
       &.input-icon-left {
         left: -24px;
       }
-
     }
 
     &.classic::placeholder {
       opacity: 1;
     }
 
-    &.small{
+    &.small {
       flex: unset;
     }
   }
@@ -97,27 +117,27 @@ $width: 320px;
 
   .label {
     color: $label-color;
-    font-size: 1rem;
-    font-weight: normal;
+    font-size: $label-font-size;
+    font-weight: $label-weight;
     position: absolute;
     pointer-events: none;
     left: 5px;
     top: 25%;
-    transition: $transition-delay ease all;
-    &.is-textarea{
+    transition: $label-transition-delay ease all;
+    &.is-textarea {
       top: 0.5em;
     }
     &.has-value {
-      top: -1.6em;
-      font-size: 12px;
-      left: 5px;
+      top: -1.8em;
+      font-size: $label-font-size;
+      left: 0;
     }
   }
 
-  .icon{
+  .icon {
     padding-left: 0.5em;
     padding-right: 0.5em;
-    &.is-textarea{
+    &.is-textarea {
       padding-top: 1em;
     }
   }

@@ -28,7 +28,9 @@ export default {
      */
     getContainerClasses: function() {
       const cssArchitect = new CssArchitect("t-tree-view");
-      cssArchitect.isFlexible("column", "stretch").isFullheight();
+      cssArchitect
+        .flexible({ direction: "column", alignItems: "stretch" })
+        .isFullheight();
       cssArchitect.addClass(
         this.containerClass,
         this.containerClass !== undefined

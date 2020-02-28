@@ -1,6 +1,6 @@
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 import dimension from "../../mixins/dimension";
 
 import TIcon from "../TIcon/TIcon";
@@ -11,7 +11,7 @@ import { createElement } from "../../utils/element-architect";
 export default {
   name: "t-dropdown",
   components: { TIcon },
-  mixins: [common, colors, dimension, icons],
+  mixins: [common, themes, dimension, icons],
   props: {
     text: {
       type: String
@@ -48,8 +48,8 @@ export default {
       const css = new CssArchitect("dropdown");
       css.addClass(this.getAlignmentModifiers);
       css.addClass(this.getDimensionModifiers);
-      css.addClass(this.getColorsModifiers);
-      this.setupColorModifier(css);
+      css.addClass(this.getThemeModifiers);
+      this.setupThemeModifier(css, true);
       css.addClass("is-hoverable", this.hoverable);
       css.addClass("is-active", this.active || this.isDropdownActive);
       css.addStyles([this.getDimensionStyles]);
@@ -59,7 +59,7 @@ export default {
       const css = new CssArchitect("dropdown__menu");
       css.addClass("is-up", this.up);
       css.addClass("is-right", this.rightAligned);
-      css.addClass(this.getColorsModifiers);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addStyle(
         "width",
         css.addPercent(this.menuWidth),
@@ -69,8 +69,8 @@ export default {
     },
     getIconClasses: function() {
       const css = new CssArchitect("dropdown__icon");
-      this.colored(css, { inverted: true });
-      css.addClass(this.getColorsModifiers);
+      this.isColored(css, { inverted: true });
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
     },
     /**
@@ -79,8 +79,8 @@ export default {
      */
     getTriggerClasses: function() {
       const css = new CssArchitect("dropdown__trigger button");
-      this.filled(css);
-      css.addClass(this.getColorsModifiers);
+      this.isFilled(css);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
     }
   },

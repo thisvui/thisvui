@@ -37,9 +37,7 @@ export default {
     },
     allowEmptyValue: function(value, oldValue) {
       if (!value) {
-        let value = this.isNotEmpty(this.initialValue)
-          ? this.initialValue
-          : this.results[0];
+        let value = this.isNotEmpty(this.value) ? this.value : this.results[0];
         this.setResult(value);
       }
     }
@@ -48,7 +46,7 @@ export default {
     getOpenIconClass: function() {
       const cssArchitect = new CssArchitect();
       cssArchitect.addClass("colored");
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
+      cssArchitect.addClass(this.themeModifier, this.hasThemeModifier);
       cssArchitect.addClass("cursor-pointer");
       return cssArchitect.getClasses();
     },
@@ -81,9 +79,16 @@ export default {
      * Executed on focus
      */
     onFocus(event) {
-      if (this.search !== undefined && this.search !== "") {
-        this.isOpen = true;
+      this.focused = true;
+      this.$emit(this.$thisvui.events.common.focus);
+    },
+    onBlur() {
+      let result = this.validateOnEvent(this.$thisvui.events.common.blur);
+      if (result && result.valid) {
+        this.$emit(this.$thisvui.events.common.blur);
       }
+      this.focused = false;
+      this.isOpen = false;
     },
     /**
      * Handles behavior for outside clicks
@@ -95,21 +100,25 @@ export default {
     /**
      * Creates the open/close icon
      */
-    createToggleIcon(architect) {
-      let openIconWrapper = architect.createA();
-      let openIcon = architect.createIcon(this.getOpenIconClass);
-      openIcon.addProp("icon", this.arrowIcon);
-      openIcon.setRef("arrow");
-      openIcon.addProp("preserveDefaults", !this.overrideDefaults);
-      openIconWrapper.addClick(this.onClick);
-      openIconWrapper.addChild(openIcon);
-      architect.addChild(openIconWrapper);
+    createToggleIcon(architect, condition = true) {
+      if (condition) {
+        let openIconWrapper = architect.createA();
+        let openIcon = architect.createIcon(this.getOpenIconClass);
+        openIcon.addProp("icon", this.arrowIcon);
+        openIcon.setRef("arrow");
+        openIcon.addProp("preserveDefaults", !this.overrideDefaults);
+        openIconWrapper.addClick(this.onClick);
+        openIconWrapper.addChild(openIcon);
+        architect.addChild(openIconWrapper);
+      }
     },
     /**
      * Creates the input element
      */
     createInput(architect) {
-      let root = architect.createDiv(this.getWrapperClass);
+      let root = architect.createDiv(this.getWrapperCss.getClasses());
+      root.setId(`${this.id}-wrapper`);
+      root.setStyles(this.getWrapperCss.getStyles());
       let control = architect.createDiv(this.getControlClass); // The control element
       root.addDirective({
         name: "click-outside",
@@ -135,6 +144,9 @@ export default {
       input.value(this.search);
       input.setAttrs(inputAttrs);
       input.setRef("inputField");
+
+      // Handling events
+      input.addListeners(this.$listeners);
       input.addChange(this.onChange);
       input.addInput(this.onInput);
       input.addBlur(this.onBlur);
@@ -164,7 +176,8 @@ export default {
         this.createClearIcon(root);
       }
       this.createIcon(root, this.iconPosition.right);
-      this.createToggleIcon(root);
+      this.createToggleIcon(root, !this.disabled);
+      this.createStateIcon(root);
       this.createErrorHelpers(root);
       architect.addChild(root);
     }
@@ -179,15 +192,18 @@ export default {
   },
   mounted() {
     this.$nextTick(function() {
-      if (this.allowEmptyValue && this.isNotEmpty(this.initialValue)) {
-        this.search = this.initialValue;
+      if (this.allowEmptyValue && this.isNotEmpty(this.value)) {
+        this.search = this.display ? this.value[this.display] : this.value;
+        this.hasValue = true;
+        this.selectedValue = this.value;
       }
       if (!this.allowEmptyValue) {
-        let value = this.isNotEmpty(this.initialValue)
-          ? this.initialValue
-          : this.results[0];
-        this.setResult(value);
+        let value = this.isNotEmpty(this.value) ? this.value : this.results[0];
+        this.search = this.display ? value[this.display] : value;
+        this.selectedValue = value;
       }
+      this.$emit(this.$thisvui.events.common.input, this.selectedValue);
+      this.$emit(this.$thisvui.events.common.change, this.selectedValue);
     });
   }
 };

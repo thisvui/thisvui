@@ -40,7 +40,7 @@ export default {
         this.containerClass !== undefined
       );
       cssArchitect.addClass(this.getSyntaxModifiers);
-      cssArchitect.addClass(this.getColorsModifiers);
+      cssArchitect.addClass(this.getThemeModifiers);
       cssArchitect.addClass(this.getAlignmentModifiers);
       return cssArchitect.getClasses();
     }
@@ -122,7 +122,8 @@ export default {
      * Creates the input element
      */
     createInput(architect) {
-      let root = architect.createDiv(this.getWrapperClass);
+      let root = architect.createDiv(this.getWrapperCss.getClasses());
+      root.setStyles(this.getWrapperCss.getStyles());
       root.addDirective({
         name: "click-outside",
         value: {
@@ -153,6 +154,9 @@ export default {
       input.value(this.search);
       input.setAttrs(inputAttrs);
       input.setRef("inputField");
+
+      // Handling events
+      input.addListeners(this.$listeners);
       input.addChange(this.onChange);
       input.addInput(this.onInput);
       input.addBlur(this.onBlur);
@@ -200,8 +204,11 @@ export default {
   },
   mounted() {
     this.$nextTick(function() {
-      if (this.isNotEmpty(this.initialValue)) {
-        this.search = this.initialValue;
+      if (this.isNotEmpty(this.value)) {
+        this.search = this.display ? this.value[this.display] : this.value;
+        this.selectedValue = this.value;
+        this.hasValue = true;
+        this.$emit(this.$thisvui.events.common.input, this.selectedValue);
       }
     });
   }

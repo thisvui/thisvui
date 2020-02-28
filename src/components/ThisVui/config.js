@@ -17,7 +17,20 @@ const ICONS_FA5 = {
   arrowRight: "fas fa-angle-right",
   expand: "fas fa-plus-circle",
   collapse: "fas fa-minus-circle",
-  notification: "fas fa-exclamation-triangle"
+  notification: "fas fa-exclamation-triangle",
+  validationError: "fas fa-exclamation-circle",
+  validationSuccess: "fas fa-check-circle",
+  richBold: "fas fa-bold",
+  richItalic: "fas fa-italic",
+  richUnderline: "fas fa-underline",
+  richStrikethrough: "fas fa-strikethrough",
+  richOrderedList: "fas fa-list-ol",
+  richUnorderedList: "fas fa-list-ul",
+  richAlignLeft: "fas fa-align-left",
+  richAlignRight: "fas fa-align-right",
+  richAlignCenter: "fas fa-align-center",
+  richAlignJustify: "fas fa-align-justify",
+  richRemoveFormat: "fas fa-remove-format"
 };
 
 const ICONS_FA4 = {
@@ -39,7 +52,20 @@ const ICONS_FA4 = {
   arrowRight: "fa fa-angle-right",
   expand: "fa fa-plus-circle",
   collapse: "fa fa-minus-circle",
-  notification: "fas fa-exclamation-triangle"
+  notification: "fas fa-exclamation-triangle",
+  validationError: "fas fa-exclamation-circle",
+  validationSuccess: "fas fa-check-circle",
+  richBold: "fas fa-bold",
+  richItalic: "fas fa-italic",
+  richUnderline: "fas fa-underline",
+  richStrikethrough: "fas fa-strikethrough",
+  richOrderedList: "fas fa-list-ol",
+  richUnorderedList: "fas fa-list-ul",
+  richAlignLeft: "fas fa-align-left",
+  richAlignRight: "fas fa-align-right",
+  richAlignCenter: "fas fa-align-center",
+  richAlignJustify: "fas fa-align-justify",
+  richRemoveFormat: "fas fa-remove-format"
 };
 
 const ICONS_MATERIAL_DESIGN = {
@@ -61,7 +87,20 @@ const ICONS_MATERIAL_DESIGN = {
   arrowRight: "keyboard_arrow_right",
   expand: "add_circle",
   collapse: "remove_circle",
-  notification: "warning"
+  notification: "warning",
+  validationError: "error",
+  validationSuccess: "check_circle",
+  richBold: "format_bold",
+  richItalic: "format_italic",
+  richUnderline: "format_underline",
+  richStrikethrough: "format_strikethrough",
+  richOrderedList: "format_list_bullet",
+  richUnorderedList: "format_list_numbered",
+  richAlignLeft: "format_align_left",
+  richAlignRight: "format_align_right",
+  richAlignCenter: "format_align_center",
+  richAlignJustify: "format_align_justify",
+  richRemoveFormat: "format_clear"
 };
 
 const EVENTS = {
@@ -70,7 +109,8 @@ const EVENTS = {
     input: "input",
     change: "change",
     blur: "blur",
-    onEnter: "on-enter"
+    focus: "focus",
+    enter: "keyup.enter"
   },
   accordion: {
     collapseOthers: "collapse-others"
@@ -134,7 +174,7 @@ class ThisVuiConfig {
     let options = {
       iconLib: this.iconLib,
       icons: this.icons,
-      dateFormat: "MM/DD/YYYY",
+      dateFormat: "MM/dd/yyyy",
       enableTimePicker: false,
       events: EVENTS
     };

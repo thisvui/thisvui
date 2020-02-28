@@ -1,12 +1,12 @@
 import icons from "../../mixins/icons";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-panel-heading",
-  mixins: [icons, colors],
+  mixins: [icons, themes],
   props: {
     text: {
       type: String
@@ -34,16 +34,17 @@ export default {
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
      */
-    getClasses: function() {
+    getCss: function() {
       const css = new CssArchitect("panel__heading");
-      css.addClass("filled bordered");
+      this.isFilled(css);
+      this.isBordered(css);
       css.addClass("icon-left", this.iconLeft);
-      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getThemeModifiers);
       css.addClass(
-        this.$parent.colorModifier,
-        this.$parent.hasColorModifier && !this.hasColorModifier
+        this.$parent.themeModifier,
+        this.$parent.hasThemeModifier && !this.hasThemeModifier
       );
-      return css.getClasses();
+      return css;
     },
     /**
      * Dynamically build the css classes for the heading icon
@@ -51,10 +52,7 @@ export default {
      */
     getIconClasses: function() {
       const css = new CssArchitect("level-right");
-      css.addClass(
-        this.iconClass,
-        this.iconClass !== undefined
-      );
+      css.addClass(this.iconClass, this.iconClass !== undefined);
       return css.getClasses();
     }
   },
@@ -67,7 +65,7 @@ export default {
     onClick() {
       this.$emit(this.$thisvui.events.common.click);
     },
-    createHeadingIcon(architect, condition){
+    createHeadingIcon(architect, condition) {
       if (this.showIcon && this.icon && condition) {
         let icon = architect.createIcon(this.getIconClasses);
         icon.setProps({
@@ -79,9 +77,8 @@ export default {
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "div", this.getClasses);
+    let root = new ElementArchitect(h, "div", this.getCss.getClasses());
     root.addClick(this.onClick);
-
     root.addVNodeChildren(this.$slots.default, !this.alignContentRight);
     this.createHeadingIcon(root, this.iconLeft);
     if (this.text) {

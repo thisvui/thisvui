@@ -1,11 +1,9 @@
 import common from "../../mixins/common";
-import TIcon from "../TIcon/TIcon";
 
-import ElementArchitect from "../../utils/element-architect";
+import { createTransition } from "../../utils/element-architect";
 
 export default {
   name: "t-tab",
-  components: { TIcon },
   mixins: [common],
   props: {
     name: {
@@ -50,8 +48,7 @@ export default {
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "transition");
-    root.setProps({name: this.transitionClassName})
+    let root = createTransition(h, this.transitionClassName);
 
     let tab = root.createDiv("tab__pane")
     tab.setId(this.id).setChildren(this.$slots.default);

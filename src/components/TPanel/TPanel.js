@@ -3,14 +3,14 @@ import common from "../../mixins/common";
 import icons from "../../mixins/icons";
 import TPanelHeading from "./TPanelHeading";
 import TExpand from "../TAnimation/TExpand";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-panel",
-  mixins: [common, colors, icons, helpers],
+  mixins: [common, themes, icons, helpers],
   components: { TExpand, TPanelHeading },
   props: {
     title: {
@@ -43,31 +43,31 @@ export default {
       default: function() {
         return this.$thisvui.icons.collapse;
       }
-    },
-
+    }
   },
   computed: {
     /**
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
      */
-    getClasses: function() {
-      const cssArchitect = new CssArchitect("panel");
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass(this.getHelpersModifiers);
-      this.setupColorModifier(cssArchitect);
-      return cssArchitect.getClasses();
+    getCss: function() {
+      const css = new CssArchitect("panel");
+      css.addClass(this.getThemeModifiers);
+      css.addClass(this.getHelpersModifiers);
+      css.addStyles([this.getAlphaModifiers]);
+      this.setupThemeModifier(css, true);
+      return css;
     },
     /**
      * Dynamically build the css classes for the panel body
      * @returns { A String with the chained css classes }
      */
     getBodyClasses: function() {
-      const cssArchitect = new CssArchitect("panel__body");
-      cssArchitect.addClass("is-closed is-shadowless", !this.isExpanded);
-      this.colorize(cssArchitect, "border", true);
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("panel__body");
+      css.addClass("is-closed is-shadowless", !this.isExpanded);
+      this.isBordered(css);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the panel heading icon
@@ -75,9 +75,7 @@ export default {
      */
     getIconClasses: function() {
       const css = new CssArchitect();
-      css.addClass(
-        this.colorModifier, this.hasColorModifier
-      );
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass("inverted");
       return css.getClasses();
     }
@@ -109,9 +107,8 @@ export default {
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "div", this.getClasses);
+    let root = new ElementArchitect(h, "div", this.getCss.getClasses());
     root.setId(this.id);
-
     if (this.title) {
       let heading = root.createElement(TPanelHeading, this.headingClass);
       heading.setProps({
@@ -123,7 +120,8 @@ export default {
         iconLeft: this.iconLeft,
         iconClass: this.getIconClasses
       });
-      root.addClick(() => this.toggleExpanded(), this.expandable);
+      heading.setStyles(this.getAlphaModifiers);
+      heading.addClick(() => this.toggleExpanded(), this.expandable);
       root.addChild(heading);
     }
 

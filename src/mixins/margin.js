@@ -17,7 +17,7 @@ export default {
     marginLeft: {
       type: Number
     },
-    unit: {
+    marginUnit: {
       type: String,
       default: "px"
     },
@@ -29,11 +29,11 @@ export default {
      */
     getMarginStyles() {
       const css = new CssArchitect();
-      css.addStyle("margin", css.addUnit(this.margin, this.unit), this.margin !== undefined);
-      css.addStyle("margin-top", css.addUnit(this.marginTop, this.unit), this.marginTop !== undefined);
-      css.addStyle("margin-right", css.addUnit(this.marginRight, this.unit), this.marginRight !== undefined);
-      css.addStyle("margin-bottom", css.addUnit(this.marginBottom, this.unit), this.marginBottom !== undefined);
-      css.addStyle("margin-left", css.addUnit(this.marginLeft, this.unit), this.marginLeft !== undefined);
+      css.addStyle("margin", css.addUnit(this.margin, this.marginUnit), this.margin !== undefined);
+      css.addStyle("margin-top", css.addUnit(this.marginTop, this.marginUnit), this.marginTop !== undefined);
+      css.addStyle("margin-right", css.addUnit(this.marginRight, this.marginUnit), this.marginRight !== undefined);
+      css.addStyle("margin-bottom", css.addUnit(this.marginBottom, this.marginUnit), this.marginBottom !== undefined);
+      css.addStyle("margin-left", css.addUnit(this.marginLeft, this.marginUnit), this.marginLeft !== undefined);
       return css.getStyles();
     },
   }

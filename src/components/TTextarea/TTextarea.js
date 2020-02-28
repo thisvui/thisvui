@@ -6,7 +6,7 @@ export default {
   mixins: [inputs],
   props: {
     value: {
-      type: String
+      type: [String, Number]
     },
     rows: {
       type: Number
@@ -20,7 +20,8 @@ export default {
      * Creates the field input section
      */
     createTextarea(architect) {
-      let root = architect.createDiv(this.getWrapperClass);
+      let root = architect.createDiv(this.getWrapperCss.getClasses());
+      root.setStyles(this.getWrapperCss.getStyles());
       let control = architect.createDiv(this.getControlClass); // The control element
       control.addClass("align-items-start");
 
@@ -41,22 +42,27 @@ export default {
       };
       textarea.value(this.value);
       textarea.setAttrs(textareaAttrs);
+      textarea.addAttr(
+        "maxlength",
+        this.maxLength,
+        this.isNotEmpty(this.maxLength)
+      );
       textarea.setRef("inputField");
+
+      // Handling events
+      textarea.addListeners(this.$listeners);
       textarea.addChange(this.onChange);
       textarea.addInput(this.onInput);
       textarea.addFocus(this.onFocus);
       textarea.addBlur(this.onBlur);
-      textarea.addKeyup({
-        key: architect.keycode.enter,
-        handler: this.onKeyup
-      });
+      textarea.addEvent("keypress", this.allowOnlyNumber, this.numeric);
       control.addChild(textarea);
 
       let labelParent = this.classic ? architect : control;
       this.createLabel(labelParent, "is-textarea");
       root.addChild(control);
-      this.createStateIcon(root);
       this.createIcon(root, this.iconPosition.right, "is-textarea");
+      this.createStateIcon(root);
       this.createErrorHelpers(root);
       architect.addChild(root);
     }

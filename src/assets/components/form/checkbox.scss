@@ -1,0 +1,193 @@
+$checkbox-margin: -1px 4px 0 0 !default;
+$checkbox-margin-no-label: -1px 10px 0 0 !default;
+$checkbox-bg: rgba($white-bis, 0.7) !default;
+$checkbox-bg-checked: rgba($white-bis, 0.9) !default;
+$checkbox-border: 1px solid $grey-lighter !default;
+$checkbox-border-radius: 3px !default;
+$checkbox-label-margin: 0 1.2rem 0 0.25rem !default;
+$checkbox-label-left-margin: 0 0.5rem 0 1rem !default;
+
+$checkbox-size-small: 20px !default;
+$checkbox-size-normal: 30px !default;
+$checkbox-size-medium: 40px !default;
+$checkbox-size-large: 50px !default;
+
+$checkbox-font-size-small: 12px !default;
+$checkbox-font-size-normal: 14px !default;
+$checkbox-font-size-medium: 16px !default;
+$checkbox-font-size-large: 20px !default;
+
+$switch-bg: tint($opaque, 25%) !default;
+$switch-radius: 4px !default;
+$switch-circular-radius: 50px !default;
+$switch-width: 74px;
+$switch-height: 40px;
+$switch-control-bg: $white-bis !default;
+$switch-control-box-shadow: 1px 2px 4px 0 rgba($black-bis, 0.4) !default;
+$switch-control-radius: 5px !default;
+$switch-control-circular-radius: 50% !default;
+$switch-control-size: 30px;
+$switch-control-margin: 5px;
+$switch-control-translate: 33px;
+
+@mixin checkbox-sizes {
+  height: $checkbox-size-normal;
+  width: $checkbox-size-normal;
+  line-height: $checkbox-size-normal;
+  font-size: $checkbox-font-size-normal;
+
+  &.small {
+    height: $checkbox-size-small;
+    width: $checkbox-size-small;
+    line-height: $checkbox-size-small;
+    font-size: $checkbox-font-size-small;
+  }
+
+  &.medium {
+    height: $checkbox-size-medium;
+    width: $checkbox-size-medium;
+    line-height: $checkbox-size-medium;
+    font-size: $checkbox-font-size-medium;
+  }
+
+  &.large {
+    height: $checkbox-size-large;
+    width: $checkbox-size-large;
+    line-height: $checkbox-size-large;
+    font-size: $checkbox-font-size-large;
+  }
+}
+
+@mixin checkbox-font-sizes {
+  font-size: $checkbox-font-size-normal;
+  &.small {
+    font-size: $checkbox-font-size-small;
+  }
+
+  &.medium {
+    font-size: $checkbox-font-size-medium;
+  }
+
+  &.large {
+    font-size: $checkbox-font-size-large;
+  }
+}
+
+.checkbox {
+  &__input[type="checkbox"] {
+    display: none;
+
+    + label {
+      display: inline-block;
+      font-family: Arial, sans-serif;
+      margin: $checkbox-margin;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      border: $checkbox-border;
+      border-radius: $checkbox-border-radius;
+      @include checkbox-sizes;
+      @include material-shadow(tint($dark, 10%));
+
+      &:not(.solid) {
+        background: $checkbox-bg;
+      }
+
+      &.circular:not(.switch) {
+        border-radius: 50%;
+      }
+
+      &.no-label {
+        margin: $checkbox-margin-no-label;
+      }
+
+      &.solid {
+        border: none;
+      }
+
+      span {
+        display: block;
+        height: 100%;
+        width: 100%;
+        vertical-align: middle;
+        background-repeat: no-repeat;
+        background-position: center;
+        text-align: center;
+        border-radius: $checkbox-border-radius;
+        transition: all cubic-bezier(0.47, 0, 0.74, 0.71) 200ms;
+        opacity: 0;
+
+        &.circular:not(.switch) {
+          border-radius: 50%;
+        }
+
+        &.switch {
+          border-radius: $switch-radius;
+
+          &.circular {
+            border-radius: $switch-circular-radius;
+          }
+        }
+      }
+
+      &.switch {
+        display: inline-block;
+        width: $switch-width;
+        height: $switch-height;
+        border-radius: $switch-radius;
+        vertical-align: middle;
+        transition: 0.25s 0.09s;
+        position: relative;
+        background: $switch-bg;
+        box-shadow: none;
+        border: none;
+
+        &:after {
+          content: " ";
+          display: block;
+          width: $switch-control-size;
+          height: $switch-control-size;
+          top: $switch-control-margin;
+          left: $switch-control-margin;
+          border-radius: $switch-control-radius;
+          background: $switch-control-bg;
+          position: absolute;
+          box-shadow: $switch-control-box-shadow;
+          transition: 0.15s;
+        }
+
+        &.circular {
+          border-radius: $switch-circular-radius;
+
+          &:after {
+            border-radius: $switch-control-circular-radius;
+          }
+        }
+      }
+    }
+
+    &:checked + label {
+      span {
+        opacity: 1;
+      }
+
+      &.switch:after {
+        transform: translateX($switch-control-translate);
+      }
+    }
+  }
+
+  &__label {
+    display: inline-block;
+    margin: $checkbox-label-margin;
+    @include checkbox-font-sizes;
+
+    &.is-left {
+      margin: $checkbox-label-left-margin;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+}

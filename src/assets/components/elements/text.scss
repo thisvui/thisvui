@@ -1,0 +1,50 @@
+.text {
+  &-left {
+    text-align: left !important;
+  }
+  &-center {
+    text-align: center !important;
+  }
+  &-right {
+    text-align: right !important;
+  }
+  &-justify {
+    text-align: justify !important;
+  }
+  &-capitalize {
+    text-transform: capitalize !important;
+  }
+  &-uppercase {
+    text-transform: uppercase !important;
+  }
+  &-lowercase {
+    text-transform: lowercase !important;
+  }
+  &-break {
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+  }
+
+  &-decor {
+    &-overline {
+      text-decoration: overline;
+    }
+
+    &-line-through {
+      text-decoration: line-through;
+    }
+
+    &-underline {
+      text-decoration: underline;
+    }
+
+    &-combined {
+      text-decoration: underline overline;
+    }
+
+    &-none {
+      text-decoration: none;
+    }
+  }
+}

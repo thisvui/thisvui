@@ -3,48 +3,52 @@
   flex-direction: column;
   position: relative;
   overflow-y: var(--overflow-y);
-  height: 100%;
   width: 100%;
   min-height: 100vh;
+  max-width: 100vw;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 100%;
 
-  &.row{
+  &.row {
     flex-direction: row;
   }
 
   &.has-min-height {
-    .t-layout{
+    .t-layout {
       min-height: unset;
       height: -webkit-fill-available;
     }
   }
 
   .t-content {
-    overflow-y: var(--overflow-y);
     margin: 0;
     background: $white-bis;
     border-radius: 0;
-    flex-grow: 1;
+    flex: 1;
     position: relative;
+    overflow-x: var(--overflow-x);
+    overflow-y: var(--overflow-y);
   }
 
   .t-aside {
-    height: 100%;
     min-height: 100%;
+    max-height: 100vh;
     width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 0;
     margin: 0;
     transition: all 0.5s ease-in;
-
-    &.is-absolute {
-      position: absolute;
-    }
+    scroll-behavior: smooth;
   }
 
-  .t-header, .t-footer {
+  .t-header,
+  .t-footer {
     width: 100%;
     padding: 0;
     background-blend-mode: screen;

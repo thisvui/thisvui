@@ -30,11 +30,11 @@ const addValidationScope = function(id, children) {
       // checks whether an element is even
       return element === options.Ctor.extendOptions;
     };
-    if (
+    let valid =
       options && // It's a component that has options
       types.some(isInput) && // you can import a component and check if it's of that type if you'd like
-      options.propsData // with prop data
-    ) {
+      options.propsData; // with prop data
+    if (valid) {
       const newNode = vnode;
       if (options.propsData.validationScope === undefined) {
         newNode.componentOptions.propsData.validationScope = id;
@@ -43,6 +43,9 @@ const addValidationScope = function(id, children) {
     }
     if (vnode.children) {
       return addValidationScope(id, vnode.children);
+    } else if (options && options.children) {
+      // If component that has options we check for children in component instance
+      return addValidationScope(id, options.children);
     }
     return vnode;
   });
@@ -53,7 +56,7 @@ export const ThisValidate = {
     Vue.component("t-validation-group", {
       functional: true,
       render: function(createElement, context) {
-        addValidationScope(context.props.id, context.children);
+        addValidationScope(context.props.id.trim(), context.children);
         // Transparently pass any attributes, event listeners, children, etc.
         return createElement("div", context.data, context.children);
       }
@@ -80,14 +83,21 @@ export const ValidationBus = new Vue({
      */
     registerValidator(key, component, rules, scopeName) {
       const element = document.getElementById(key);
+      if (!element) {
+        throw new DOMException(`Element with id ${key} not found`);
+      }
       let formId = null;
       let isParent = true;
-      if (!element || !element.form) {
+      let form = element.form;
+      if (!form) {
+        form = element.closest("form");
+      }
+      if (!form) {
         throw new DOMException(
           "Input elements must be inside a form in order to attach validators"
         );
       } else {
-        formId = element.form.id;
+        formId = form.id;
       }
       const validator = new Validator(element, component, rules);
       if (!utils.check.notNull(this.formValidators)) {
@@ -204,15 +214,22 @@ export const ValidationBus = new Vue({
      */
     getValidator(key, scopeName) {
       const element = document.getElementById(key);
+      if (!element) {
+        throw new DOMException(`Element with id ${key} not found`);
+      }
       let formId = null;
       let isParent = true;
-      if (!element || !element.form) {
+      let form = element.form;
+      if (!form) {
+        form = element.closest("form");
+      }
+      if (!form) {
         console.error(
           "Input elements must be inside a form in order to attach validators"
         );
         return false;
       } else {
-        formId = element.form.id;
+        formId = form.id;
       }
       const formValidator = this.formValidators.get(formId);
       if (utils.check.notEmpty(scopeName)) {
@@ -245,9 +262,11 @@ export class Validator {
 
 /** @class */
 export class Rule {
-  constructor(name, message) {
+  constructor(name, message, validationFunction, custom = false) {
     this.name = name;
     this.message = message;
+    this.validationFunction = validationFunction;
+    this.custom = custom;
   }
 }
 

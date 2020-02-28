@@ -1,0 +1,89 @@
+$rich-bottom-margin: $separation-margin !default;
+$rich-background-color: rgba($white-bis, 0.2) !default;
+$rich-border-color: $primary !default;
+$rich-border-top-left-radius: 3px !default;
+$rich-border-top-right-radius: 3px !default;
+$rich-content-padding: 1rem !default;
+
+$rich-label-weight: normal !default;
+$rich-label-color: tint($dark, 50%) !default;
+$rich-label-font-size: 1rem;
+$rich-label-transition-delay: 300ms;
+
+@mixin rich-toolbar($add-shadow: false, $add-radius: false) {
+  &__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    border-color: rgba($rich-border-color, 0.2);
+    border-top: 1px solid rgba($rich-border-color, 0.055);
+    border-bottom: 1px solid rgba($rich-border-color, 0.125);
+    cursor: pointer;
+    margin-bottom: 0;
+    padding: 8px 12px 8px 12px;
+    @if $add-radius == true {
+      border-radius: $rich-border-top-left-radius $rich-border-top-right-radius 0 0;
+    }
+    @if $add-shadow == true {
+      @include light-shadow($black);
+    }
+    &__text{
+      flex-grow: 1;
+    }
+    &.icon-left {
+      .icon {
+        margin-right: 0.5rem;
+      }
+    }
+    .button {
+      padding: 5px;
+      margin: 1px;
+    }
+    .t-select {
+      padding: 0 5px 0 5px;
+    }
+    .input {
+      width: 50px;
+      &.compact {
+        padding: 0 5px 0 5px;
+      }
+    }
+  }
+}
+
+.rich {
+  &:not(:last-child){
+    margin-bottom: $rich-bottom-margin;
+  }
+
+  @include rich-toolbar(true, true);
+
+  &__body {
+    padding: 0;
+    background-color: $rich-background-color;
+    @include light-shadow($black);
+  }
+  &__content {
+    padding: $rich-content-padding;
+    cursor: text;
+  }
+
+  &__block {
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    &:not(:last-child){
+      margin-bottom: $rich-bottom-margin;
+    }
+  }
+  &__label {
+    color: $rich-label-color;
+    font-size: $rich-label-font-size;
+    font-weight: $rich-label-weight;
+    position: relative;
+    pointer-events: none;
+    text-transform: uppercase;
+    left: 5px;
+    top: 0;
+    transition: $rich-label-transition-delay ease all;
+  }
+}

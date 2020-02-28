@@ -1,17 +1,16 @@
-import TPaginator from "../TPaginator/TPaginator";
 import list from "../../mixins/list";
 import responsive from "../../mixins/responsive";
 import dimension from "../../mixins/dimension";
 import common from "../../mixins/common";
-import TProgress from "../TProgress/TProgress";
+
 import TListItem from "./TListItem";
 
 import CssArchitect from "../../utils/css-architect";
-import ElementArchitect from "../../utils/element-architect";
+import ElementArchitect, { createDiv } from "../../utils/element-architect";
 
 export default {
   name: "t-list",
-  components: { TPaginator },
+  components: { TListItem },
   mixins: [common, list, responsive, dimension],
   filters: {
     capitalize: function(str) {
@@ -19,13 +18,20 @@ export default {
     }
   },
   props: {
-    header: {
+    title: {
       type: String
     },
-    headerClass: {
+    headingClass: {
       type: String
     },
-    showHeader: {
+    showHeading: {
+      type: Boolean,
+      default: false
+    },
+    footerClass: {
+      type: String
+    },
+    showFooter: {
       type: Boolean,
       default: false
     },
@@ -46,92 +52,139 @@ export default {
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
      */
-    getClasses: function() {
-      const cssArchitect = new CssArchitect("t-list");
-      cssArchitect.isRelative();
-      cssArchitect.addClass(this.getResponsiveModifiers);
-      cssArchitect.addClass(this.getDimensionModifiers);
-      cssArchitect.addClass(this.getHelpersModifiers);
-      cssArchitect.addClass("is-compact", this.compact);
-      return cssArchitect.getClasses();
+    css: function() {
+      const css = new CssArchitect("t-list");
+      css.isRelative();
+      css.addClass("has-header", this.headerActive);
+      css.addClass("has-footer", this.footerActive);
+      css.addClass(this.getResponsiveModifiers);
+      css.addClass(this.getDimensionModifiers);
+      css.addClass(this.getHelpersModifiers);
+      css.addClass(this.getThemeModifiers);
+      css.addClass(this.targetClass);
+      css.addClass("is-compact", this.compact);
+      return css;
     },
-    getHeaderClasses: function() {
-      const cssArchitect = new CssArchitect("t-list-header");
-      cssArchitect.addClass(this.headerClass, this.headerClass !== undefined);
-      return cssArchitect.getClasses();
+    headingCss: function() {
+      const css = new CssArchitect("t-list__heading");
+      css.addClass(this.headingClass, this.headingClass !== undefined);
+      return css;
     },
-    hasHeader: function() {
-      return this.showHeader || this.header;
+    headingContentCss: function() {
+      const css = new CssArchitect("t-list__heading--horizontal");
+      css.addClass("not-header", !this.hasHeading);
+      return css;
+    },
+    checkAllCss: function() {
+      const css = new CssArchitect();
+      css.addClass(this.themeModifier, this.hasThemeModifier);
+      return css;
+    },
+    footerCss: function() {
+      const css = new CssArchitect("t-list__footer");
+      css.addClass(this.footerClass, this.footerClass !== undefined);
+      return css;
+    },
+    progressCss: function() {
+      const css = new CssArchitect();
+      css.addClass(this.themeModifier, this.hasThemeModifier);
+      return css;
+    },
+    headerActive() {
+      return (
+        this.hasHeading ||
+        (this.paginated && this.paginatorAtTop) ||
+        this.filtered
+      );
+    },
+    footerActive() {
+      return this.hasFooter || (this.paginated && !this.paginatorAtTop);
+    },
+    hasHeading: function() {
+      return this.showHeading && (this.title || this.$slots["heading"]);
+    },
+    hasFooter: function() {
+      return this.showFooter && this.$slots["footer"];
     }
   },
   methods: {
-    createHeader(architect) {
-      if (this.hasHeader) {
-        let header = architect.createDiv(this.getHeaderClasses);
+    createHeading(architect) {
+      if (this.headerActive) {
+        let heading = architect.createDiv(this.headingCss.getClasses());
+        let headingContent = architect.createDiv(
+          this.headingContentCss.getClasses()
+        );
         if (this.checkable) {
-          this.createCheckAll(header, this.getCheckAllClasses);
+          this.createCheckAll(headingContent, this.checkAllCss.getClasses());
         }
 
-        if (this.header) {
+        if (this.title && this.showHeading) {
           let text = architect.createH(2);
-          text.innerHTML(this.header);
-          header.addChild(text);
+          text.innerHTML(this.title);
+          headingContent.addChild(text);
         }
-        if (this.$slots["header"]) {
-          let slotHeader = architect
-            .createSpan()
-            .setChildren(this.$slots["header"]);
-          header.addChild(slotHeader);
+        if (this.$slots["heading"] && this.showHeading) {
+          let slotHeading = architect
+            .createDiv()
+            .setChildren(this.$slots["heading"]);
+          headingContent.addChild(slotHeading);
         }
-        architect.addChild(header);
+        this.createSearch(headingContent, this.filtered);
+        let pagParent = this.filtered
+          ? architect.createDiv(this.headingContentCss.getClasses())
+          : headingContent;
+        this.createPaginator(pagParent, this.paginated && this.paginatorAtTop);
+        heading.addChild(headingContent);
+        heading.addChild(pagParent, this.filtered);
+        architect.addChild(heading);
+      }
+    },
+    createFooter(architect) {
+      if (this.footerActive) {
+        let footer = architect.createDiv(this.footerCss.getClasses());
+        if (this.$slots["footer"] && this.showFooter) {
+          let slotFooter = architect
+            .createDiv()
+            .setChildren(this.$slots["footer"]);
+          footer.addChild(slotFooter);
+        }
+        this.createPaginator(footer, this.paginated && !this.paginatorAtTop);
+        architect.addChild(footer);
       }
     },
     createList(architect) {
-      let ul = architect.createUl(this.getClasses);
       let transition = architect.createTransition("fade");
-      if (this.isLoading) {
-        let loading = architect.createDiv("t-loading-block is-absolute");
-        let progress = architect
-          .createElement(TProgress)
-          .setProps({ indeterminate: true, compact: true });
-        let block = architect.createDiv("t-loading-block-ui is-absolute");
-        loading.addChild(progress);
-        loading.addChild(block);
-        transition.addChild(loading);
-      }
-      this.createLoading(ul);
-      ul.addChild(transition);
+      let items = architect.createDiv(this.css.getClasses());
 
+      this.createLoading(items, this.progressCss.getClasses());
       for (let index in this.getItems) {
         let item = this.getItems[index];
-        let li = architect.createLi().setKey(`${this.id}-li-${index}`);
+        let itemContainer = architect
+          .createDiv("t-list__item-container")
+          .setKey(`${this.id}-item-${index}`);
         if (this.isCheckable(item)) {
-          let listItem = architect.createElement(TListItem);
-          this.createRowChecker(li, item, {
-            inputClass: this.getRowCheckerClasses,
-            container: listItem
+          this.createRowChecker(itemContainer, item, {
+            targetClass: this.getRowCheckerClasses
           });
         }
-        li.addVNodeChildren(
+
+        itemContainer.addVNodeChildren(
           this.$scopedSlots["items"]({
             item: item,
             index: index
           })
         );
-        ul.addChild(li);
+        items.addChild(itemContainer);
       }
-
-      architect.addChild(ul);
+      transition.addChild(items);
+      architect.addChild(transition);
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "div", "t-list-container");
-
-    this.createSearch(root);
-    this.createPaginator(root, this.isPaginated && this.isPaginatorAtTop);
-    this.createHeader(root);
+    let root = createDiv(h, "t-list__container");
+    this.createHeading(root);
     this.createList(root);
-    this.createPaginator(root, this.isPaginated && !this.isPaginatorAtTop);
+    this.createFooter(root);
 
     return root.create();
   }

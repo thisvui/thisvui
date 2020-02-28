@@ -1,21 +1,43 @@
-.t-animation-container {
+.t-slide {
   display: flex;
+  transition: 0.5s ease-in-out width;
+  z-index: 50;
 
   @include until($tablet) {
-    position: absolute;
+    position: absolute !important;
     height: 100%;
-    z-index: 50;
+
+    &.tablet, &.desktop  {
+      display: none;
+    }
   }
 
-  &.slide {
-    transition: 0.5s ease-in-out width;
+  @include until($desktop) {
+
+    &.desktop  {
+      display: none;
+    }
+  }
+
+  &.is-right {
+    right: 0;
+  }
+
+  &.is-fixed {
+    height: 100%;
+    z-index: 60;
+  }
+
+  &.is-sticky {
+    max-height: 100vh;
+    top: 0;
   }
 
   &.is-absolute {
-    position: absolute;
     height: 100%;
-    z-index: 50;
+    z-index: 60;
   }
+
 }
 
 /* Ripple effect */

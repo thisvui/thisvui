@@ -1,3 +1,25 @@
+/* Buttons */
+$bt-size-1: 3rem !default;
+$bt-size-2: 2.5rem !default;
+$bt-size-3: 2rem !default;
+$bt-size-4: 1.5rem !default;
+$bt-size-5: 1.25rem !default;
+$bt-size-6: 1rem !default;
+$bt-size-7: 0.7rem !default;
+
+$bt-size-small: $bt-size-7 !default;
+$bt-size-normal: 0.85rem !default;
+$bt-size-medium: $bt-size-5 !default;
+$bt-size-large: $bt-size-4 !default;
+
+$bt-radius-small: 2px !default;
+$bt-radius-normal: 3px !default;
+$bt-radius-medium: 4px !default;
+$bt-radius-large: 6px !default;
+
+$btn-margin: 8px;
+$btn-margin-compact: 4px;
+
 @mixin btn-sizes {
   &.small {
     border-radius: $bt-radius-small;
@@ -75,8 +97,19 @@
   &:active {
     top: 0.1em;
   }
-
 }
+
+/* Floating Buttons */
+$floating-button-color: $primary-invert !default;
+$floating-button-background-color: rgba($primary, 0.9) !default;
+$floating-button-shadow-color: rgba(0, 0, 0, 0.2) !default;
+$floating-button-option-color: $primary-invert !default;
+$floating-button-option-label-color: $primary !default;
+$floating-button-option-label-bg-color: rgba($white-bis, 0.95) !default;
+$floating-button-top: 50px;
+$floating-button-bottom: 50px;
+$floating-button-right: 50px;
+$floating-button-left: 50px;
 
 .t-floating-btn {
   position: fixed;
@@ -94,7 +127,8 @@
     &:hover {
       opacity: 0.9;
 
-      & + .t-floating-btn-options, .t-floating-btn-options:hover {
+      & + .t-floating-btn-options,
+      .t-floating-btn-options:hover {
         opacity: 1;
         transform: scale(1);
       }
@@ -183,9 +217,9 @@
 }
 
 .buttons {
-  &.attached{
+  &.attached {
     .t-button-container {
-      &:not(:first-child){
+      &:not(:first-child) {
         .button {
           margin-left: 0;
           margin-right: 0;

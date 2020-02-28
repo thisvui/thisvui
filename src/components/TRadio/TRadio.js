@@ -1,54 +1,153 @@
 import inputs from "../../mixins/inputs";
+
 import CssArchitect from "../../utils/css-architect";
-import ElementArchitect from "../../utils/element-architect";
+import { createDiv } from "../../utils/element-architect";
 
 export default {
   name: "t-radio",
   mixins: [inputs],
   props: {
+    value: {
+      type: [String, Number, Object]
+    },
     items: {
       type: Array
     },
-    isRtl: {
-      type: Boolean,
-      default: false
+    labelLeft: {
+      type: Boolean
     },
-    hasNoBorder: {
-      type: Boolean,
-      default: false
+    centered: {
+      type: Boolean
     },
-    hasBackgroundColor: {
-      type: Boolean,
-      default: false
+    noLabel: {
+      type: Boolean
+    },
+    solid: {
+      type: Boolean
     }
   },
   computed: {
+    /**
+     * Dynamically build the css classes for the field div
+     * @returns { A String with the chained css classes }
+     */
+    getContainerClass: function() {
+      const css = new CssArchitect("group");
+      css.flexible({ flexWrap: true });
+      css.addClass(this.containerClass, this.containerClass !== undefined);
+      css.addClass("is-horizontal", this.isHorizontal);
+      return css.getClasses();
+    },
     /**
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(this.getCheckradioClass);
-      cssArchitect.addClass("is-rtl", this.isRtl);
-      cssArchitect.addClass("has-no-border", this.hasNoBorder);
-      cssArchitect.addClass("has-background-color", this.hasBackgroundColor);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("radio__input");
+      css.addClass(
+        this.targetClass,
+        this.isNotNull(this.targetClass) && this.errors.length === 0
+      );
+      css.addClass("is-centered", this.centered);
+      css.addClass(this.getThemeModifiers);
+      this.setupThemeModifier(css, true);
+      return css.getClasses();
     },
     /**
-     * Dynamically build the css classes for the label element
+     * Dynamically build the css classes for the label that emulates the radio element
      * @returns { A String with the chained css classes }
      */
-    getLabelClass: function() {
-      const cssArchitect = new CssArchitect("label has-text-left");
-      cssArchitect.addClass(this.labelClass, this.labelClass !== undefined);
-      return cssArchitect.getClasses();
+    getRadioLabelCss: function() {
+      const css = new CssArchitect();
+      if (this.solid) {
+        this.alpha(css, { bg: 0.9 });
+        this.isFilled(css);
+        css.addClass(this.themeModifier, this.hasThemeModifier);
+      }
+      css.addClass("solid", this.solid);
+      css.addClass("no-label", this.noLabel);
+      css.addClass(this.getSizesModifiers);
+      return css;
+    },
+    /**
+     * Dynamically build the css classes for the checker element
+     * @returns { A String with the chained css classes }
+     */
+    getRadioCheckedClass: function() {
+      const css = new CssArchitect();
+      if (!this.solid) {
+        this.isFilled(css);
+        css.addClass(this.themeModifier, this.hasThemeModifier);
+      }
+      css.addClass("solid", this.solid);
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the text label element
+     * @returns { A String with the chained css classes }
+     */
+    getTextLabelClass: function() {
+      const css = new CssArchitect("radio__label");
+      css.addClass("is-left", this.labelLeft);
+      css.addClass("is-centered", this.centered);
+      css.addClass(this.labelClass, this.labelClass !== undefined);
+      css.addClass(this.getSizesModifiers);
+      return css.getClasses();
     }
   },
   methods: {
     onInput(value) {
       this.validateOnEvent("input");
       this.$emit(this.$thisvui.events.common.input, value);
+    },
+    onChange(value) {
+      this.validateOnEvent("change");
+      this.$emit(this.$thisvui.events.common.change, value);
+    },
+    compare(obj1, obj2) {
+      if (!obj1 || !obj2) {
+        return false;
+      }
+      //Loop through properties in object 1
+      for (let p in obj1) {
+        //Check property exists on both objects
+        if (obj1.hasOwnProperty(p) !== obj2.hasOwnProperty(p)) return false;
+
+        switch (typeof obj1[p]) {
+          //Deep compare objects
+          case "object":
+            if (!this.compare(obj1[p], obj2[p])) return false;
+            break;
+          //Compare function code
+          case "function":
+            if (
+              typeof obj2[p] == "undefined" ||
+              (p != "compare" && obj1[p].toString() != obj2[p].toString())
+            )
+              return false;
+            break;
+          //Compare values
+          default:
+            if (obj1[p] != obj2[p]) return false;
+        }
+      }
+
+      //Check object 2 for any extra properties
+      for (let p in obj2) {
+        if (typeof obj1[p] == "undefined") return false;
+      }
+      return true;
+    },
+    /**
+     * Creates the radio container section
+     */
+    createRadioContainer(architect, id, item) {
+      let container = architect.createDiv("radio__container");
+      this.createTextLabel(container, item, this.labelLeft);
+      this.createRadio(container, id, item);
+      this.createRadioLabel(container, id);
+      this.createTextLabel(container, item, !this.labelLeft);
+      architect.addChild(container);
     },
     /**
      * Creates the radio inputs
@@ -60,7 +159,7 @@ export default {
       let inputAttrs = {
         placeholder: this.placeholder,
         value: item.value,
-        checked: item.checked,
+        checked: item.checked || this.compare(this.value, item),
         name: this.id,
         disabled: this.disabled,
         validationScope: this.validationScope,
@@ -74,7 +173,7 @@ export default {
       input.value(item.value);
       input.setAttrs(inputAttrs);
       input.addEvent("change", () => {
-        this.onInput(item);
+        this.onChange(item);
       });
       input.addEvent("input", () => {
         this.onInput(item);
@@ -85,23 +184,42 @@ export default {
     /**
      * Creates the field label section
      */
-    createLabel(architect, id, item) {
-      let label = architect.createLabel(this.getLabelClass);
+    createRadioLabel(architect, id) {
+      let label = architect.createLabel();
+      label.addClass(
+        this.getRadioLabelCss.getClasses(),
+        this.isNotEmpty(this.getRadioLabelCss.getClasses())
+      );
+      if (this.isNotEmpty(this.getRadioLabelCss.getClasses())) {
+        label.setStyles(this.getRadioLabelCss.getStyles());
+      }
       label.addAttr("for", id);
-      label.addDomProp("innerHTML", item.label);
-
+      let checked = architect.createSpan(this.getRadioCheckedClass);
+      label.addChild(checked);
       architect.addChild(label);
+    },
+    /**
+     * Creates the field label section
+     */
+    createTextLabel(architect, item, condition = false) {
+      if (item.label && condition) {
+        let label = architect.createSpan(this.getTextLabelClass);
+        label.addDomProp("innerHTML", item.label);
+        architect.addChild(label);
+      }
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "div", this.getContainerClass);
+    let root = createDiv(h, this.getContainerClass);
 
     for (let index in this.items) {
       let item = this.items[index];
-      this.createRadio(root, `${this.id}${index}`, item);
-      this.createLabel(root, `${this.id}${index}`, item);
+      this.createRadioContainer(root, `${this.id}${index}`, item);
     }
 
     return root.create();
+  },
+  beforeMount() {
+    this.complexValidation = true;
   }
 };

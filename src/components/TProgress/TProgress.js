@@ -1,15 +1,22 @@
 import TFlex from "../TFlex";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 import common from "../../mixins/common";
+import dimension from "../../mixins/dimension";
+import margin from "../../mixins/margin";
+import helpers from "../../mixins/helpers";
+
 import CssArchitect from "../../utils/css-architect";
-import ElementArchitect from "../../utils/element-architect";
+import { createDiv } from "../../utils/element-architect";
 
 export default {
   name: "t-progress",
-  mixins: [common, colors],
+  mixins: [common, themes, dimension, margin, helpers],
   components: { TFlex },
   props: {
-    value: Number,
+    value: {
+      type: Number,
+      default: 0
+    },
     circular: {
       type: Boolean
     },
@@ -19,9 +26,41 @@ export default {
     compact: {
       type: Boolean
     },
-    spinnerType: {
-      type: String,
-      default: "single"
+    stripped: {
+      type: Boolean
+    },
+    solid: {
+      type: Boolean
+    },
+    pie: {
+      type: Boolean
+    },
+    animated: {
+      type: Boolean
+    },
+    reverse: {
+      type: Boolean
+    },
+    labelTop: {
+      type: Boolean
+    },
+    labelBottom: {
+      type: Boolean
+    },
+    labelLeft: {
+      type: Boolean
+    },
+    labelCenter: {
+      type: Boolean
+    },
+    labelRight: {
+      type: Boolean
+    },
+    labelLight: {
+      type: Boolean
+    },
+    labelDark: {
+      type: Boolean
     },
     targetClass: {
       type: String
@@ -29,64 +68,128 @@ export default {
     containerClass: {
       type: String
     },
+    labelClass: {
+      type: String
+    },
     isFullwidth: {
       type: Boolean
     }
   },
   computed: {
+    baseClass() {
+      return this.circular ? "progress__circular" : "progress__linear";
+    },
     /**
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const css = new CssArchitect("t-progress");
-      css.addClass("progress", !this.circular);
-      css.addClass("circular", this.circular);
-      css.addClass("compact", this.compact);
-      css.addClass(
-        this.spinnerType,
-        this.spinnerType !== undefined && this.circular && this.indeterminate
-      );
-      css.addClass(this.getColorsModifiers);
+      const css = new CssArchitect(`${this.baseClass}__bar`);
+      if (!this.circular) {
+        this.isFilled(css);
+      }
+
+      css.addClass("compact", this.compact && !this.circular);
+      css.addClass("stripped", this.stripped);
+      css.addClass("animated", this.animated && !this.reverse);
+      css.addClass("animated--reverse", this.animated && this.reverse);
+      if (this.indeterminate) {
+        css.addClass("indeterminate");
+        this.isBordered(css);
+      }
+      css.addClass(this.getThemeModifiers);
       css.addClass(this.targetClass);
-      this.setupColorModifier(css);
-      css.addClass(
-        "is-link",
-        !this.hasColorModifier
-      );
-      return css.getClasses();
-    },
-    getHelperClasses: function() {
-      const css = new CssArchitect(
-        "button is-invisible is-paddingless is-marginless"
-      );
-      this.filled(css);
-      css.addClass(this.colorModifier, this.hasColorModifier);
-      css.addClass("is-link", !this.hasColorModifier);
+      this.setupThemeModifier(css, true);
       return css.getClasses();
     },
     getContainerClasses: function() {
-      const css = new CssArchitect("t-progress-container");
-      css.addClass("circular", this.circular);
-      css.addClass("compact", this.compact);
+      const css = new CssArchitect(this.baseClass);
+      css.addClass("compact", this.compact && this.circular);
       css.addClass(this.containerClass);
+      css.addClass(this.getHelpersModifiers);
       return css.getClasses();
+    },
+    getWrapperCss: function() {
+      const css = new CssArchitect(`${this.baseClass}__wrapper`);
+      css.addClass("compact", this.compact && !this.circular);
+      css.addClass("indeterminate", this.indeterminate);
+      if (!this.circular) {
+        css.addStyles([this.getDimensionStyles]);
+      }
+      css.addStyles([this.getMarginStyles]);
+      return css;
+    },
+    getLeftCircleCss: function() {
+      const css = new CssArchitect(`${this.baseClass}__circle is-left`);
+      this.isBordered(css);
+      if (this.pie) {
+        this.isFilled(css, { tint: 25 });
+      }
+      css.addClass(this.themeModifier, this.hasThemeModifier);
+      return css;
+    },
+    getRightCircleCss: function() {
+      const css = new CssArchitect(`${this.baseClass}__circle is-right`);
+      this.isBordered(css);
+      if (this.pie) {
+        this.isFilled(css, { tint: 25 });
+      }
+      css.addClass(this.themeModifier, this.hasThemeModifier);
+      return css;
+    },
+    getLabelClasses: function() {
+      const css = new CssArchitect(`${this.baseClass}__label`);
+      css.addClass("is-top", this.labelTop && !this.circular);
+      css.addClass("is-bottom", this.labelBottom && !this.circular);
+      css.addClass("is-left", this.labelLeft && !this.circular);
+      css.addClass("is-center", this.labelCenter && !this.circular);
+      css.addClass("is-right", this.labelRight && !this.circular);
+      if (this.circular && this.solid) {
+        this.isFilled(css, { tint: 75 });
+        css.addClass(this.themeModifier, this.hasThemeModifier);
+      }
+      css.addClass(this.labelClass);
+      return css.getClasses();
+    },
+    getLabelValueClasses: function() {
+      const css = new CssArchitect(`${this.baseClass}__label--value`);
+      let inverted =
+        this.pie ||
+        (!this.circular &&
+          !this.labelTop &&
+          !this.labelBottom &&
+          !this.labelDark &&
+          !this.labelLight);
+      let solid = this.solid && !this.labelDark && !this.labelLight;
+      this.isColored(css, { inverted: inverted });
+      css.addClass(
+        this.themeModifier,
+        this.hasThemeModifier && (solid || inverted)
+      );
+      css.addClass("is-dark", this.labelDark);
+      css.addClass("is-light", this.labelLight);
+      return css.getClasses();
+    },
+    getFillCss: function() {
+      const css = new CssArchitect(`${this.baseClass}__fill`);
+      if (this.pie) {
+        this.alpha(css, { border: 0.5 });
+        this.isFilled(css, { tint: 75 });
+        this.isBordered(css);
+        css.addClass(this.themeModifier, this.hasThemeModifier);
+      }
+      return css;
     }
   },
   watch: {
     value: function(newVal, oldVal) {
       this.progressValue = newVal;
-      if (this.circular) {
-        this.animateProgress();
-      }
     }
   },
   data() {
     return {
-      progress: null,
       ctx: null,
-      progressValue: null,
-      progressStart: 4.72,
+      progressValue: this.value,
       circleWidth: null,
       circleHeight: null,
       diff: null,
@@ -99,104 +202,88 @@ export default {
     };
   },
   methods: {
-    init() {
-      this.requestAnimationFrame =
-        window.requestAnimationFrame || window.webkitRequestAnimationFrame;
-      this.progress = this.circular ? this.$refs.circular : this.$refs.linear;
-      let colorHelper = this.$refs.colorHelper;
-      this.fillColor = this.rgb2hex(
-        window
-          .getComputedStyle(colorHelper, null)
-          .getPropertyValue("background-color")
-      );
-      if (!this.indeterminate) {
-        this.progressValue = !this.circular
-          ? this.value / 100 || 0
-          : this.value || 0;
-        this.progress.value = this.progressValue;
-      }
-      if (this.circular && !this.indeterminate) {
-        this.ctx = this.progress.getContext("2d");
-        this.progress = this.$refs.circular;
-        this.progressWidth = this.ctx.canvas.width;
-        this.progressHeight = this.ctx.canvas.height;
-      }
+    getLinearStyles: function() {
+      const css = new CssArchitect();
+      css.addStyle("width", css.addPercent(this.progressValue), !this.indeterminate);
+      return css.getStyles();
     },
-    animateProgress() {
-      let centerX = 35;
-      let centerY = 35;
-      let radius = 30;
-      this.diff = ((this.progressValue / 100) * Math.PI * 2 * 10).toFixed(2);
-      this.ctx.clearRect(0, 0, this.progressWidth, this.progressHeight);
-      this.ctx.lineWidth = 10;
-      this.ctx.fillStyle = this.fillColor;
-      this.ctx.strokeStyle = this.fillColor;
-      this.ctx.textAlign = "center";
-      this.ctx.fillText(
-        this.progressValue + "%",
-        this.progressWidth * 0.5,
-        this.progressHeight * 0.5 + 2,
-        this.progressWidth
-      );
-      this.ctx.beginPath();
-      this.ctx.fillText(
-        this.progressValue + "%",
-        this.progressWidth * 0.5,
-        this.progressHeight * 0.5 + 2,
-        this.progressWidth
-      );
-      this.ctx.arc(
-        centerX,
-        centerY,
-        radius,
-        this.progressStart,
-        this.diff / 10 + this.progressStart,
-        false
-      );
-      this.ctx.stroke();
+    getCircularStyles: function() {
+      const css = new CssArchitect();
+      css.addStyle("--circular-progress", this.progressValue);
+      if (this.progressValue > 50) {
+        css.addStyle("clip", "rect(auto, auto, auto, auto)");
+      }
+      return css.getStyles();
+    },
+    getCircularRightStyles: function() {
+      const css = new CssArchitect();
+      if (this.progressValue <= 50) {
+        css.addStyle("display", "none");
+      } else {
+        css.addStyle("transform", "rotate(180deg)");
+      }
+
+      return css.getStyles();
+    },
+    createLabel(architect, condition = true) {
+      if (!this.indeterminate && !this.compact && condition) {
+        let label = architect.createDiv(this.getLabelClasses);
+        let labelValue = architect.createSpan(this.getLabelValueClasses);
+        labelValue.innerHTML(`${this.progressValue} %`);
+        label.addChild(labelValue);
+        architect.addChild(label);
+      }
     },
     createLinearProgress(architect) {
       if (!this.circular) {
-        let progress = architect.createElement("progress", this.getClasses);
+        let progress = architect.createDiv(this.getClasses);
         progress.setId(this.id);
         progress.setRef("linear");
-        progress.setChildren(this.$slots.default);
+        progress.setStyles(this.getLinearStyles());
+        this.createLabel(progress, !this.labelTop && !this.labelBottom);
+        progress.addChild(this.$slots.default);
         architect.addChild(progress);
       }
     },
     createCircularProgress(architect) {
       if (this.circular) {
-        let elementType = this.indeterminate ? "div" : "canvas";
-        let progress = architect.createElement(elementType, this.getClasses);
+        this.createLabel(architect, !this.pie);
+        let progress = architect.createDiv(this.getClasses);
         progress.setRef("circular");
         progress.setId(this.id);
-        progress.addAttr("width", 70, !this.indeterminate);
-        progress.addAttr("height", 70, !this.indeterminate);
+        progress.setStyles(this.getCircularStyles());
+
+        let left = architect.createDiv(this.getLeftCircleCss.getClasses());
+        left.setStyles(this.getLeftCircleCss.getStyles());
+        let right = architect.createDiv(this.getRightCircleCss.getClasses());
+        right.setStyles(this.getCircularRightStyles());
+        progress.addChild(left, !this.indeterminate);
+        progress.addChild(right, !this.indeterminate);
         architect.addChild(progress);
-        if (this.spinnerType === "double") {
-          let double = architect.createDiv(this.getClasses);
-          architect.addChild(double);
-        }
+
+        let fill = architect.createDiv(this.getFillCss.getClasses());
+        fill.setStyles(this.getFillCss.getStyles());
+        architect.addChild(fill, !this.solid);
+
+        this.createLabel(architect, this.pie);
       }
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, TFlex, this.getContainerClasses);
-    root.setProps({ isFullwidth: this.isFullwidth, justifyContent: "center" });
-
-    let color = root.createDiv(this.getHelperClasses);
-    color.setRef("colorHelper");
-    root.addChild(color);
-    this.createLinearProgress(root);
-    this.createCircularProgress(root);
+    let root = createDiv(h, this.getContainerClasses);
+    let wrapper = root.createDiv(this.getWrapperCss.getClasses());
+    wrapper.setStyles(this.getWrapperCss.getStyles());
+    this.createLabel(
+      root,
+      this.labelTop && !this.labelBottom && !this.circular
+    );
+    this.createLinearProgress(wrapper);
+    this.createCircularProgress(wrapper);
+    root.addChild(wrapper);
+    this.createLabel(
+      root,
+      !this.labelTop && this.labelBottom && !this.circular
+    );
     return root.create();
-  },
-  mounted() {
-    this.$nextTick(function() {
-      this.init();
-      if (this.circular && !this.indeterminate) {
-        this.animateProgress();
-      }
-    });
   }
 };

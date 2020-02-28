@@ -1,0 +1,131 @@
+$tag-border-radius: 3px;
+$tag-bg-color: $opaque;
+$tag-color: $opaque-invert;
+$tag-delete-margin: 1px !default;
+$tag-rounded-border: 77px !default;
+$tag-padding-normal: 0 1.6em 0 1.8em !default;
+$tag-padding-classic: 0 1em 0 1em !default;
+$tag-padding-medium: 0 1.6em 0 1.6em !default;
+$tag-padding-large: 0 1.4em 0 1.4em !default;
+$tag-height: 2em !default;
+$tag-before-height: 6px;
+$tag-before-width: 6px;
+$tag-before-left: 10px;
+$tag-before-top: calc(50% - (#{$tag-before-height} / 2)) !default;
+$tags-margin: 0 10px 10px 0;
+
+.tag {
+  background: $tag-bg-color;
+  border-radius: $tag-border-radius;
+  color: $tag-color;
+  display: inline-block;
+  height: $tag-height;
+  line-height: $tag-height;
+  padding: $tag-padding-normal;
+  position: relative;
+  margin: 0;
+  text-decoration: none;
+  -webkit-transition: color 0.2s;
+
+  &.classic {
+    padding: $tag-padding-classic;
+  }
+
+  &.small {
+    font-size: $bt-size-small;
+  }
+
+  &.medium {
+    font-size: $bt-size-medium;
+    padding: $tag-padding-medium;
+  }
+
+  &.large {
+    font-size: $bt-size-large;
+    padding: $tag-padding-large;
+  }
+
+  &:not(.classic)::before {
+    background: transparent;
+    border-radius: 10px;
+    box-shadow: inset 0 1px rgba($black-bis, 0.25);
+    content: "";
+    height: $tag-before-height;
+    left: $tag-before-left;
+    position: absolute;
+    width: $tag-before-width;
+    top: $tag-before-top;
+  }
+
+  &.is-delete {
+    margin-left: $tag-delete-margin;
+    padding: 0;
+    position: relative;
+    width: 2em;
+    cursor: pointer;
+    &::before,
+    &::after {
+      background-color: currentColor;
+      content: "";
+      display: block;
+      left: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translateX(-50%) translateY(-50%) rotate(45deg);
+      transform-origin: center center;
+    }
+
+    &::before {
+      height: 1px;
+      width: 50%;
+    }
+
+    &::after {
+      height: 50%;
+      width: 1px;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: darken($tag-bg-color, 5%);
+    }
+
+    &:active {
+      background-color: darken($tag-bg-color, 10%);
+    }
+  }
+
+  &.rounded {
+    border-radius: $tag-rounded-border;
+  }
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+
+  .tag {
+    margin: $tags-margin;
+  }
+
+  &.attached {
+    .tag {
+      &:not(:first-child) {
+        margin-left: 0;
+        margin-right: 0;
+        border-right: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 0;
+      }
+      &:first-child {
+        margin-right: 0;
+        border-right: 1px solid rgba(0, 0, 0, 0.1);
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+      &:last-child {
+        border-right: none;
+        border-radius: 0 $tag-border-radius $tag-border-radius 0;
+      }
+    }
+  }
+}

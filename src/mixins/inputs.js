@@ -5,13 +5,24 @@ import helpers from "./helpers";
 import common from "./common";
 import icons from "./icons";
 import utils from "../utils/utils";
-import colors from "./colors";
+import themes from "./themes";
 import display from "./display";
+import dimension from "./dimension";
 
 import CssArchitect from "../utils/css-architect";
 
 export default {
-  mixins: [common, validation, display, colors, states, sizes, helpers, icons],
+  mixins: [
+    common,
+    validation,
+    display,
+    dimension,
+    themes,
+    states,
+    sizes,
+    helpers,
+    icons
+  ],
   props: {
     name: {
       type: String
@@ -29,12 +40,12 @@ export default {
       type: Boolean,
       default: false
     },
-    inputClass: {
+    targetClass: {
       type: String
     },
     labelClass: {
       type: String,
-      default: "has-text-left"
+      default: "text-left"
     },
     containerClass: {
       type: String
@@ -54,10 +65,6 @@ export default {
     },
     placeholder: {
       type: String
-    },
-    dataTooltip: {
-      type: String,
-      default: ""
     },
     removeLabel: {
       type: Boolean,
@@ -85,13 +92,18 @@ export default {
     compact: Boolean,
     classic: Boolean,
     transparent: Boolean,
-    coloredText: Boolean
+    coloredText: Boolean,
+    alignCenter: Boolean,
+    alignLeft: Boolean,
+    alignRight: Boolean
   },
   data() {
     return {
       formId: "",
       hasValue: false,
-      focused: false
+      focused: false,
+      currentPopupMessage: "",
+      complexValidation: false
     };
   },
   computed: {
@@ -100,83 +112,85 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getContainerClass: function() {
-      const cssArchitect = new CssArchitect("group");
-      cssArchitect.addClass(
-        this.containerClass,
-        this.containerClass !== undefined
-      );
-      cssArchitect.addClass("is-horizontal", this.isHorizontal);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("group");
+      css.addClass(this.containerClass, this.containerClass !== undefined);
+      css.addClass("is-horizontal", this.isHorizontal);
+      css.addClass(this.getDimensionModifiers);
+      css.addStyles([this.getDimensionStyles]);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the control div
      * @returns { A String with the chained css classes }
      */
-    getWrapperClass: function() {
-      const cssArchitect = new CssArchitect(
-        "group__wrapper"
+    getWrapperCss: function() {
+      const css = new CssArchitect("group__wrapper");
+      this.isBordered(css);
+      css.addClass("focused", this.focused);
+      css.addClass("transparent", this.transparent);
+      css.addClass("is-borderless", this.borderless);
+      css.addClass(
+        this.targetClass,
+        this.isNotNull(this.targetClass) && this.errors.length === 0
       );
-      this.borderedElement(cssArchitect);
-      cssArchitect.addClass("focused", this.focused);
-      cssArchitect.addClass("transparent", this.transparent);
-      cssArchitect.addClass(this.getTargetClass);
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass(this.getBackgroundModifiers);
-      this.setupColorModifier(cssArchitect);
-      return cssArchitect.getClasses();
+      css.addClass("colored", this.coloredText);
+
+      css.addClass(this.getTransformClass);
+      css.addClass(this.getDisplayModifiers);
+      css.addClass(this.getSizesModifiers);
+      css.addClass(this.getHelpersModifiers);
+      css.addClass(
+        this.getThemeModifiers,
+        !this.isNotNull(this.validationResult) ||
+          (this.isNotNull(this.validationResult) && this.validationResult.valid)
+      );
+      css.addClass(this.stateClass, this.isNotNull(this.stateClass));
+      css.addClass(this.getBackgroundModifiers);
+      css.addStyles([this.getAlphaModifiers]);
+      this.setupThemeModifier(css, true);
+      return css;
     },
     /**
      * Dynamically build the css classes for the control div
      * @returns { A String with the chained css classes }
      */
     getControlClass: function() {
-      const cssArchitect = new CssArchitect(
-        "control"
-      );
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("control");
+      css.addClass("compact", this.compact);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the label element
      * @returns { A String with the chained css classes }
      */
     getLabelClass: function() {
-      const cssArchitect = new CssArchitect("label");
-      cssArchitect.addClass("has-value", this.hasValue);
-      cssArchitect.addClass(this.labelClass, this.isNotNull(this.labelClass));
-      cssArchitect.addClass("is-inline-flex", this.isNotNull(this.labelIcon));
-      cssArchitect.addClass("input-icon-left", this.isNotNull(this.icon) && this.iconPosition.left);
-      cssArchitect.addClass("colored");
-      cssArchitect.addClass(this.colorModifier, (this.focused || this.hasValue) && this.hasColorModifier);
-      return cssArchitect.getClasses();
-    },
-    /**
-     * Dynamically build the css classes for the target element
-     * @returns { A String with the chained css classes }
-     */
-    getTargetClass: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(this.getTransformClass);
-      cssArchitect.addClass(this.getDisplayModifiers);
-      cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass(this.getHelpersModifiers);
-      cssArchitect.addClass(
-        this.inputClass,
-        this.isNotNull(this.inputClass) && this.errors.length === 0
+      const css = new CssArchitect("label");
+      css.addClass("has-value", this.hasValue);
+      css.addClass(this.labelClass, this.isNotNull(this.labelClass));
+      css.addClass("is-inline-flex", this.isNotNull(this.labelIcon));
+      css.addClass(
+        "input-icon-left",
+        this.isNotNull(this.icon) && this.iconPosition.left
       );
-      cssArchitect.addClass(this.stateClass, this.stateClass !== undefined);
-      cssArchitect.addClass("colored", this.coloredText);
-      cssArchitect.addClass(this.getColorsModifiers, this.coloredText);
-      return cssArchitect.getClasses();
+      this.isColored(css, { shade: 25 });
+      css.addClass(
+        this.themeModifier,
+        (this.focused || this.hasValue) && this.hasThemeModifier
+      );
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the input element
      * @returns { A String with the chained css classes }
      */
     getInputClass: function() {
-      const cssArchitect = new CssArchitect("input");
-      cssArchitect.isFullwidth();
-      cssArchitect.addClass("compact", this.compact);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("input");
+      css.isFullwidth();
+      css.addClass("compact", this.compact);
+      css.addClass("text-left", this.alignLeft);
+      css.addClass("text-center", this.alignCenter);
+      css.addClass("text-right", this.alignRight);
+      return css.getClasses();
     },
 
     /**
@@ -184,84 +198,46 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getSelectClass: function() {
-      const cssArchitect = new CssArchitect("select is-fullwidth");
-      cssArchitect.addClass(this.getSizesModifiers);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("select is-fullwidth");
+      css.addClass(this.getSizesModifiers);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the textarea element
      * @returns { A String with the chained css classes }
      */
     getTextareaClass: function() {
-      const cssArchitect = new CssArchitect("textarea");
-      cssArchitect.isFullwidth();
-      return cssArchitect.getClasses();
-    },
-    /**
-     * Dynamically build the css classes for the checkbox/radio element
-     * @returns { A String with the chained css classes }
-     */
-    getCheckradioClass: function() {
-      const cssArchitect = new CssArchitect("is-checkradio");
-      cssArchitect.addClass(this.getDisplayModifiers);
-      cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass(
-        this.inputClass,
-        this.isNotNull(this.inputClass) && this.errors.length === 0
-      );
-      cssArchitect.addClass(this.stateClass, this.stateClass !== undefined);
-      cssArchitect.addClass(this.getColorsModifiers);
-      return cssArchitect.getClasses();
-    },
-    /**
-     * Dynamically build the css classes for the checkbox switch element
-     * @returns { A String with the chained css classes }
-     */
-    getSwitchClass: function() {
-      const cssArchitect = new CssArchitect("switch");
-      cssArchitect.addClass(this.getDisplayModifiers);
-      cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass(
-        this.inputClass,
-        this.isNotNull(this.inputClass) && this.errors.length === 0
-      );
-      cssArchitect.addClass(this.stateClass, this.stateClass !== undefined);
-      cssArchitect.addClass(this.getColorsModifiers);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("textarea");
+      css.isFullwidth();
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the icon element
      * @returns { A String with the chained css classes }
      */
     getIconClass: function() {
-      const cssArchitect = new CssArchitect("is-left");
-      this.colorize(cssArchitect, "color", true);
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass(this.iconClass, this.iconClass !== undefined);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("is-left");
+      css.addClass(this.themeModifier, this.hasThemeModifier);
+      css.addClass(this.iconClass, this.iconClass !== undefined);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the icon when value is valid
      * @returns { A String with the chained css classes }
      */
-    getValidStateIconClass: function() {
-      const cssArchitect = new CssArchitect("is-small is-right");
-      this.colorize(cssArchitect, "color", true);
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass(this.iconClass, this.iconClass !== undefined);
-      return cssArchitect.getClasses();
+    getStateIconClass: function() {
+      const css = new CssArchitect("is-small is-right");
+      css.addClass(this.themeModifier, this.hasThemeModifier);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the label icon element
      * @returns { A String with the chained css classes }
      */
     getLabelIconClass: function() {
-      const cssArchitect = new CssArchitect("is-left is-inline-flex");
-      cssArchitect.addClass(
-        this.labelIconClass,
-        this.labelIconClass !== undefined
-      );
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("is-left is-inline-flex");
+      css.addClass(this.labelIconClass, this.labelIconClass !== undefined);
+      return css.getClasses();
     },
     /**
      * Dynamically adds a transform class
@@ -296,14 +272,14 @@ export default {
       }
       return this.getValidationPassed;
     },
-    iconPosition(){
-      let left = this.iconLeft
-      let right = this.iconRight
-      if((!left && !right) || (left && right)){
-        left = false
-        right = true
+    iconPosition() {
+      let left = this.iconLeft;
+      let right = this.iconRight;
+      if ((!left && !right) || (left && right)) {
+        left = false;
+        right = true;
       }
-      return { left, right}
+      return { left, right };
     }
   },
   methods: {
@@ -316,16 +292,17 @@ export default {
     },
     onFocus() {
       this.focused = true;
+      this.$emit(this.$thisvui.events.common.focus);
     },
     onBlur() {
-      let result = this.validateOnEvent("blur");
+      let result = this.validateOnEvent(this.$thisvui.events.common.blur);
       if (result && result.valid) {
         this.$emit(this.$thisvui.events.common.blur);
       }
       this.focused = false;
     },
     onChange() {
-      let result = this.validateOnEvent("change");
+      let result = this.validateOnEvent(this.$thisvui.events.common.change);
       if (result && result.valid) {
         this.$emit(this.$thisvui.events.common.change);
       }
@@ -344,14 +321,20 @@ export default {
     },
     onInput() {
       let value = this.getInputValue();
-      let result = this.validateOnEvent("input");
+      let result = this.validateOnEvent(this.$thisvui.events.common.input);
       // Transforms the value if transform is active
       if (this.transformValue && this.isNotEmpty(this.transform)) {
         value = utils.text.transform(value, this.transform);
       }
-      this.hasValue = this.getHasValue()
+      this.hasValue = this.getHasValue();
       if (result && result.valid) {
         this.$emit(this.$thisvui.events.common.input, value);
+      }
+    },
+    allowOnlyNumber($event) {
+      let keyCode = $event.keyCode ? $event.keyCode : $event.which;
+      if (keyCode < 48 || keyCode > 57) {
+        $event.preventDefault();
       }
     },
     /**
@@ -359,7 +342,7 @@ export default {
      */
     createLabel(architect, cssClasses) {
       let label = architect.createLabel(this.getLabelClass);
-      label.addClass(cssClasses)
+      label.addClass(cssClasses);
       label.addAttr("for", this.id);
       label.addDomProp("innerHTML", this.label);
       architect.addChild(label, this.isNotEmpty(this.label));
@@ -370,7 +353,7 @@ export default {
     createIcon(architect, condition, cssClasses) {
       if (this.icon && condition) {
         let inputIcon = architect.createIcon(this.getIconClass);
-        inputIcon.addClass(cssClasses)
+        inputIcon.addClass(cssClasses);
         inputIcon.addProp("icon", this.icon);
         architect.addChild(inputIcon, this.icon !== undefined);
       }
@@ -379,42 +362,76 @@ export default {
      * Creates the icon for the validation state
      */
     createStateIcon(architect) {
+      let stateIconContainer = architect.createA();
+      let stateIcon = stateIconContainer.createIcon(this.getStateIconClass);
+      stateIcon.addProp("preserveDefaults", !this.overrideDefaults);
       if (
-        this.showValidStateIcon &&
-        !this.hideStateIcon &&
-        this.showStateIcon
+        utils.check.notEmpty(this.validationResult) &&
+        this.validationResult.valid &&
+        this.showSuccessIcon
       ) {
-        let stateIcon = architect.createIcon(this.getValidStateIconClass);
-        stateIcon.addProp("icon", this.$thisvui.icons.check);
-        stateIcon.addProp("preserveDefaults", !this.overrideDefaults);
-        architect.addChild(stateIcon);
+        stateIcon.addProp("icon", this.successIcon);
+        stateIconContainer.addChild(stateIcon);
+        architect.addChild(stateIconContainer);
+      }
+      if (
+        utils.check.notEmpty(this.validationResult) &&
+        !this.validationResult.valid &&
+        this.showErrorIcon
+      ) {
+        stateIcon.addProp("icon", this.errorIcon);
+        stateIconContainer.addChild(stateIcon);
+        architect.addChild(stateIconContainer);
       }
     },
     /**
      * Creates the error message helpers
      */
     createErrorHelpers(architect) {
-      for (let error of this.errors) {
-        let help = architect.createP("help is-danger");
-        help.setKey(error);
-        help.addAttr("msg", error);
-        help.addAttr("msg-position", this.msgPosition);
-        architect.addChild(help);
+      let hasErrors = this.errors != null && this.errors.length > 0;
+      if (!this.popupMessage) {
+        for (let error of this.errors) {
+          let help = architect.createP("help is-danger");
+          help.setKey(error);
+          help.addAttr("msg", error);
+          help.addAttr("msg-position", this.msgPosition);
+          architect.addChild(help);
+        }
+      } else {
+        if (this.hasErrors) {
+          this.currentPopupMessage = this.errors[this.errors.length - 1];
+        }
+        architect.addDirective({
+          name: "tooltip",
+          value: {
+            text: this.currentPopupMessage,
+            event: this.popupEvent,
+            top: true,
+            right: true,
+            cssClass: "is-danger",
+            showOn: this.hasErrors
+          }
+        });
       }
+    },
+    commonMount() {
+      this.$nextTick(function() {
+        if (!this.complexValidation) {
+          let el = document.getElementById(this.id);
+          if (el && el.form) {
+            this.formId = el.form.id;
+          }
+          this.addValidator(); // Registers the validator
+          if (this.$refs.inputField) {
+            this.hasValue = this.getHasValue();
+          }
+        }
+      });
+      this.includeBgModifiers = false;
     }
   },
   mounted() {
-    this.$nextTick(function() {
-      let el = document.getElementById(this.id);
-      if (el && el.form) {
-        this.formId = el.form.id;
-      }
-      this.addValidator(); // Registers the validator
-      if(this.$refs.inputField){
-        this.hasValue = this.getHasValue()
-      }
-    });
-    this.includeBgModifiers = false;
+    this.commonMount();
   },
   /**
    * Removes input validator before component destroys

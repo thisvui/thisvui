@@ -1,3 +1,36 @@
+$panel-bottom-margin: $separation-margin !default;
+$panel-background-color: rgba($white-bis, 0.2) !default;
+$panel-border-color: $primary !default;
+$panel-border-top-left-radius: 3px !default;
+$panel-border-top-right-radius: 3px !default;
+$panel-content-padding: $box-content-padding !default;
+
+@mixin panel-heading($add-shadow: false, $add-radius: false) {
+  &__heading {
+    display: flex;
+    border-color: rgba($panel-border-color, 0.2);
+    border-top: 1px solid rgba($panel-border-color, 0.055);
+    border-bottom: 1px solid rgba($panel-border-color, 0.125);
+    cursor: pointer;
+    margin-bottom: 0;
+    padding: 8px 12px 8px 12px;
+    @if $add-radius == true {
+      border-radius: $panel-border-top-left-radius $panel-border-top-right-radius 0 0;
+    }
+    @if $add-shadow == true {
+      @include light-shadow($black);
+    }
+    &__text{
+      flex-grow: 1;
+    }
+    &.icon-left {
+      .icon {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
+
 .panel {
   &:not(:last-child){
     margin-bottom: $panel-bottom-margin;
@@ -11,7 +44,7 @@
     @include light-shadow($black);
   }
   &__content {
-    padding: $content-padding;
+    padding: $panel-content-padding;
   }
 
   &__block {

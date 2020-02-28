@@ -1,9 +1,11 @@
+import mask from "./mask";
+
 import utils from "../utils/utils";
 import {
   Result,
   Rule,
   ValidationBus
-} from "../components/TValidation/validation-bus.js";
+} from "../components/TValidation/validation-bus";
 
 export const RULES = Object.freeze({
   REQUIRED: Symbol("required"),
@@ -16,6 +18,7 @@ export const RULES = Object.freeze({
 });
 
 export default {
+  mixins: [mask],
   props: {
     required: {
       type: Boolean,
@@ -46,28 +49,36 @@ export default {
     },
     minMessage: {
       type: String,
-      default: "Min value allowed is "
+      default: function() {
+        return `Min value allowed is ${this.min}`;
+      }
     },
     max: {
       type: Number
     },
     maxMessage: {
       type: String,
-      default: "Max Value allowed is "
+      default: function() {
+        return `MinMax value allowed is ${this.max}`;
+      }
     },
     minLength: {
       type: Number
     },
     minLengthMessage: {
       type: String,
-      default: "Min length allowed is "
+      default: function() {
+        return `Min length allowed is ${this.minLength}`;
+      }
     },
     maxLength: {
       type: Number
     },
     maxLengthMessage: {
       type: String,
-      default: "Max length allowed is "
+      default: function() {
+        return `Max length allowed is ${this.maxLength}`;
+      }
     },
     validateOn: {
       type: String,
@@ -87,11 +98,34 @@ export default {
     msgPosition: {
       type: String,
       default: "right"
+    },
+    customValidators: Array,
+    showSuccessIcon: Boolean,
+    showErrorIcon: Boolean,
+    popupMessage: Boolean,
+    popupEvent: {
+      type: String,
+      default: "mouseenter"
+    },
+    successIcon: {
+      type: String,
+      default: function() {
+        return this.$thisvui.icons.validationSuccess;
+      }
+    },
+    errorIcon: {
+      type: String,
+      default: function() {
+        return this.$thisvui.icons.validationError;
+      }
     }
   },
   data() {
     return {
       validationPassed: false,
+      validationResult: null,
+      validatorLoaded: false,
+      registrationFirstAttempt: false,
       stateClass: "",
       errors: [],
       rules: [],
@@ -108,48 +142,53 @@ export default {
     getEmail: function() {
       return this.email;
     },
-    hasRules: function() {
-      return this.rules.length > 0;
-    },
     getValidationPassed: function() {
       return this.validationPassed;
+    },
+    hasErrors: function() {
+      return this.errors != null && this.errors.length > 0;
+    }
+  },
+  watch: {
+    required: function(newVal, oldVal) {
+      if (this.getValidator()) {
+        this.generateRules();
+      }
+    },
+    customValidators: function(newVal, oldVal) {
+      if (this.getValidator()) {
+        this.generateRules();
+      }
     }
   },
   methods: {
+    hasRules() {
+      return this.rules.length > 0;
+    },
     /**
      * Executes the validations for current element
      */
     validate(event) {
-      const validator = ValidationBus.getValidator(
-        this.id,
-        this.validationScope
-      );
+      const validator = this.getValidator();
       const element = validator.element;
       this.errors = [];
-      if (this.getRequired && !utils.check.notEmpty(element.value)) {
-        return this.getValidationResult(RULES.REQUIRED, event);
-      }
-      if (this.getNumeric && !utils.check.isNumeric(element.value)) {
-        return this.getValidationResult(RULES.NUMERIC, event);
-      }
-      if (this.getEmail && !utils.check.validEmail(element.value)) {
-        return this.getValidationResult(RULES.EMAIL, event);
-      }
-      if (this.min && utils.check.isLessThan(this.min)) {
-        return this.getValidationResult(RULES.MIN, event);
-      }
-      if (this.max && utils.check.isGreaterThan(this.max)) {
-        return this.getValidationResult(RULES.MAX, event);
-      }
-      if (this.minLength && !utils.check.minLength(this.minLength)) {
-        return this.getValidationResult(RULES.MINLENGTH, event);
-      }
-      if (this.maxLength && !utils.check.maxLength(this.maxLength)) {
-        return this.getValidationResult(RULES.MAXLENGTH, event);
+      if (this.hasRules()) {
+        for (let rule of this.rules) {
+          let error = !rule.custom
+            ? rule.validationFunction(element.value)
+            : rule.validationFunction();
+          if (error === true) {
+            return this.getValidationError(rule.message, event);
+          }
+          if (error && error.message) {
+            return this.getValidationError(error.message, event);
+          }
+        }
       }
       this.stateClass = ""; // Changes the element css class to success when all validations passed
       this.validationPassed = true;
-      return new Result(true, "success");
+      this.validationResult = new Result(true, "success");
+      return this.validationResult;
     },
     /**
      * Executes the validations for specific event
@@ -157,27 +196,26 @@ export default {
     validateOnEvent(event) {
       let events = this.validateOn.split(",").map(item => item.trim());
       let validate = events.indexOf(event) > -1;
-      if (this.hasRules && validate) {
-        return this.validate(event);
-      }
-      return new Result(true, "success");
+      let result =
+        this.hasRules() && validate
+          ? this.validate(event)
+          : new Result(true, "success");
+      return result;
     },
     /**
      * Retrieves the validation result
      * return { A @link Result class object }
      */
-    getValidationResult(rule, event) {
-      const errorMessage = this.getErrorMessage(rule);
+    getValidationError(errorMessage, event) {
       this.errors.push(errorMessage);
       console.error(
         `Errors: ${this.errors.length} - Error Message: ${errorMessage}`
       );
       this.stateClass = this.errorClass; // Changes the element css class to error when validation failed
-      if (event !== undefined) {
-        this.$emit(event, false);
-      }
       this.validationPassed = false;
-      return new Result(false, errorMessage);
+      let result = new Result(false, errorMessage);
+      this.validationResult = result;
+      return result;
     },
     /**
      * Builds the rules list based on props
@@ -185,32 +223,94 @@ export default {
     generateRules() {
       this.rules = [];
       if (this.getRequired) {
-        const rule = new Rule(RULES.REQUIRED);
-        this.rules.push(rule);
+        this.addRule(
+          RULES.REQUIRED,
+          this.getErrorMessage(RULES.REQUIRED),
+          value => {
+            return !utils.check.notEmpty(value);
+          }
+        );
       }
       if (this.getNumeric) {
-        const rule = new Rule(RULES.NUMERIC);
-        this.rules.push(rule);
+        this.addRule(
+          RULES.NUMERIC,
+          this.getErrorMessage(RULES.NUMERIC),
+          value => {
+            let numericValue =
+              this.mask && value
+                ? parseFloat(utils.number.unFormat(value))
+                : value;
+            return !utils.check.isNumber(numericValue);
+          }
+        );
       }
       if (this.getEmail) {
-        const rule = new Rule(RULES.EMAIL);
-        this.rules.push(rule);
+        this.addRule(RULES.EMAIL, this.getErrorMessage(RULES.EMAIL), value => {
+          return !utils.check.validEmail(value);
+        });
       }
       if (this.min) {
-        const rule = new Rule(RULES.MIN);
-        this.rules.push(rule);
+        this.addRule(RULES.MIN, this.getErrorMessage(RULES.MIN), value => {
+          return utils.check.isLessThan(value, this.min);
+        });
       }
       if (this.max) {
-        const rule = new Rule(RULES.MAX);
-        this.rules.push(rule);
+        this.addRule(RULES.MAX, this.getErrorMessage(RULES.MAX), value => {
+          return utils.check.isGreaterThan(value, this.max);
+        });
       }
       if (this.minLength) {
-        const rule = new Rule(RULES.MINLENGTH);
-        this.rules.push(rule);
+        this.addRule(
+          RULES.MINLENGTH,
+          this.getErrorMessage(RULES.MINLENGTH),
+          value => {
+            return !utils.check.minLength(value, this.minLength);
+          }
+        );
       }
       if (this.maxLength) {
-        const rule = new Rule(RULES.MAXLENGTH);
-        this.rules.push(rule);
+        this.addRule(
+          RULES.MAXLENGTH,
+          this.getErrorMessage(RULES.MAXLENGTH),
+          value => {
+            return !utils.check.maxLength(value, this.maxLength);
+          }
+        );
+      }
+      if (utils.check.notEmpty(this.customValidators)) {
+        for (let cValidator of this.customValidators) {
+          let { name, message, validationFunction } = cValidator;
+          if (
+            utils.check.notEmpty(name) &&
+            utils.check.notEmpty(validationFunction)
+          ) {
+            this.addCustomRule(name, message, validationFunction);
+          }
+        }
+      }
+    },
+    addRule(name, message, validationFunction, custom = false) {
+      const rule = new Rule(name, message, validationFunction, custom);
+      this.rules.push(rule);
+      if(this.registrationFirstAttempt && !this.validatorLoaded){
+        this.registerValidator();
+      }
+    },
+    addCustomRule(name, message, validationFunction) {
+      this.addRule(name, message, validationFunction, true);
+    },
+    registerValidator(){
+      if (this.hasRules()) {
+        ValidationBus.registerValidator(
+          this.id,
+          this,
+          this.rules,
+          this.validationScope
+        );
+        this.validatorLoaded = true;
+      }
+      if(!this.registrationFirstAttempt){
+        this.registrationFirstAttempt = true
       }
     },
     /**
@@ -218,20 +318,21 @@ export default {
      */
     addValidator() {
       this.generateRules();
-      if (this.hasRules) {
-        ValidationBus.registerValidator(
-          this.id,
-          this,
-          this.rules,
-          this.validationScope
-        );
-      }
+      this.registerValidator();
     },
     /**
      * Removes a validator from the validation bus
      */
     removeValidator(formId) {
-      ValidationBus.unregisterValidator(this.id, formId, this.validationScope);
+      if (this.hasRules()) {
+        ValidationBus.unregisterValidator(this.id, formId, this.validationScope);
+      }
+    },
+    /**
+     * Removes a validator from the validation bus
+     */
+    getValidator() {
+      return ValidationBus.getValidator(this.id, this.validationScope);
     },
     /**
      * Returns the error message for specific rule type
@@ -246,13 +347,13 @@ export default {
         case RULES.EMAIL:
           return this.emailMessage;
         case RULES.MIN:
-          return this.minMessage + this.min;
+          return this.minMessage;
         case RULES.MAX:
-          return this.maxMessage + this.max;
+          return this.maxMessage;
         case RULES.MINLENGTH:
-          return this.minLengthMessage + this.minLength;
+          return this.minLengthMessage;
         case RULES.MAXLENGTH:
-          return this.maxLengthMessage + this.maxLength;
+          return this.maxLengthMessage;
         default:
           return this.defaultErrorMessage;
       }

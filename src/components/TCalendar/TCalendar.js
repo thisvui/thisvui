@@ -6,23 +6,26 @@ import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 import format from "date-fns/format";
-import startOfMonth from "date-fns/start_of_month";
-import endOfMonth from "date-fns/end_of_month";
-import lastDayOfMonth from "date-fns/last_day_of_month";
-import isSameMonth from "date-fns/is_same_month";
-import isSameDay from "date-fns/is_same_day";
-import addMonths from "date-fns/add_months";
-import getDay from "date-fns/get_day";
-import addDays from "date-fns/add_days";
-import eachDay from "date-fns/each_day";
-import setDate from "date-fns/set_date";
-import setHours from "date-fns/set_hours";
-import getHours from "date-fns/get_hours";
-import setMinutes from "date-fns/set_minutes";
-import getMinutes from "date-fns/get_minutes";
-import setSeconds from "date-fns/set_seconds";
-import getSeconds from "date-fns/get_seconds";
-import getTime from "date-fns/get_time";
+import startOfMonth from "date-fns/startOfMonth";
+import endOfMonth from "date-fns/endOfMonth";
+import lastDayOfMonth from "date-fns/lastDayOfMonth";
+import isSameMonth from "date-fns/isSameMonth";
+import isSameDay from "date-fns/isSameDay";
+import addMonths from "date-fns/addMonths";
+import getDay from "date-fns/getDay";
+import addDays from "date-fns/addDays";
+import eachDayOfInterval from "date-fns/eachDayOfInterval";
+import setDate from "date-fns/setDate";
+import setHours from "date-fns/setHours";
+import getHours from "date-fns/getHours";
+import setMinutes from "date-fns/setMinutes";
+import getMinutes from "date-fns/getMinutes";
+import setSeconds from "date-fns/setSeconds";
+import getSeconds from "date-fns/getSeconds";
+import getTime from "date-fns/getTime";
+import isValid from "date-fns/isValid";
+import parseISO from "date-fns/parseISO";
+import compareAsc from "date-fns/compareAsc";
 
 const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -36,10 +39,6 @@ export default {
     widgetClass: {
       type: String
     },
-    startDate: {
-      required: false,
-      type: Date
-    },
     dateFormat: {
       type: String,
       default: function() {
@@ -52,19 +51,34 @@ export default {
         return this.$thisvui.enableTimePicker;
       }
     },
+    isoFormat: {
+      type: Boolean
+    },
     inline: {
       type: Boolean,
       default: false
+    },
+    today: {
+      type: Boolean
     },
     noCalendar: {
       type: Boolean,
       default: false
     },
+    width: {
+      type: [ Number, String ]
+    },
     minDate: {
-      type: [String, Date]
+      type: [String, Date, Array]
+    },
+    minDateMessage: {
+      type: String
     },
     maxDate: {
-      type: [String, Date]
+      type: [String, Date, Array]
+    },
+    maxDateMessage: {
+      type: String
     },
     validateOn: {
       type: String,
@@ -74,7 +88,7 @@ export default {
   data() {
     return {
       inputDate: null,
-      today: null,
+      todayDate: null,
       selectedDate: null,
       selectedTime: null,
       hours: null,
@@ -90,6 +104,11 @@ export default {
     };
   },
   watch: {
+    focused: function(newVal, oldVal) {
+      if (!this.inline) {
+        this.showCalendar = newVal;
+      }
+    },
     hours: function(newVal, oldVal) {
       this.setSelectedTime("h", newVal);
     },
@@ -99,9 +118,19 @@ export default {
     seconds: function(newVal, oldVal) {
       this.setSelectedTime("s", newVal);
     },
+    selectedDate: function(newVal, oldVal) {
+      this.emit();
+    },
     selectedTime: function(newVal, oldVal) {
-      this.initSelectedDate();
-      this.setSelectedDate();
+      if (newVal || this.today) {
+        this.initSelectedDate();
+        this.setSelectedDate();
+      }
+    },
+    registrationFirstAttempt: function(newVal, oldVal) {
+      if (this.registrationFirstAttempt) {
+        this.loadValidators();
+      }
     }
   },
   computed: {
@@ -119,7 +148,10 @@ export default {
       const startOfMonthDate = startOfMonth(date);
       const endOfMonthDate = endOfMonth(date);
 
-      const days = eachDay(startOfMonthDate, endOfMonthDate).map(day => ({
+      const days = eachDayOfInterval({
+        start: startOfMonthDate,
+        end: endOfMonthDate
+      }).map(day => ({
         date: day,
         isCurrentMonth: isSameMonth(
           new Date(this.currentYear, this.currentMonth),
@@ -158,56 +190,77 @@ export default {
       return days;
     },
     getContainerClass: function() {
-      const cssArchitect = new CssArchitect(
-        `group ${this.className("container")}`
-      );
-      cssArchitect.addClass(
-        this.containerClass,
-        this.containerClass !== undefined
-      );
-      cssArchitect.addClass("is-horizontal", this.isHorizontal);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect(`group ${this.className("container")}`);
+      css.addClass(this.containerClass, this.containerClass !== undefined);
+      css.addClass("is-horizontal", this.isHorizontal);
+      return css.getClasses();
     },
     getWidgetClass: function() {
-      const cssArchitect = new CssArchitect("t-calendar__widget");
-      cssArchitect.isFlexible("column").isAbsolute();
-      cssArchitect.addClass("inline-calendar", this.inline);
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass(this.widgetClass);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-calendar__widget");
+      css.flexible({ direction: "column" });
+      css.addClass("is-absolute", !this.inline);
+      css.addClass("inline-calendar", this.inline);
+      css.addClass(this.getThemeModifiers);
+      css.addClass(this.widgetClass);
+      return css.getClasses();
     },
     getCalendarBodyClass: function() {
-      const cssArchitect = new CssArchitect("t-calendar__body");
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-calendar__body");
+      return css.getClasses();
     },
     getHeaderClass: function() {
-      const cssArchitect = new CssArchitect("t-calendar__header");
-      cssArchitect.isFlexible().isCentered();
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-calendar__header");
+      css.flexible().isCentered();
+      return css.getClasses();
     },
     getTimePickerClass: function() {
-      const cssArchitect = new CssArchitect("t-timepicker");
-      cssArchitect.isFlexible();
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("t-calendar__time");
+      css.flexible();
+      return css.getClasses();
     },
     getDayClass() {
-      const cssArchitect = new CssArchitect(this.className("day"));
-      return cssArchitect.getClasses();
+      const css = new CssArchitect(this.className("day"));
+      return css.getClasses();
     },
     getClearIconClass: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addClass("colored");
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
-      cssArchitect.addClass("cursor-pointer");
-      return cssArchitect.getClasses();
+      const css = new CssArchitect();
+      css.addClass("colored");
+      css.addClass(this.themeModifier, this.hasThemeModifier);
+      css.addClass("cursor-pointer");
+      return css.getClasses();
     },
     showClearIcon: function() {
       return this.isNotEmpty(this.selectedDate) && !this.disabled;
     }
   },
   methods: {
+    loadValidators(){
+      if (this.minDate) {
+        let minDateMessage =
+          this.minDateMessage || `Value can't be before ${this.minDate}`;
+        this.addCustomRule("MIN_DATE", minDateMessage, this.validateMin);
+      }
+      if (this.maxDate) {
+        let maxDateMessage =
+          this.maxDateMessage || `Value can't be after ${this.maxDate}`;
+        this.addCustomRule("MAX_DATE", maxDateMessage, this.validateMax);
+      }
+    },
+    formatISO() {
+      let tzOffset = this.selectedDate.getTimezoneOffset() * 60000; //offset in milliseconds
+      let selectedDate = new Date(this.selectedDate - tzOffset)
+        .toISOString()
+        .slice(0, -1);
+      return selectedDate;
+    },
+    emit() {
+      let value = this.isoFormat
+        ? this.formatISO(this.selectedDate)
+        : this.selectedDate;
+      this.$emit(this.$thisvui.events.common.input, value);
+    },
     formatDateToDay(val) {
-      return format(val, "D");
+      return format(val, "dd");
     },
     initSelectedTime() {
       if (!this.selectedTime) {
@@ -224,7 +277,6 @@ export default {
     },
     getDayNumberClass(day) {
       const cssArchitect = new CssArchitect("day-number");
-      cssArchitect.isFullheight();
       cssArchitect.addClass("is-today", day.isToday);
       cssArchitect.addClass("is-current", day.isCurrentMonth);
       cssArchitect.addClass("is-selected", day.isSelected);
@@ -240,9 +292,8 @@ export default {
       this.selectedDate = null;
       this.inputDate = null;
       this.$refs.inputField.value = "";
-      this.$emit(this.$thisvui.events.common.input, this.selectedDate);
       this.validateOnEvent("input");
-      this.hasValue = false
+      this.hasValue = false;
     },
     setSelectedDate(day) {
       this.initSelectedTime();
@@ -260,9 +311,8 @@ export default {
       let formattedDate = format(this.selectedDate, this.dateFormat);
       this.inputDate = formattedDate;
       this.$refs.inputField.value = this.inputDate;
-      this.$emit(this.$thisvui.events.common.input, this.selectedDate);
       this.validateOnEvent("input");
-      this.hasValue = true
+      this.hasValue = true;
     },
     setSelectedTime(units, value) {
       this.initSelectedTime();
@@ -279,16 +329,15 @@ export default {
           break;
       }
       this.selectedTime = selectedTime;
-      this.hasValue = true
+      this.hasValue = true;
     },
     onInput() {
       this.validateOnEvent("input");
-      this.$emit(this.$thisvui.events.common.input, this.selectedDate);
+      this.emit();
     },
     onFocus() {
-      if (!this.inline) {
-        this.showCalendar = true;
-      }
+      this.focused = true;
+      this.$emit(this.$thisvui.events.common.focus);
     },
     onTimeInput(type, value) {
       switch (type) {
@@ -308,6 +357,50 @@ export default {
         this.showCalendar = false;
       }
     },
+    validateMin() {
+      let minDate = this.minDate;
+      if (!this.isNotEmpty(minDate)) {
+        return false;
+      }
+      const isArray = Array.isArray(minDate);
+      if (!isArray) {
+        minDate = !isValid(minDate) ? parseISO(minDate) : minDate;
+        let isBefore = compareAsc(this.selectedDate, minDate) === -1;
+        return isBefore;
+      }
+      if (isArray) {
+        for (let date of minDate) {
+          let minDateValue = !isValid(date) ? parseISO(date) : date;
+          let isBefore = compareAsc(this.selectedDate, minDateValue) === -1;
+          if (isBefore) {
+            return isBefore;
+          }
+        }
+      }
+      return false;
+    },
+    validateMax() {
+      let maxDate = this.maxDate;
+      if (!this.isNotEmpty(maxDate)) {
+        return false;
+      }
+      const isArray = Array.isArray(maxDate);
+      if (!isArray) {
+        maxDate = !isValid(maxDate) ? parseISO(maxDate) : maxDate;
+        let isBefore = compareAsc(this.selectedDate, maxDate) === 1;
+        return isBefore;
+      }
+      if (isArray) {
+        for (let date of maxDate) {
+          let maxDateValue = !isValid(date) ? parseISO(date) : date;
+          let isBefore = compareAsc(this.selectedDate, maxDateValue) === 1;
+          if (isBefore) {
+            return isBefore;
+          }
+        }
+      }
+      return false;
+    },
     /**
      * Creates the clear icon
      */
@@ -315,7 +408,7 @@ export default {
       if (this.showClearIcon) {
         let clearIconWrapper = architect.createA();
         let clearIcon = architect.createIcon(this.getClearIconClass);
-        clearIcon.setRef("clear")
+        clearIcon.setRef("clear");
         clearIcon.addProp("icon", this.$thisvui.icons.remove);
         clearIcon.addProp("preserveDefaults", !this.overrideDefaults);
         clearIconWrapper.addClick(this.clearSelectedDay);
@@ -332,8 +425,8 @@ export default {
         icon: icon,
         iconClass: "change-month-arrow",
         text: true,
-        isMarginless: true,
-        isPaddingless: true
+        marginless: true,
+        paddingless: true
       });
       arrow.addEvent("click", method);
       return arrow;
@@ -342,7 +435,6 @@ export default {
      * Creates the calendar widget
      */
     createWidget(architect) {
-      let root = architect.createTransition("fade");
       let widget = architect.createDiv(this.getWidgetClass);
 
       // Creating the calendar
@@ -401,7 +493,7 @@ export default {
           disabled: this.disabled,
           max: 12,
           min: 0,
-          small: true,
+          compact: true,
           hideStateIcon: true
         });
         hoursInput.addEvent("input", value => {
@@ -415,7 +507,7 @@ export default {
           disabled: this.disabled,
           max: 60,
           min: 0,
-          small: true,
+          compact: true,
           hideStateIcon: true
         });
         minutesInput.addEvent("input", value => {
@@ -429,7 +521,7 @@ export default {
           disabled: this.disabled,
           max: 60,
           min: 0,
-          small: true,
+          compact: true,
           hideStateIcon: true
         });
         secondsInput.addEvent("input", value => {
@@ -440,14 +532,25 @@ export default {
         timePicker.addChild(secondsInput);
         widget.addChild(timePicker);
       }
-      root.addChild(widget, this.showCalendar);
-      architect.addChild(root);
+      if(!this.inline) {
+        widget.addDirective({
+          name: "overlay-box",
+          value: {
+            showOn: this.showCalendar,
+            target: `${this.id}-wrapper`,
+            width: this.width
+          }
+        });
+      }
+      architect.addChild(widget);
     },
     /**
      * Creates the input element
      */
     createInput(architect) {
-      let root = architect.createDiv(this.getWrapperClass);
+      let root = architect.createDiv(this.getWrapperCss.getClasses());
+      root.setId(`${this.id}-wrapper`);
+      root.setStyles(this.getWrapperCss.getStyles());
       let control = architect.createDiv(this.getControlClass); // The control element
 
       // Creating the html input element
@@ -466,6 +569,9 @@ export default {
       input.value(this.inputDate);
       input.setAttrs(inputAttrs);
       input.setRef("inputField");
+
+      // Handling events
+      input.addListeners(this.$listeners);
       input.addEvent("change", this.onChange);
       input.addEvent("change", this.onChange);
       input.addEvent("input", this.onInput);
@@ -483,6 +589,7 @@ export default {
 
       this.createClearIcon(root);
       this.createIcon(root);
+      this.createStateIcon(root);
       this.createErrorHelpers(root);
       architect.addChild(root);
     }
@@ -503,15 +610,21 @@ export default {
   },
   created() {
     this.dayLabels = DAY_LABELS.slice();
-    this.today = new Date();
-    this.currentDate = this.today;
+    this.todayDate = new Date();
+    this.currentDate = this.todayDate;
   },
   mounted() {
-    if (this.startDate) {
-      this.currentDate = this.startDate;
-      this.selectedDate = this.startDate;
-      this.selectedTime = this.startDate;
+    this.commonMount();
+    let value = this.value;
+
+    if (value != null && !isValid(value)) {
+      value = parseISO(value);
     }
+    if (value != null) {
+      this.currentDate = value;
+    }
+    this.selectedDate = value;
+    this.selectedTime = value;
     if (this.inline) {
       this.showCalendar = true;
     }
@@ -521,7 +634,7 @@ export default {
       this.seconds = getSeconds(this.selectedTime);
     }
     this.$nextTick(function() {
-      this.hasValue = this.getHasValue()
+      this.hasValue = this.getHasValue();
     });
   }
 };

@@ -1,3 +1,12 @@
+$card-background-color: $white-bis !default;
+$card-color: $dark !default;
+$card-head-color: $dark !default;
+$card-font-size: 1.4rem !default;
+$card-shadow-color: rgba(0, 0, 0, 0.05) !default;
+$card-shadow: 0 4px 15px $card-shadow-color !default;
+$card-border-radius: 6px !default;
+$card-min-width: 270px !default;
+
 .card {
   --bg-alpha: 0.7;
   position: relative;
@@ -64,7 +73,7 @@
     text-align: center;
     padding: 3rem 0 0.5rem 0;
 
-    @include mobile(){
+    @include phone-only(){
       padding: 1rem 0 0.5rem 0;
     }
 
@@ -80,7 +89,7 @@
     justify-content: center;
     padding: 3rem 0 0.5rem 0;
 
-    @include mobile(){
+    @include phone-only(){
       padding: 1rem 0 0.5rem 0;
     }
 
@@ -112,7 +121,7 @@
     @include box-size();
     .day {
       font-size: 1.4rem;
-      @include mobile(){
+      @include phone-only(){
         font-size: 0.9rem;
       }
     }
@@ -122,7 +131,7 @@
     }
 
     &.horizontal{
-      @include mobile(){
+      @include phone-only(){
         top: 0.5rem;
         right: 0.5rem;
         left: unset;
@@ -161,7 +170,7 @@
       text-align: justify;
     }
 
-    @include mobile(){
+    @include phone-only(){
       padding: 1rem;
       text-align: left;
     }
@@ -175,7 +184,7 @@
     font-size: 14px;
     font-weight: 600;
     text-transform: uppercase;
-    @include mobile(){
+    @include phone-only(){
       padding: 0.5rem;
       font-size: 11px;
     }
@@ -186,11 +195,11 @@
       padding: 0.5rem 1rem;
       &.has-img {
         top: 1.5rem;
-        @include mobile(){
+        @include phone-only(){
           top: 0;
         }
       }
-      @include mobile(){
+      @include phone-only(){
         top: 0;
         left: 1rem;
         padding: 0.4rem;
@@ -205,7 +214,7 @@
     color: $grey-dark;
     font-size: 26px;
     font-weight: 700;
-    @include mobile(){
+    @include phone-only(){
       font-size: 1.4em;
     }
   }
@@ -215,7 +224,7 @@
     color: $primary;
     font-size: 20px;
     font-weight: 400;
-    @include mobile(){
+    @include phone-only(){
       font-size: 1em;
     }
   }
@@ -224,7 +233,7 @@
     font-size: 14px;
     line-height: 1.8em;
     padding: 0 0 20px;
-    @include mobile(){
+    @include phone-only(){
       font-size: 1em;
     }
   }

@@ -78,8 +78,8 @@ export default {
     let buttonProps = {
       text: true,
       disabled: this.disabled,
-      isPaddingless: true,
-      isMarginless: true
+      paddingless: true,
+      marginless: true
     };
     button.setProps(buttonProps);
     button.addEvent("click", this.onClick);

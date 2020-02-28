@@ -1,10 +1,13 @@
+$box-background-color: $white-bis;
+$box-border-radius: 2px;
+
 .box {
   background: $box-background-color;
   border-radius: $box-border-radius;
   display:block;
   margin: 1rem;
   position: relative;
-  min-height: 70px;
+  min-height: 100px;
   max-width: 100%;
   height: auto;
 }

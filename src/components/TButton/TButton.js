@@ -1,7 +1,7 @@
 import common from "../../mixins/common";
 import sizes from "../../mixins/sizes";
 import states from "../../mixins/states";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 import helpers from "../../mixins/helpers";
 import display from "../../mixins/display";
 
@@ -17,7 +17,7 @@ export default {
   name: "t-button",
   components: { TIcon, TModal },
   inheritAttrs: false,
-  mixins: [common, sizes, states, colors, display, helpers],
+  mixins: [common, sizes, states, themes, display, helpers],
   props: {
     validate: {
       type: Boolean,
@@ -64,11 +64,11 @@ export default {
     },
     messageClass: {
       type: String,
-      default: "has-text-dark"
+      default: "color-dark"
     },
     confirmDialogClass: {
       type: String,
-      default: "has-text-left"
+      default: "text-left"
     },
     confirmHeaderClass: {
       type: String
@@ -84,12 +84,6 @@ export default {
       type: String,
       default: "is-danger"
     },
-    dataTooltip: {
-      type: String
-    },
-    tooltipClass: {
-      type: String
-    },
     icon: {
       type: String
     },
@@ -100,7 +94,7 @@ export default {
       type: Boolean
     },
     view: {
-      type: String
+      type: [String, Object]
     },
     rounded: Boolean,
     outlined: Boolean,
@@ -125,9 +119,8 @@ export default {
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
      */
-    getClasses: function() {
+    getCss: function() {
       const css = new CssArchitect("t-button button");
-      css.addClass("tooltip", this.dataTooltip !== undefined);
       css.addClass("rounded", this.rounded);
       css.addClass("flat", this.flat);
       css.addClass("raised", this.raised);
@@ -140,13 +133,14 @@ export default {
       css.addClass("is-loading", this.isLoading);
       css.addClass("disabled", this.disabled);
       css.addClass(this.targetClass, this.targetClass !== undefined);
-      css.addClass(this.tooltipClass, this.tooltipClass !== undefined);
-      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getThemeModifiers);
+      css.addStyles([this.targetStyle]);
+      css.addStyles([this.getAlphaModifiers]);
       css.addClass(this.getSizesModifiers);
       css.addClass(this.getStateModifiers);
       css.addClass(this.getHelpersModifiers);
-      this.setupColorModifier(css);
-      return css.getClasses();
+      this.setupThemeModifier(css, true);
+      return css;
     },
     /**
      * Dynamically build the css classes for the confirmation modal component
@@ -155,11 +149,8 @@ export default {
     getContainerClass: function() {
       const css = new CssArchitect("t-button-container");
       css.flexible();
-      css.addClass("is-centered")
-      css.addClass(
-        this.containerClass,
-        this.containerClass !== undefined
-      );
+      css.addClass("is-centered");
+      css.addClass(this.containerClass, this.containerClass !== undefined);
       css.addClass(this.getDisplayModifiers);
       return css.getClasses();
     },
@@ -168,29 +159,29 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getConfirmClass: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addClass("is-small");
-      cssArchitect.addClass(this.confirmDialogClass);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect();
+      css.addClass("is-small");
+      css.addClass(this.confirmDialogClass);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the confirmation message element
      * @returns { A String with the chained css classes }
      */
     getMessageClass: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(this.messageClass);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect();
+      css.addClass(this.messageClass);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the confirm button
      * @returns { A String with the chained css classes }
      */
     getConfirmBtnClass: function() {
-      const cssArchitect = new CssArchitect("button");
-      cssArchitect.addClass("filled cursor-pointer");
-      cssArchitect.addClass(this.confirmBtnClass);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("button");
+      css.addClass("filled cursor-pointer");
+      css.addClass(this.confirmBtnClass);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the cancel button
@@ -208,7 +199,7 @@ export default {
      */
     getIconClasses: function() {
       const css = new CssArchitect();
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass("inverted", !this.outlined && !this.text && !this.inverted);
       css.addClass(this.iconClass, this.isNotNull(this.iconClass));
       return css.getClasses();
@@ -260,7 +251,9 @@ export default {
       } else {
         this.$emit(this.$thisvui.events.common.click);
         if (this.view) {
-          this.$router.push({ name: this.view });
+          let view =
+            typeof this.view === "string" ? { name: this.view } : this.view;
+          this.$router.push(view);
         }
       }
     },
@@ -301,7 +294,7 @@ export default {
     createButtonIcon(architect, condition = false) {
       if (this.icon && condition) {
         let icon = architect.createIcon(this.getIconClasses);
-        icon.setKey(`${this.id}-btn-icon`)
+        icon.setKey(`${this.id}-btn-icon`);
         icon.setProps({ icon: this.icon });
         architect.addChild(icon);
       }
@@ -312,15 +305,14 @@ export default {
     createButton(architect) {
       let button = architect.createElement(
         this.getActive ? "a" : "span",
-        this.getClasses
+        this.getCss.getClasses()
       );
       button.setId(this.id);
 
       if (this.getActive) {
         button.setRef("button");
         button.setAttrs(this.$attrs);
-        button.setStyles(this.targetStyle);
-        button.addAttr("data-tooltip", this.dataTooltip);
+        button.setStyles(this.getCss.getStyles());
         button.addAttr("disabled", this.disabled);
         button.addClick(this.onClick);
 
@@ -331,9 +323,11 @@ export default {
         }
         this.createButtonIcon(button, this.iconRight);
       } else {
+        this.createButtonIcon(button, !this.iconRight);
         if (this.hasSlot) {
           button.setChildren(this.$slots.default);
         }
+        this.createButtonIcon(button, this.iconRight);
       }
       architect.addChild(button);
     },
@@ -347,11 +341,11 @@ export default {
           targetClass: this.getConfirmClass,
           headerClass: this.confirmHeaderClass,
           titleClass: this.confirmTitleClass,
-          bodyClass: "is-size-6",
           title: this.dialogTitle,
           showModal: this.showConfirmModal,
           showFooter: true,
-          showClose: false
+          showClose: false,
+          small: true
         });
 
         if (this.message) {
@@ -368,14 +362,10 @@ export default {
         let modalFoot = architect.createSpan();
         modalFoot.setSlot("footer");
 
-        let confirmBtn = architect.createSpan(
-          this.getConfirmBtnClass
-        );
+        let confirmBtn = architect.createSpan(this.getConfirmBtnClass);
         confirmBtn.innerHTML(this.confirmText);
         confirmBtn.addClick(this.confirmed);
-        let cancelBtn = architect.createSpan(
-          this.getCancelBtnClass
-        );
+        let cancelBtn = architect.createSpan(this.getCancelBtnClass);
         cancelBtn.innerHTML(this.cancelText);
         cancelBtn.addClick(this.close);
 

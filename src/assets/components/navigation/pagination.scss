@@ -1,32 +1,63 @@
 $pagination-color: rgba($dark, 0.7) !default;
 $pagination-background-color: rgba($dark, 0.05) !default;
+$pagination-border-radius: 4px !default;
 $pagination-current-color: rgba($dark, 0.5) !default;
 $pagination-current-background-color: rgba($dark, 0.05) !default;
 $pagination-current-border-color: rgba($dark, 0.3) !default;
 $pagination-size-label-color: rgba($dark, 0.8) !default;
 $pagination-size-select-border-color: rgba($dark, 0.3) !default;
 $pagination-count-label-color: rgba($dark, 0.8) !default;
-$pagintaion-search-border-color: rgba($dark, 0.9) !default;
+$pagination-search-border-color: rgba($dark, 0.9) !default;
+$pagination-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !default;
 
-.t-paginator {
-  border-left: none;
-  border-right: none;
-  border-radius: 5px;
-  padding: 7px 0 7px 0;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  background-position: 0 0, 0 100%;
-  background-repeat: no-repeat;
-  -webkit-background-size: 100% 1px;
-  -moz-background-size: 100% 1px;
-  margin-bottom: 0.5rem;
-  background-size: 100% 1px;
+.pagination {
+  padding-bottom: 0.2em;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap-reverse;
 
-  @include material-shadow($dark);
+  @include tablet-up {
+    justify-content: flex-end;
 
-  .pagination__next,
-  .pagination__previous {
+    &.has-slot {
+      justify-content: space-between;
+    }
+
+    &.start {
+      justify-content: flex-start;
+    }
+
+    &.end {
+      justify-content: flex-end;
+    }
+
+    &.center {
+      justify-content: center;
+    }
+  }
+
+  &__container {
+    border: none;
+    padding: 7px 0 7px 0;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    flex: 1;
+    @include box-size();
+
+    &:not(.transparent){
+      background-position: 0 0, 0 100%;
+      background-repeat: no-repeat;
+      @include border-radius($pagination-border-radius);
+      @include background-size(100% 1px);
+      @include box-shadow-full($pagination-shadow);
+    }
+
+    &.transparent{
+      background: transparent;
+    }
+  }
+
+  &__next, &__previous {
     box-shadow: 1px 2px 5px 2px rgba(100, 100, 100, 0.1), 1px 1px 1px 0 rgba(50, 50, 50, 0.1), 0 1px 2px 0px rgba(50, 50, 50, 0.1);
     padding-left: 0 !important;
     padding-right: 0 !important;
@@ -42,120 +73,80 @@ $pagintaion-search-border-color: rgba($dark, 0.9) !default;
     }
   }
 
-  .pagination {
-    padding-bottom: 0.2em;
+  &__list {
     display: flex;
+    margin: 0 0.5em 0 0.5em;
+  }
+
+  &__link {
+    padding: 0.2rem;
+    border-radius: 50%;
+    border: 2px solid tint($dark, 90%);
+    width: 2em;
+    height: 2em;
+    display: flex;
+    margin: 0 5px 0 5px;
     justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: all 0.3s ease-in;
 
-    @include tablet-portrait-up {
-      justify-content: flex-end;
+    &:hover {
+      border-color: tint($link, 70%);
+      color: tint($link, 70%);
     }
 
-    &.start {
-      justify-content: flex-start;
-    }
-
-    &.end {
-      justify-content: flex-end;
-    }
-
-    &.center {
-      justify-content: center;
-    }
-
-
-
-    &__list {
-      display: flex;
-    }
-
-    &__link {
-      padding: 0.2rem;
-      border-radius: 50%;
-      border: 2px solid tint($dark, 90%);
-      width: 2em;
-      height: 2em;
-      display: flex;
-      margin: 0 5px 0 5px;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      transition: all 0.3s ease-in;
-
-      &:hover {
-        border-color: tint($link, 70%);
-        color: tint($link, 70%);
-      }
-
-      &.is-current {
-        border-width: 3px;
-        border-color: tint($link, 50%);
-      }
-    }
-
-    ul {
-      list-style: none;
-
-      li {
-        margin-top: 0;
-        display: flex;
-        align-items: center;
-      }
-    }
-
-    &__size {
-      display: none;
-      font-weight: bold;
-      vertical-align: middle;
-      font-size: 0.8rem;
-      color: $pagination-size-label-color;
-
-      @include desktop-up {
-        display: block;
-      }
-    }
-
-    &__count {
-      vertical-align: middle;
-      padding-left: 1em;
-      padding-right: 1em;
-      font-size: 0.8rem;
-      color: $pagination-count-label-color;
-    }
-
-    &__select {
-      vertical-align: middle;
-      padding: 0.2rem;
-      width: 100px;
-
-      .input {
-        border-width: 2px;
-        border-color: $pagination-size-select-border-color;
-        border-radius: 3px;
-
-        &:-moz-focusring {
-          color: transparent;
-          text-shadow: 0 0 0 $pagination-size-label-color;
-        }
-      }
+    &.is-current {
+      border-width: 3px;
+      border-color: tint($link, 50%);
     }
   }
-}
 
-.breadcrumb {
-  li + li {
-    margin-top: 0;
-  }
+  ul {
+    list-style: none;
 
-  .link {
-    padding: 0 0.75em !important;
-  }
-}
-
-.content {
-  .t-paginator {
-    ul {
+    li {
       margin-top: 0;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &__size {
+    display: none;
+    font-size: 0.85rem;
+    color: $pagination-size-label-color;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    vertical-align: middle;
+
+    @include desktop-up {
+      display: block;
+    }
+  }
+
+  &__count {
+    font-size: 0.85rem;
+    color: $pagination-count-label-color;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    vertical-align: middle;
+  }
+
+  &__select {
+    vertical-align: middle;
+    padding: 0.2rem;
+    width: 100px;
+
+    .input {
+      border-width: 2px;
+      border-color: $pagination-size-select-border-color;
+      border-radius: 3px;
+
+      &:-moz-focusring {
+        color: transparent;
+        text-shadow: 0 0 0 $pagination-size-label-color;
+      }
     }
   }
 }

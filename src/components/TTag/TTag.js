@@ -1,18 +1,23 @@
-import CssArchitect from "../../utils/css-architect";
 import sizes from "../../mixins/sizes";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
+
+import CssArchitect from "../../utils/css-architect";
+import { createSpan } from "../../utils/element-architect";
 
 export default {
   name: "t-tag",
-  mixins: [colors, sizes],
+  mixins: [themes, sizes],
   props: {
     targetClass: {
       type: String
     },
-    isRounded: {
+    classic: {
       type: Boolean
     },
-    isDelete: {
+    rounded: {
+      type: Boolean
+    },
+    delete: {
       type: Boolean
     }
   },
@@ -22,22 +27,21 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("tag");
-      cssArchitect.addClass(this.getColorsModifiers);
-      cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass(this.targetClass);
-      cssArchitect.addClass("is-rounded", this.isRounded);
-      cssArchitect.addClass("is-delete", this.isDelete);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("tag");
+      this.isFilled(css);
+      css.addClass(this.getThemeModifiers);
+      css.addClass(this.getSizesModifiers);
+      css.addClass(this.targetClass);
+      css.addClass("classic", this.classic);
+      css.addClass("rounded", this.rounded);
+      css.addClass("is-delete", this.delete);
+      this.setupThemeModifier(css, true);
+      return css.getClasses();
     }
   },
-  render: function(createElement) {
-    return createElement(
-      "span",
-      {
-        class: this.getClasses
-      },
-      this.$slots.default
-    );
+  render: function(h) {
+    let root = createSpan(h, this.getClasses);
+    root.setChildren(this.$slots.default);
+    return root.create();
   }
 };

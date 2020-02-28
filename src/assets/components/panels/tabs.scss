@@ -1,3 +1,10 @@
+$tabs-body-content-padding: $box-content-padding !default;
+$tabs-item-height:3rem !default;
+$tabs-item-line-height: 1rem !default;
+$tabs-border-radius: 4px !default;
+$tabs-bottom-margin: $separation-margin !default;
+$tabs-shadow: 0 0px 1px 0px rgba($black, 0.25), 0 1px 1px 0px rgba($black, 0.14), 0 3px 3px 0 rgba($black, 0.12) !default;
+
 .tabs {
   margin: 0;
   position: relative;
@@ -9,8 +16,8 @@
     align-items: center;
     justify-content: flex-start;
     position: relative;
-    border-bottom: 1px solid;
     margin-left: 0;
+    border-radius: $tabs-border-radius $tabs-border-radius 0 0;
 
     &.is-right {
       justify-content: flex-end;
@@ -19,35 +26,58 @@
     &.is-centered {
       justify-content: center;
     }
-
-    &.borderless {
-      border: none;
-      box-shadow: none;
-      -webkit-box-shadow: none;
-    }
-
   }
 
   &__item {
     display: flex;
     align-items: center;
     position: relative;
-    height:$tabs-label-height;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    text-align:center;
-    line-height:3em;
+    height: $tabs-item-height;
+    text-align: center;
+    line-height: $tabs-item-line-height;
+    font-size: 0.8em;
     margin-top: 0;
-    cursor:pointer;
+    cursor: pointer;
 
-    &:not(:last-child){
-      margin-right: 2px;
+    @include big-phone-up {
+      font-size: 1rem;
+    }
+
+    &:first-child {
+      border-top-left-radius: $tabs-border-radius;
+    }
+
+    &.is-right {
+      &:first-child {
+        border-top-left-radius: 0;
+      }
+      &:last-child {
+        border-top-right-radius: $tabs-border-radius;
+      }
+    }
+
+    &.is-centered {
+      justify-content: center;
+
+      &:first-child {
+        border-top-left-radius: 0;
+      }
+      &:last-child {
+        border-top-right-radius: 0;
+      }
     }
 
     a {
-      padding: 1rem 2rem 1rem 2rem;
+      padding: 0 2rem;
       background-position: center;
       transition: background 0.5s;
+      display: flex;
+      padding: 0 2rem;
+      background-position: center;
+      transition: background 0.5s;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
 
       &:active {
         transition: background 0s;
@@ -59,6 +89,13 @@
       a {
         flex: 1;
       }
+
+      &:first-child {
+        border-top-left-radius: $tabs-border-radius;
+      }
+      &:last-child {
+        border-top-right-radius: $tabs-border-radius;
+      }
     }
 
   }
@@ -66,50 +103,52 @@
   &__container {
     width: 100%;
     position: relative;
+    display: block;
+    box-shadow: $tabs-shadow;
+    border-radius: $tabs-border-radius;
 
-    &:not(:last-child){
+    &:not(:last-child) {
       margin-bottom: $tabs-bottom-margin;
     }
 
-  }
-
-  &__body {
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    padding: 2em;
-    border: 1px solid rgba($tabs-body-border-color, 0.3);
-    border-top-style: none;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    @include light-shadow($dark);
-
-    &.borderless {
+    &.shadowless {
       border: none;
       box-shadow: none;
       -webkit-box-shadow: none;
     }
   }
 
-  .tab {
-    &__pane {
-      width: 100%;
-    }
-    &__slider {
-      display: flex;
-      position: relative;
-      height: 2px;
-      transition: all 0.075s cubic-bezier(0.25, 0.8, 0.5, 1) 0s;
-      z-index: 2;
-      bottom: 1px;
+  &__body {
+    position: relative;
+    display: flex;
+    padding: $tabs-body-content-padding;
+    border-top-style: none;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 
-      &--wrapper {
-        left: 0;
-        bottom: 0;
-        margin: 0 !important;
-        width: 100%;
-      }
+    &.switching {
+      overflow: hidden;
     }
   }
+}
 
+.tab {
+  &__pane {
+    width: 100%;
+  }
+  &__slider {
+    display: flex;
+    position: relative;
+    height: 2px;
+    transition: all 0.075s cubic-bezier(0.25, 0.8, 0.5, 1) 0s;
+    z-index: 2;
+    bottom: 0px;
+
+    &--wrapper {
+      left: 0;
+      bottom: 0;
+      margin: 0 !important;
+      width: 100%;
+    }
+  }
 }

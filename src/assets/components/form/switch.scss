@@ -3,7 +3,8 @@
   $switch-width: $switch-height * 2;
   $paddle-height: $switch-height - $switch-paddle-offset * 2;
   $paddle-width: $switch-height - $switch-paddle-offset * 2;
-  $paddle-active-offest: $switch-width - $paddle-width - $switch-paddle-offset * 1.5;
+  $paddle-active-offest: $switch-width - $paddle-width - $switch-paddle-offset *
+    1.5;
 
   + label {
     position: relative;

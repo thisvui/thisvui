@@ -1,10 +1,10 @@
 import CssArchitect from "../utils/css-architect";
 
-import colors from "./colors";
+import themes from "./themes";
 import display from "./display";
 
 export default {
-  mixins: [colors, display],
+  mixins: [themes, display],
   computed: {
     /**
      * Dynamically adds the modifiers css classes based on mixin props
@@ -12,7 +12,7 @@ export default {
      */
     getSyntaxModifiers: function() {
       const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(this.getColorsModifiers);
+      cssArchitect.addClass(this.getThemeModifiers);
       cssArchitect.addClass(this.getDisplayModifiers);
       return cssArchitect.getClasses();
     }

@@ -1,9 +1,10 @@
 import CssArchitect from "../../utils/css-architect";
+import { createSpan } from "../../utils/element-architect";
 
 export default {
   name: "t-tags",
   props: {
-    hasAddons: {
+    attached: {
       type: Boolean
     }
   },
@@ -13,18 +14,14 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("tags");
-      cssArchitect.addClass("has-addons", this.hasAddons);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("tags");
+      css.addClass("attached", this.attached);
+      return css.getClasses();
     }
   },
-  render: function(createElement) {
-    return createElement(
-      "span",
-      {
-        class: this.getClasses
-      },
-      this.$slots.default
-    );
+  render: function(h) {
+    let root = createSpan(h, this.getClasses);
+    root.setChildren(this.$slots.default);
+    return root.create();
   }
 };

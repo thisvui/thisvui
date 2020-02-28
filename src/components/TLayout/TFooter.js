@@ -1,4 +1,4 @@
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 import gradient from "../../mixins/gradient";
 import common from "../../mixins/common";
 
@@ -7,7 +7,7 @@ import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-footer",
-  mixins: [common, colors, gradient],
+  mixins: [common, themes, gradient],
   props: {
     fixed: {
       type: Boolean,
@@ -33,8 +33,8 @@ export default {
     getClasses: function() {
       const css = new CssArchitect("t-footer");
       css.isFullwidth();
-      this.filled(css, { removeInit: true });
-      css.addClass(this.getColorsModifiers);
+      this.isFilled(css, { removeInit: true });
+      css.addClass(this.getThemeModifiers);
       css.addClass(this.getGradientModifiers);
       css.addClass("is-fixed", this.fixed);
       return css.getClasses();

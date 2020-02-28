@@ -1,0 +1,121 @@
+.image {
+  position: relative;
+  display: block;
+  overflow: hidden;
+
+  &.is-16 {
+    width: 16px;
+    height: 16px;
+  }
+
+  &.is-32 {
+    width: 32px;
+    height: 32px;
+  }
+
+  &.is-64 {
+    width: 64px;
+    height: 64px;
+  }
+
+  &.is-128 {
+    width: 128px;
+    height: 128px;
+  }
+
+  &.is-256 {
+    width: 256px;
+    height: 256px;
+  }
+
+  &.is-512 {
+    width: 512px;
+    height: 512px;
+  }
+
+  img {
+    display: block;
+    height: auto;
+    width: 100%;
+    text-align: center;
+  }
+
+  &.ratio {
+    img {
+      @include box-overlay;
+    }
+
+    &.aspect {
+      &--1by1 {
+        padding-top: 100%; /* 1:1 Aspect Ratio */
+      }
+
+      &--16by9 {
+        padding-top: 56.25%; /* 16:9 Aspect Ratio */
+      }
+
+      &--4by3 {
+        padding-top: 75%; /* 4:3 Aspect Ratio */
+      }
+
+      &--3by2 {
+        padding-top: 66.66%; /* 3:2 Aspect Ratio */
+      }
+
+      &--5by4 {
+        padding-top: 80%; /* 8:5 Aspect Ratio */
+      }
+
+      &--2by1 {
+        padding-top: 50%; /* 8:5 Aspect Ratio */
+      }
+
+      &--8by5 {
+        padding-top: 62.5%; /* 8:5 Aspect Ratio */
+      }
+    }
+  }
+
+  &.circular {
+    border-radius: 50%;
+
+    img {
+      border-radius: 50%;
+    }
+
+  }
+
+  &.broken {
+    img {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      &:after, &:before {
+        content: attr(alt);
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        height: 100%;
+        display: flex;
+        background-color: $opaque;
+        color: $opaque-invert;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
+  &__fill {
+    @include box-overlay;
+  }
+
+  &__text {
+    @include box-overlay;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $white-bis;
+  }
+
+}

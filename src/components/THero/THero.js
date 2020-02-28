@@ -1,7 +1,7 @@
 import common from "../../mixins/common";
 import dimension from "../../mixins/dimension";
 import sizes from "../../mixins/sizes";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 import gradient from "../../mixins/gradient";
 
 import CssArchitect from "../../utils/css-architect";
@@ -9,7 +9,7 @@ import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-hero",
-  mixins: [common, sizes, dimension, colors, gradient],
+  mixins: [common, sizes, dimension, themes, gradient],
   props: {
     title: String,
     titleClass: String,
@@ -30,8 +30,8 @@ export default {
      */
     getClasses: function() {
       const css = new CssArchitect("hero");
-      this.filled(css, { removeInit: true });
-      css.addClass(this.getColorsModifiers);
+      this.isFilled(css, { removeInit: true });
+      css.addClass(this.getThemeModifiers);
       css.addClass(this.getGradientModifiers);
       css.addClass(this.getSizesModifiers);
       css.addClass(this.getDimensionModifiers);

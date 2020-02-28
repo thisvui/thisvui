@@ -46,7 +46,7 @@ export default {
       css.addClass(this.getHelpersModifiers);
       css.addClass(this.targetClass);
       css.addClass("is-bold", this.isBold);
-      this.setupColorModifier(css);
+      this.setupThemeModifier(css);
       return css.getClasses();
     },
     /**
@@ -55,8 +55,8 @@ export default {
      */
     getHeadingClasses: function() {
       const css = new CssArchitect("message__heading");
-      this.filled(css);
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      this.isFilled(css);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass(this.headingClass, this.headingClass);
       return css.getClasses();
     },
@@ -66,10 +66,10 @@ export default {
      */
     getBodyCss: function() {
       const css = new CssArchitect("message__body");
-      this.filled(css, { lighten: true });
-      css.addClass(this.colorModifier, this.hasColorModifier);
+      this.isFilled(css, { tint: 75 });
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass(this.bodyClass, this.bodyClass);
-      css.addClass("has-text-dark");
+      css.addClass("color-dark");
       return css;
     },
     /**
@@ -93,10 +93,7 @@ export default {
     },
     createCloseButton(architect) {
       if (this.closeButton) {
-        let deleteBtn = architect.createElement(
-          "button",
-          this.getCloseButtonClasses
-        );
+        let deleteBtn = architect.createA(this.getCloseButtonClasses);
         deleteBtn.addClick(this.removeElement);
         architect.addChild(deleteBtn);
       }
@@ -116,7 +113,7 @@ export default {
       body.setStyles(this.getBodyCss.getStyles());
       body.addVNodeChildren(this.$slots.default);
       if (!this.showHeading) {
-        let deleteContainer = architect.createDiv("has-text-right");
+        let deleteContainer = architect.createDiv("text-right");
         this.createCloseButton(deleteContainer);
         body.addChild(deleteContainer);
       }

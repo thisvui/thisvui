@@ -1,0 +1,12 @@
+$primary-invert: findColorInvert($primary) !default;
+$secondary-invert: findColorInvert($secondary) !default;
+$danger-invert: findColorInvert($danger) !default;
+$moderate-invert: findColorInvert($moderate) !default;
+$info-invert: findColorInvert($info) !default;
+$warning-invert: findColorInvert($warning) !default;
+$link-invert: findColorInvert($link) !default;
+$success-invert: findColorInvert($success) !default;
+$happy-invert: findColorInvert($happy) !default;
+$light-invert: findColorInvert($light) !default;
+$opaque-invert: findColorInvert($light) !default;
+$dark-invert: findColorInvert($dark) !default;

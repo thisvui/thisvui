@@ -2,7 +2,6 @@ import TIcon from "../TIcon/TIcon";
 import TPaginatorControl from "./TPaginatorControl";
 import TSelect from "../TSelect/TSelect";
 
-import alignment from "../../mixins/alignment";
 import sizes from "../../mixins/sizes";
 import pagination from "../../mixins/pagination";
 import helpers from "../../mixins/helpers";
@@ -10,38 +9,26 @@ import common from "../../mixins/common";
 import justify from "../../mixins/justify";
 
 import CssArchitect from "../../utils/css-architect";
-import ElementArchitect from "../../utils/element-architect";
+import { createDiv } from "../../utils/element-architect";
 
 export default {
   name: "t-paginator",
   components: { TSelect, TPaginatorControl, TIcon },
-  mixins: [common, pagination, sizes, alignment, justify, helpers],
+  mixins: [common, pagination, sizes, justify, helpers],
   props: {
     items: {
       type: Array
-    },
-    size: {
-      type: Number,
-      required: false,
-      default: 10
-    },
-    sizeLabel: {
-      type: String,
-      default: "Rows per page"
     },
     controlsOutside: {
       type: Boolean,
       default: false
     },
-    isRounded: {
-      type: Boolean,
-      default: false
-    }
+    rounded: Boolean,
+    transparent: Boolean,
   },
   data() {
     return {
       currentPageNumber: 0, // default to page 0
-      sizeOptions: [5, 10, 15, 25, 50, 100],
       rowsPerPage: this.size,
       addFirstPage: true,
       addLastPage: true
@@ -49,10 +36,13 @@ export default {
   },
   watch: {
     items: function(newVal, oldVal) {
-      this.updateData(!this.serverSide);
+      this.updateData(!this.serverSide, false);
     }
   },
   computed: {
+    hasSlot() {
+      return !!this.$slots.default;
+    },
     isControlsOutside() {
       return this.controlsOutside;
     },
@@ -60,74 +50,75 @@ export default {
      * Dynamically build the css classes for the container element
      * @returns { A String with the chained css classes }
      */
-    getContainerClass: function() {
-      const cssArchitect = new CssArchitect("t-paginator");
-      return cssArchitect.getClasses();
+    containerCss: function() {
+      const css = new CssArchitect("pagination__container");
+      css.addClass("transparent", this.transparent);
+      return css;
     },
     /**
      * Dynamically build the css classes for the target element
      * @returns { A String with the chained css classes }
      */
     getTargetClass: function() {
-      const cssArchitect = new CssArchitect("pagination");
-      cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass(this.getJustifyModifiers);
-      cssArchitect.addClass(this.getAlignmentModifiers);
-      cssArchitect.addClass("is-rounded", this.isRounded);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("pagination");
+      css.addClass(this.getSizesModifiers);
+      css.addClass(this.getJustifyModifiers);
+      css.addClass("rounded", this.rounded);
+      css.addClass("has-slot", this.hasSlot);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the previous button
      * @returns { A String with the chained css classes }
      */
     getPreviousClass() {
-      const cssArchitect = new CssArchitect("pagination__previous");
-      cssArchitect.addClass(
+      const css = new CssArchitect("pagination__previous");
+      css.addClass(
         this.previousClass,
         this.previousClass !== undefined
       );
-      cssArchitect.addClass(this.getHelpersModifiers);
-      return cssArchitect.getClasses();
+      css.addClass(this.getHelpersModifiers);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the next button
      * @returns { A String with the chained css classes }
      */
     getNextClass() {
-      const cssArchitect = new CssArchitect("pagination__next");
-      cssArchitect.addClass(this.nextClass, this.nextClass !== undefined);
-      cssArchitect.addClass(this.getHelpersModifiers);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("pagination__next");
+      css.addClass(this.nextClass, this.nextClass !== undefined);
+      css.addClass(this.getHelpersModifiers);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the ul element
      * @returns { A String with the chained css classes }
      */
     getListClass() {
-      const cssArchitect = new CssArchitect("pagination__list");
-      cssArchitect.addClass(this.listClass, this.listClass !== undefined);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("pagination__list");
+      css.addClass(this.listClass, this.listClass !== undefined);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the link elements
      * @returns { A String with the chained css classes }
      */
     getLinkClass() {
-      const cssArchitect = new CssArchitect("pagination__link");
-      cssArchitect.addClass(this.linkClass, this.linkClass !== undefined);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("pagination__link");
+      css.addClass(this.linkClass, this.linkClass !== undefined);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for the current link element
      * @returns { A String with the chained css classes }
      */
     getCurrentLinkClass() {
-      const cssArchitect = new CssArchitect("pagination__link is-current");
-      cssArchitect.addClass(
+      const css = new CssArchitect("pagination__link is-current");
+      css.addClass(
         this.currentLinkClass,
         this.currentLinkClass !== undefined
       );
-      return cssArchitect.getClasses();
+      return css.getClasses();
     },
     /**
      * Calculate an returns the first page number
@@ -171,9 +162,7 @@ export default {
      */
     numberOfPages() {
       let totalItems = this.totalItems || 0;
-      let dividend = this.serverSide
-        ? totalItems
-        : parseInt(this.items.length);
+      let dividend = this.serverSide ? totalItems : parseInt(this.items.length);
       let pages = dividend / parseInt(this.rowsPerPage);
       pages = pages > parseInt(pages) ? parseInt(pages) + 1 : parseInt(pages);
       return pages;
@@ -219,7 +208,18 @@ export default {
     }
   },
   methods: {
-    updateData(emitEvent = true) {
+    updateData(emitEvent = true, ignoreAuto = true) {
+      let numberOfPages = this.numberOfPages - 1;
+      if (numberOfPages >= 0 && this.currentPageNumber > numberOfPages) {
+        this.currentPageNumber = this.numberOfPages - 1;
+      }
+      if (
+        this.autoNavigate &&
+        !ignoreAuto &&
+        this.currentPageNumber < numberOfPages
+      ) {
+        this.currentPageNumber = numberOfPages;
+      }
       let data = {
         items: this.paginatedItems,
         page: this.currentPageNumber,
@@ -251,7 +251,7 @@ export default {
      * Sets the current page number when page changes
      */
     onChange() {
-      let numberOfPages = this.numberOfPages > 0 ? this.numberOfPages - 1 : 0
+      let numberOfPages = this.numberOfPages > 0 ? this.numberOfPages - 1 : 0;
       if (this.currentPageNumber > numberOfPages) {
         this.currentPageNumber = numberOfPages;
       }
@@ -269,10 +269,7 @@ export default {
      */
     createSizeSelect(architect) {
       let root = architect.createLi();
-      let sizeLabel = root.createSpan(
-        "pagination__size"
-      );
-
+      let sizeLabel = root.createSpan("pagination__size");
 
       let sizeSelect = root.createElement(TSelect);
       let sizeSelectProps = {
@@ -280,15 +277,15 @@ export default {
         removeLabel: true,
         allowEmptyValue: false,
         containerClass: "pagination__select",
-        inputClass: "size-select",
+        targetClass: "size-select",
         compact: true,
         small: true,
-        isShadowless: true,
-        initialValue: this.rowsPerPage
+        shadowless: true,
+        value: this.rowsPerPage
       };
       sizeSelect.setProps(sizeSelectProps);
       sizeLabel.innerHTML(this.sizeLabel);
-      sizeSelect.addInput( value => {
+      sizeSelect.addInput(value => {
         this.rowsPerPage = value;
         this.onChange();
       }); // Emulates v-model
@@ -383,13 +380,16 @@ export default {
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "div", this.getContainerClass);
+    let root = createDiv(h, this.containerCss.getClasses());
     root.setId(this.id);
 
     // Creating the nav element
     let nav = root.createNav(this.getTargetClass);
-    nav.addAttr("role", "navigation");
-    nav.addAttr("aria-label", "pagination");
+
+    if (this.hasSlot) {
+      let slot = root.createDiv().setChildren(this.$slots.default);
+      nav.addChild(slot);
+    }
 
     // Creating the previous button
     let previous = root.createElement(TPaginatorControl);

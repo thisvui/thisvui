@@ -2,43 +2,28 @@ import CssArchitect from "../utils/css-architect";
 
 export default {
   props: {
-    isMarginless: {
+    marginless: {
       type: Boolean
     },
-    isPaddingless: {
+    paddingless: {
       type: Boolean
     },
     isBold: {
       type: Boolean
     },
-    isOverlay: {
+    radiusless: {
       type: Boolean
     },
-    isClipped: {
+    borderless: {
       type: Boolean
     },
-    isRadiusless: {
-      type: Boolean
-    },
-    isShadowless: {
+    shadowless: {
       type: Boolean
     },
     isUnselectable: {
       type: Boolean
     },
     isInvisible: {
-      type: Boolean
-    },
-    isClearfix: {
-      type: Boolean
-    },
-    isPulledLeft: {
-      type: Boolean
-    },
-    isPulledRight: {
-      type: Boolean
-    },
-    isSrOnly: {
       type: Boolean
     }
   },
@@ -49,19 +34,14 @@ export default {
      */
     getHelpersModifiers: function() {
       const cssArchitect = new CssArchitect();
-      cssArchitect.addClass("is-marginless", this.isMarginless);
-      cssArchitect.addClass("is-paddingless", this.isPaddingless);
+      cssArchitect.addClass("is-marginless", this.marginless);
+      cssArchitect.addClass("is-paddingless", this.paddingless);
       cssArchitect.addClass("is-bold", this.isBold);
-      cssArchitect.addClass("is-overlay", this.isOverlay);
-      cssArchitect.addClass("is-clipped", this.isClipped);
-      cssArchitect.addClass("is-radiusless", this.isRadiusless);
-      cssArchitect.addClass("is-shadowless", this.isShadowless);
+      cssArchitect.addClass("is-radiusless", this.radiusless);
+      cssArchitect.addClass("is-borderless", this.borderless);
+      cssArchitect.addClass("is-shadowless", this.shadowless);
       cssArchitect.addClass("is-unselectable", this.isUnselectable);
       cssArchitect.addClass("is-invisible", this.isInvisible);
-      cssArchitect.addClass("is-clearfix", this.isClearfix);
-      cssArchitect.addClass("is-pulled-left", this.isPulledLeft);
-      cssArchitect.addClass("is-pulled-right", this.isPulledRight);
-      cssArchitect.addClass("is-sr-only", this.isSrOnly);
       return cssArchitect.getClasses();
     }
   }

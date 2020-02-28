@@ -3,7 +3,7 @@ import common from "../../mixins/common";
 import icons from "../../mixins/icons";
 import TExpand from "../TAnimation/TExpand";
 import TIcon from "../TIcon/TIcon";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
@@ -11,7 +11,7 @@ import ElementArchitect from "../../utils/element-architect";
 export default {
   name: "t-accordion-item",
   components: { TIcon, TExpand },
-  mixins: [common, icons, helper, colors],
+  mixins: [common, icons, helper, themes],
   props: {
     title: {
       type: String
@@ -79,26 +79,26 @@ export default {
       const css = new CssArchitect("t-accordion__heading");
       css.addClass("icon-left", this.iconLeft);
       css.addClass("item-opened", this.isItemOpen);
-      this.filled(css);
-      this.borderedElement(css);
+      this.isFilled(css);
+      this.isBordered(css);
       css.addClass(this.getColorClasses);
       css.addClass(this.headerClass, this.headerClass);
       return css.getClasses();
     },
     getColorClasses: function() {
       const css = new CssArchitect();
-      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getThemeModifiers);
       css.addClass(this.targetClass, this.targetClass !== undefined);
-      this.setupColorModifier(css);
+      this.setupThemeModifier(css);
       css.addClass(
         "is-primary",
-        !this.$parent.hasColorModifier && !this.hasColorModifier
+        !this.$parent.hasThemeModifier && !this.hasThemeModifier
       );
       css.addClass(
-        this.$parent.colorModifier,
-        this.$parent.hasColorModifier && !this.hasColorModifier
+        this.$parent.themeModifier,
+        this.$parent.hasThemeModifier && !this.hasThemeModifier
       );
-      this.setupColorModifier(css);
+      this.setupThemeModifier(css);
       return css.getClasses();
     },
     /**
@@ -119,10 +119,10 @@ export default {
       const css = new CssArchitect();
       css.addClass(this.iconClass, this.isNotNull(this.iconClass));
       css.addClass(
-        "is-primary", !this.hasColorModifier
+        "is-primary", !this.hasThemeModifier
       );
       css.addClass(
-        this.colorModifier, this.hasColorModifier
+        this.themeModifier, this.hasThemeModifier
       );
       css.addClass("inverted");
       return css.getClasses();

@@ -26,15 +26,13 @@
   width: var(--container-width);
   display: flex;
   flex-wrap: wrap;
-  padding-top: var(--gutter-unit);
-  padding-left: var(--gutter-unit);
+  padding: var(--gutter-unit);
 
   > * {
     flex-grow: 0;
     flex-shrink: 0;
     flex-basis: var(--column-unit);
-    margin-right: var(--gutter-unit);
-    margin-bottom: var(--gutter-unit);
+    margin: calc(var(--gutter-unit) / 2);
   }
 
   &.auto {
@@ -44,12 +42,10 @@
   }
 
   &.gapless {
-    padding-top: 0;
-    padding-left: 0;
+    padding: 0;
 
     > * {
-      margin-right: 0;
-      margin-bottom: 0;
+      margin: 0;
     }
   }
 
@@ -57,7 +53,7 @@
     $column-span: column-spans(var(--column-span));
     $column-height: gutter-spans(var(--column-gutters));
     flex-basis: #{$column-span};
-    height:  #{$column-height};
+    height: #{$column-height};
 
     &.half {
       @include tablet-up {
@@ -68,6 +64,5 @@
     @include phone-only {
       --column-span: var(--grid-columns);
     }
-
   }
 }

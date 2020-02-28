@@ -1,32 +1,76 @@
 /* Tables */
 $table-color: rgba($dark, 0.7) !default;
+$table-padding: $box-content-padding !default;
 $table-cell-border-color: rgba($dark, 0.2) !default;
 $table-cell-padding: 15px !default;
+$table-bottom-border-color: rgba($dark, 0.1) !default;
+$table-bottom-border: 1px solid $table-bottom-border-color !default;
 $table-head-cell-border-color: rgba($dark, 0.3) !default;
 $table-head-cell-color: $dark !default;
+$table-font-size: 1rem !default;
+$table-border-radius: 4px !default;
+$table-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !default;
+
+@mixin table-bar() {
+  display: flex;
+  color: $dark;
+  padding: $table-padding;
+  min-width: 10%;
+  border-bottom: $table-bottom-border;
+  @include box-shadow-full($table-shadow);
+}
 
 .table {
-  font-size: 0.85rem;
-  border-radius: 6px;
+  font-size: $table-font-size;
   width: 100%;
+  min-width: 100%;
   border-collapse: collapse;
-  overflow: hidden;
-  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  table-layout: fixed;
 
-  @include material-shadow($dark);
+  &.fit-content {
+    width: auto;
+    width: -moz-max-content;
+    width: -webkit-max-content;
+    width: -o-max-content;
+    width: max-content;
+  }
+
+  &__heading {
+    flex-direction: column;
+    @include table-bar;
+    @include border-radius-specific($table-border-radius, $table-border-radius, 0, 0);
+
+    &--horizontal {
+      @extend .t-flex;
+      --flex-direction: row;
+      --flex: 1;
+      --justify-content: center;
+
+      @include tablet-up {
+        --justify-content: space-between;
+        &.not-header{
+          --justify-content: flex-end;
+        }
+      }
+    }
+  }
+
+  &__footer {
+    @include table-bar;
+    @include border-radius-specific(0, 0, $table-border-radius, $table-border-radius);
+  }
 
   td,
   th {
     border-color: $table-cell-border-color;
     padding: $table-cell-padding;
-  }
-
-
-  th {
-    text-align: left;
+    text-align: center;
   }
 
   thead {
+    tr {
+      @include border-radius-specific($table-border-radius, $table-border-radius, 0, 0);
+    }
     th {
       border-bottom-color: $table-head-cell-border-color;
 
@@ -40,6 +84,7 @@ $table-head-cell-color: $dark !default;
   tbody {
     tr {
       --bg-hover-alpha: 0.5;
+      height: fit-content;
 
       &:hover {
         cursor: pointer;
@@ -49,18 +94,6 @@ $table-head-cell-color: $dark !default;
     td {
       position: relative;
       font-weight: 400;
-      &:hover {
-        &:before {
-          content: "";
-          position: absolute;
-          left: 0;
-          right: 0;
-          top: -9999px;
-          bottom: -9999px;
-          background-color: rgba(255,255,255,0.2);
-          z-index: -1;
-        }
-      }
     }
 
     th {
@@ -80,6 +113,45 @@ $table-head-cell-color: $dark !default;
     }
   }
 
+  &__wrapper {
+    width: 100%;
+    overflow-x: auto;
+    padding: 0;
+    border-radius: $table-border-radius;
+    @include box-shadow-full($table-shadow);
+
+    &.has-header{
+      &:not(.has-footer){
+        @include border-radius-specific(0, 0, $table-border-radius, $table-border-radius);
+        thead {
+          tr {
+            @include border-radius-specific(0, 0, $table-border-radius, $table-border-radius);
+          }
+        }
+      }
+      &.has-footer{
+        @include border-radius-specific(0, 0, 0, 0);
+        thead {
+          tr {
+            @include border-radius-specific(0, 0, 0, 0);
+          }
+        }
+      }
+    }
+
+    &.has-footer{
+      &:not(.has-header){
+        @include border-radius-specific($table-border-radius, $table-border-radius, 0, 0);
+        thead {
+          tr {
+            @include border-radius-specific($table-border-radius, $table-border-radius, 0, 0);
+          }
+        }
+      }
+    }
+
+  }
+
   &__row {
     &--checker {
       .is-checkradio[type="checkbox"] + label {
@@ -89,6 +161,22 @@ $table-head-cell-color: $dark !default;
           outline: none;
         }
       }
+    }
+  }
+
+  &__cell {
+    vertical-align: middle;
+    height: 100%;
+    &.left {
+      text-align: left;
+    }
+
+    &.center {
+      text-align: center;
+    }
+
+    &.right {
+      text-align: right;
     }
   }
 

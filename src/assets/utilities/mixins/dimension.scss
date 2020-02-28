@@ -1,0 +1,20 @@
+@mixin dimensions($width: false, $height: false) {
+  @if $width {
+    width: $width;
+  }
+
+  @if $height {
+    height: $height;
+  }
+}
+
+
+@mixin margin-padding($margin: false, $padding: false) {
+  @if $margin {
+    margin: $margin;
+  }
+
+  @if $padding {
+    padding: $padding;
+  }
+}

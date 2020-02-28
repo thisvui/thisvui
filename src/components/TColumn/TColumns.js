@@ -11,9 +11,6 @@ export default {
     gapless: {
       type: Boolean
     },
-    auto: {
-      type: Boolean
-    },
     gridWidth: {
       type: Number,
       default: 960
@@ -29,7 +26,8 @@ export default {
   },
   data() {
     return {
-      items: []
+      items: [],
+      auto: true
     };
   },
   computed: {
@@ -61,5 +59,8 @@ export default {
   },
   created() {
     this.items = this.$children;
+    this.$on("update:auto", value => {
+      this.auto = !this.isNotEmpty(value);
+    });
   }
 };

@@ -3,6 +3,7 @@
  */
 import { TButton } from "../components/TButton";
 import { TIcon } from "../components/TIcon";
+import { TCell } from "../components/TTable";
 import keycodes from "./keycodes";
 
 export default class ElementArchitect {
@@ -158,6 +159,10 @@ export default class ElementArchitect {
     return this;
   }
 
+  addListeners(listeners) {
+    this.listeners = listeners;
+  }
+
   addClick(handler, conditionStatement = true, native = false) {
     return this.addEvent("click", handler, conditionStatement, native);
   }
@@ -212,6 +217,11 @@ export default class ElementArchitect {
 
   setSlot(slotName) {
     this.slot = slotName;
+    return this;
+  }
+
+  setScopedSlots(scopedSlots) {
+    this.scopedSlots = scopedSlots;
     return this;
   }
 
@@ -334,6 +344,12 @@ export default class ElementArchitect {
     return this.createElement("th", classes);
   }
 
+  createCell(classes, head = false) {
+    let cell = this.createElement(TCell, classes);
+    cell.setProps({ head: head });
+    return cell;
+  }
+
   createButton(classes) {
     return this.createElement(TButton, classes);
   }
@@ -385,8 +401,21 @@ export default class ElementArchitect {
     if (this.slot) {
       element.slot = this.slot;
     }
+
+    if (this.scopedSlots) {
+      element.scopedSlots = this.scopedSlots;
+    }
+    if (this.listeners) {
+      if (!element.on) {
+        element.on = {};
+      }
+      element.on = { ...element.on, ...this.listeners };
+    }
     if (this.events) {
-      element.on = this.events;
+      if (!element.on) {
+        element.on = {};
+      }
+      element.on = { ...element.on, ...this.events };
     }
     if (this.native) {
       element.nativeOn = this.native;

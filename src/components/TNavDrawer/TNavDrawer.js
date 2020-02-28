@@ -2,24 +2,25 @@ import helpers from "../../mixins/helpers";
 import tree from "../../mixins/tree";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
-import colors from "../../mixins/colors";
-import slide from "../../mixins/slide";
+import themes from "../../mixins/themes";
 
 import TTreeNav from "../TTree/TTreeNav";
-import TSlide from "../TAnimation/TSlide";
-import TAside from "../TLayout/TAside";
 
 import CssArchitect from "../../utils/css-architect";
-import ElementArchitect from "../../utils/element-architect";
+import { createDiv } from "../../utils/element-architect";
 
 export default {
   name: "t-nav-drawer",
-  components: { TAside, TSlide, TTreeNav },
-  mixins: [common, slide, tree, icons, colors, helpers],
+  components: { TTreeNav },
+  mixins: [common, tree, icons, themes, helpers],
   props: {
     model: {
       type: Array,
       required: true
+    },
+    width: {
+      type: [Number, String],
+      default: 300
     },
     hideLabel: {
       type: Boolean,
@@ -37,60 +38,61 @@ export default {
      * Dynamically build the css classes for the main container
      * @returns { A String with the chained css classes }
      */
-    getContainerClass: function() {
-      const cssArchitect = new CssArchitect("t-nav-drawer");
-      cssArchitect.isFlexible("column", "stretch").isFullheight();
-      cssArchitect.addClass(
-        this.containerClass,
-        this.containerClass !== undefined
-      );
-      cssArchitect.addClass("is-nav-opened", this.isOpen);
-      cssArchitect.addClass(this.getHelpersModifiers);
-      cssArchitect.addClass(this.getColorsModifiers);
-      this.setupColorModifier(cssArchitect);
-      return cssArchitect.getClasses();
+    containerCss: function() {
+      const css = new CssArchitect("t-nav-drawer");
+      css
+        .flexible({ direction: "column", alignItems: "stretch" })
+        .isFullheight();
+      css.addClass(this.containerClass, this.containerClass !== undefined);
+      css.addClass("is-nav-opened", this.isOpen);
+      css.addClass(this.getHelpersModifiers);
+      css.addClass(this.getThemeModifiers);
+      css.addStyle("width", css.addPx(this.width), this.isNotEmpty(this.width));
+      this.setupThemeModifier(css);
+      return css;
     },
     /**
      * Dynamically build the css classes for each label element
      * @returns { A String with the chained css classes }
      */
     getLabelClass: function() {
-      const cssArchitect = new CssArchitect("menu-label");
-      this.colorize(cssArchitect, "bg-color", true);
-      cssArchitect.addClass(this.labelClass, this.labelClass !== undefined);
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("menu-label");
+      this.isFilled(css);
+      css.addClass(this.labelClass, this.labelClass !== undefined);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for each item icon
      * @returns { A String with the chained css classes }
      */
     getIconClass: function() {
-      const cssArchitect = new CssArchitect("is-inline-block");
-      cssArchitect.addClass(this.iconClass, this.iconClass !== undefined);
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("is-inline-block");
+      css.addClass(this.iconClass, this.iconClass !== undefined);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
+      return css.getClasses();
     },
     /**
      * Dynamically build the css classes for each item link
      * @returns { A String with the chained css classes }
      */
     getLinkClass: function() {
-      const cssArchitect = new CssArchitect("is-inline-block");
-      this.colorize(cssArchitect, "bg-hover", true);
-      cssArchitect.addClass(this.linkClass, this.linkClass !== undefined);
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect("is-inline-block");
+      this.isHovered(css);
+      css.addClass(this.linkClass, this.linkClass !== undefined);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
+      return css.getClasses();
     },
     getControlIconClass: function() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addClass(this.colorModifier, this.hasColorModifier);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect();
+      css.addClass(this.themeModifier, this.hasThemeModifier);
+      return css.getClasses();
     },
     getLinkOpenedClass: function() {
-      const cssArchitect = new CssArchitect();
-      this.colorize(cssArchitect, "bg-color");
-      return cssArchitect.getClasses();
+      const css = new CssArchitect();
+      this.isFilled(css);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
+      return css.getClasses();
     }
   },
   data() {
@@ -99,36 +101,29 @@ export default {
     };
   },
   methods: {
-    getStyle() {
-      const cssArchitect = new CssArchitect();
-      cssArchitect.addStyle("width", `${this.calculatedWidth}px`);
-      return cssArchitect.getStyles();
-    },
     /**
      * Creates the menu items
      * @param architect
      */
     createMenuItems(architect) {
-      let menuItems = architect.createDiv("menu");
-      menuItems.setStyles(this.getStyle());
-
+      let menu = architect.createDiv("menu");
       for (let $index in this.model) {
         let $menu = this.model[$index];
 
         if (!this.hideLabel) {
-          let label = architect.createP(this.getLabelClass);
+          let label = menu.createP(this.getLabelClass);
           label.setKey(`${this.id}-ml-${$index}`);
           label.innerHTML($menu.name);
-          menuItems.addChild(label);
+          menu.addChild(label);
         }
 
-        let treeContainer = architect.createUl("menu-list");
+        let treeContainer = menu.createUl("menu-list");
         treeContainer.setKey(`${this.id}-ml-tree${$index}`);
 
         for (let $treeIndex in $menu.children) {
           let $treeItem = $menu.children[$treeIndex];
 
-          let treeNav = architect.createElement(TTreeNav, "item");
+          let treeNav = menu.createElement(TTreeNav, "item");
           treeNav.setKey(`${this.id}-ml-tree-item${$treeIndex}`);
           treeNav.setProps({
             tagClass: this.tagClass,
@@ -145,26 +140,21 @@ export default {
           });
           treeContainer.addChild(treeNav);
         }
-        menuItems.addChild(treeContainer);
+        menu.addChild(treeContainer);
       }
-      architect.addChild(menuItems);
+      architect.addChild(menu);
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, TAside);
-    root.setId(this.id);
-    root.setProps({
-      containerClass: this.getContainerClass,
-      isOpen: this.isOpen,
-      isAbsolute: this.isAbsolute,
-      width: this.width,
-      zIndex: this.zIndex,
-      animationDuration: this.animationDuration,
-      animationFill: this.animationFill
-    });
-    root.addEvent("clicked-outside", this.handleOutsideClick);
-    root.addEvent("change-width", this.updateCalculatedWith);
+    let root = createDiv(h, this.containerCss.getClasses());
+    root.setStyles(this.containerCss.getStyles());
     this.createMenuItems(root);
     return root.create();
+  },
+  mounted(){
+    this.$on("close-siblings", id => {
+      this.$emit("close-children", id);
+    });
+
   }
 };

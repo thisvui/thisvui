@@ -1,11 +1,11 @@
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 
 import { createDiv } from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
   name: "t-dropdown-divider",
-  mixins: [colors],
+  mixins: [themes],
   props: {
     targetClass: {
       type: String
@@ -14,15 +14,14 @@ export default {
   computed: {
     getClasses: function() {
       const css = new CssArchitect("dropdown__divider");
-      this.filled(css);
-      css.addClass(this.getColorsModifiers);
+      this.isFilled(css, { tint: 50 });
+      css.addClass(this.getThemeModifiers);
       css.addClass(this.targetClass);
-      this.setupColorModifier(css);
+      this.setupThemeModifier(css);
       css.addClass(
-        this.$parent.colorModifier,
-        this.$parent.hasColorModifier && !this.hasColorModifier
+        this.$parent.themeModifier,
+        this.$parent.hasThemeModifier && !this.hasThemeModifier
       );
-      css.addClass("halftone");
       return css.getClasses();
     },
   },

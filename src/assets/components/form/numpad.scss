@@ -1,0 +1,113 @@
+$numpad-header-bg: #F25F5C;
+$numpad-digit-color: #757575;
+$numpad-mobile-breakpoint:   480px;
+
+
+
+.numpad {
+
+  &__digits {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 5px 20px;
+
+    .numpad__digit:last-of-type {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  &__digit {
+    position: relative;
+    width: 33%;
+
+    a {
+      position: relative;
+      z-index: 2;
+      display: block;
+      width: 100%;
+      padding: 20px 0;
+      text-align: center;
+      color: $numpad-digit-color;
+      background: none;
+      border: none;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.3;
+      cursor: pointer;
+      transition: color .3s ease;
+      outline: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+
+      @media (min-width: $numpad-mobile-breakpoint) {
+        padding: 15px 0;
+      }
+
+      &.is-disabled {
+        color: rgba($numpad-digit-color, 0.3);
+      }
+
+      &:focus + .numpad__ripple {
+        opacity: .3;
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+    }
+
+  }
+
+  &__arrows {
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    padding: 5px 20px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    justify-content: space-between;
+
+    a {
+      font-size: 25px;
+      padding: 17px 0 13px 0;
+      line-height: 1;
+
+      @media (min-width: $numpad-mobile-breakpoint) {
+        padding: 13px 0 8px 0;
+      }
+    }
+  }
+
+  &__ripple {
+    z-index: 1;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background: rgba(#000, .2);
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.1);
+    transition: .3s;
+
+    @media (min-width: $numpad-mobile-breakpoint) {
+      width: 45px;
+      height: 45px;
+    }
+
+    &.is-pressed {
+      opacity: .3;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+
+  &__triangle {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    stroke-width: 0;
+    stroke: currentColor;
+    fill: currentColor;
+  }
+}

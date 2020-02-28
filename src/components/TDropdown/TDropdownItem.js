@@ -1,4 +1,4 @@
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 
 import { createDiv } from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
@@ -6,7 +6,7 @@ import CssArchitect from "../../utils/css-architect";
 
 export default {
   name: "t-dropdown-item",
-  mixins: [colors],
+  mixins: [themes],
   props: {
     targetClass: {
       type: String
@@ -15,8 +15,8 @@ export default {
   computed: {
     getClasses: function() {
       const css = new CssArchitect("dropdown__item");
-      this.filled(css);
-      css.addClass("hovered lighten has-text-dark");
+      this.isFilled(css);
+      css.addClass("hovered tint-75 color-dark");
       css.addClass(this.targetClass);
       return css.getClasses();
     },

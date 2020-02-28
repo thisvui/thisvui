@@ -1,4 +1,4 @@
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
 import dimension from "../../mixins/dimension";
@@ -14,7 +14,7 @@ import ElementArchitect from "../../utils/element-architect";
 export default {
   name: "t-card",
   components: { TFlex, TIcon, TImage },
-  mixins: [common, icons, colors, dimension, helpers],
+  mixins: [common, icons, themes, dimension, helpers],
   props: {
     targetClass: {
       type: String
@@ -121,9 +121,9 @@ export default {
       css.addClass("horizontal", this.horizontal);
       css.addClass("transparent", this.transparent);
       css.addClass("hover-effect", this.hoverEffect);
-      css.addClass(this.getColorsModifiers);
+      css.addClass(this.getThemeModifiers);
       css.addClass(this.targetClass, this.isNotNull(this.targetClass));
-      this.setupColorModifier(css);
+      this.setupThemeModifier(css);
       css.addClass(this.getHelpersModifiers);
       return css.getClasses();
     },
@@ -159,8 +159,8 @@ export default {
      */
     getDateClasses: function() {
       const css = new CssArchitect("card__date");
-      this.filled(css,  { removeInit: true });
-      css.addClass(this.getColorModifier(true));
+      this.isFilled(css,  { removeInit: true });
+      css.addClass(this.getThemeModifier(true));
       css.addClass("horizontal", this.horizontal);
       css.addClass(this.dateClass, this.dateClass !== undefined);
       return css.getClasses();
@@ -174,8 +174,8 @@ export default {
       css.addClass(this.imgClass, this.isNotNull(this.imgClass));
       if(this.horizontal){
         css.addClass("horizontal");
-        this.borderedElement(css);
-        css.addClass(this.getColorModifier(true));
+        this.isBordered(css);
+        css.addClass(this.getThemeModifier(true));
       }
       return css.getClasses();
     },
@@ -194,7 +194,7 @@ export default {
      */
     getIconClasses: function() {
       const css = new CssArchitect();
-      css.addClass(this.getColorModifier(true));
+      css.addClass(this.getThemeModifier(true));
       css.addClass(this.iconClass, this.isNotNull(this.iconClass));
       return css.getClasses();
     },
@@ -222,10 +222,10 @@ export default {
      */
     getCategoryClasses: function() {
       const css = new CssArchitect("card__category");
-      this.filled(css,  { removeInit: true });
+      this.isFilled(css,  { removeInit: true });
       css.addClass("horizontal", this.horizontal);
       css.addClass("has-img",  this.horizontal && this.isNotNull(this.img));
-      css.addClass(this.getColorModifier(true));
+      css.addClass(this.getThemeModifier(true));
       css.addClass(this.categoryClass, this.categoryClass !== undefined);
       return css.getClasses();
     },
@@ -244,8 +244,8 @@ export default {
      */
     getSubtitleClasses: function() {
       const css = new CssArchitect("card__subtitle");
-      this.colored(css);
-      css.addClass(this.getColorModifier(true));
+      this.isColored(css);
+      css.addClass(this.getThemeModifier(true));
       css.addClass(
         this.subtitleClass,
         this.subtitleClass !== undefined

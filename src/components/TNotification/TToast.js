@@ -1,7 +1,7 @@
 import TNotification from "./TNotification";
 import common from "../../mixins/common";
 import check from "../../mixins/check";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 import { NotificationBus } from "./notification-bus";
 
 import { TFlex } from "../TFlex";
@@ -9,10 +9,9 @@ import { TFlex } from "../TFlex";
 import { createDiv } from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
 
-
 export default {
   name: "t-toast",
-  mixins: [common, check, colors],
+  mixins: [common, check, themes],
   components: {
     TNotification
   },
@@ -31,7 +30,7 @@ export default {
     },
     isFullwidth: Boolean,
     infinite: Boolean,
-    isFixed: Boolean,
+    fixed: Boolean,
     top: Boolean,
     right: Boolean,
     bottom: Boolean,
@@ -48,7 +47,7 @@ export default {
   data() {
     return {
       notifications: [],
-      transitionType : ""
+      transitionType: ""
     };
   },
   computed: {
@@ -58,7 +57,7 @@ export default {
      */
     getContainerClasses: function() {
       const css = new CssArchitect("t-toast");
-      css.addClass("is-fixed", this.isFixed);
+      css.addClass("is-fixed", this.fixed);
       css.addClass("empty", this.isEmpty());
       return css.getClasses();
     },
@@ -69,10 +68,10 @@ export default {
     getNotificationClasses: function() {
       const css = new CssArchitect("notification");
 
-      if(this.outlined){
-        this.borderedElement(css);
-      }else{
-        this.filled(css);
+      if (this.outlined) {
+        this.isBordered(css);
+      } else {
+        this.isFilled(css);
       }
       css.addClass(this.targetClass);
       return css.getClasses();
@@ -88,8 +87,10 @@ export default {
     }
   },
   methods: {
-    isEmpty(){
-      return !(this.isNotNull(this.notifications) && this.notifications.length > 0);
+    isEmpty() {
+      return !(
+        this.isNotNull(this.notifications) && this.notifications.length > 0
+      );
     },
     getType(type) {
       return `is-${type}`;
@@ -103,7 +104,7 @@ export default {
       let containerHeight = this.height;
       if (this.$refs.toast) {
         container = this.$refs.toast;
-        if (!this.isFixed) {
+        if (!this.fixed) {
           parent = container.parentElement;
           parentWidth = parseInt(getComputedStyle(parent).width);
           parentHeight = parseInt(getComputedStyle(parent).height);
@@ -173,10 +174,7 @@ export default {
       this.notifications = this.$thisvui.getScope(this.scope);
     },
     createCloseButton(architect, $notification) {
-      let deleteBtn = architect.createElement(
-        "button",
-        this.getCloseButtonClasses
-      );
+      let deleteBtn = architect.createA(this.getCloseButtonClasses);
       deleteBtn.addClick(() => {
         this.$thisvui.removeNotification($notification);
       });
@@ -196,37 +194,39 @@ export default {
       }
     },
     createNotifications(architect) {
-        let transition = architect.createTransition(this.transitionType, {group: true});
-        for (let $index in this.notifications) {
-          let $notification = this.notifications[$index];
-          $notification.scope = $notification.scope || this.scope;
-          if ($notification.transition) {
-            this.transitionType = $notification.transition
-          }
-
-          let notification = architect.createDiv(this.getNotificationClasses);
-          notification.setKey(`${this.id}-notification-${$index}`);
-          notification.addClass(this.getType($notification.type));
-
-          if (!this.infinite && $notification.infinite) {
-            let timer = setTimeout(
-              function () {
-                this.$thisvui.removeNotification($notification);
-                clearTimeout(timer);
-              }.bind(this),
-              $notification.timeout
-            );
-          }
-          this.createCloseButton(notification, $notification);
-          let messageContainer = architect.createElement(TFlex);
-          this.createIcon(messageContainer, $notification);
-          let message = architect.createDiv("has-text-weight-bold");
-          message.innerHTML($notification.text);
-          messageContainer.addChild(message);
-          notification.addChild(messageContainer);
-          transition.addChild(notification);
+      let transition = architect.createTransition(this.transitionType, {
+        group: true
+      });
+      for (let $index in this.notifications) {
+        let $notification = this.notifications[$index];
+        $notification.scope = $notification.scope || this.scope;
+        if ($notification.transition) {
+          this.transitionType = $notification.transition;
         }
-        architect.addChild(transition);
+
+        let notification = architect.createDiv(this.getNotificationClasses);
+        notification.setKey(`${this.id}-notification-${$index}`);
+        notification.addClass(this.getType($notification.type));
+
+        if (!this.infinite && $notification.infinite) {
+          let timer = setTimeout(
+            function() {
+              this.$thisvui.removeNotification($notification);
+              clearTimeout(timer);
+            }.bind(this),
+            $notification.timeout
+          );
+        }
+        this.createCloseButton(notification, $notification);
+        let messageContainer = architect.createElement(TFlex);
+        this.createIcon(messageContainer, $notification);
+        let message = architect.createDiv("font-weight-bold");
+        message.innerHTML($notification.text);
+        messageContainer.addChild(message);
+        notification.addChild(messageContainer);
+        transition.addChild(notification);
+      }
+      architect.addChild(transition);
     }
   },
   render: function(h) {

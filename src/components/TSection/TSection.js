@@ -1,28 +1,34 @@
 import common from "../../mixins/common";
 import sizes from "../../mixins/sizes";
 import background from "../../mixins/background";
+import padding from "../../mixins/padding";
+import margin from "../../mixins/margin";
+import helpers from "../../mixins/helpers";
 
 import CssArchitect from "../../utils/css-architect";
-import ElementArchitect from "../../utils/element-architect";
+import { createDiv } from "../../utils/element-architect";
 
 export default {
   name: "t-section",
-  mixins: [common, sizes, background],
+  mixins: [common, sizes, padding, margin, background, helpers],
   computed: {
     /**
-     * Dynamically build the css classes for the target element
-     * @returns { A String with the chained css classes }
+     * Dynamically build the css classes and styles for the target element
+     * @returns { A CssArchitect object }
      */
-    getClasses: function() {
-      const cssArchitect = new CssArchitect("section");
-      cssArchitect.addClass(this.getSizesModifiers);
-      cssArchitect.addClass(this.getBackgroundModifiers);
-      return cssArchitect.getClasses();
+    css: function() {
+      const css = new CssArchitect("section");
+      css.addClass(this.getSizesModifiers);
+      css.addClass(this.getBackgroundModifiers);
+      css.addClass(this.getHelpersModifiers);
+      css.addStyles([this.getPaddingStyles, this.getMarginStyles]);
+      return css;
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "div", this.getClasses);
+    let root = createDiv(h, this.css.getClasses());
     root.setId(this.id);
+    root.setStyles(this.css.getStyles());
     root.setChildren(this.$slots.default);
     return root.create();
   }

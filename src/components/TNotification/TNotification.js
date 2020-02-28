@@ -1,28 +1,29 @@
 import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
 import display from "../../mixins/display";
-import colors from "../../mixins/colors";
+import themes from "../../mixins/themes";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-notification",
-  mixins: [common, display, colors, helper],
+  mixins: [common, display, themes, helper],
   props: {
     targetClass: {
       type: String
     },
     closeButton: {
-      type: Boolean,
-      default: false
+      type: Boolean
     },
     closeButtonClass: {
       type: String
     },
+    compact: {
+      type: Boolean
+    },
     timeout: {
-      type: Boolean,
-      default: false
+      type: Boolean
     },
     transition: {
       type: String,
@@ -40,8 +41,9 @@ export default {
      */
     getClasses: function() {
       const css = new CssArchitect("notification");
-      this.filled(css);
-      css.addClass(this.getColorsModifiers);
+      this.isFilled(css);
+      css.addClass("compact", this.compact);
+      css.addClass(this.getThemeModifiers);
       css.addClass(this.getDisplayModifiers);
       css.addClass(this.getHelpersModifiers);
       css.addClass(this.targetClass);
@@ -74,10 +76,7 @@ export default {
     },
     createCloseButton(architect) {
       if (this.closeButton) {
-        let deleteBtn = architect.createElement(
-          "button",
-          this.getCloseButtonClasses
-        );
+        let deleteBtn = architect.createA(this.getCloseButtonClasses);
         deleteBtn.addClick(this.removeElement);
         architect.addChild(deleteBtn);
       }
