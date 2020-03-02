@@ -1,17 +1,16 @@
-import list from "../../mixins/list";
-import responsive from "../../mixins/responsive";
-import dimension from "../../mixins/dimension";
 import common from "../../mixins/common";
-
-import TListItem from "./TListItem";
+import dimension from "../../mixins/dimension";
+import list from "../../mixins/list";
 
 import CssArchitect from "../../utils/css-architect";
-import ElementArchitect, { createDiv } from "../../utils/element-architect";
+import { createDiv } from "../../utils/element-architect";
+
+import TListItem from "./TListItem";
 
 export default {
   name: "t-list",
   components: { TListItem },
-  mixins: [common, list, responsive, dimension],
+  mixins: [common, list, dimension],
   filters: {
     capitalize: function(str) {
       return str.charAt(0).toUpperCase() + str.slice(1);
@@ -57,12 +56,12 @@ export default {
       css.isRelative();
       css.addClass("has-header", this.headerActive);
       css.addClass("has-footer", this.footerActive);
-      css.addClass(this.getResponsiveModifiers);
       css.addClass(this.getDimensionModifiers);
       css.addClass(this.getHelpersModifiers);
       css.addClass(this.getThemeModifiers);
       css.addClass(this.targetClass);
       css.addClass("is-compact", this.compact);
+      css.addStyles([this.getDimensionStyles]);
       return css;
     },
     headingCss: function() {
@@ -155,6 +154,7 @@ export default {
     createList(architect) {
       let transition = architect.createTransition("fade");
       let items = architect.createDiv(this.css.getClasses());
+      items.setStyles(this.css.getStyles());
 
       this.createLoading(items, this.progressCss.getClasses());
       for (let index in this.getItems) {
