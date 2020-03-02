@@ -31,7 +31,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const css = new CssArchitect();
+      const css = new CssArchitect("t-header");
       css.isFullwidth();
       css.addClass("is-fixed", this.fixed);
       css.addClass("elevation-1");
@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     getStyle() {
-      const css = new CssArchitect("t-header");
+      const css = new CssArchitect();
       css.addStyle(
         "height",
         css.addUnit(this.height, this.unit),

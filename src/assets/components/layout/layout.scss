@@ -1,6 +1,7 @@
 .t-layout {
   display: flex;
   flex-direction: column;
+  flex: 1 1 auto;
   position: relative;
   overflow-y: var(--overflow-y);
   width: 100%;
@@ -18,18 +19,16 @@
     flex-direction: row;
   }
 
-  &.has-min-height {
-    .t-layout {
-      min-height: unset;
-      height: -webkit-fill-available;
-    }
+  .t-layout {
+    min-height: unset;
+    height: -webkit-fill-available;
   }
 
   .t-content {
     margin: 0;
     background: $white-bis;
     border-radius: 0;
-    flex: 1;
+    flex: 1 1 auto;
     position: relative;
     overflow-x: var(--overflow-x);
     overflow-y: var(--overflow-y);

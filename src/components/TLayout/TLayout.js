@@ -10,7 +10,15 @@ import ElementArchitect from "../../utils/element-architect";
 export default {
   name: "t-layout",
   props: {
-    row: Boolean
+    row: Boolean,
+    heightUnit: {
+      type: String,
+      default: "vh"
+    },
+    widthUnit: {
+      type: String,
+      default: "vw"
+    }
   },
   mixins: [common, themes, gradient, dimension, overflow],
   computed: {
@@ -27,7 +35,7 @@ export default {
       css.addClass(this.getThemeModifiers);
       css.addClass(this.getGradientModifiers);
       css.addClass(this.getFlexModifiers);
-      css.addStyles([this.getDimensionStyles]);
+      css.addStyles([this.getDimensionStyles, this.getOverflowModifiers]);
       return css;
     }
   },
