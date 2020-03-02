@@ -34,18 +34,6 @@ $font-weight-bolder: 900;
   }
 }
 
-@include typography-sizes;
-
-.title {
-  font-size: $title-font-size !important;
-  line-height: 1.125;
-}
-
-.subtitle {
-  font-size: $subtitle-font-size !important;
-  line-height: $subtitle-font-size;
-}
-
 h1,
 .heading-1 {
   font-size: 2em;
@@ -70,6 +58,18 @@ h6,
 .heading-6 {
   font-size: 1em;
 }
+
+.title {
+  font-size: $title-font-size !important;
+  line-height: 1.125;
+}
+
+.subtitle {
+  font-size: $subtitle-font-size !important;
+  line-height: $subtitle-font-size;
+}
+
+@include typography-sizes;
 
 .font {
   &-weight {
