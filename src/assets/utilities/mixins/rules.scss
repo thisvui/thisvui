@@ -57,3 +57,14 @@
 @mixin overflow-touch {
   -webkit-overflow-scrolling: touch;
 }
+
+@mixin overflow($x: false, $y: false) {
+  @if $x {
+    overflow-x: $x;
+  }
+
+  @if $y {
+    overflow-x: $y;
+  }
+  scroll-behavior: smooth;
+}
