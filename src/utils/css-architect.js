@@ -176,20 +176,23 @@ export default class CssArchitect {
   }
 
   flexible(config = {}) {
-    let {
-      direction = "row",
-      flexWrap = false,
-      alignItems = false,
-      justifyContent = false,
-      alignSelf = false,
-      alignContent = false
-    } = config;
-    this.addClass(`t-flex is-${direction}`);
-    this.addClass("flex-wrap", flexWrap);
-    this.addStyle("--align-items", alignItems, alignItems);
-    this.addStyle("--align-self", alignSelf, alignSelf);
-    this.addStyle("--align-content", alignContent, alignContent);
-    this.addStyle("--justify-content", justifyContent, justifyContent);
+      let {
+        direction = "row",
+        flexWrap = false,
+        alignItems = false,
+        justifyContent = false,
+        alignSelf = false,
+        alignContent = false,
+        condition = true
+      } = config;
+    if(condition) {
+      this.addClass(`t-flex is-${direction}`);
+      this.addClass("flex-wrap", flexWrap);
+      this.addStyle("--align-items", alignItems, alignItems);
+      this.addStyle("--align-self", alignSelf, alignSelf);
+      this.addStyle("--align-content", alignContent, alignContent);
+      this.addStyle("--justify-content", justifyContent, justifyContent);
+    }
     return this;
   }
 

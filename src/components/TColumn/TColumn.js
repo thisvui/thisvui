@@ -1,16 +1,18 @@
 import common from "../../mixins/common";
 import background from "../../mixins/background";
+import flex from "../../mixins/flex";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-column",
-  mixins: [common, background],
+  mixins: [common, background, flex],
   props: {
     span: Number,
     gutters: Number,
-    half: Boolean
+    half: Boolean,
+    flex: Boolean
   },
   data() {
     return {
@@ -32,7 +34,9 @@ export default {
     css: function() {
       const css = new CssArchitect("column");
       css.addClass("half", this.half);
+      css.flexible({ condition: this.flex });
       css.addClass(this.getBackgroundModifiers);
+      css.addClass(this.getFlexModifiers, this.flex);
       if (this.isNotNull(this.span) && this.parent) {
         let gridColumns = this.parent.$props.gridColumns;
         let span = this.span;
@@ -50,6 +54,7 @@ export default {
         }
         css.addStyle("--column-gutters", gutters);
       }
+      css.addStyles([this.getFlexStyles], this.flex);
       return css;
     }
   },
