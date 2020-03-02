@@ -5,6 +5,9 @@ export default {
     colorAlpha: {
       type: String | Number
     },
+    colorHoverAlpha: {
+      type: String | Number
+    },
     borderAlpha: {
       type: String | Number
     },
@@ -28,6 +31,11 @@ export default {
         this.colorAlpha !== undefined
       );
       cssArchitect.addStyle(
+        "--color-hover-alpha",
+        parseFloat(this.colorHoverAlpha),
+        this.colorHoverAlpha !== undefined
+      );
+      cssArchitect.addStyle(
         "--border-alpha",
         parseFloat(this.borderAlpha),
         this.borderAlpha !== undefined
@@ -48,7 +56,7 @@ export default {
   methods: {
     alpha(
       cssArchitect,
-      { color = false, border = false, bg = false, bgHover = false } = {}
+      { color = false, colorHover = false, border = false, bg = false, bgHover = false } = {}
     ) {
       if (!cssArchitect) {
         throw new Error("alpha - Please provide css-architect parameter");
@@ -57,6 +65,11 @@ export default {
         "--color-alpha",
         parseFloat(color),
         color && this.colorAlpha === undefined
+      );
+      cssArchitect.addStyle(
+        "--color-hover-alpha",
+        parseFloat(colorHover),
+        colorHover && this.colorHoverAlpha === undefined
       );
       cssArchitect.addStyle(
         "--border-alpha",
