@@ -1,12 +1,15 @@
-import syntax from "../../mixins/syntax";
-import sizes from "../../mixins/sizes";
 import common from "../../mixins/common";
+import margin from "../../mixins/margin";
+import padding from "../../mixins/padding";
+import sizes from "../../mixins/sizes";
+import syntax from "../../mixins/syntax";
+
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-icon",
-  mixins: [common, syntax, sizes],
+  mixins: [common, syntax, sizes, padding, margin],
   props: {
     icon: {
       type: String,
@@ -53,7 +56,7 @@ export default {
      * Dynamically build the css classes for the icon container element
      * @returns { A String with the chained css classes }
      */
-    getContainerClass: function() {
+    containerCss: function() {
       const css = new CssArchitect("t-icon icon");
       css.isColored();
       css.addClass(this.getSyntaxModifiers);
@@ -61,7 +64,8 @@ export default {
       css.addClass("resize-font", this.resizeFont);
       css.addClass("has-shadow", this.hasShadow);
       css.addClass(this.containerClass, this.containerClass !== undefined);
-      return css.getClasses();
+      css.addStyles([this.getPaddingStyles, this.getMarginStyles]);
+      return css;
     },
     /**
      * Dynamically build the css classes for the icon element when icon lib is material design
@@ -92,9 +96,10 @@ export default {
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "span", this.getContainerClass);
+    let root = new ElementArchitect(h, "span", this.containerCss.getClasses());
     root.setId(this.id);
     root.setKey(`${this.id}-${this.icon}`);
+    root.setStyles(this.containerCss.getStyles());
 
     let icon = root.createElement("i");
     icon.addClass(this.isMd ? this.getMaterialIconsClass : this.getClasses);

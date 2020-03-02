@@ -3,19 +3,19 @@ import CssArchitect from "../utils/css-architect";
 export default {
   props: {
     padding: {
-      type: Number
+      type: [String, Number]
     },
     paddingTop: {
-      type: Number
+      type: [String, Number]
     },
     paddingRight: {
-      type: Number
+      type: [String, Number]
     },
     paddingBottom: {
-      type: Number
+      type: [String, Number]
     },
     paddingLeft: {
-      type: Number
+      type: [String, Number]
     },
     paddingUnit: {
       type: String,
@@ -29,11 +29,11 @@ export default {
      */
     getPaddingStyles() {
       const css = new CssArchitect();
-      css.addStyle("padding", css.addUnit(this.padding, this.paddingUnit), this.padding !== undefined);
-      css.addStyle("padding-top", css.addUnit(this.paddingTop, this.paddingUnit), this.paddingTop !== undefined);
-      css.addStyle("padding-right", css.addUnit(this.paddingRight, this.paddingUnit), this.paddingRight !== undefined);
-      css.addStyle("padding-bottom", css.addUnit(this.paddingBottom, this.paddingUnit), this.paddingBottom !== undefined);
-      css.addStyle("padding-left", css.addUnit(this.paddingLeft, this.paddingUnit), this.paddingLeft !== undefined);
+      css.addStyle("padding", css.addUnitOrString(this.padding, this.paddingUnit), this.padding !== undefined);
+      css.addStyle("padding-top", css.addUnitOrString(this.paddingTop, this.paddingUnit), this.paddingTop !== undefined);
+      css.addStyle("padding-right", css.addUnitOrString(this.paddingRight, this.paddingUnit), this.paddingRight !== undefined);
+      css.addStyle("padding-bottom", css.addUnitOrString(this.paddingBottom, this.paddingUnit), this.paddingBottom !== undefined);
+      css.addStyle("padding-left", css.addUnitOrString(this.paddingLeft, this.paddingUnit), this.paddingLeft !== undefined);
       return css.getStyles();
     },
   }

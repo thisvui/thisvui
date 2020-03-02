@@ -1,15 +1,17 @@
 import alignment from "../../mixins/alignment";
-import sizes from "../../mixins/sizes";
 import common from "../../mixins/common";
-import themes from "../../mixins/themes";
 import icons from "../../mixins/icons";
+import margin from "../../mixins/margin";
+import padding from "../../mixins/padding";
+import sizes from "../../mixins/sizes";
+import themes from "../../mixins/themes";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-tabs",
-  mixins: [common, themes, alignment, sizes, icons],
+  mixins: [common, themes, alignment, padding, margin, sizes, icons],
   props: {
     selected: Number,
     filled: Boolean,
@@ -68,24 +70,22 @@ export default {
      * Dynamically build the css classes for the tabs body
      * @returns { A String with the chained css classes }
      */
-    getBodyClasses: function() {
+    bodyCss: function() {
       const css = new CssArchitect("tabs__body");
-      css.addClass(this.getSizesModifiers);
-      return css.getClasses();
-    },
-    getBodyStyles: function() {
-      const css = new CssArchitect();
       this.alpha(css, { border: 0.7 });
-      return css.getStyles();
+      css.addClass(this.getSizesModifiers);
+      css.addStyles([this.getPaddingStyles]);
+      return css;
     },
     /**
      * Dynamically build the css classes for the container element
      * @returns { A String with the chained css classes }
      */
-    getContainerClasses: function() {
+    containerCss: function() {
       const css = new CssArchitect("tabs__container");
       css.addClass("shadowless", this.shadowless);
-      return css.getClasses();
+      css.addStyles([this.getMarginStyles]);
+      return css;
     },
     /**
      * Dynamically build the css classes for the link items
@@ -239,15 +239,16 @@ export default {
      * @param architect
      */
     createBody(architect) {
-      let body = architect.createDiv(this.getBodyClasses);
+      let body = architect.createDiv(this.bodyCss.getClasses());
       body.addClass("switching", this.switching);
-      body.setStyles(this.getBodyStyles);
+      body.setStyles(this.bodyCss.getStyles());
       body.setChildren(this.$slots.default);
       architect.addChild(body);
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "div", this.getContainerClasses);
+    let root = new ElementArchitect(h, "div", this.containerCss.getClasses());
+    root.setStyles(this.containerCss.getStyles());
 
     let tabsHeader = root.createDiv(this.getClasses);
     tabsHeader.setId(this.id);

@@ -1,15 +1,17 @@
 import common from "../../mixins/common";
+import display from "../../mixins/display";
+import helpers from "../../mixins/helpers";
+import margin from "../../mixins/margin";
+import padding from "../../mixins/padding";
 import sizes from "../../mixins/sizes";
 import states from "../../mixins/states";
 import themes from "../../mixins/themes";
-import helpers from "../../mixins/helpers";
-import display from "../../mixins/display";
-
-import TModal from "../TModal/TModal";
-import TIcon from "../TIcon/TIcon";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
+import TIcon from "../TIcon/TIcon";
+
+import TModal from "../TModal/TModal";
 
 import { ValidationBus } from "../TValidation/validation-bus.js";
 
@@ -17,7 +19,7 @@ export default {
   name: "t-button",
   components: { TIcon, TModal },
   inheritAttrs: false,
-  mixins: [common, sizes, states, themes, display, helpers],
+  mixins: [common, sizes, states, themes, display, margin, padding, helpers],
   props: {
     validate: {
       type: Boolean,
@@ -134,8 +136,12 @@ export default {
       css.addClass("disabled", this.disabled);
       css.addClass(this.targetClass, this.targetClass !== undefined);
       css.addClass(this.getThemeModifiers);
-      css.addStyles([this.targetStyle]);
-      css.addStyles([this.getAlphaModifiers]);
+      css.addStyles([
+        this.targetStyle,
+        this.getAlphaModifiers,
+        this.getMarginStyles,
+        this.getPaddingStyles
+      ]);
       css.addClass(this.getSizesModifiers);
       css.addClass(this.getStateModifiers);
       css.addClass(this.getHelpersModifiers);
