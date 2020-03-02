@@ -1,13 +1,17 @@
 $hero-title-font-size: 2.5rem;
+$hero-title-margin-bottom: 1rem;
+$hero-subtitle-font-size: 1.5rem;
+$hero-subtitle-margin-bottom: $hero-title-margin-bottom;
 $hero-desc-font-size: 1.125rem;
-$hero-padding: 48px 0;
-$hero-padding-medium: 96px 0;
-$hero-padding-large: 192px 0;
+$hero-padding: 0.5rem 0;
+$hero-padding-normal: 3rem 0;
+$hero-padding-medium: 6rem 0;
+$hero-padding-large: 12rem 0;
 $hero-body-max-width: 580px;
 $hero-content-padding: 1rem 1.2rem;
 $hero-content-padding-img: 2rem 3.2rem;
-$hero-content-padding-medium: 12px 48px;
-$hero-content-padding-big: 24px 96px;
+$hero-content-padding-medium: 0.75rem 3rem;
+$hero-content-padding-big: 1.5rem 2rem;
 
 .hero {
   display: flex;
@@ -19,16 +23,20 @@ $hero-content-padding-big: 24px 96px;
   color: $black-bis;
   padding: $hero-padding;
 
-  &.medium {
-    padding: $hero-padding-medium;
-  }
+  @include tablet-up {
+    padding: $hero-padding-normal;
 
-  &.large {
-    padding: $hero-padding-large;
-  }
+    &.medium {
+      padding: $hero-padding-medium;
+    }
 
-  &.reverse {
-    flex-direction: row-reverse;
+    &.large {
+      padding: $hero-padding-large;
+    }
+
+    &.reverse {
+      flex-direction: row-reverse;
+    }
   }
 
   &.is-fullheight {
@@ -61,14 +69,17 @@ $hero-content-padding-big: 24px 96px;
       width: 100%;
       height: auto;
       z-index: 0;
-      padding: $hero-content-padding-img;
+      padding: $hero-content-padding;
 
       @include tablet-portrait-up {
+        height: 100%;
+      }
+
+      @include tablet-up {
         position: relative;
         width: unset;
         height: unset;
         z-index: unset;
-        padding: $hero-content-padding;
       }
 
       @include desktop-up {
@@ -88,7 +99,7 @@ $hero-content-padding-big: 24px 96px;
     max-width: $hero-body-max-width;
     margin-top: 5rem;
 
-    @include tablet-portrait-up {
+    @include tablet-up {
       margin-top: 0;
     }
 
@@ -97,16 +108,35 @@ $hero-content-padding-big: 24px 96px;
   &__title {
     font-size: $hero-title-font-size;
     line-height: 1;
-    margin-bottom: 32px;
+    margin-bottom: $hero-title-margin-bottom;
     text-align: center;
 
-    @include tablet-portrait-up {
+    @include tablet-up {
       font-size: 3rem;
       line-height: 1.1;
     }
 
     &.has-img {
-      @include tablet-portrait-up {
+      @include tablet-up {
+        text-align: left;
+      }
+
+    }
+  }
+
+  &__subtitle {
+    font-size: $hero-subtitle-font-size;
+    line-height: 1;
+    margin-bottom: $hero-subtitle-margin-bottom;
+    text-align: center;
+
+    @include tablet-up {
+      font-size: 2rem;
+      line-height: 1.1;
+    }
+
+    &.has-img {
+      @include tablet-up {
         text-align: left;
       }
 
@@ -117,7 +147,7 @@ $hero-content-padding-big: 24px 96px;
     margin-bottom: 48px;
     text-align: center;
     &.has-img {
-      @include tablet-portrait-up {
+      @include tablet-up {
         text-align: left;
       }
     }
@@ -126,7 +156,7 @@ $hero-content-padding-big: 24px 96px;
     margin: 0 0 1.25em;
     text-align: center;
     &.has-img {
-      @include tablet-portrait-up {
+      @include tablet-up {
         text-align: left;
       }
     }
@@ -138,10 +168,29 @@ $hero-content-padding-big: 24px 96px;
     opacity: 0.2;
     @include transform(scale(0.5));
 
-    @include tablet-portrait-up {
+    @include tablet-up {
       @include transform(unset);
       opacity: 1;
       height: auto;
+    }
+
+    &--slot{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      opacity: 0.2;
+      @include transform(scale(0.7));
+
+      @include tablet-portrait-up {
+        @include transform(unset);
+      }
+
+      @include tablet-up {
+        opacity: 1;
+        height: auto;
+      }
     }
 
   }

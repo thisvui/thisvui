@@ -13,6 +13,8 @@ export default {
   props: {
     title: String,
     titleClass: String,
+    subtitle: String,
+    subtitleClass: String,
     description: String,
     descriptionClass: String,
     actionsClass: String,
@@ -23,6 +25,9 @@ export default {
   computed: {
     hasActionSlot() {
       return !!this.$slots.action;
+    },
+    hasImg(){
+      return this.isNotNull(this.img) || this.$slots["img"]
     },
     /**
      * Dynamically build the css classes for the target element
@@ -52,7 +57,7 @@ export default {
      */
     getImgContentClasses: function() {
       const css = new CssArchitect("hero__content");
-      css.addClass("has-img", this.isNotNull(this.img));
+      css.addClass("has-img", this.hasImg);
       return css.getClasses();
     },
     /**
@@ -69,8 +74,18 @@ export default {
      */
     getTitleClasses: function() {
       const css = new CssArchitect("hero__title");
-      css.addClass("has-img", this.isNotNull(this.img));
+      css.addClass("has-img", this.hasImg);
       css.addClass(this.titleClass);
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the hero subtitle element
+     * @returns { A String with the chained css classes }
+     */
+    getSubtitleClasses: function() {
+      const css = new CssArchitect("hero__subtitle");
+      css.addClass("has-img", this.hasImg);
+      css.addClass(this.subtitleClass);
       return css.getClasses();
     },
     /**
@@ -79,7 +94,7 @@ export default {
      */
     getDescriptionClasses: function() {
       const css = new CssArchitect("hero__desc");
-      css.addClass("has-img", this.isNotNull(this.img));
+      css.addClass("has-img", this.hasImg);
       css.addClass(this.descriptionClass);
       return css.getClasses();
     },
@@ -89,7 +104,7 @@ export default {
      */
     getActionClasses: function() {
       const css = new CssArchitect("hero__action");
-      css.addClass("has-img", this.isNotNull(this.img));
+      css.addClass("has-img", this.hasImg);
       css.addClass(this.footClass);
       return css.getClasses();
     },
@@ -100,6 +115,14 @@ export default {
     getImgClasses: function() {
       const css = new CssArchitect("hero__img");
       css.addClass(this.imgClass);
+      return css.getClasses();
+    },
+    /**
+     * Dynamically build the css classes for the hero image slot
+     * @returns { A String with the chained css classes }
+     */
+    getImgSlotClasses: function() {
+      const css = new CssArchitect("hero__img--slot");
       return css.getClasses();
     }
   },
@@ -114,25 +137,35 @@ export default {
     let title = root.createDiv(this.getTitleClasses);
     title.innerHTML(this.title);
 
+    // Creating the title element
+    let subtitle = root.createDiv(this.getSubtitleClasses);
+    subtitle.innerHTML(this.subtitle);
+
     // Creating the desc element
     let desc = root.createDiv(this.getDescriptionClasses);
     desc.innerHTML(this.description);
 
     // Creating the action slot
     let action = root.createDiv(this.getActionClasses);
-    action.setSlot("action").setChildren(this.$slots.action);
+    action.setChildren(this.$slots["action"]);
 
     body.addChild(title, this.isNotNull(this.title));
+    body.addChild(subtitle, this.isNotNull(this.subtitle));
     body.addChild(desc, this.isNotNull(this.description));
     body.addChild(action, this.hasActionSlot); // only if action slot is present
     content.addChild(body);
     root.addChild(content);
 
-    if (this.isNotNull(this.img)) {
+    if (this.isNotNull(this.img) || this.$slots["img"]) {
       let imgContent = root.createDiv(this.getImgContentClasses);
       let img = root.createImg(this.getImgClasses);
-      img.addAttr("src", this.img);
-      imgContent.addChild(img);
+      img.addAttr("src", this.img, this.isNotNull(this.img));
+      imgContent.addChild(img, this.isNotNull(this.img));
+      if(this.$slots["img"]){
+        let imgSlot = root.createDiv(this.getImgSlotClasses);
+        imgSlot.setChildren(this.$slots["img"]);
+        imgContent.addChild(imgSlot)
+      }
       root.addChild(imgContent);
     }
 
