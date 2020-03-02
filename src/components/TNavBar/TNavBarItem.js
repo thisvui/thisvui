@@ -1,3 +1,4 @@
+import dimension from "../../mixins/dimension";
 import helper from "../../mixins/helpers";
 import themes from "../../mixins/themes";
 import common from "../../mixins/common";
@@ -8,7 +9,7 @@ import { createElement } from "../../utils/element-architect";
 
 export default {
   name: "t-navbar-item",
-  mixins: [common, themes, padding, helper],
+  mixins: [common, themes, padding, dimension, helper],
   props: {
     view: String,
     dropdown: Boolean,
@@ -24,16 +25,20 @@ export default {
     getCss: function() {
       const css = new CssArchitect("navbar__item");
       css.isColored({ inverted: this.$parent.hasThemeModifier });
+      this.isHovered(css, { active: this.hoverable });
       css.addClass("hovered", this.hoverable);
       css.addClass("has-dropdown", this.dropdown);
-      css.addClass("is-hoverable", this.hoverable);
       css.addClass("is-active", this.active);
       css.addClass("mobile", this.mobile);
       css.addClass(this.targetClass);
       css.addClass(this.$parent.themeModifier, this.$parent.hasThemeModifier);
       this.setupThemeModifier(css);
       css.addClass(this.getHelpersModifiers);
-      css.addStyles([this.getPaddingStyles]);
+      css.addStyles([
+        this.getPaddingStyles,
+        this.getDimensionStyles,
+        this.getAlphaModifiers
+      ]);
       return css;
     }
   },
