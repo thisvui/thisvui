@@ -59,7 +59,7 @@ export default {
       control.addChild(textarea);
 
       let labelParent = this.classic ? architect : control;
-      this.createLabel(labelParent, "is-textarea");
+      this.createLabel(labelParent, { cssClasses: "is-textarea" });
       root.addChild(control);
       this.createIcon(root, this.iconPosition.right, "is-textarea");
       this.createStateIcon(root);

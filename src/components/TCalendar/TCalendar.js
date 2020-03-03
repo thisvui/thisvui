@@ -128,7 +128,7 @@ export default {
       }
     },
     registrationFirstAttempt: function(newVal, oldVal) {
-      if (this.registrationFirstAttempt) {
+      if (this.registrationFirstAttempt && !this.disabled) {
         this.loadValidators();
       }
     }
@@ -584,7 +584,7 @@ export default {
       control.addChild(input);
 
       let labelParent = this.classic ? architect : control;
-      this.createLabel(labelParent);
+      this.createLabel(labelParent, { boxOpened: this.focused || this.showCalendar });
       root.addChild(control);
 
       this.createClearIcon(root);

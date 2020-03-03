@@ -340,9 +340,10 @@ export default {
     /**
      * Creates the field label section
      */
-    createLabel(architect, cssClasses) {
+    createLabel(architect, { cssClasses = false, boxOpened = false } = {}) {
       let label = architect.createLabel(this.getLabelClass);
       label.addClass(cssClasses);
+      label.addClass("box-opened", boxOpened);
       label.addAttr("for", this.id);
       label.addDomProp("innerHTML", this.label);
       architect.addChild(label, this.isNotEmpty(this.label));

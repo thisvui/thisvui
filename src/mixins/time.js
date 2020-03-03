@@ -14,6 +14,11 @@ const digits = [
 ];
 
 export default {
+  props: {
+    showSeconds: {
+      type: Boolean
+    }
+  },
   data() {
     return {
       selectedTime: null,
@@ -89,7 +94,8 @@ export default {
       if (evt) {
         evt.preventDefault();
       }
-      if (this.activeIndex < 3) {
+      let threshold = this.showSeconds ? 5 : 3;
+      if (this.activeIndex < threshold) {
         this.activeIndex++;
         this.arrowKeys["right"].pressed = false;
       }

@@ -18,7 +18,6 @@ import format from "date-fns/format";
 import isValid from "date-fns/isValid";
 import parseISO from "date-fns/parseISO";
 import compareAsc from "date-fns/compareAsc";
-import utils from "../../utils/utils";
 
 export default {
   name: "TTimepicker",
@@ -26,9 +25,6 @@ export default {
   props: {
     value: {
       type: [String, Date]
-    },
-    showSeconds: {
-      type: Boolean
     },
     timeFormat: {
       type: String,
@@ -65,7 +61,7 @@ export default {
       this.emit();
     },
     registrationFirstAttempt: function(newVal, oldVal) {
-      if (this.registrationFirstAttempt) {
+      if (this.registrationFirstAttempt && !this.disabled) {
         this.loadValidators();
       }
     }
@@ -132,17 +128,15 @@ export default {
   },
   methods: {
     loadValidators() {
-      if (this.validatorLoaded) {
-        if (this.minTime) {
-          let minTimeMessage =
-            this.minTimeMessage || `Value can't be before ${this.minTime}`;
-          this.addCustomRule("MIN_DATE", minTimeMessage, this.validateMin);
-        }
-        if (this.maxTime) {
-          let maxTimeMessage =
-            this.maxTimeMessage || `Value can't be after ${this.maxTime}`;
-          this.addCustomRule("MAX_DATE", maxTimeMessage, this.validateMax);
-        }
+      if (this.minTime) {
+        let minTimeMessage =
+          this.minTimeMessage || `Value can't be before ${this.minTime}`;
+        this.addCustomRule("MIN_TIME", minTimeMessage, this.validateMin);
+      }
+      if (this.maxTime) {
+        let maxTimeMessage =
+          this.maxTimeMessage || `Value can't be after ${this.maxTime}`;
+        this.addCustomRule("MAX_TIME", maxTimeMessage, this.validateMax);
       }
     },
     formatISO() {
@@ -156,6 +150,7 @@ export default {
       let value = this.isoFormat
         ? this.formatISO(this.selectedTime)
         : this.selectedTime;
+      this.hasValue = this.isNotNull(value);
       this.$emit(this.$thisvui.events.common.input, value);
     },
     validateMin() {
@@ -166,13 +161,13 @@ export default {
       const isArray = Array.isArray(minTime);
       if (!isArray) {
         minTime = !isValid(minTime) ? parseISO(minTime) : minTime;
-        let isBefore = compareAsc(this.selectedDate, minTime) === -1;
+        let isBefore = compareAsc(this.selectedTime, minTime) === -1;
         return isBefore;
       }
       if (isArray) {
         for (let date of minTime) {
           let minTimeValue = !isValid(date) ? parseISO(date) : date;
-          let isBefore = compareAsc(this.selectedDate, minTimeValue) === -1;
+          let isBefore = compareAsc(this.selectedTime, minTimeValue) === -1;
           if (isBefore) {
             return isBefore;
           }
@@ -188,13 +183,13 @@ export default {
       const isArray = Array.isArray(maxTime);
       if (!isArray) {
         maxTime = !isValid(maxTime) ? parseISO(maxTime) : maxTime;
-        let isBefore = compareAsc(this.selectedDate, maxTime) === 1;
+        let isBefore = compareAsc(this.selectedTime, maxTime) === 1;
         return isBefore;
       }
       if (isArray) {
         for (let date of maxTime) {
           let maxTimeValue = !isValid(date) ? parseISO(date) : date;
-          let isBefore = compareAsc(this.selectedDate, maxTimeValue) === 1;
+          let isBefore = compareAsc(this.selectedTime, maxTimeValue) === 1;
           if (isBefore) {
             return isBefore;
           }
@@ -249,7 +244,7 @@ export default {
     },
     open() {
       this.loadTime(true);
-      this.$refs.timeInput.blur();
+      this.$refs.inputField.blur();
       this.$refs.timepicker.focus();
       this.isOpen = true;
       this.activeIndex = 0;
@@ -271,7 +266,7 @@ export default {
     clearSelectedTime() {
       this.selectedTime = null;
       this.inputTime = null;
-      this.$refs.timeInput.value = null;
+      this.$refs.inputField.value = null;
       this.validateOnEvent("input");
       this.hasValue = false;
     },
@@ -320,7 +315,7 @@ export default {
       };
       input.value(this.inputTime);
       input.setAttrs(inputAttrs);
-      input.setRef("timeInput");
+      input.setRef("inputField");
 
       // Handling events
       input.addListeners(this.$listeners);
@@ -335,7 +330,7 @@ export default {
       control.addChild(input);
 
       let labelParent = this.classic ? architect : control;
-      this.createLabel(labelParent);
+      this.createLabel(labelParent, { boxOpened: this.focused || this.isOpen });
       root.addChild(control);
 
       this.createClearIcon(root);
@@ -403,7 +398,7 @@ export default {
       timepicker.addDirective({
         name: "click-outside",
         value: {
-          exclude: ["timeInput", "clear"],
+          exclude: ["inputField", "clear"],
           handler: () => {
             this.close(!this.isNotEmpty(this.inputTime));
           }
