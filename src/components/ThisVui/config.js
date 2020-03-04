@@ -175,6 +175,8 @@ class ThisVuiConfig {
       iconLib: this.iconLib,
       icons: this.icons,
       dateFormat: "MM/dd/yyyy",
+      timeFormat: "HH:mm",
+      timeFormatSeconds: "HH:mm:ss",
       enableTimePicker: false,
       events: EVENTS
     };

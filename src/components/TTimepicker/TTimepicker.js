@@ -29,7 +29,9 @@ export default {
     timeFormat: {
       type: String,
       default: function() {
-        return this.showSeconds ? "HH:mm:ss" : "HH:mm";
+        return this.showSeconds
+          ? this.$thisvui.timeFormatSeconds
+          : this.$thisvui.timeFormat;
       }
     },
     isoFormat: {
