@@ -66,7 +66,7 @@ export default {
       default: false
     },
     width: {
-      type: [ Number, String ]
+      type: [Number, String]
     },
     minDate: {
       type: [String, Date, Array]
@@ -104,9 +104,9 @@ export default {
     };
   },
   watch: {
-    focused: function(newVal, oldVal) {
+    focused: function() {
       if (!this.inline) {
-        this.showCalendar = newVal;
+        this.open();
       }
     },
     hours: function(newVal, oldVal) {
@@ -234,7 +234,7 @@ export default {
     }
   },
   methods: {
-    loadValidators(){
+    loadValidators() {
       if (this.minDate) {
         let minDateMessage =
           this.minDateMessage || `Value can't be before ${this.minDate}`;
@@ -258,6 +258,11 @@ export default {
         ? this.formatISO(this.selectedDate)
         : this.selectedDate;
       this.$emit(this.$thisvui.events.common.input, value);
+    },
+    open() {
+      this.$refs.inputField.blur();
+      this.$refs.calendarWidget.focus();
+      this.showCalendar = true;
     },
     formatDateToDay(val) {
       return format(val, "dd");
@@ -419,16 +424,17 @@ export default {
     /**
      * Creates a header arrow
      */
-    createArrow(architect, icon, method) {
+    createArrow(architect, icon, ref, method) {
       let arrow = architect.createButton(); // The control element
+      arrow.setRef(ref);
       arrow.setProps({
         icon: icon,
-        iconClass: "change-month-arrow",
+        iconClass: "change-month-arrow font-1-h",
         text: true,
         marginless: true,
         paddingless: true
       });
-      arrow.addEvent("click", method);
+      arrow.addClick(method);
       return arrow;
     },
     /**
@@ -436,7 +442,7 @@ export default {
      */
     createWidget(architect) {
       let widget = architect.createDiv(this.getWidgetClass);
-
+      widget.setRef("calendarWidget");
       // Creating the calendar
       if (!this.noCalendar) {
         let calendarBody = architect.createDiv(this.getCalendarBodyClass);
@@ -446,11 +452,13 @@ export default {
         let arrowLeft = this.createArrow(
           architect,
           this.$thisvui.icons.arrowLeft,
+          "prevMonthArrow",
           this.previousMonth
         ); // The left arrow
         let arrowRight = this.createArrow(
           architect,
           this.$thisvui.icons.arrowRight,
+          "nextMonthArrow",
           this.nextMonth
         ); // The right arrow
         let monthName = architect.createSpan("month-name");
@@ -532,7 +540,7 @@ export default {
         timePicker.addChild(secondsInput);
         widget.addChild(timePicker);
       }
-      if(!this.inline) {
+      if (!this.inline) {
         widget.addDirective({
           name: "overlay-box",
           value: {
@@ -542,6 +550,14 @@ export default {
           }
         });
       }
+
+      widget.addDirective({
+        name: "click-outside",
+        value: {
+          exclude: ["inputField", "clear", "prevMonthArrow", "nextMonthArrow"],
+          handler: this.hideCalendar
+        }
+      });
       architect.addChild(widget);
     },
     /**
@@ -584,7 +600,9 @@ export default {
       control.addChild(input);
 
       let labelParent = this.classic ? architect : control;
-      this.createLabel(labelParent, { boxOpened: this.focused || this.showCalendar });
+      this.createLabel(labelParent, {
+        boxOpened: this.focused || this.showCalendar
+      });
       root.addChild(control);
 
       this.createClearIcon(root);
@@ -596,12 +614,6 @@ export default {
   },
   render: function(h) {
     let root = new ElementArchitect(h, "div", this.getContainerClass);
-    root.addDirective({
-      name: "click-outside",
-      value: {
-        handler: "hideCalendar"
-      }
-    });
 
     this.createInput(root);
     this.createWidget(root);
