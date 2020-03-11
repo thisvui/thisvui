@@ -13,7 +13,10 @@ function calculatePos($tooltip, $tooltipDimension, scrollTop, binding) {
   } = binding.value;
 
   let startPos = $tooltipDimension.left + offsetX + "px";
-  let endPos = window.innerWidth - $tooltipDimension.right - offsetX + "px";
+  let endPos = 0;
+  if (utils.check.existWindow()) {
+    endPos = window.innerWidth - $tooltipDimension.right - offsetX + "px";
+  }
   let topPos = scrollTop + $tooltipDimension.top - fixPx + "px";
   let bottomPos =
     scrollTop + $tooltipDimension.top + $tooltipDimension.height + "px";
@@ -101,7 +104,10 @@ function enterListener(arg1) {
   let { text, cssClass, showOn } = getAttributes(el);
 
   let $tooltipDimension = el.getBoundingClientRect();
-  let scrollTop = window.pageYOffset || el.scrollTop || document.body.scrollTop;
+
+  let scrollTop = utils.check.existWindow()
+    ? window.pageYOffset
+    : el.scrollTop || document.body.scrollTop;
 
   let { yPos, xPos, inverted, translate } = calculatePos(
     $tooltip,

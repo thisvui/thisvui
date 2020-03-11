@@ -96,10 +96,12 @@ export default {
     },
     getWidth: function() {
       let width = parseInt(this.width);
-      let baseWitdh = window.innerWidth < width ? window.innerWidth : width;
-      this.updateCalculatedWidth(
-        window.innerWidth < 352 ? baseWitdh - 52 : baseWitdh
-      );
+      if (this.$_utils.check.existWindow()) {
+        let baseWitdh = window.innerWidth < width ? window.innerWidth : width;
+        this.updateCalculatedWidth(
+          window.innerWidth < 352 ? baseWitdh - 52 : baseWitdh
+        );
+      }
       let resultWidth = `${this.calculatedWidth}${this.unit}`;
       return this.isOpen ? resultWidth : this.initialWidth;
     },
@@ -157,10 +159,14 @@ export default {
       return root;
     },
     addResizeListener() {
-      window.addEventListener("resize", this.handleResize);
+      if (this.$_utils.check.existWindow()) {
+        window.addEventListener("resize", this.handleResize);
+      }
     },
     removeResizeListener() {
-      window.removeEventListener("resize", this.handleResize);
+      if (this.$_utils.check.existWindow()) {
+        window.removeEventListener("resize", this.handleResize);
+      }
     }
   }
 };

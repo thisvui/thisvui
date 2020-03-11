@@ -76,9 +76,12 @@ function getContainerDimension(el) {
 }
 
 function getScrollTop(el) {
-  let scrollTop =
-    window.pageYOffset || el.scrollTop || getContainer().scrollTop;
-  return scrollTop;
+  if (utils.check.existWindow()) {
+    let scrollTop =
+      window.pageYOffset || el.scrollTop || getContainer().scrollTop;
+    return scrollTop;
+  }
+  return 0;
 }
 
 function enterListener(el, binding) {

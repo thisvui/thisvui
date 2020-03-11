@@ -43,22 +43,26 @@ function isArrowPressed(keyCode, arrowKeyCodes) {
 
 export default {
   mounted() {
-    window.addEventListener("keyup", this.onKeyUp);
-    window.addEventListener("keydown", this.onKeyPressed);
-    window.addEventListener("keyup", e => {
-      if (e.keyCode === escKey) {
-        this.close(true);
-      }
-      if (e.which === enterKey) {
-        this.close();
-      }
-    });
+    if (this.$_utils.check.existWindow()) {
+      window.addEventListener("keyup", this.onKeyUp);
+      window.addEventListener("keydown", this.onKeyPressed);
+      window.addEventListener("keyup", e => {
+        if (e.keyCode === escKey) {
+          this.close(true);
+        }
+        if (e.which === enterKey) {
+          this.close();
+        }
+      });
+    }
   },
 
   beforeDestroy() {
-    window.removeEventListener("keyup", this.onKeyUp);
-    window.removeEventListener("keydown", this.onKeyPressed);
-    window.addEventListener("keyup", this.close);
+    if (this.$_utils.check.existWindow()) {
+      window.removeEventListener("keyup", this.onKeyUp);
+      window.removeEventListener("keydown", this.onKeyPressed);
+      window.addEventListener("keyup", this.close);
+    }
   },
 
   methods: {

@@ -96,31 +96,33 @@ export default {
       return `is-${type}`;
     },
     getContainersDimension() {
-      let parent = window;
-      let container = null;
-      let parentWidth = window.innerWidth;
-      let containerWidth = this.width;
-      let parentHeight = window.innerHeight;
-      let containerHeight = this.height;
-      if (this.$refs.toast) {
-        container = this.$refs.toast;
-        if (!this.fixed) {
-          parent = container.parentElement;
-          parentWidth = parseInt(getComputedStyle(parent).width);
-          parentHeight = parseInt(getComputedStyle(parent).height);
+      if (this.$_utils.check.existWindow()) {
+        let parent = window;
+        let container = null;
+        let parentWidth = window.innerWidth;
+        let containerWidth = this.width;
+        let parentHeight = window.innerHeight;
+        let containerHeight = this.height;
+        if (this.$refs.toast) {
+          container = this.$refs.toast;
+          if (!this.fixed) {
+            parent = container.parentElement;
+            parentWidth = parseInt(getComputedStyle(parent).width);
+            parentHeight = parseInt(getComputedStyle(parent).height);
+          }
         }
+        if (this.isFullwidth) {
+          containerWidth = parentWidth;
+        }
+        return {
+          container,
+          parent,
+          containerWidth,
+          parentWidth,
+          parentHeight,
+          containerHeight
+        };
       }
-      if (this.isFullwidth) {
-        containerWidth = parentWidth;
-      }
-      return {
-        container,
-        parent,
-        containerWidth,
-        parentWidth,
-        parentHeight,
-        containerHeight
-      };
     },
     getCoordinates() {
       let {

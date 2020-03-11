@@ -10,7 +10,8 @@ module.exports = env => {
       library: "thisvui",
       libraryTarget: "umd",
       path: path.resolve(__dirname, "../dist"),
-      filename: env && env.production ? "thisvui.min.js" : "thisvui.js"
+      filename: env && env.production ? "thisvui.min.js" : "thisvui.js",
+      globalObject: 'typeof self !== \'undefined\' ? self : this'
     },
     plugins: [new VueLoaderPlugin()],
     resolve: {
