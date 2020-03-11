@@ -44,14 +44,14 @@ const check = {
    * Checks if object is not null
    * @returns { A Boolean value }
    */
-  notNull: obj => {
-    const isArray = Array.isArray(obj);
-    if (!isArray && (obj === undefined || obj === null)) {
+  notNull: arg => {
+    const isArray = check.isArray(arg);
+    if (!isArray && (arg === undefined || arg === null)) {
       return false;
     }
     if (isArray) {
-      for (let key in obj) {
-        if (obj[key] === undefined || obj[key] === null) {
+      for (let key in arg) {
+        if (arg[key] === undefined || arg[key] === null) {
           return false;
         }
       }
@@ -59,22 +59,28 @@ const check = {
     return true;
   },
   /**
+   * Checks if object is null
+   * @returns { A Boolean value }
+   */
+  null: arg => {
+    return !check.notNull(arg);
+  },
+  /**
    * Checks if object is not null nor empty
    * @returns { A Boolean value }
    */
-  notEmpty: stringObjt => {
-    const isArray = Array.isArray(stringObjt);
-    if (!check.notNull(stringObjt)) {
+  notEmpty: arg => {
+    if (!check.notNull(arg)) {
       return false;
     }
-    if (typeof stringObjt === "string" && stringObjt.trim() === "") {
+    if (check.isString(arg) && arg.trim() === "") {
       return false;
     }
-    if (isArray) {
-      for (let key in stringObjt) {
+    if (check.isArray(arg)) {
+      for (let key in arg) {
         if (
-          typeof stringObjt[key] === "string" &&
-          stringObjt[key].trim() === ""
+          check.null(arg) ||
+          (check.isString(arg[key]) && arg[key].trim() === "")
         ) {
           return false;
         }
@@ -83,12 +89,26 @@ const check = {
     return true;
   },
   /**
+   * Checks if object is empty
+   * @returns { A Boolean value }
+   */
+  empty: arg => {
+    return !check.notEmpty(arg);
+  },
+  /**
    * Checks if value is a valid email address
    * @returns { A Boolean value }
    */
   validEmail: email => {
     const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return regex.test(String(email).toLowerCase());
+  },
+  /**
+   * Checks if value is a array
+   * @returns { A Boolean value }
+   */
+  isArray(arg) {
+    return Array.isArray(arg);
   },
   /**
    * Checks if value is a string
@@ -170,7 +190,14 @@ const check = {
       return false;
     }
     return true;
-  }
+  },
+  /**
+   * Checks if windows object exist. useful for SSR
+   * @returns { A Boolean value }
+   */
+  existWindow: () => {
+    return typeof window !== 'undefined';
+  },
 };
 
 const text = {
@@ -242,21 +269,21 @@ const number = {
    * Extract number from string
    * @returns { A String representation of the number }
    */
-  extractNumberFromString(arg){
+  extractNumberFromString(arg) {
     if (arg === undefined || arg === null) {
       throw new DOMException(
         "Utils.check.extractNumberFromString : arg is undefined"
       );
     }
-    if(check.isNumber(arg)){
+    if (check.isNumber(arg)) {
       return arg;
     }
-    if(!check.isString(arg)){
+    if (!check.isString(arg)) {
       throw new DOMException(
         "Utils.check.extractNumberFromString : arg is no a string or number"
       );
     }
-    return arg.replace( /^\D+/g, '');
+    return arg.replace(/^\D+/g, "");
   },
   /**
    * Format a number
