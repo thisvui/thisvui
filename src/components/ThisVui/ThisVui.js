@@ -2,6 +2,7 @@ import * as components from "..";
 import * as directives from "../../directives";
 import { ThisValidate } from "../TValidation/validation-bus";
 import { TIconLib } from "../TIcon/TIconLib";
+import utils from "../../utils/utils";
 
 import notification from "../../mixins/notification";
 
@@ -15,6 +16,8 @@ const ThisVui = {
       mixins: [notification],
       data: optionsConfig
     });
+
+    Vue.prototype.$_utils = utils;
 
     Object.values(components).forEach(component => {
       Vue.component(component.name, component);
