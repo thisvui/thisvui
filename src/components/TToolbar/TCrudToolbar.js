@@ -193,7 +193,8 @@ export default {
       let btn = architect.createButton(classes);
       btn.setKey(`${this.id}-btn-${icon}`);
       btn.setProps({
-        isText: true,
+        text: true,
+        paddingless: true,
         confirm: confirm,
         message: message,
         dataTooltip: tooltip,
@@ -203,7 +204,7 @@ export default {
       btn.addProp("scope", scope, scope !== undefined);
       btn.addClick(click, click !== undefined);
       btn.addEvent("confirmed", confirmed, confirmed !== undefined);
-      architect.addChild(btn);
+      architect.addChild(btn, conditionStatement);
     }
   },
   render: function(h) {
@@ -270,7 +271,6 @@ export default {
       confirmed: this.onAdd,
       tooltip: this.addTooltip
     });
-    this.createMenuItems(root);
     return root.create();
   }
 };
