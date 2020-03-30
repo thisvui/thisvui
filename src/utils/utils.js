@@ -26,6 +26,12 @@ const json = {
       result.push(payload[key]);
     }
     return result;
+  },
+  prettify: arg => {
+    if (typeof arg != "string") {
+      arg = JSON.stringify(arg, undefined, 2);
+    }
+    return arg;
   }
 };
 
@@ -70,13 +76,16 @@ const check = {
    * @returns { A Boolean value }
    */
   notEmpty: arg => {
-    if (!check.notNull(arg)) {
+    if (check.null(arg)) {
       return false;
     }
     if (check.isString(arg) && arg.trim() === "") {
       return false;
     }
     if (check.isArray(arg)) {
+      if (arg.length === 0) {
+        return false;
+      }
       for (let key in arg) {
         if (
           check.null(arg) ||
@@ -196,8 +205,8 @@ const check = {
    * @returns { A Boolean value }
    */
   existWindow: () => {
-    return typeof window !== 'undefined';
-  },
+    return typeof window !== "undefined";
+  }
 };
 
 const text = {
