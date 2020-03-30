@@ -9,6 +9,10 @@
   object-fit: cover;
 }
 
+@mixin box-overlay-z-index {
+  z-index: $box-overlay-z-index;
+}
+
 @mixin delete-btn {
   @include unselectable;
   -moz-appearance: none;

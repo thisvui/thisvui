@@ -34,12 +34,12 @@
       border-top: 2px solid;
       border-bottom-left-radius: 3px;
       border-bottom-right-radius: 3px;
-      z-index: 50;
       top: 7px;
       background: $white-bis;
 
       @include margin-padding(0, 0.3em);
       @include material-shadow-strong($dark);
+      @include box-overlay-z-index;
 
       &.marginless {
         top: 0;
