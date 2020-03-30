@@ -1,12 +1,13 @@
 import common from "../../mixins/common";
 import background from "../../mixins/background";
+import helpers from "../../mixins/helpers";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-columns",
-  mixins: [common, background],
+  mixins: [common, background, helpers],
   props: {
     gapless: {
       type: Boolean
@@ -40,6 +41,7 @@ export default {
       css.addClass("gapless", this.gapless);
       css.addClass("auto", this.auto);
       css.addClass(this.getBackgroundModifiers);
+      css.addClass(this.getHelpersModifiers);
       css.addStyle("--grid-width", this.gridWidth, this.gridWidth !== 960);
       css.addStyle(
         "--grid-column-width",
