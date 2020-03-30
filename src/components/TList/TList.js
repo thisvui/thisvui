@@ -1,6 +1,9 @@
 import common from "../../mixins/common";
 import dimension from "../../mixins/dimension";
+import helpers from "../../mixins/helpers";
 import list from "../../mixins/list";
+import margin from "../../mixins/margin";
+import padding from "../../mixins/padding";
 
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
@@ -10,7 +13,7 @@ import TListItem from "./TListItem";
 export default {
   name: "t-list",
   components: { TListItem },
-  mixins: [common, list, dimension],
+  mixins: [common, list, dimension, margin, padding, helpers],
   filters: {
     capitalize: function(str) {
       return str.charAt(0).toUpperCase() + str.slice(1);
@@ -61,7 +64,12 @@ export default {
       css.addClass(this.getThemeModifiers);
       css.addClass(this.targetClass);
       css.addClass("is-compact", this.compact);
-      css.addStyles([this.getDimensionStyles]);
+      css.addStyles([this.getDimensionStyles, this.getPaddingStyles]);
+      return css;
+    },
+    containerCss: function() {
+      const css = new CssArchitect("t-list__container");
+      css.addStyles([this.getMarginStyles]);
       return css;
     },
     headingCss: function() {
@@ -181,11 +189,11 @@ export default {
     }
   },
   render: function(h) {
-    let root = createDiv(h, "t-list__container");
+    let root = createDiv(h, this.containerCss.getClasses());
+    root.setStyles(this.containerCss.getStyles());
     this.createHeading(root);
     this.createList(root);
     this.createFooter(root);
-
     return root.create();
   }
 };
