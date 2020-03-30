@@ -17,6 +17,7 @@ export default {
     filled: Boolean,
     transparent: Boolean,
     shadowless: Boolean,
+    paddingless: Boolean,
     fullwidth: Boolean,
     targetClass: String,
     activeClass: String
@@ -61,8 +62,10 @@ export default {
      */
     getSliderClasses: function() {
       const css = new CssArchitect("tab__slider");
-      this.isFilled(css, { inverted: !this.transparent });
-      this.alpha(css, { bg: 0.7 });
+      this.isFilled(css, {
+        inverted: !this.transparent && !this.filled,
+        tint: this.filled ? 30 : false
+      });
       css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
     },
@@ -74,6 +77,7 @@ export default {
       const css = new CssArchitect("tabs__body");
       this.alpha(css, { border: 0.7 });
       css.addClass(this.getSizesModifiers);
+      css.addClass("is-paddingless", this.paddingless);
       css.addStyles([this.getPaddingStyles]);
       return css;
     },
@@ -132,7 +136,7 @@ export default {
     },
     getSliderStyles: function() {
       const css = new CssArchitect();
-      this.alpha(css, { bg: 0.7 });
+      this.alpha(css, { bg: 0.7, active: !this.filled });
       css.addStyle("width", `${this.sliderWidth}px`);
       css.addStyle("left", `${this.sliderLeft}px`);
       return css.getStyles();
@@ -180,7 +184,7 @@ export default {
       };
 
       if (this.filled) {
-        config.tint = active ? 40 : false;
+        config.tint = active ? 30 : false;
         config.active = active && !this.transparent;
       }
 
