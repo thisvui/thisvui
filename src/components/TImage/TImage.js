@@ -1,14 +1,17 @@
+import display from "../../mixins/display";
 import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
 import dimension from "../../mixins/dimension";
 import aspect from "../../mixins/aspect";
+import margin from "../../mixins/margin";
+import padding from "../../mixins/padding";
 
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
 
 export default {
   name: "t-image",
-  mixins: [common, dimension, aspect, helper],
+  mixins: [common, dimension, aspect, display, margin, padding, helper],
   props: {
     src: {
       type: String,
@@ -75,7 +78,12 @@ export default {
       css.addClass(this.getHelpersModifiers);
       css.addClass(this.getAspectRatioModifiers);
       css.addClass(this.getDimensionModifiers);
-      css.addStyles([this.getDimensionStyles]);
+      css.addClass(this.getDisplayModifiers);
+      css.addStyles([
+        this.getDimensionStyles,
+        this.getPaddingStyles,
+        this.getMarginStyles
+      ]);
       return css;
     },
     /**
@@ -116,7 +124,7 @@ export default {
     img.addAttr("src", this.src);
     img.addAttr("alt", this.alt);
 
-    img.addEvent("error", (e) =>{
+    img.addEvent("error", e => {
       e.stopPropagation();
       this.hasError = true;
     });
