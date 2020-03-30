@@ -20,9 +20,9 @@ export default class CssArchitect {
   addClass(cssClass, condition, unlessClass = false) {
     let conditionStatement = condition !== undefined ? condition : true;
     if (cssClass !== undefined && conditionStatement) {
-      this.classes.push(cssClass);
+      this.classes.push(cssClass.trim());
     } else if (unlessClass) {
-      this.classes.push(unlessClass);
+      this.classes.push(unlessClass.trim());
     }
   }
 
