@@ -32,6 +32,8 @@ $panel-content-padding: $box-content-padding !default;
 }
 
 .panel {
+  display: flex;
+  flex-direction: column;
   &:not(:last-child){
     margin-bottom: $panel-bottom-margin;
   }
@@ -41,6 +43,7 @@ $panel-content-padding: $box-content-padding !default;
   &__body {
     padding: 0;
     background-color: $panel-background-color;
+    flex: 1;
     @include light-shadow($black);
   }
   &__content {

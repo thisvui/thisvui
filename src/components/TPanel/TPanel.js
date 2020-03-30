@@ -1,3 +1,4 @@
+import dimension from "../../mixins/dimension";
 import helpers from "../../mixins/helpers";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
@@ -10,7 +11,7 @@ import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-panel",
-  mixins: [common, themes, icons, helpers],
+  mixins: [common, themes, icons, dimension, helpers],
   components: { TExpand, TPanelHeading },
   props: {
     title: {
@@ -25,6 +26,9 @@ export default {
       default: true
     },
     headingClass: {
+      type: String
+    },
+    bodyClass: {
       type: String
     },
     showIcon: Boolean,
@@ -54,7 +58,8 @@ export default {
       const css = new CssArchitect("panel");
       css.addClass(this.getThemeModifiers);
       css.addClass(this.getHelpersModifiers);
-      css.addStyles([this.getAlphaModifiers]);
+      css.addClass(this.getDimensionModifiers);
+      css.addStyles([this.getAlphaModifiers, this.getDimensionStyles]);
       this.setupThemeModifier(css, true);
       return css;
     },
@@ -62,12 +67,14 @@ export default {
      * Dynamically build the css classes for the panel body
      * @returns { A String with the chained css classes }
      */
-    getBodyClasses: function() {
+    bodyCss: function() {
       const css = new CssArchitect("panel__body");
       css.addClass("is-closed is-shadowless", !this.isExpanded);
       this.isBordered(css);
+      css.addClass(this.bodyClass);
       css.addClass(this.themeModifier, this.hasThemeModifier);
-      return css.getClasses();
+      css.addClass(this.getBackgroundModifiers);
+      return css;
     },
     /**
      * Dynamically build the css classes for the panel heading icon
@@ -126,7 +133,7 @@ export default {
     }
 
     let expand = root.createElement(TExpand);
-    let body = root.createDiv(this.getBodyClasses);
+    let body = root.createDiv(this.bodyCss.getClasses());
     let content = root.createDiv("panel__content");
 
     content.setChildren(this.$slots.default);
