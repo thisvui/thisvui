@@ -74,7 +74,7 @@ export default {
     }
   },
   methods: {
-    getStyle() {
+    getContainerStyle() {
       const css = new CssArchitect();
       css.addStyle("width", css.addPx(this.initialWidth), this.animated);
       css.addStyle("width", css.addPx(this.width), !this.animated);
@@ -149,7 +149,7 @@ export default {
     createSlideContainer: function(h) {
       let root = createDiv(h, this.slideCss.getClasses());
       root.setRef("slideContainer");
-      root.setStyles(this.getStyle());
+      root.setStyles(this.getContainerStyle());
       root.addDirective({
         name: "click-outside",
         value: {

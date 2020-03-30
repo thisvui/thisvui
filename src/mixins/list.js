@@ -15,6 +15,12 @@ export default {
       type: Array,
       required: true
     },
+    emptyText: {
+      type: String,
+      default: function() {
+        return this.$thisvui.emptyListText;
+      }
+    },
     checkedRows: {
       type: Array,
       default: () => []
@@ -96,6 +102,9 @@ export default {
     getSearchClasses: function() {
       const cssArchitect = new CssArchitect("t-search");
       return cssArchitect.getClasses();
+    },
+    isEmpty() {
+      return this.$_utils.check.empty(this.items);
     }
   },
   watch: {

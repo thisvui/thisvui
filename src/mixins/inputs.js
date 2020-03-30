@@ -50,6 +50,12 @@ export default {
     containerClass: {
       type: String
     },
+    disabledClass: {
+      type: String,
+      default: function() {
+        return this.$thisvui.disabledClass;
+      }
+    },
     iconClass: {
       type: String
     },
@@ -125,10 +131,11 @@ export default {
      */
     getWrapperCss: function() {
       const css = new CssArchitect("group__wrapper");
-      this.isBordered(css);
+      this.isBordered(css, { active: !this.disabled });
       css.addClass("focused", this.focused);
       css.addClass("transparent", this.transparent);
       css.addClass("is-borderless", this.borderless);
+      css.addClass(this.disabledClass, this.disabled);
       css.addClass(
         this.targetClass,
         this.isNotNull(this.targetClass) && this.errors.length === 0
