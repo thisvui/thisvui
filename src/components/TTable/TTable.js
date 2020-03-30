@@ -74,7 +74,6 @@ export default {
       css.addClass("fit-content", this.fitContent);
       css.addClass(this.getHelpersModifiers);
       css.addClass(this.getThemeModifiers);
-      css.addClass(this.getDimensionModifiers);
       css.addClass(this.targetClass);
       css.addStyles([this.getDimensionStyles]);
       this.setupThemeModifier(css, true);
@@ -85,6 +84,8 @@ export default {
       css.isRelative();
       css.addClass("is-fullwidth", this.isFullwidth);
       css.addClass(this.containerClass);
+      css.addClass(this.getBackgroundModifiers);
+      css.addClass(this.getDimensionModifiers);
       return css;
     },
     wrapperCss: function() {
@@ -123,7 +124,8 @@ export default {
     },
     trCss: function() {
       const css = new CssArchitect();
-      this.isHovered(css, { hasColor: true });
+      this.isHovered(css, { hasColor: true, active: !this.isEmpty });
+      this.isColored(css, { active: this.isEmpty });
       css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addStyles([this.getAlphaModifiers]);
       return css;
@@ -333,11 +335,19 @@ export default {
       }
       architect.addChild(tfoot);
     },
-    createTableBody(architect) {
-      let tbody = architect.createElement("tbody", "is-relative");
-      this.createLoading(tbody, this.progressCss.getClasses());
-      if (this.simple) {
-        tbody.setChildren(this.$slots["items"]);
+    createTableItems(architect) {
+      if (this.isEmpty) {
+        let tr = architect.createTr(this.trCss.getClasses());
+        tr.setStyles(this.trCss.getStyles());
+        let textContainer = architect.createElement(TFlex, "is-absolute");
+        textContainer.setProps({
+          justifyCenter: true,
+          isFullwidth: true,
+          padding: "1rem"
+        });
+        textContainer.innerHTML(this.emptyText);
+        tr.addChild(textContainer);
+        architect.addChild(tr);
       } else {
         for (let index in this.getItems) {
           let item = this.getItems[index];
@@ -390,7 +400,7 @@ export default {
             );
             tr.addChild(actionColumn);
           }
-          tbody.addChild(tr);
+          architect.addChild(tr);
           if (this.isExpandable(item)) {
             let expandableRow = architect.createTr("expandable__row");
             let expandColumn = architect.createCell("expandable__col");
@@ -412,11 +422,19 @@ export default {
             }
             expandColumn.addChild(expand);
             expandableRow.addChild(expandColumn);
-            tbody.addChild(expandableRow);
+            architect.addChild(expandableRow);
           }
         }
       }
-
+    },
+    createTableBody(architect) {
+      let tbody = architect.createElement("tbody", "is-relative");
+      this.createLoading(tbody, this.progressCss.getClasses());
+      if (this.simple) {
+        tbody.setChildren(this.$slots["items"]);
+      } else {
+        this.createTableItems(tbody);
+      }
       architect.addChild(tbody);
     },
     createTable(architect) {

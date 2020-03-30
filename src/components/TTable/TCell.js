@@ -1,3 +1,4 @@
+import display from "../../mixins/display";
 import helpers from "../../mixins/helpers";
 
 import CssArchitect from "../../utils/css-architect";
@@ -5,7 +6,7 @@ import { createElement } from "../../utils/element-architect";
 
 export default {
   name: "t-cell",
-  mixins: [ helpers ],
+  mixins: [display, helpers],
   props: {
     head: Boolean,
     center: {
@@ -26,6 +27,7 @@ export default {
       css.addClass("left", this.alignment.left);
       css.addClass("right", this.alignment.right);
       css.addClass(this.getHelpersModifiers);
+      css.addClass(this.getDisplayModifiers);
       return css.getClasses();
     },
     alignment: function() {
