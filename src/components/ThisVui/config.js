@@ -164,16 +164,20 @@ iconsMap.set("md", ICONS_MATERIAL_DESIGN);
 
 class ThisVuiConfig {
   constructor(options = {}) {
-    let { iconLib = "fa5" } = options;
+    let { iconLib = "fa5", disabledClass = "bg-grey-lighter", emptyListText = "No records found" } = options;
     this.options = options;
     this.iconLib = iconLib;
     this.icons = iconsMap.get(this.iconLib);
+    this.disabledClass = disabledClass;
+    this.emptyListText = emptyListText;
   }
 
   getOptions() {
     let options = {
       iconLib: this.iconLib,
       icons: this.icons,
+      disabledClass: this.disabledClass,
+      emptyListText: this.emptyListText,
       dateFormat: "MM/dd/yyyy",
       timeFormat: "HH:mm",
       timeFormatSeconds: "HH:mm:ss",

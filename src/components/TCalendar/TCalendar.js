@@ -1,31 +1,31 @@
-import inputs from "../../mixins/inputs";
+import addDays from "date-fns/addDays";
+import addMonths from "date-fns/addMonths";
+import compareAsc from "date-fns/compareAsc";
+import eachDayOfInterval from "date-fns/eachDayOfInterval";
+import endOfMonth from "date-fns/endOfMonth";
 
-import { TInput } from "../TInput";
+import format from "date-fns/format";
+import getDay from "date-fns/getDay";
+import getHours from "date-fns/getHours";
+import getMinutes from "date-fns/getMinutes";
+import getSeconds from "date-fns/getSeconds";
+import getTime from "date-fns/getTime";
+import isSameDay from "date-fns/isSameDay";
+import isSameMonth from "date-fns/isSameMonth";
+import isValid from "date-fns/isValid";
+import lastDayOfMonth from "date-fns/lastDayOfMonth";
+import parseISO from "date-fns/parseISO";
+import setDate from "date-fns/setDate";
+import setHours from "date-fns/setHours";
+import setMinutes from "date-fns/setMinutes";
+import setSeconds from "date-fns/setSeconds";
+import startOfMonth from "date-fns/startOfMonth";
+import inputs from "../../mixins/inputs";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
-import format from "date-fns/format";
-import startOfMonth from "date-fns/startOfMonth";
-import endOfMonth from "date-fns/endOfMonth";
-import lastDayOfMonth from "date-fns/lastDayOfMonth";
-import isSameMonth from "date-fns/isSameMonth";
-import isSameDay from "date-fns/isSameDay";
-import addMonths from "date-fns/addMonths";
-import getDay from "date-fns/getDay";
-import addDays from "date-fns/addDays";
-import eachDayOfInterval from "date-fns/eachDayOfInterval";
-import setDate from "date-fns/setDate";
-import setHours from "date-fns/setHours";
-import getHours from "date-fns/getHours";
-import setMinutes from "date-fns/setMinutes";
-import getMinutes from "date-fns/getMinutes";
-import setSeconds from "date-fns/setSeconds";
-import getSeconds from "date-fns/getSeconds";
-import getTime from "date-fns/getTime";
-import isValid from "date-fns/isValid";
-import parseISO from "date-fns/parseISO";
-import compareAsc from "date-fns/compareAsc";
+import {TInput} from "../TInput";
 
 const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -34,7 +34,7 @@ export default {
   mixins: [inputs],
   props: {
     value: {
-      type: [String, Date]
+      type: [String, Date, Number]
     },
     widgetClass: {
       type: String
@@ -52,6 +52,9 @@ export default {
       }
     },
     isoFormat: {
+      type: Boolean
+    },
+    unixTime: {
       type: Boolean
     },
     inline: {
@@ -246,6 +249,35 @@ export default {
         this.addCustomRule("MAX_DATE", maxDateMessage, this.validateMax);
       }
     },
+    parseValue(value) {
+      if (this.$_utils.check.notNull(value) && !isValid(value)) {
+        if (this.$_utils.check.isString(value)) {
+          value = parseISO(value);
+        }
+      }
+      if (this.$_utils.check.notNull(value) && isValid(value)) {
+        // check if epoch
+        if (this.$_utils.check.isNumber(value)) {
+          let epoch = value;
+          // sets the date to the epoch
+          value = new Date();
+          value.setTime(epoch);
+        }
+      }
+      return value;
+    },
+    formatValue() {
+      let value = this.selectedDate;
+      if (this.selectedDate != null) {
+        if (this.isoFormat) {
+          value = this.formatISO(this.selectedDate);
+        }
+        if (this.unixTime) {
+          value = this.selectedDate.getTime();
+        }
+      }
+      return value;
+    },
     formatISO() {
       let tzOffset = this.selectedDate.getTimezoneOffset() * 60000; //offset in milliseconds
       let selectedDate = new Date(this.selectedDate - tzOffset)
@@ -254,10 +286,7 @@ export default {
       return selectedDate;
     },
     emit() {
-      let value = this.isoFormat
-        ? this.formatISO(this.selectedDate)
-        : this.selectedDate;
-      this.$emit(this.$thisvui.events.common.input, value);
+      this.$emit(this.$thisvui.events.common.input, this.formatValue());
     },
     open() {
       this.$refs.inputField.blur();
@@ -369,13 +398,13 @@ export default {
       }
       const isArray = Array.isArray(minDate);
       if (!isArray) {
-        minDate = !isValid(minDate) ? parseISO(minDate) : minDate;
+        minDate = this.parseValue(minDate);
         let isBefore = compareAsc(this.selectedDate, minDate) === -1;
         return isBefore;
       }
       if (isArray) {
         for (let date of minDate) {
-          let minDateValue = !isValid(date) ? parseISO(date) : date;
+          let minDateValue = this.parseValue(date);
           let isBefore = compareAsc(this.selectedDate, minDateValue) === -1;
           if (isBefore) {
             return isBefore;
@@ -391,13 +420,13 @@ export default {
       }
       const isArray = Array.isArray(maxDate);
       if (!isArray) {
-        maxDate = !isValid(maxDate) ? parseISO(maxDate) : maxDate;
+        maxDate = this.parseValue(maxDate);
         let isBefore = compareAsc(this.selectedDate, maxDate) === 1;
         return isBefore;
       }
       if (isArray) {
         for (let date of maxDate) {
-          let maxDateValue = !isValid(date) ? parseISO(date) : date;
+          let maxDateValue = this.parseValue(date);
           let isBefore = compareAsc(this.selectedDate, maxDateValue) === 1;
           if (isBefore) {
             return isBefore;
@@ -627,11 +656,7 @@ export default {
   },
   mounted() {
     this.commonMount();
-    let value = this.value;
-
-    if (value != null && !isValid(value)) {
-      value = parseISO(value);
-    }
+    let value = this.parseValue(this.value);
     if (value != null) {
       this.currentDate = value;
     }

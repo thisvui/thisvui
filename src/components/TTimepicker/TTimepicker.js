@@ -1,30 +1,30 @@
-import CssArchitect from "../../utils/css-architect";
-import { createDiv } from "../../utils/element-architect";
-import { filteredDigits } from "../../utils/pad";
-
-import TNumpad from "./TNumpad";
-import TTimeUnit from "./TTimeUnit";
-import inputs from "../../mixins/inputs";
-import time from "../../mixins/time";
-import timeEvents from "../../mixins/timeEvents";
+import compareAsc from "date-fns/compareAsc";
+import format from "date-fns/format";
 
 import getHours from "date-fns/getHours";
 import getMinutes from "date-fns/getMinutes";
 import getSeconds from "date-fns/getSeconds";
+import isValid from "date-fns/isValid";
+import parseISO from "date-fns/parseISO";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 import setSeconds from "date-fns/setSeconds";
-import format from "date-fns/format";
-import isValid from "date-fns/isValid";
-import parseISO from "date-fns/parseISO";
-import compareAsc from "date-fns/compareAsc";
+import inputs from "../../mixins/inputs";
+import time from "../../mixins/time";
+import timeEvents from "../../mixins/timeEvents";
+import CssArchitect from "../../utils/css-architect";
+import {createDiv} from "../../utils/element-architect";
+import {filteredDigits} from "../../utils/pad";
+
+import TNumpad from "./TNumpad";
+import TTimeUnit from "./TTimeUnit";
 
 export default {
   name: "TTimepicker",
   mixins: [inputs, timeEvents, time],
   props: {
     value: {
-      type: [String, Date]
+      type: [String, Date, Number]
     },
     timeFormat: {
       type: String,
@@ -35,6 +35,9 @@ export default {
       }
     },
     isoFormat: {
+      type: Boolean
+    },
+    unixTime: {
       type: Boolean
     },
     width: {
@@ -141,6 +144,35 @@ export default {
         this.addCustomRule("MAX_TIME", maxTimeMessage, this.validateMax);
       }
     },
+    parseValue(value) {
+      if (this.$_utils.check.notNull(value) && !isValid(value)) {
+        if (this.$_utils.check.isString(value)) {
+          value = parseISO(value);
+        }
+      }
+      if (this.$_utils.check.notNull(value) && isValid(value)) {
+        // check if epoch
+        if (this.$_utils.check.isNumber(value)) {
+          let epoch = value;
+          // sets the date to the epoch
+          value = new Date();
+          value.setTime(epoch);
+        }
+      }
+      return value;
+    },
+    formatValue() {
+      let value = this.selectedTime;
+      if (this.selectedTime != null) {
+        if (this.isoFormat) {
+          value = this.formatISO(this.selectedTime);
+        }
+        if (this.unixTime) {
+          value = this.selectedDate.getTime();
+        }
+      }
+      return value;
+    },
     formatISO() {
       let tzOffset = this.selectedTime.getTimezoneOffset() * 60000; //offset in milliseconds
       let selectedTime = new Date(this.selectedTime - tzOffset)
@@ -149,9 +181,7 @@ export default {
       return selectedTime;
     },
     emit() {
-      let value = this.isoFormat
-        ? this.formatISO(this.selectedTime)
-        : this.selectedTime;
+      let value = this.formatValue();
       this.hasValue = this.isNotNull(value);
       this.$emit(this.$thisvui.events.common.input, value);
     },
@@ -162,13 +192,13 @@ export default {
       }
       const isArray = Array.isArray(minTime);
       if (!isArray) {
-        minTime = !isValid(minTime) ? parseISO(minTime) : minTime;
+        minTime = this.parseValue(minTime);
         let isBefore = compareAsc(this.selectedTime, minTime) === -1;
         return isBefore;
       }
       if (isArray) {
         for (let date of minTime) {
-          let minTimeValue = !isValid(date) ? parseISO(date) : date;
+          let minTimeValue = this.parseValue(date);
           let isBefore = compareAsc(this.selectedTime, minTimeValue) === -1;
           if (isBefore) {
             return isBefore;
@@ -184,13 +214,13 @@ export default {
       }
       const isArray = Array.isArray(maxTime);
       if (!isArray) {
-        maxTime = !isValid(maxTime) ? parseISO(maxTime) : maxTime;
+        maxTime = this.parseValue(maxTime);
         let isBefore = compareAsc(this.selectedTime, maxTime) === 1;
         return isBefore;
       }
       if (isArray) {
         for (let date of maxTime) {
-          let maxTimeValue = !isValid(date) ? parseISO(date) : date;
+          let maxTimeValue = this.parseValue(date);
           let isBefore = compareAsc(this.selectedTime, maxTimeValue) === 1;
           if (isBefore) {
             return isBefore;
@@ -209,23 +239,19 @@ export default {
     },
     loadTime(init = true) {
       let value = this.value;
-      if (!this.isNotNull(value) && init) {
+      if (this.$_utils.check.null(value) && init) {
         value = new Date();
       }
-      if (this.isNotNull(value)) {
-        if (!isValid(value)) {
-          value = parseISO(value);
-        }
-        let hours = getHours(value);
-        let minutes = getMinutes(value);
-        let seconds = getSeconds(value);
-        let timeArray = this.getDigits(hours).concat(this.getDigits(minutes));
-        if (this.showSeconds) {
-          timeArray = timeArray.concat(this.getDigits(seconds));
-        }
-        this.time = timeArray;
-        this.setSelectedTime(value);
+      value = this.parseValue(value);
+      let hours = getHours(value);
+      let minutes = getMinutes(value);
+      let seconds = getSeconds(value);
+      let timeArray = this.getDigits(hours).concat(this.getDigits(minutes));
+      if (this.showSeconds) {
+        timeArray = timeArray.concat(this.getDigits(seconds));
       }
+      this.time = timeArray;
+      this.setSelectedTime(value);
     },
     setSelectedTime(value) {
       let selectedTime = value;

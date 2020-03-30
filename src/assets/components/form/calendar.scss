@@ -1,12 +1,12 @@
 .t-calendar {
   &__widget {
-    z-index: 40;
     min-width: 250px;
     border: 1px solid rgba($dark, 0.2);
     box-shadow: $card-shadow;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     background: $white-bis;
+    @include box-overlay-z-index;
 
     &.inline-calendar {
       position: relative;
