@@ -23,6 +23,12 @@ export default {
       type: Boolean,
       default: true
     },
+    save: {
+      type: Boolean
+    },
+    cancel: {
+      type: Boolean
+    },
     activate: {
       type: Boolean,
       default: false
@@ -195,11 +201,18 @@ export default {
       btn.setProps({
         text: true,
         paddingless: true,
+        medium: true,
         confirm: confirm,
         message: message,
-        dataTooltip: tooltip,
         preserveDefaults: !this.overrideDefaults,
         icon: icon
+      });
+      btn.addDirective({
+        name: "tooltip",
+        value: {
+          text: tooltip,
+          cssClass: classes
+        }
       });
       btn.addProp("scope", scope, scope !== undefined);
       btn.addClick(click, click !== undefined);
@@ -221,7 +234,7 @@ export default {
       tooltip: this.editTooltip
     });
     // Creating the save button
-    this.createButton(root, this.editable, {
+    this.createButton(root, this.save && this.editable, {
       classes: this.getSaveClasses,
       icon: this.$thisvui.icons.save,
       confirm: this.confirmSave,
@@ -232,7 +245,7 @@ export default {
       tooltip: this.saveTooltip
     });
     // Creating the cancel button
-    this.createButton(root, this.editable, {
+    this.createButton(root, this.cancel && this.editable, {
       classes: this.getCancelClasses,
       icon: this.$thisvui.icons.cancel,
       confirm: this.confirmCancel,
@@ -242,7 +255,7 @@ export default {
       tooltip: this.cancelTooltip
     });
     // Creating the remove button
-    this.createButton(root, !this.editable && this.remove, {
+    this.createButton(root, this.remove, {
       classes: this.getRemoveClasses,
       icon: this.$thisvui.icons.remove,
       confirm: this.confirmRemove,
@@ -252,7 +265,7 @@ export default {
       tooltip: this.removeTooltip
     });
     // Creating the activate button
-    this.createButton(root, !this.editable && this.activate, {
+    this.createButton(root, this.activate, {
       classes: this.getActivateClasses,
       icon: this.$thisvui.icons.check,
       confirm: this.confirmActivate,
@@ -262,7 +275,7 @@ export default {
       tooltip: this.activateTooltip
     });
     // Creating the add button
-    this.createButton(root, !this.editable && this.add, {
+    this.createButton(root, this.add, {
       classes: this.getAddClasses,
       icon: this.$thisvui.icons.add,
       confirm: this.confirmAdd,
