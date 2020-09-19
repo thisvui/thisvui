@@ -45,7 +45,6 @@ export default {
       css.addClass(this.getSizesModifiers);
       css.addClass(this.getHelpersModifiers);
       css.addClass(this.targetClass);
-      css.addClass("is-bold", this.isBold);
       this.setupThemeModifier(css);
       return css.getClasses();
     },

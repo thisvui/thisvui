@@ -4,6 +4,7 @@ import helpers from "../../mixins/helpers";
 import list from "../../mixins/list";
 import margin from "../../mixins/margin";
 import padding from "../../mixins/padding";
+import themes from "../../mixins/themes";
 
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
@@ -13,7 +14,7 @@ import TListItem from "./TListItem";
 export default {
   name: "t-list",
   components: { TListItem },
-  mixins: [common, list, dimension, margin, padding, helpers],
+  mixins: [common, themes, list, dimension, margin, padding, helpers],
   filters: {
     capitalize: function(str) {
       return str.charAt(0).toUpperCase() + str.slice(1);
@@ -61,7 +62,6 @@ export default {
       css.addClass("has-footer", this.footerActive);
       css.addClass(this.getDimensionModifiers);
       css.addClass(this.getHelpersModifiers);
-      css.addClass(this.getThemeModifiers);
       css.addClass(this.targetClass);
       css.addClass("is-compact", this.compact);
       css.addStyles([this.getDimensionStyles, this.getPaddingStyles]);
@@ -69,7 +69,13 @@ export default {
     },
     containerCss: function() {
       const css = new CssArchitect("t-list__container");
+      this.isFilled(css, { removeInit: true });
+      css.addClass(this.getBackgroundModifiers);
+      css.addClass(this.getThemeModifiers);
+      css.addClass(this.getGradientModifiers);
+      css.addStyles([this.getAlphaModifiers]);
       css.addStyles([this.getMarginStyles]);
+      this.setupThemeModifier(css, "is-white");
       return css;
     },
     headingCss: function() {
@@ -80,6 +86,10 @@ export default {
     headingContentCss: function() {
       const css = new CssArchitect("t-list__heading--horizontal");
       css.addClass("not-header", !this.hasHeading);
+      return css;
+    },
+    headingSlotCss: function() {
+      const css = new CssArchitect("t-list__heading--slot");
       return css;
     },
     checkAllCss: function() {
@@ -132,15 +142,15 @@ export default {
         }
         if (this.$slots["heading"] && this.showHeading) {
           let slotHeading = architect
-            .createDiv()
+            .createDiv(this.headingSlotCss.getClasses())
             .setChildren(this.$slots["heading"]);
           headingContent.addChild(slotHeading);
         }
-        this.createSearch(headingContent, this.filtered);
+        this.createSearch(headingContent, this.filtered && !this.isEmpty);
         let pagParent = this.filtered
           ? architect.createDiv(this.headingContentCss.getClasses())
           : headingContent;
-        this.createPaginator(pagParent, this.paginated && this.paginatorAtTop);
+        this.createPaginator(pagParent, this.paginated && this.paginatorAtTop && !this.isEmpty);
         heading.addChild(headingContent);
         heading.addChild(pagParent, this.filtered);
         architect.addChild(heading);
@@ -155,7 +165,7 @@ export default {
             .setChildren(this.$slots["footer"]);
           footer.addChild(slotFooter);
         }
-        this.createPaginator(footer, this.paginated && !this.paginatorAtTop);
+        this.createPaginator(footer, this.paginated && !this.paginatorAtTop && !this.isEmpty);
         architect.addChild(footer);
       }
     },
@@ -165,24 +175,30 @@ export default {
       items.setStyles(this.css.getStyles());
 
       this.createLoading(items, this.progressCss.getClasses());
-      for (let index in this.getItems) {
-        let item = this.getItems[index];
-        let itemContainer = architect
-          .createDiv("t-list__item-container")
-          .setKey(`${this.id}-item-${index}`);
-        if (this.isCheckable(item)) {
-          this.createRowChecker(itemContainer, item, {
-            targetClass: this.getRowCheckerClasses
-          });
-        }
-
-        itemContainer.addVNodeChildren(
-          this.$scopedSlots["items"]({
-            item: item,
-            index: index
-          })
-        );
+      if (this.isEmpty) {
+        let itemContainer = architect.createDiv("t-list__item-container");
+        itemContainer.innerHTML(this.emptyText);
         items.addChild(itemContainer);
+      } else {
+        for (let index in this.getItems) {
+          let item = this.getItems[index];
+          let itemContainer = architect
+            .createDiv("t-list__item-container")
+            .setKey(`${this.id}-item-${index}`);
+          if (this.isCheckable(item)) {
+            this.createRowChecker(itemContainer, item, {
+              targetClass: this.getRowCheckerClasses
+            });
+          }
+
+          itemContainer.addVNodeChildren(
+            this.$scopedSlots["items"]({
+              item: item,
+              index: index
+            })
+          );
+          items.addChild(itemContainer);
+        }
       }
       transition.addChild(items);
       architect.addChild(transition);

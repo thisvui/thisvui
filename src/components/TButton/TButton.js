@@ -9,9 +9,10 @@ import themes from "../../mixins/themes";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
-import TIcon from "../TIcon/TIcon";
 
+import TIcon from "../TIcon/TIcon";
 import TModal from "../TModal/TModal";
+import TButtons from "./TButtons";
 
 import { ValidationBus } from "../TValidation/validation-bus.js";
 
@@ -134,6 +135,8 @@ export default {
       css.addClass("filled hoverable activable", !this.outlined && !this.text);
       css.addClass("is-loading", this.isLoading);
       css.addClass("disabled", this.disabled);
+      css.addClass("icon-left", this.icon && !this.iconRight);
+      css.addClass("icon-right", this.iconRight);
       css.addClass(this.targetClass, this.targetClass !== undefined);
       css.addClass(this.getThemeModifiers);
       css.addStyles([
@@ -154,8 +157,6 @@ export default {
      */
     getContainerClass: function() {
       const css = new CssArchitect("t-button-container");
-      css.flexible();
-      css.addClass("is-centered");
       css.addClass(this.containerClass, this.containerClass !== undefined);
       css.addClass(this.getDisplayModifiers);
       return css.getClasses();
@@ -166,7 +167,6 @@ export default {
      */
     getConfirmClass: function() {
       const css = new CssArchitect();
-      css.addClass("is-small");
       css.addClass(this.confirmDialogClass);
       return css.getClasses();
     },
@@ -178,26 +178,6 @@ export default {
       const css = new CssArchitect();
       css.addClass(this.messageClass);
       return css.getClasses();
-    },
-    /**
-     * Dynamically build the css classes for the confirm button
-     * @returns { A String with the chained css classes }
-     */
-    getConfirmBtnClass: function() {
-      const css = new CssArchitect("button");
-      css.addClass("filled cursor-pointer");
-      css.addClass(this.confirmBtnClass);
-      return css.getClasses();
-    },
-    /**
-     * Dynamically build the css classes for the cancel button
-     * @returns { A String with the chained css classes }
-     */
-    getCancelBtnClass: function() {
-      const cssArchitect = new CssArchitect("button");
-      cssArchitect.addClass("filled cursor-pointer");
-      cssArchitect.addClass(this.cancelBtnClass);
-      return cssArchitect.getClasses();
     },
     /**
      * Dynamically build the css classes for the icon element
@@ -256,11 +236,7 @@ export default {
         this.showConfirm();
       } else {
         this.$emit(this.$thisvui.events.common.click);
-        if (this.view) {
-          let view =
-            typeof this.view === "string" ? { name: this.view } : this.view;
-          this.$router.push(view);
-        }
+        this.navigateTo();
       }
     },
     /**
@@ -290,8 +266,13 @@ export default {
     confirmed() {
       this.$emit(this.$thisvui.events.action.confirmed);
       this.showConfirmModal = false;
+      this.navigateTo();
+    },
+    navigateTo() {
       if (this.view) {
-        this.$router.push({ name: this.view });
+        let view =
+          typeof this.view === "string" ? { name: this.view } : this.view;
+        this.$router.push(view);
       }
     },
     /**
@@ -324,7 +305,9 @@ export default {
 
         this.createButtonIcon(button, !this.iconRight);
         if (this.hasSlot) {
-          let slot = architect.createSpan().setChildren(this.$slots.default);
+          let slot = architect
+            .createSpan("button__content")
+            .setChildren(this.$slots.default);
           button.addChild(slot);
         }
         this.createButtonIcon(button, this.iconRight);
@@ -365,14 +348,16 @@ export default {
           modal.addChild(messageSlot);
         }
 
-        let modalFoot = architect.createSpan();
+        let modalFoot = architect.createElement(TButtons);
         modalFoot.setSlot("footer");
 
-        let confirmBtn = architect.createSpan(this.getConfirmBtnClass);
-        confirmBtn.innerHTML(this.confirmText);
+        let confirmBtn = architect.createButton();
+        confirmBtn.setProps({ targetClass: this.confirmBtnClass });
+        confirmBtn.addVNode(this.confirmText);
         confirmBtn.addClick(this.confirmed);
-        let cancelBtn = architect.createSpan(this.getCancelBtnClass);
-        cancelBtn.innerHTML(this.cancelText);
+        let cancelBtn = architect.createButton();
+        cancelBtn.setProps({ targetClass: this.cancelBtnClass });
+        cancelBtn.addVNode(this.cancelText);
         cancelBtn.addClick(this.close);
 
         modalFoot.addChild(confirmBtn);

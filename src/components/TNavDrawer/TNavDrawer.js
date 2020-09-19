@@ -78,6 +78,7 @@ export default {
      */
     getLinkClass: function() {
       const css = new CssArchitect("is-inline-block");
+      this.isColored(css);
       this.isHovered(css);
       css.addClass(this.linkClass, this.linkClass !== undefined);
       css.addClass(this.themeModifier, this.hasThemeModifier);

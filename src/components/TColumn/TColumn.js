@@ -1,13 +1,14 @@
 import common from "../../mixins/common";
 import background from "../../mixins/background";
 import flex from "../../mixins/flex";
+import padding from "../../mixins/padding";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: "t-column",
-  mixins: [common, background, flex],
+  mixins: [common, background, flex, padding],
   props: {
     span: Number,
     gutters: Number,
@@ -55,6 +56,7 @@ export default {
         css.addStyle("--column-gutters", gutters);
       }
       css.addStyles([this.getFlexStyles], this.flex);
+      css.addStyles([this.getPaddingStyles]);
       return css;
     }
   },

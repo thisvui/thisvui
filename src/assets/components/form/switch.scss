@@ -201,7 +201,7 @@
     @include switch-size($size-large);
   }
 
-  @each $name, $pair in $colors {
+  @each $name, $pair in $this-colors {
     $color: nth($pair, 1);
     $color-invert: nth($pair, 2);
 

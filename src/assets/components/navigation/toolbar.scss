@@ -15,7 +15,7 @@
   .toolbar-button {
     margin-right: 0.1rem;
 
-    @each $name, $pair in $colors {
+    @each $name, $pair in $this-colors {
       $color: nth($pair, 1);
       $color-invert: nth($pair, 2);
 

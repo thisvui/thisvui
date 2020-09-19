@@ -8,6 +8,8 @@ $input-focus-color: $opaque !default;
 $input-focus-border-color: $input-border-color !default;
 $input-icon-color: rgba($primary, 0.4) !default;
 $input-icon-active-color: rgba($primary, 0.9) !default;
+$input-padding: 0.3rem;
+$input-font-size: 1rem;
 
 $input-radius: 3px !default;
 $input-shadow: none !default;
@@ -28,7 +30,7 @@ $label-font-size: 1rem;
     align-items: center;
     height: inherit;
     .label {
-      font-size: 18px;
+      font-size: $label-font-size;
       position: relative;
       text-transform: uppercase;
     }
@@ -72,8 +74,8 @@ $label-font-size: 1rem;
   .textarea {
     background: none;
     color: tint($dark, 15%);
-    font-size: 18px;
-    padding: 10px 10px 10px 5px;
+    font-size: $input-font-size;
+    padding: $input-padding;
     display: block;
     border: none;
     border-radius: 0;

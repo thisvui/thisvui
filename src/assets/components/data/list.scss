@@ -18,39 +18,24 @@ $items-width: 20 30 40 50 60 70 80 90 100;
   padding: $list-padding;
   min-width: 10%;
   border-bottom: $list-bottom-border;
-  @include box-shadow-full($list-shadow);
 }
 
 
 .t-list {
-  background-color: $list-background-color;
   display: flex;
   flex-direction: column;
   margin: 0;
   padding: 0;
   @include overflow($y: auto);
-  @include box-shadow-full( $list-shadow);
-  @include border-radius($list-border-radius);
 
-  &.has-header{
-    &:not(.has-footer){
-      @include border-radius-specific(0, 0, $list-border-radius, $list-border-radius);
-    }
-    &.has-footer{
-      @include border-radius-specific(0, 0, 0, 0);
-    }
-  }
-
-  &.has-footer{
-    &:not(.has-header){
-      @include border-radius-specific($list-border-radius, $list-border-radius, 0, 0);
-    }
+  &__container{
+    @include border-radius($list-border-radius);
+    @include box-shadow-full( $list-shadow);
   }
 
   &__heading {
     flex-direction: column;
     @include list-bar;
-    @include border-radius-specific($list-border-radius, $list-border-radius, 0, 0);
 
     &--horizontal {
       @extend .t-flex;
@@ -69,7 +54,7 @@ $items-width: 20 30 40 50 60 70 80 90 100;
 
   &__footer {
     @include list-bar;
-    @include border-radius-specific(0, 0, $list-border-radius, $list-border-radius);
+    border-top: $list-bottom-border;
   }
 
   &__content {

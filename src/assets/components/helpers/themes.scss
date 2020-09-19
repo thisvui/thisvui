@@ -36,7 +36,7 @@ $shade-percents: 10 20 25 30 40 50 60 70 75 80 90 !default;
 * {
   .colored {
     color: $dark;
-    @each $name, $pair in $colors {
+    @each $name, $pair in $this-colors {
       $color: nth($pair, 1);
       $color-invert: nth($pair, 2);
       &.is-#{$name} {
@@ -53,7 +53,7 @@ $shade-percents: 10 20 25 30 40 50 60 70 75 80 90 !default;
 * {
   .bordered {
     border-color: $link;
-    @each $name, $pair in $colors {
+    @each $name, $pair in $this-colors {
       $color: nth($pair, 1);
       $color-invert: nth($pair, 2);
       $border-color: rgba($color, var(--border-alpha));
@@ -110,7 +110,7 @@ $shade-percents: 10 20 25 30 40 50 60 70 75 80 90 !default;
   &.transparent {
     background-color: transparent !important;
   }
-  @each $name, $pair in $colors {
+  @each $name, $pair in $this-colors {
     $color: nth($pair, 1);
     $color-invert: nth($pair, 2);
     &.is-#{$name} {
@@ -174,7 +174,7 @@ $shade-percents: 10 20 25 30 40 50 60 70 75 80 90 !default;
 }
 
 .striped {
-  @each $name, $pair in $colors {
+  @each $name, $pair in $this-colors {
     $color: nth($pair, 1);
     $color-invert: nth($pair, 2);
     &.is-#{$name} {
@@ -206,7 +206,7 @@ $shade-percents: 10 20 25 30 40 50 60 70 75 80 90 !default;
       color: $dark;
       background-color: tint($dark, 50%);
     }
-    @each $name, $pair in $colors {
+    @each $name, $pair in $this-colors {
       $color: nth($pair, 1);
       $color-invert: nth($pair, 2);
       &.is-#{$name} {
@@ -222,7 +222,7 @@ $shade-percents: 10 20 25 30 40 50 60 70 75 80 90 !default;
   }
 }
 
-@each $name, $pair in $colors {
+@each $name, $pair in $this-colors {
   $color: nth($pair, 1);
 
   .color-#{$name} {
@@ -247,7 +247,7 @@ $shade-percents: 10 20 25 30 40 50 60 70 75 80 90 !default;
 
 }
 
-@each $name, $shade in $shades {
+@each $name, $shade in $this-shades {
   .color-#{$name} {
     color: rgba($shade,  var(--color-alpha)) !important;
   }

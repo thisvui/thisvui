@@ -8,9 +8,6 @@ export default {
     paddingless: {
       type: Boolean
     },
-    isBold: {
-      type: Boolean
-    },
     radiusless: {
       type: Boolean
     },
@@ -36,7 +33,6 @@ export default {
       const cssArchitect = new CssArchitect();
       cssArchitect.addClass("is-marginless", this.marginless);
       cssArchitect.addClass("is-paddingless", this.paddingless);
-      cssArchitect.addClass("is-bold", this.isBold);
       cssArchitect.addClass("is-radiusless", this.radiusless);
       cssArchitect.addClass("is-borderless", this.borderless);
       cssArchitect.addClass("is-shadowless", this.shadowless);

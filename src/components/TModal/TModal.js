@@ -1,3 +1,4 @@
+import flex from "../../mixins/flex";
 import sizes from "../../mixins/sizes";
 import themes from "../../mixins/themes";
 import common from "../../mixins/common";
@@ -7,7 +8,7 @@ import { createTransition } from "../../utils/element-architect";
 
 export default {
   name: "t-modal",
-  mixins: [common, sizes, themes],
+  mixins: [common, sizes, flex, themes],
   props: {
     title: {
       type: String
@@ -66,7 +67,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const css = new CssArchitect("modal");
+      const css = new CssArchitect("t-modal");
       css.addClass(this.targetClass);
       css.addClass(this.size);
       css.addClass("half", this.half);
@@ -76,11 +77,21 @@ export default {
       return css.getClasses();
     },
     /**
+     * Dynamically build the css classes for the modal wrapper
+     * @returns { A String with the chained css classes }
+     */
+    getWrapperClasses: function() {
+      const css = new CssArchitect("t-modal__wrapper");
+      css.flexible({ alignItems: "flex-start" });
+      css.addClass(this.getFlexModifiers);
+      return css.getClasses();
+    },
+    /**
      * Dynamically build the css classes for the modal mask
      * @returns { A String with the chained css classes }
      */
     getMaskClasses: function() {
-      const css = new CssArchitect("modal__mask");
+      const css = new CssArchitect("t-modal__mask");
       return css.getClasses();
     },
     /**
@@ -88,7 +99,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getHeaderClasses: function() {
-      const css = new CssArchitect("modal__heading");
+      const css = new CssArchitect("t-modal__heading");
       this.isFilled(css);
       css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass(this.headerClass, this.headerClass);
@@ -99,7 +110,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getTitleClasses: function() {
-      const css = new CssArchitect("modal__title");
+      const css = new CssArchitect("t-modal__title");
       css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass(this.titleClass, this.titleClass);
       return css.getClasses();
@@ -109,7 +120,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getBodyClasses: function() {
-      const css = new CssArchitect("modal__body");
+      const css = new CssArchitect("t-modal__body");
       css.addClass(this.bodyClass, this.bodyClass);
       return css.getClasses();
     },
@@ -118,7 +129,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getFootClasses: function() {
-      const css = new CssArchitect("modal__footer");
+      const css = new CssArchitect("t-modal__footer");
       css.addClass(this.footClass, this.footClass);
       return css.getClasses();
     }
@@ -126,7 +137,7 @@ export default {
   methods: {
     createDeleteButton(architect) {
       if (this.showClose) {
-        let deleteBtn = architect.createA( "delete");
+        let deleteBtn = architect.createA("delete");
         deleteBtn.addClick(() => {
           this.$emit(this.closeEvent);
         });
@@ -176,7 +187,7 @@ export default {
   render: function(h) {
     if (!this.removed) {
       let root = createTransition(h, "fade", this.getClasses);
-      let wrapper = root.createDiv("modal__wrapper");
+      let wrapper = root.createDiv(this.getWrapperClasses);
       this.createMask(wrapper);
       this.createModal(wrapper);
       root.addChild(wrapper, this.showModal);

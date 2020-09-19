@@ -1,5 +1,7 @@
 $nav-drawer-background-color: transparent !default;
 $nav-drawer-item-color: rgba($dark, 0.9) !default;
+$nav-drawer-item-padding: 0.4em 0.4em 0.4em 0.6em !default;
+$nav-drawer-item-left-margin: 0.4rem !default;
 $nav-drawer-active-color: $link !default;
 $nav-drawer-active-background-color: rgba($primary, 0.4) !default;
 $nav-drawer-hover-background-color: rgba($primary, 0.4) !default;
@@ -34,22 +36,23 @@ $nav-drawer-padding-left: 0.75rem !default;
       line-height: 1.25;
       a {
         --bg-alpha: 0.7;
-        padding: 0.4em 0.4em 0.2em 1em;
+        padding: $nav-drawer-item-padding;
+        margin-left: $nav-drawer-item-left-margin;
         font-size: $nav-drawer-font-size;
         font-weight: $nav-drawer-font-weight;
-        color: $nav-drawer-item-color;
+        //color: $nav-drawer-item-color;
 
         &.router-link-active {
-          color: $nav-drawer-active-color;
+          //color: $nav-drawer-active-color;
         }
 
         &.is-active {
-          background-color: $nav-drawer-active-background-color;
+          //background-color: $nav-drawer-active-background-color;
         }
 
         &:hover {
           --bg-hover-alpha: 0.7;
-          background-color: $nav-drawer-hover-background-color;
+          //background-color: $nav-drawer-hover-background-color;
         }
       }
 
@@ -65,7 +68,7 @@ $nav-drawer-padding-left: 0.75rem !default;
         }
 
         .icon {
-          color: $nav-drawer-icon-color;
+          //color: $nav-drawer-icon-color;
         }
       }
 
@@ -75,8 +78,8 @@ $nav-drawer-padding-left: 0.75rem !default;
     }
 
     .menu-label {
-      background: $nav-drawer-label-background-color;
-      color: $nav-drawer-label-color;
+      //background: $nav-drawer-label-background-color;
+      //color: $nav-drawer-label-color;
       text-align: $nav-drawer-label-text-align;
       border-radius: $nav-drawer-label-border-radius;
       -webkit-box-shadow: $nav-drawer-label-shadow;

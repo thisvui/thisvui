@@ -1,16 +1,15 @@
 $modal-z-index: 60 !default;
 $modal-radius: 5px !default;
-$modal-margin: 32px !default;
+$modal-margin: 1rem !default;
 $modal-mobile-width: calc(100vw - #{$modal-margin}) !default;
 $modal-heading-border: 1px solid $opaque !default;
 $modal-max-height: 98vh !default;
 
-.modal {
+.t-modal {
   z-index: $modal-z-index + 1;
   background-color: $white-bis;
   border-radius: $modal-radius;
-  margin-left: auto;
-  margin-right: auto;
+  margin: $modal-margin;
   width: $modal-mobile-width;
   max-height: $modal-max-height;
   overflow-y: auto;
@@ -18,25 +17,25 @@ $modal-max-height: 98vh !default;
 
   &.small {
     @include tablet-up {
-      width: calc(38vw - #{$modal-margin});
+      width: calc(38vw - (#{$modal-margin}*2));
     }
   }
 
   &.half {
     @include tablet-up {
-      width: calc(54vw - #{$modal-margin});
+      width: calc(54vw - (#{$modal-margin}*2));
     }
   }
 
   &.medium {
     @include tablet-up {
-      width: calc(78vw - #{$modal-margin});
+      width: calc(78vw - (#{$modal-margin}*2));
     }
   }
 
   &.large {
     @include tablet-up {
-      width: calc(96vw - #{$modal-margin});
+      width: calc(96vw - (#{$modal-margin}*2));
     }
   }
 
@@ -55,7 +54,7 @@ $modal-max-height: 98vh !default;
     z-index: $modal-z-index;
     background-color: transparent;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     position: fixed;
     overflow-y: scroll;

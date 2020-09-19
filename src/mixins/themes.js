@@ -135,12 +135,12 @@ export default {
     checkThemeModifier(classes) {
       return this.modifiers.some(modifier => classes.includes(modifier));
     },
-    configureDefault(cssArchitect) {
-      let defaultModifier = "is-primary";
+    configureDefault(cssArchitect, defaultTheme) {
+      let defaultModifier = this.$_utils.check.isString(defaultTheme) ? defaultTheme : "is-primary";
       cssArchitect.addClass(defaultModifier, !this.hasThemeModifier);
       this.setupThemeModifier(cssArchitect);
     },
-    setupThemeModifier(cssArchitect, addDefault = false) {
+    setupThemeModifier(cssArchitect, defaultTheme = false) {
       this.hasThemeModifier = this.checkThemeModifier(
         cssArchitect.getClasses()
       );
@@ -151,8 +151,8 @@ export default {
       if (filtered && filtered !== null && filtered.length > 0) {
         this.themeModifier = filtered[0];
       }
-      if (addDefault) {
-        this.configureDefault(cssArchitect);
+      if (defaultTheme) {
+        this.configureDefault(cssArchitect, defaultTheme);
       }
     },
     isFilled(

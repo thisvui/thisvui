@@ -18,7 +18,7 @@ $code-size: 0.875em !default;
 
 $small-font-size: 0.875em !default;
 
-$hr-background-color: $background !default;
+$hr-background-color: $this-background !default;
 $hr-height: 2px !default;
 $hr-margin: 1.5rem 0 !default;
 
@@ -85,7 +85,7 @@ a {
 }
 
 code {
-  background-color: $background;
+  background-color: $this-background;
   color: $red;
   font-size: $code-size;
   font-weight: $code-weight;
@@ -131,7 +131,7 @@ fieldset {
 pre {
   @include overflow-touch;
 
-  background-color: $background;
+  background-color: $this-background;
   color: $grey-dark;
   font-size: $pre-font-size;
   overflow-x: auto;
