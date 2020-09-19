@@ -1,7 +1,51 @@
-// Add new color variables to the color map.
-@import "~bulma/sass/utilities/derived-variables";
+// Background
+$this-background: $white-ter !default;
 
-$customColors: (
+$this-custom-colors: null !default;
+$this-custom-shades: null !default;
+
+// Colors
+$this-main-colors:  (
+  "white": (
+    $white,
+    $black
+  ),
+  "black": (
+    $black,
+    $white
+  ),
+  "light": (
+    $light,
+    $light-invert
+  ),
+  "dark": (
+    $dark,
+    $dark-invert
+  ),
+  "primary": (
+    $primary,
+    $primary-invert
+  ),
+  "link": (
+    $link,
+    $link-invert
+  ),
+  "info": (
+    $info,
+    $info-invert
+  ),
+  "success": (
+    $success,
+    $success-invert
+  ),
+  "warning": (
+    $warning,
+    $warning-invert
+  ),
+  "danger": (
+    $danger,
+    $danger-invert
+  ),
   "secondary": (
     $secondary,
     $secondary-invert
@@ -18,5 +62,24 @@ $customColors: (
     $opaque,
     $opaque-invert
   )
-);
-$colors: map-merge($colors, $customColors);
+) !default;
+
+$this-colors: mergeColorMaps(
+    $this-main-colors,
+    $this-custom-colors
+) !default;
+
+$this-shades: mergeColorMaps(
+    (
+      "black-bis": $black-bis,
+      "black-ter": $black-ter,
+      "grey-darker": $grey-darker,
+      "grey-dark": $grey-dark,
+      "grey": $grey,
+      "grey-light": $grey-light,
+      "grey-lighter": $grey-lighter,
+      "white-ter": $white-ter,
+      "white-bis": $white-bis
+    ),
+    $this-custom-shades
+) !default;
