@@ -1,6 +1,6 @@
 import { activeNumbers } from "../utils/pad";
 
-const numberKeyCodes = {
+const NUMBER_KEY_CODES = {
   0: 48,
   1: 49,
   2: 50,
@@ -13,7 +13,7 @@ const numberKeyCodes = {
   9: 57
 };
 
-const arrowKeyCodes = {
+const ARROW_KEY_CODES = {
   left: 37,
   right: 39,
   up: 38,
@@ -71,14 +71,14 @@ export default {
         return;
       }
 
-      if (isNumberPressed(e.keyCode, numberKeyCodes)) {
-        let numberPressed = getNumberPressed(e.keyCode, numberKeyCodes);
+      if (isNumberPressed(e.keyCode, NUMBER_KEY_CODES)) {
+        let numberPressed = getNumberPressed(e.keyCode, NUMBER_KEY_CODES);
         if (activeNumbers(this.filteredDigits).indexOf(numberPressed) > -1) {
           this.digitSelected(numberPressed);
         }
       }
-      if (isArrowPressed(e.keyCode, arrowKeyCodes)) {
-        let arrowPressed = getArrowPressed(e.keyCode, arrowKeyCodes);
+      if (isArrowPressed(e.keyCode, ARROW_KEY_CODES)) {
+        let arrowPressed = getArrowPressed(e.keyCode, ARROW_KEY_CODES);
         this.arrowSelected(arrowPressed);
       }
 
@@ -92,16 +92,16 @@ export default {
       if (!this.isOpen) {
         return;
       }
-      if (isNumberPressed(e.keyCode, numberKeyCodes)) {
-        let numberPressed = getNumberPressed(e.keyCode, numberKeyCodes);
+      if (isNumberPressed(e.keyCode, NUMBER_KEY_CODES)) {
+        let numberPressed = getNumberPressed(e.keyCode, NUMBER_KEY_CODES);
         if (activeNumbers(this.filteredDigits).indexOf(numberPressed) > -1) {
           this.digitPressed(numberPressed);
         }
       }
 
-      if (isArrowPressed(e.keyCode, arrowKeyCodes)) {
+      if (isArrowPressed(e.keyCode, ARROW_KEY_CODES)) {
         e.preventDefault();
-        let arrowPressed = getArrowPressed(e.keyCode, arrowKeyCodes);
+        let arrowPressed = getArrowPressed(e.keyCode, ARROW_KEY_CODES);
         if (
           (arrowPressed === "left" && this.activeIndex > 0) ||
           (arrowPressed === "right" && this.activeIndex < 3)

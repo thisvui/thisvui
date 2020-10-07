@@ -36,9 +36,9 @@ export default {
         ? this.$thisvui.icons.arrowUp
         : this.$thisvui.icons.arrowDown;
     },
-    allowEmptyValue: function(value, oldValue) {
-      if (!value) {
-        let value = this.isNotEmpty(this.value) ? this.value : this.results[0];
+    allowEmptyValue: function(newValue, oldValue) {
+      if (!newValue) {
+        let value = this.isNotEmpty(newValue) ? newValue : this.results[0];
         this.setResult(value);
       }
     }

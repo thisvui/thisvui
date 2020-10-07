@@ -52,8 +52,8 @@ const addValidationScope = function(id, children) {
 };
 
 export const ThisValidate = {
-  install(Vue, options) {
-    Vue.component("t-validation-group", {
+  install(VueInstance, options) {
+    VueInstance.component("t-validation-group", {
       functional: true,
       render: function(createElement, context) {
         addValidationScope(context.props.id.trim(), context.children);

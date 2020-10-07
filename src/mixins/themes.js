@@ -148,7 +148,7 @@ export default {
         .getClassesArray()
         .filter(this.checkThemeModifier);
 
-      if (filtered && filtered !== null && filtered.length > 0) {
+      if (filtered && filtered.length > 0) {
         this.themeModifier = filtered[0];
       }
       if (defaultTheme) {
@@ -208,10 +208,10 @@ export default {
         cssArchitect.addClass(`has-color`, hasColor);
       }
     },
-    rgb2hex(color) {
-      let rgb = color.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    rgb2hex(rgbColor) {
+      let rgb = rgbColor.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
       if (rgb == null) {
-        rgb = color.match(/^rgba\((\d+),\s*(\d+),\s*(\d+), \s*(\d+)\)$/);
+        rgb = rgbColor.match(/^rgba\((\d+),\s*(\d+),\s*(\d+), \s*(\d+)\)$/);
       }
       return "#" + this.hex(rgb[1]) + this.hex(rgb[2]) + this.hex(rgb[3]);
     },

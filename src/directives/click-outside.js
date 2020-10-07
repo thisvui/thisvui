@@ -21,7 +21,7 @@ function elContained(source, target) {
   return false;
 }
 
-function clickedOnExcludedEl(event, vnode, exclude) {
+function checkClickOnExcludedEl(event, vnode, exclude) {
   let clickedOnExcludedEl = false;
   if (exclude) {
     exclude.forEach(refName => {
@@ -53,7 +53,7 @@ function handleOutsideClick(event, el, binding, vnode) {
     elContained(el, event.target) ||
     elContained(el, $targetElParent) ||
     containsParentId;
-  if (!contains && !clickedOnExcludedEl(event, vnode, exclude)) {
+  if (!contains && !checkClickOnExcludedEl(event, vnode, exclude)) {
     // Calls the handler to executed when clicked outside
     if (vnode.context[handler]) {
       vnode.context[handler](event);

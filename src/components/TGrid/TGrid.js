@@ -87,7 +87,7 @@ export default {
     }
   },
   methods: {
-    getRepeatFunction(times=1, unit) {
+    getRepeatFunction(times=1, unit = "1fr") {
       return `repeat(${times}, ${unit})`;
     }
   },

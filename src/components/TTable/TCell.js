@@ -37,13 +37,10 @@ export default {
       let right = false;
       if (this.center) {
         center = true;
-        left = false;
-        right = false;
       }
       if (this.left) {
         center = false;
         left = true;
-        right = false;
       }
       if (this.right) {
         center = false;

@@ -136,12 +136,6 @@ export default {
       let top = minMargin;
       let right = minMargin;
       let bottom, left;
-      if (this.top) {
-        top = minMargin;
-      }
-      if (this.right) {
-        right = minMargin;
-      }
       if (this.bottom) {
         bottom = minMargin;
         top = null;

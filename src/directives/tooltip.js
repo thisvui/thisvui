@@ -33,7 +33,6 @@ function calculatePos($tooltip, $tooltipDimension, scrollTop, binding) {
   let translate = false;
 
   if (top && left) {
-    yPos = topPos;
     xPos = startPos;
     return { yPos, xPos };
   }
@@ -52,7 +51,6 @@ function calculatePos($tooltip, $tooltipDimension, scrollTop, binding) {
   }
 
   if (top && right) {
-    yPos = topPos;
     xPos = endPos;
     inverted = true;
     return { yPos, xPos, inverted };
@@ -72,15 +70,12 @@ function calculatePos($tooltip, $tooltipDimension, scrollTop, binding) {
   }
 
   if (top && center) {
-    yPos = topPos;
-    xPos = centerPos;
     translate = true;
     return { yPos, xPos, translate };
   }
 
   if (bottom && center) {
     yPos = bottomPos;
-    xPos = centerPos;
     translate = true;
     return { yPos, xPos, translate };
   }

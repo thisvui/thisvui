@@ -1,5 +1,3 @@
-import CssArchitect from "../utils/css-architect";
-
 export default {
   props: {
     mask: {

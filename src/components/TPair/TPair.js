@@ -141,7 +141,6 @@ export default {
     },
     getValueStyle(){
       const css = new CssArchitect();
-      let valueSpan = parseInt(this.valueSpan);
       css.addStyle("--value-span", parseInt(this.valueSpan), this.isNotNull(this.valueSpan));
       return css.getStyles();
     },

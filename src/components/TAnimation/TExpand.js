@@ -13,14 +13,14 @@ export default {
       element.style.visibility = "hidden";
       element.style.height = "auto";
 
-      const height = getComputedStyle(element).height;
+      let height = getComputedStyle(element).height;
 
       element.style.width = null;
       element.style.position = null;
       element.style.visibility = null;
       element.style.height = "0";
 
-      getComputedStyle(element).height;
+      height = getComputedStyle(element).height;
 
       setTimeout(() => {
         element.style.height = height;
@@ -30,11 +30,9 @@ export default {
       element.style.height = "auto";
     },
     leave(element) {
-      const height = getComputedStyle(element).height;
+      let height = getComputedStyle(element).height;
 
       element.style.height = height;
-
-      getComputedStyle(element).height;
 
       setTimeout(() => {
         element.style.height = "0";

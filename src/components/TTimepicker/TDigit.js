@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     isDisabled() {
-      !this.number.active || !this.isOpen;
+      return !this.number.active || !this.isOpen;
     },
     /**
      * Dynamically build the css classes for the target element

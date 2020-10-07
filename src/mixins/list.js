@@ -147,7 +147,6 @@ export default {
           return this.searchItem(item, filterKey);
         }
       });
-      return false;
     },
     isRowChecked(item) {
       return this.updatedCheckedRows.indexOf(item) >= 0;
@@ -303,7 +302,6 @@ export default {
       }
     },
     createLoading(architect, classes) {
-      let self = this;
       let transition = architect.createTransition("fade");
       if (this.isLoading) {
         let loading = architect.createDiv("t-loading-block is-absolute");

@@ -19,7 +19,7 @@ function getDocHeight() {
 }
 
 function calculatePos($box, scrollTop, binding) {
-  let { width, height } = getAttributes($box);
+  let { width } = getAttributes($box);
   let $containerDimension = getContainerDimension($box);
   let startPos = $containerDimension.left + "px";
 
@@ -88,7 +88,7 @@ function enterListener(el, binding) {
   let { showOn } = getAttributes(el);
   let $box = el;
 
-  let { yPos, xPos, inverted, translate } = calculatePos(
+  let { yPos, xPos, inverted } = calculatePos(
     $box,
     getScrollTop(el),
     binding
@@ -177,7 +177,6 @@ export default {
   componentUpdated: function(el, binding) {
     let { showOn = true, target, width, height, fixTranslate } = binding.value;
     let skip = compareBinding(binding);
-    let docHeight = getDocHeight();
     if (!skip) {
       setAttributes(el, { showOn, target, width, height, fixTranslate });
       if (showOn) {

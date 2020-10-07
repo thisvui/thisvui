@@ -318,8 +318,8 @@ const date = {
    * Formats a specific date using the date-fns format module
    * @returns { A String value }
    */
-  format: (date, formatTemplate) => {
-    if (date && format) {
+  format: (dateParam, formatTemplate) => {
+    if (dateParam && format) {
       return format(this.value, formatTemplate);
     }
     return "";
