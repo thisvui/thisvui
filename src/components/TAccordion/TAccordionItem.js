@@ -7,9 +7,10 @@ import themes from "../../mixins/themes";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
+import { ComponentNames } from "../../utils/constants";
 
 export default {
-  name: "t-accordion-item",
+  name: ComponentNames.TAccordionItem,
   components: { TIcon, TExpand },
   mixins: [common, icons, helper, themes],
   props: {
@@ -66,7 +67,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const css = new CssArchitect("t-accordion__item");
+      const css = new CssArchitect(`${ComponentNames.TAccordion}__item`);
       css.addClass(this.getColorClasses);
       css.addClass(this.getSizesModifiers);
       return css.getClasses();
@@ -76,7 +77,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getHeaderClasses: function() {
-      const css = new CssArchitect("t-accordion__heading");
+      const css = new CssArchitect(`${ComponentNames.TAccordion}__heading`);
       css.addClass("icon-left", this.iconLeft);
       css.addClass("item-opened", this.isItemOpen);
       this.isFilled(css);
@@ -106,7 +107,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getBodyClasses: function() {
-      const css = new CssArchitect("t-accordion__body");
+      const css = new CssArchitect(`${ComponentNames.TAccordion}__body`);
       css.addClass(this.bodyClass, this.bodyClass);
       css.addClass("is-closed", !this.isItemOpen);
       return css.getClasses();
@@ -203,7 +204,7 @@ export default {
     let header = root.createDiv(this.getHeaderClasses);
     header.addEvent("click", this.toggleOpen);
 
-    let title = root.createSpan("t-accordion__heading__text");
+    let title = root.createSpan(`${ComponentNames.TAccordion}__heading__text`);
     title.addDomProp("innerHTML", this.title);
 
     this.createHeadingIcon(header, this.iconLeft);
@@ -212,8 +213,8 @@ export default {
 
     let body = root.createDiv(this.getBodyClasses);
     let expand = root.createElement(TExpand);
-    let content = root.createDiv("t-accordion__content");
-    let contentBody = root.createDiv("t-accordion__content__body");
+    let content = root.createDiv(`${ComponentNames.TAccordion}__content`);
+    let contentBody = root.createDiv(`${ComponentNames.TAccordion}__content__body`);
     contentBody.setChildren(this.$slots.default);
     content.addChild(contentBody);
     expand.addChild(content, this.isItemOpen);

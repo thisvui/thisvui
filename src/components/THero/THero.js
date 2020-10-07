@@ -3,12 +3,13 @@ import dimension from "../../mixins/dimension";
 import sizes from "../../mixins/sizes";
 import themes from "../../mixins/themes";
 import gradient from "../../mixins/gradient";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
-  name: "t-hero",
+  name: ComponentNames.THero,
   mixins: [common, sizes, dimension, themes, gradient],
   props: {
     title: String,
@@ -34,7 +35,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const css = new CssArchitect("hero");
+      const css = new CssArchitect(ComponentNames.THero);
       this.isFilled(css, { removeInit: true });
       css.addClass(this.getThemeModifiers);
       css.addClass(this.getGradientModifiers);
@@ -48,7 +49,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getContentClasses: function() {
-      const css = new CssArchitect("hero__content");
+      const css = new CssArchitect(`${ComponentNames.THero}__content`);
       return css.getClasses();
     },
     /**
@@ -56,7 +57,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getImgContentClasses: function() {
-      const css = new CssArchitect("hero__content");
+      const css = new CssArchitect(`${ComponentNames.THero}__content`);
       css.addClass("has-img", this.hasImg);
       return css.getClasses();
     },
@@ -65,7 +66,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getBodyClasses: function() {
-      const css = new CssArchitect("hero__body");
+      const css = new CssArchitect(`${ComponentNames.THero}__body`);
       return css.getClasses();
     },
     /**
@@ -73,7 +74,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getTitleClasses: function() {
-      const css = new CssArchitect("hero__title");
+      const css = new CssArchitect(`${ComponentNames.THero}__title`);
       css.addClass("has-img", this.hasImg);
       css.addClass(this.titleClass);
       return css.getClasses();
@@ -83,7 +84,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getSubtitleClasses: function() {
-      const css = new CssArchitect("hero__subtitle");
+      const css = new CssArchitect(`${ComponentNames.THero}__subtitle`);
       css.addClass("has-img", this.hasImg);
       css.addClass(this.subtitleClass);
       return css.getClasses();
@@ -93,7 +94,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getDescriptionClasses: function() {
-      const css = new CssArchitect("hero__desc");
+      const css = new CssArchitect(`${ComponentNames.THero}__desc`);
       css.addClass("has-img", this.hasImg);
       css.addClass(this.descriptionClass);
       return css.getClasses();
@@ -103,7 +104,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getActionClasses: function() {
-      const css = new CssArchitect("hero__action");
+      const css = new CssArchitect(`${ComponentNames.THero}__action`);
       css.addClass("has-img", this.hasImg);
       css.addClass(this.footClass);
       return css.getClasses();
@@ -113,7 +114,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getImgClasses: function() {
-      const css = new CssArchitect("hero__img");
+      const css = new CssArchitect(`${ComponentNames.THero}__img`);
       css.addClass(this.imgClass);
       return css.getClasses();
     },
@@ -122,7 +123,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getImgSlotClasses: function() {
-      const css = new CssArchitect("hero__img--slot");
+      const css = new CssArchitect(`${ComponentNames.THero}__img--slot`);
       return css.getClasses();
     }
   },

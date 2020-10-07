@@ -3,6 +3,7 @@ import tree from "../../mixins/tree";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
 import themes from "../../mixins/themes";
+import {ComponentNames} from "../../utils/constants";
 
 import TTreeNav from "../TTree/TTreeNav";
 
@@ -10,7 +11,7 @@ import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
 
 export default {
-  name: "t-nav-drawer",
+  name: ComponentNames.TNavDrawer,
   components: { TTreeNav },
   mixins: [common, tree, icons, themes, helpers],
   props: {
@@ -39,7 +40,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     containerCss: function() {
-      const css = new CssArchitect("t-nav-drawer");
+      const css = new CssArchitect(ComponentNames.TNavDrawer);
       css
         .flexible({ direction: "column", alignItems: "stretch" })
         .isFullheight();
@@ -56,7 +57,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getLabelClass: function() {
-      const css = new CssArchitect("menu-label");
+      const css = new CssArchitect(`${ComponentNames.TNavDrawer}__menu-label`);
       this.isFilled(css);
       css.addClass(this.labelClass, this.labelClass !== undefined);
       css.addClass(this.themeModifier, this.hasThemeModifier);
@@ -67,7 +68,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getIconClass: function() {
-      const css = new CssArchitect("is-inline-block");
+      const css = new CssArchitect("is-inline-flex");
       css.addClass(this.iconClass, this.iconClass !== undefined);
       css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
@@ -77,7 +78,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getLinkClass: function() {
-      const css = new CssArchitect("is-inline-block");
+      const css = new CssArchitect("is-inline-flex");
       this.isColored(css);
       this.isHovered(css);
       css.addClass(this.linkClass, this.linkClass !== undefined);
@@ -107,7 +108,7 @@ export default {
      * @param architect
      */
     createMenuItems(architect) {
-      let menu = architect.createDiv("menu");
+      let menu = architect.createDiv(`${ComponentNames.TNavDrawer}__menu`);
       for (let $index in this.model) {
         let $menu = this.model[$index];
 
@@ -118,13 +119,13 @@ export default {
           menu.addChild(label);
         }
 
-        let treeContainer = menu.createUl("menu-list");
+        let treeContainer = menu.createUl(`${ComponentNames.TNavDrawer}__menu-list`);
         treeContainer.setKey(`${this.id}-ml-tree${$index}`);
 
         for (let $treeIndex in $menu.children) {
           let $treeItem = $menu.children[$treeIndex];
 
-          let treeNav = menu.createElement(TTreeNav, "item");
+          let treeNav = menu.createElement(TTreeNav, `${ComponentNames.TNavDrawer}__menu-item`);
           treeNav.setKey(`${this.id}-ml-tree-item${$treeIndex}`);
           treeNav.setProps({
             tagClass: this.tagClass,

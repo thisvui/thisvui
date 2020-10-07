@@ -6,188 +6,194 @@ $progress-circular-size: 5em !default;
 $progress-circular-compact-size: 2em !default;
 $progress-circular-margin: 1rem !default;
 
-.progress__linear {
-  width: 100%;
-  margin-bottom: $progress-bar-margin;
-  position: relative;
-
-  &__wrapper {
+.t-progress {
+  &__linear {
     width: 100%;
-    background-color: $progress-bar-bg;
-    box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.2);
+    margin-bottom: $progress-bar-margin;
     position: relative;
-    overflow: hidden;
 
-    &.indeterminate {
-      height: $progress-bar-height;
+    &__wrapper {
+      width: 100%;
+      background-color: $progress-bar-bg;
+      box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+
+      &.indeterminate {
+        height: $progress-bar-height;
+
+        &.compact {
+          height: $progress-bar-compact-height;
+        }
+      }
+    }
+
+    &__bar {
+      display: block;
+      position: relative;
+      width: 0%;
+      height: 100%;
+      min-height: $progress-bar-height;
+      max-width: 100%;
+      background: $progress-bar-bg;
+      box-shadow: inset 0px -1px 2px rgba(0, 0, 0, 0.1);
+      transition: width 0.8s ease-in-out;
 
       &.compact {
         height: $progress-bar-compact-height;
+        min-height: $progress-bar-compact-height;
+      }
+
+      &.indeterminate {
+        width: 100%;
+        transform-origin: 0% 50%;
+        @include animation("infinite-progress", 1s, linear infinite);
+      }
+
+      &.stripped {
+        background-image: linear-gradient(
+            -45deg,
+            rgba(255, 255, 255, 0.125) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 255, 255, 0.125) 50%,
+            rgba(255, 255, 255, 0.125) 75%,
+            transparent 75%,
+            transparent
+        );
+        background-size: 35px 35px;
+      }
+
+      &.animated {
+        @include animation("progress-animated", 2s, linear infinite);
+
+        &--reverse {
+          @include animation("progress-animated-reverse", 2s, linear infinite);
+        }
+      }
+    }
+
+    &__label {
+      position: absolute;
+      overflow: hidden;
+      left: 0px;
+      right: 0px;
+      color: rgba(0, 0, 0, 0.6);
+      font-size: 0.7em;
+      text-align: center;
+      text-shadow: 0px 1px rgba(0, 0, 0, 0.3);
+      line-height: $progress-bar-height;
+
+      &.is-top,
+      &.is-bottom {
+        position: relative;
+        margin-bottom: 5px;
+      }
+
+      &.is-bottom {
+        margin-top: 5px;
+      }
+
+      &.is-left {
+        text-align: left;
+      }
+
+      &.is-center {
+        text-align: center;
+      }
+
+      &.is-right {
+        text-align: right;
       }
     }
   }
 
-  &__bar {
-    display: block;
+  &__circular {
+    --progress-circular-size: #{$progress-circular-size};
     position: relative;
-    width: 0%;
-    height: 100%;
-    min-height: $progress-bar-height;
-    max-width: 100%;
-    background: $progress-bar-bg;
-    box-shadow: inset 0px -1px 2px rgba(0, 0, 0, 0.1);
-    transition: width 0.8s ease-in-out;
 
     &.compact {
-      height: $progress-bar-compact-height;
-      min-height:  $progress-bar-compact-height;
+      --progress-circular-size: #{$progress-circular-compact-size};
     }
 
-    &.indeterminate {
-      width: 100%;
-      transform-origin: 0% 50%;
-      @include animation("infinite-progress", 1s, linear infinite);
-    }
-
-    &.stripped {
-      background-image: linear-gradient(
-        -45deg,
-        rgba(255, 255, 255, 0.125) 25%,
-        transparent 25%,
-        transparent 50%,
-        rgba(255, 255, 255, 0.125) 50%,
-        rgba(255, 255, 255, 0.125) 75%,
-        transparent 75%,
-        transparent
+    &__wrapper {
+      --circular-progress: 0;
+      @include dimensions(
+          var(--progress-circular-size),
+          var(--progress-circular-size)
       );
-      background-size: 35px 35px;
-    }
+      margin: $progress-circular-margin;
+      position: relative;
 
-    &.animated {
-      @include animation("progress-animated", 2s, linear infinite);
-      &--reverse {
-        @include animation("progress-animated-reverse", 2s, linear infinite);
+      &:nth-child(3n + 1) {
+        clear: both;
       }
     }
-  }
 
-  &__label {
-    position: absolute;
-    overflow: hidden;
-    left: 0px;
-    right: 0px;
-    color: rgba(0, 0, 0, 0.6);
-    font-size: 0.7em;
-    text-align: center;
-    text-shadow: 0px 1px rgba(0, 0, 0, 0.3);
-    line-height: $progress-bar-height;
+    &__bar {
+      @include dimensions(100%, 100%);
+      clip: rect(
+          0,
+          var(--progress-circular-size),
+          var(--progress-circular-size),
+          calc(var(--progress-circular-size) / 2)
+      );
+      left: 0;
+      position: absolute;
+      top: 0;
 
-    &.is-top,
-    &.is-bottom {
-      position: relative;
-      margin-bottom: 5px;
+      &.indeterminate {
+        @include dimensions(100%, 100%);
+        border: calc(var(--progress-circular-size) / 10) solid;
+        border-color: $grey-lighter;
+        border-radius: 50%;
+        @include animation("progress-rotation", 1s, linear infinite);
+      }
     }
 
-    &.is-bottom {
-      margin-top: 5px;
+    &__circle {
+      @include dimensions(100%, 100%);
+      border: calc(var(--progress-circular-size) / 10) solid $primary;
+      border-radius: 50%;
+      clip: rect(
+          0,
+          calc(var(--progress-circular-size) / 2),
+          var(--progress-circular-size),
+          0
+      );
+      left: 0;
+      position: absolute;
+      top: 0;
+
+      &.is-left {
+        transform: rotate(calc(var(--circular-progress) * 3.6deg));
+      }
     }
-    &.is-left {
-      text-align: left;
-    }
-    &.is-center {
+
+    &__label {
+      border-radius: 50%;
+      cursor: default;
+      display: block;
+      font-size: 1em;
+      line-height: 14em;
+      position: absolute;
       text-align: center;
+      top: 0.4em;
+      right: 0.4em;
+      bottom: 0.4em;
+      left: 0.4em;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    &.is-right {
-      text-align: right;
-    }
-  }
-}
 
-.progress__circular {
-  --progress-circular-size: #{$progress-circular-size};
-  position: relative;
-
-  &.compact {
-    --progress-circular-size: #{$progress-circular-compact-size};
-  }
-
-  &__wrapper {
-    --circular-progress: 0;
-    @include dimensions(
-      var(--progress-circular-size),
-      var(--progress-circular-size)
-    );
-    margin: $progress-circular-margin;
-    position: relative;
-
-    &:nth-child(3n + 1) {
-      clear: both;
-    }
-  }
-
-  &__bar {
-    @include dimensions(100%, 100%);
-    clip: rect(
-      0,
-      var(--progress-circular-size),
-      var(--progress-circular-size),
-      calc(var(--progress-circular-size) / 2)
-    );
-    left: 0;
-    position: absolute;
-    top: 0;
-
-    &.indeterminate {
+    &__fill {
       @include dimensions(100%, 100%);
       border: calc(var(--progress-circular-size) / 10) solid;
       border-color: $grey-lighter;
       border-radius: 50%;
-      @include animation("progress-rotation", 1s, linear infinite);
     }
-  }
-
-  &__circle {
-    @include dimensions(100%, 100%);
-    border: calc(var(--progress-circular-size) / 10) solid $primary;
-    border-radius: 50%;
-    clip: rect(
-      0,
-      calc(var(--progress-circular-size) / 2),
-      var(--progress-circular-size),
-      0
-    );
-    left: 0;
-    position: absolute;
-    top: 0;
-
-    &.is-left {
-      transform: rotate(calc(var(--circular-progress) * 3.6deg));
-    }
-  }
-
-  &__label {
-    border-radius: 50%;
-    cursor: default;
-    display: block;
-    font-size: 1em;
-    line-height: 14em;
-    position: absolute;
-    text-align: center;
-    top: 0.4em;
-    right: 0.4em;
-    bottom: 0.4em;
-    left: 0.4em;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  &__fill {
-    @include dimensions(100%, 100%);
-    border: calc(var(--progress-circular-size) / 10) solid;
-    border-color: $grey-lighter;
-    border-radius: 50%;
   }
 }
 

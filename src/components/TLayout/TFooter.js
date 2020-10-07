@@ -1,12 +1,13 @@
 import themes from "../../mixins/themes";
 import gradient from "../../mixins/gradient";
 import common from "../../mixins/common";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
-  name: "t-footer",
+  name: ComponentNames.TFooter,
   mixins: [common, themes, gradient],
   props: {
     fixed: {
@@ -31,7 +32,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const css = new CssArchitect("t-footer");
+      const css = new CssArchitect(ComponentNames.TFooter);
       css.isFullwidth();
       this.isFilled(css, { removeInit: true });
       css.addClass(this.getThemeModifiers);

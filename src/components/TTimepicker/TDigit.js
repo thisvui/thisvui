@@ -1,8 +1,9 @@
+import {ComponentNames} from "../../utils/constants";
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
 
 export default {
-  name: "TDigit",
+  name: ComponentNames.TDigit,
   props: {
     number: {
       type: Object,
@@ -26,7 +27,7 @@ export default {
      * @returns {  A CssArchitect object }
      */
     css: function() {
-      const css = new CssArchitect("numpad__digit");
+      const css = new CssArchitect(`${ComponentNames.TNumpad}__digit`);
       return css;
     }
   },
@@ -57,7 +58,7 @@ export default {
 
       button.innerHTML(this.number.value);
 
-      let ripple = architect.createDiv("numpad__ripple");
+      let ripple = architect.createDiv(`${ComponentNames.TNumpad}__ripple`);
       ripple.addClass("is-pressed", this.number.pressed);
 
       architect.addChild(button);

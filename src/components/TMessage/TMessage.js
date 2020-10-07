@@ -2,12 +2,13 @@ import syntax from "../../mixins/syntax";
 import sizes from "../../mixins/sizes";
 import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
+import {ComponentNames} from "../../utils/constants";
 
 import { createDiv } from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
-  name: "t-message",
+  name: ComponentNames.TMessage,
   mixins: [common, syntax, sizes, helper],
   props: {
     title: {
@@ -40,12 +41,12 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const css = new CssArchitect("message");
+      const css = new CssArchitect(ComponentNames.TMessage);
       css.addClass(this.getSyntaxModifiers);
       css.addClass(this.getSizesModifiers);
       css.addClass(this.getHelpersModifiers);
       css.addClass(this.targetClass);
-      this.setupThemeModifier(css);
+      this.setupThemeModifier(css, true);
       return css.getClasses();
     },
     /**
@@ -53,7 +54,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getHeadingClasses: function() {
-      const css = new CssArchitect("message__heading");
+      const css = new CssArchitect(`${ComponentNames.TMessage}__heading`);
       this.isFilled(css);
       css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass(this.headingClass, this.headingClass);
@@ -64,7 +65,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getBodyCss: function() {
-      const css = new CssArchitect("message__body");
+      const css = new CssArchitect(`${ComponentNames.TMessage}__body`);
       this.isFilled(css, { tint: 75 });
       css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass(this.bodyClass, this.bodyClass);
@@ -76,7 +77,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getCloseButtonClasses: function() {
-      const css = new CssArchitect("message__close delete");
+      const css = new CssArchitect(`${ComponentNames.TMessage}__close t-delete`);
       css.addClass(this.deleteClass, this.deleteClass);
       return css.getClasses();
     }
@@ -100,7 +101,7 @@ export default {
     createHeading(architect) {
       if (this.showHeading) {
         let heading = architect.createDiv(this.getHeadingClasses);
-        let title = architect.createP();
+        let title = architect.createSpan();
         title.innerHTML(this.title);
         heading.addChild(title);
         this.createCloseButton(heading);
@@ -112,7 +113,7 @@ export default {
       body.setStyles(this.getBodyCss.getStyles());
       body.addVNodeChildren(this.$slots.default);
       if (!this.showHeading) {
-        let deleteContainer = architect.createDiv("text-right");
+        let deleteContainer = architect.createDiv(`${ComponentNames.TMessage}__close__container`);
         this.createCloseButton(deleteContainer);
         body.addChild(deleteContainer);
       }

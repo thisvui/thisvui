@@ -3,12 +3,13 @@ import themes from "../../mixins/themes";
 import common from "../../mixins/common";
 import padding from "../../mixins/padding";
 import justify from "../../mixins/justify";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
 
 export default {
-  name: "t-navbar-items",
+  name: ComponentNames.TNavBarItems,
   mixins: [common, themes, padding, justify, helper],
   computed: {
     /**
@@ -16,7 +17,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getCss: function() {
-      const css = new CssArchitect("navbar__items");
+      const css = new CssArchitect(`${ComponentNames.TNavBar}__items`);
       css.addClass(this.$parent.themeModifier, this.$parent.hasThemeModifier);
       this.setupThemeModifier(css);
       css.addClass(this.getJustifyModifiers);

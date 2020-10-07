@@ -112,10 +112,10 @@ export default class CssArchitect {
    * @returns {string}
    */
   addUnit(number, unit = "px") {
-    if (number !== undefined) {
+    if (number !== undefined && number !== null) {
       if (!this.isNumber(number)) {
         throw new Error(
-          `To attach a ${unit} unit value must be a valid number`
+          `To attach a ${unit} unit value must be a valid number. value: ${number}`
         );
       }
       return `${number}${unit}`;

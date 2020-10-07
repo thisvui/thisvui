@@ -1,10 +1,11 @@
 import inputs from "../../mixins/inputs";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
 
 export default {
-  name: "t-radio",
+  name: ComponentNames.TRadio,
   mixins: [inputs],
   props: {
     value: {
@@ -43,7 +44,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const css = new CssArchitect("radio__input");
+      const css = new CssArchitect(`${ComponentNames.TRadio}__input`);
       css.addClass(
         this.targetClass,
         this.isNotNull(this.targetClass) && this.errors.length === 0
@@ -87,7 +88,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getTextLabelClass: function() {
-      const css = new CssArchitect("radio__label");
+      const css = new CssArchitect(`${ComponentNames.TRadio}__label`);
       css.addClass("is-left", this.labelLeft);
       css.addClass("is-centered", this.centered);
       css.addClass(this.labelClass, this.labelClass !== undefined);
@@ -142,7 +143,7 @@ export default {
      * Creates the radio container section
      */
     createRadioContainer(architect, id, item) {
-      let container = architect.createDiv("radio__container");
+      let container = architect.createDiv(`${ComponentNames.TRadio}__container`);
       this.createTextLabel(container, item, this.labelLeft);
       this.createRadio(container, id, item);
       this.createRadioLabel(container, id);

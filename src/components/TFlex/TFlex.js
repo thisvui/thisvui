@@ -5,12 +5,13 @@ import background from "../../mixins/background";
 import overflow from "../../mixins/overflow";
 import margin from "../../mixins/margin";
 import padding from "../../mixins/padding";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
 
 export default {
-  name: "t-flex",
+  name: ComponentNames.TFlex,
   mixins: [flex, dimension, alignment, background, overflow, margin, padding],
   computed: {
     /**
@@ -18,7 +19,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     css: function() {
-      const css = new CssArchitect("t-flex");
+      const css = new CssArchitect(ComponentNames.TFlex);
       css.addClass(this.getFlexModifiers);
       css.addClass(this.getDimensionModifiers);
       css.addClass(this.getAlignmentModifiers);

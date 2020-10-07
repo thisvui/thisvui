@@ -2,6 +2,8 @@
  * Adds iconLib prop to elements that support it
  * @returns { A virtual DOM node }
  */
+import {ComponentNames} from "../../utils/constants";
+
 const addIconLib = function(props, children) {
   let iconLib = props.iconLib;
   let overrideDefaults = props.overrideDefaults;
@@ -29,7 +31,7 @@ const addIconLib = function(props, children) {
 
 export const TIconLib = {
   install(Vue, options) {
-    Vue.component("t-icon-lib", {
+    Vue.component(ComponentNames.TIconLib, {
       functional: true,
       render: function(createElement, context) {
         addIconLib(context.props, context.children);

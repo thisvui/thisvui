@@ -2,12 +2,13 @@ import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
 import display from "../../mixins/display";
 import themes from "../../mixins/themes";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
-  name: "t-notification",
+  name: ComponentNames.TNotification,
   mixins: [common, display, themes, helper],
   props: {
     targetClass: {
@@ -40,7 +41,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const css = new CssArchitect("notification");
+      const css = new CssArchitect(ComponentNames.TNotification);
       this.isFilled(css);
       css.addClass("compact", this.compact);
       css.addClass(this.getThemeModifiers);
@@ -54,7 +55,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getCloseButtonClasses: function() {
-      const css = new CssArchitect("notification__close delete");
+      const css = new CssArchitect(`${ComponentNames.TNotification}__close t-delete`);
       css.addClass(this.closeButtonClass, this.closeButtonClass);
       return css.getClasses();
     }

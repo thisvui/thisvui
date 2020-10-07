@@ -70,8 +70,8 @@ $label-font-size: 1rem;
     padding: 0;
   }
 
-  .input,
-  .textarea {
+  .t-input,
+  .t-textarea {
     background: none;
     color: tint($dark, 15%);
     font-size: $input-font-size;
@@ -109,11 +109,11 @@ $label-font-size: 1rem;
     }
   }
 
-  .textarea {
+  .t-textarea {
     resize: none;
   }
 
-  .select {
+  .t-select {
     cursor: pointer;
   }
 
@@ -138,7 +138,7 @@ $label-font-size: 1rem;
     }
   }
 
-  .icon {
+  .t-icon {
     padding-left: 0.5em;
     padding-right: 0.5em;
     &.is-textarea {

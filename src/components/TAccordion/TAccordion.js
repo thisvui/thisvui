@@ -5,9 +5,10 @@ import themes from "../../mixins/themes";
 
 import ElementArchitect from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
+import { ComponentNames } from "../../utils/constants";
 
 export default {
-  name: "t-accordion",
+  name: ComponentNames.TAccordion,
   mixins: [common, icons, themes, helpers],
   props: {
     borderless: {
@@ -46,7 +47,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("t-accordion");
+      const cssArchitect = new CssArchitect(ComponentNames.TAccordion);
       cssArchitect.addClass(this.getThemeModifiers);
       cssArchitect.addClass(this.getHelpersModifiers);
       cssArchitect.addClass("borderless", this.borderless);

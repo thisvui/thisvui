@@ -3,12 +3,13 @@ import margin from "../../mixins/margin";
 import padding from "../../mixins/padding";
 import sizes from "../../mixins/sizes";
 import syntax from "../../mixins/syntax";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
-  name: "t-icon",
+  name: ComponentNames.TIcon,
   mixins: [common, syntax, sizes, padding, margin],
   props: {
     icon: {
@@ -57,7 +58,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     containerCss: function() {
-      const css = new CssArchitect("t-icon icon");
+      const css = new CssArchitect(ComponentNames.TIcon);
       css.isColored();
       css.addClass(this.getSyntaxModifiers);
       css.addClass(this.getSizesModifiers);

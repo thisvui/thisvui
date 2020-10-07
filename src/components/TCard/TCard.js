@@ -3,6 +3,7 @@ import common from "../../mixins/common";
 import icons from "../../mixins/icons";
 import dimension from "../../mixins/dimension";
 import helpers from "../../mixins/helpers";
+import {ComponentNames} from "../../utils/constants";
 
 import TFlex from "../TFlex/TFlex";
 import TImage from "../TImage/TImage";
@@ -12,7 +13,7 @@ import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
-  name: "t-card",
+  name: ComponentNames.TCard,
   components: { TFlex, TIcon, TImage },
   mixins: [common, icons, themes, dimension, helpers],
   props: {
@@ -117,7 +118,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const css = new CssArchitect("card");
+      const css = new CssArchitect(`${ComponentNames.TCard}`);
       css.addClass("horizontal", this.horizontal);
       css.addClass("transparent", this.transparent);
       css.addClass("hover-effect", this.hoverEffect);
@@ -133,7 +134,7 @@ export default {
       return css.getStyles();
     },
     getContentClasses: function() {
-      const css = new CssArchitect("card__content");
+      const css = new CssArchitect(`${ComponentNames.TCard}__content`);
       css.addClass("is-fullwidth");
       css.addClass("horizontal", this.horizontal);
       css.addClass("transparent", this.transparent || this.contentTransparent);
@@ -148,7 +149,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getFigureClasses: function() {
-      const css = new CssArchitect("card__figure");
+      const css = new CssArchitect(`${ComponentNames.TCard}__figure`);
       css.addClass("horizontal", this.horizontal);
       css.addClass("overflow-hidden", !this.horizontal && this.isNotNull(this.img));
       return css.getClasses();
@@ -158,7 +159,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getDateClasses: function() {
-      const css = new CssArchitect("card__date");
+      const css = new CssArchitect(`${ComponentNames.TCard}__date`);
       this.isFilled(css,  { removeInit: true });
       css.addClass(this.getThemeModifier(true));
       css.addClass("horizontal", this.horizontal);
@@ -170,7 +171,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getImageClasses: function() {
-      const css = new CssArchitect("card__image");
+      const css = new CssArchitect(`${ComponentNames.TCard}__image`);
       css.addClass(this.imgClass, this.isNotNull(this.imgClass));
       if(this.horizontal){
         css.addClass("horizontal");
@@ -184,7 +185,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getIconContainerClasses: function() {
-      const css = new CssArchitect("card__icon");
+      const css = new CssArchitect(`${ComponentNames.TCard}__icon`);
       css.addClass("horizontal", this.horizontal);
       return css.getClasses();
     },
@@ -203,7 +204,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getAvatarContainerClasses: function() {
-      const css = new CssArchitect("card__avatar");
+      const css = new CssArchitect(`${ComponentNames.TCard}__avatar`);
       css.addClass("horizontal", this.horizontal);
       return css.getClasses();
     },
@@ -221,7 +222,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getCategoryClasses: function() {
-      const css = new CssArchitect("card__category");
+      const css = new CssArchitect(`${ComponentNames.TCard}__category`);
       this.isFilled(css,  { removeInit: true });
       css.addClass("horizontal", this.horizontal);
       css.addClass("has-img",  this.horizontal && this.isNotNull(this.img));
@@ -234,7 +235,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getTitleClasses: function() {
-      const css = new CssArchitect("card__title");
+      const css = new CssArchitect(`${ComponentNames.TCard}__title`);
       css.addClass(this.titleClass, this.titleClass !== undefined);
       return css.getClasses();
     },
@@ -243,7 +244,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getSubtitleClasses: function() {
-      const css = new CssArchitect("card__subtitle");
+      const css = new CssArchitect(`${ComponentNames.TCard}__subtitle`);
       this.isColored(css);
       css.addClass(this.getThemeModifier(true));
       css.addClass(
@@ -257,7 +258,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getDescriptionClasses: function() {
-      const css = new CssArchitect("card__description");
+      const css = new CssArchitect(`${ComponentNames.TCard}__description`);
       css.addClass(this.descriptionClass, this.descriptionClass !== undefined);
       return css.getClasses();
     },
@@ -266,7 +267,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getMetadataClasses: function() {
-      const css = new CssArchitect("card__metadata");
+      const css = new CssArchitect(`${ComponentNames.TCard}__metadata`);
       return css.getClasses();
     },
     /**
@@ -274,7 +275,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getMetadataItemClasses: function() {
-      const css = new CssArchitect("card__metadata--item");
+      const css = new CssArchitect(`${ComponentNames.TCard}__metadata--item`);
       return css.getClasses();
     },
     renderMedia: function() {

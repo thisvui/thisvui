@@ -1,3 +1,4 @@
+import {ComponentNames} from "../utils/constants";
 import validation from "./validation";
 import states from "./states";
 import sizes from "./sizes";
@@ -191,7 +192,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getInputClass: function() {
-      const css = new CssArchitect("input");
+      const css = new CssArchitect(ComponentNames.TInput);
       css.isFullwidth();
       css.addClass("compact", this.compact);
       css.addClass("text-left", this.alignLeft);
@@ -214,7 +215,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getTextareaClass: function() {
-      const css = new CssArchitect("textarea");
+      const css = new CssArchitect(ComponentNames.TTextarea);
       css.isFullwidth();
       return css.getClasses();
     },
@@ -399,7 +400,7 @@ export default {
       let hasErrors = this.errors != null && this.errors.length > 0;
       if (!this.popupMessage) {
         for (let error of this.errors) {
-          let help = architect.createP("help is-danger");
+          let help = architect.createP("t-hint is-danger");
           help.setKey(error);
           help.addAttr("msg", error);
           help.addAttr("msg-position", this.msgPosition);

@@ -1,11 +1,12 @@
 import icons from "../../mixins/icons";
 import themes from "../../mixins/themes";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
-  name: "t-panel-heading",
+  name: ComponentNames.TPanelHeading,
   mixins: [icons, themes],
   props: {
     text: {
@@ -35,7 +36,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getCss: function() {
-      const css = new CssArchitect("panel__heading");
+      const css = new CssArchitect(`${ComponentNames.TPanel}__heading`);
       this.isFilled(css);
       this.isBordered(css);
       css.addClass("icon-left", this.iconLeft);
@@ -51,7 +52,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getIconClasses: function() {
-      const css = new CssArchitect("level-right");
+      const css = new CssArchitect();
       css.addClass(this.iconClass, this.iconClass !== undefined);
       return css.getClasses();
     }
@@ -82,7 +83,7 @@ export default {
     root.addVNodeChildren(this.$slots.default, !this.alignContentRight);
     this.createHeadingIcon(root, this.iconLeft);
     if (this.text) {
-      let text = root.createSpan("panel__heading__text is-size-6");
+      let text = root.createSpan(`${ComponentNames.TPanel}__heading__text is-size-6`);
       text.innerHTML(this.text);
       root.addChild(text);
     }

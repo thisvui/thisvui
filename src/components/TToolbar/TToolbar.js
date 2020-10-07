@@ -2,12 +2,13 @@ import themes from "../../mixins/themes";
 import common from "../../mixins/common";
 import flex from "../../mixins/flex";
 import alignment from "../../mixins/alignment";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
 
 export default {
-  name: "t-toolbar",
+  name: ComponentNames.TToolbar,
   mixins: [common, themes, flex, alignment],
   props: {
     isVertical: {
@@ -24,13 +25,12 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const css = new CssArchitect("t-toolbar");
+      const css = new CssArchitect(ComponentNames.TToolbar);
       this.isFilled(css);
-      css.flexible();
+      css.flexible({direction: this.isVertical ? "column": "row"});
       css.addClass(this.getThemeModifiers);
       css.addClass(this.getFlexModifiers);
       css.addClass(this.getAlignmentModifiers);
-      css.addClass("flex-direction-column", this.isVertical);
       css.addClass("is-left", !this.isRight && !this.isCentered);
       this.setupThemeModifier(css, true);
       return css.getClasses();

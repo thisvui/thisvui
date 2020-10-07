@@ -5,6 +5,7 @@ import list from "../../mixins/list";
 import margin from "../../mixins/margin";
 import padding from "../../mixins/padding";
 import themes from "../../mixins/themes";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
@@ -12,7 +13,7 @@ import { createDiv } from "../../utils/element-architect";
 import TListItem from "./TListItem";
 
 export default {
-  name: "t-list",
+  name: ComponentNames.TList,
   components: { TListItem },
   mixins: [common, themes, list, dimension, margin, padding, helpers],
   filters: {
@@ -56,7 +57,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     css: function() {
-      const css = new CssArchitect("t-list");
+      const css = new CssArchitect(ComponentNames.TList);
       css.isRelative();
       css.addClass("has-header", this.headerActive);
       css.addClass("has-footer", this.footerActive);
@@ -68,7 +69,7 @@ export default {
       return css;
     },
     containerCss: function() {
-      const css = new CssArchitect("t-list__container");
+      const css = new CssArchitect(`${ComponentNames.TList}__container`);
       this.isFilled(css, { removeInit: true });
       css.addClass(this.getBackgroundModifiers);
       css.addClass(this.getThemeModifiers);
@@ -79,17 +80,17 @@ export default {
       return css;
     },
     headingCss: function() {
-      const css = new CssArchitect("t-list__heading");
+      const css = new CssArchitect(`${ComponentNames.TList}__heading`);
       css.addClass(this.headingClass, this.headingClass !== undefined);
       return css;
     },
     headingContentCss: function() {
-      const css = new CssArchitect("t-list__heading--horizontal");
+      const css = new CssArchitect(`${ComponentNames.TList}__heading--horizontal`);
       css.addClass("not-header", !this.hasHeading);
       return css;
     },
     headingSlotCss: function() {
-      const css = new CssArchitect("t-list__heading--slot");
+      const css = new CssArchitect(`${ComponentNames.TList}__heading--slot`);
       return css;
     },
     checkAllCss: function() {
@@ -98,7 +99,7 @@ export default {
       return css;
     },
     footerCss: function() {
-      const css = new CssArchitect("t-list__footer");
+      const css = new CssArchitect(`${ComponentNames.TList}__footer`);
       css.addClass(this.footerClass, this.footerClass !== undefined);
       return css;
     },
@@ -176,14 +177,14 @@ export default {
 
       this.createLoading(items, this.progressCss.getClasses());
       if (this.isEmpty) {
-        let itemContainer = architect.createDiv("t-list__item-container");
+        let itemContainer = architect.createDiv(`${ComponentNames.TList}__item-container`);
         itemContainer.innerHTML(this.emptyText);
         items.addChild(itemContainer);
       } else {
         for (let index in this.getItems) {
           let item = this.getItems[index];
           let itemContainer = architect
-            .createDiv("t-list__item-container")
+            .createDiv(`${ComponentNames.TList}__item-container`)
             .setKey(`${this.id}-item-${index}`);
           if (this.isCheckable(item)) {
             this.createRowChecker(itemContainer, item, {

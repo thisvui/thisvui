@@ -12,6 +12,7 @@ import setSeconds from "date-fns/setSeconds";
 import inputs from "../../mixins/inputs";
 import time from "../../mixins/time";
 import timeEvents from "../../mixins/timeEvents";
+import {ComponentNames} from "../../utils/constants";
 import CssArchitect from "../../utils/css-architect";
 import {createDiv} from "../../utils/element-architect";
 import {filteredDigits} from "../../utils/pad";
@@ -20,7 +21,7 @@ import TNumpad from "./TNumpad";
 import TTimeUnit from "./TTimeUnit";
 
 export default {
-  name: "TTimepicker",
+  name: ComponentNames.TTimepicker,
   mixins: [inputs, timeEvents, time],
   props: {
     value: {
@@ -86,7 +87,7 @@ export default {
      * @returns { A css architect object }
      */
     headerCss: function() {
-      const css = new CssArchitect("timepicker__header");
+      const css = new CssArchitect(`${ComponentNames.TTimepicker}__header`);
       this.isFilled(css);
       css.addClass(this.themeModifier, this.hasThemeModifier);
       return css;
@@ -96,7 +97,7 @@ export default {
      * @returns { A css architect object }
      */
     timeCss: function() {
-      const css = new CssArchitect("timepicker__time");
+      const css = new CssArchitect(`${ComponentNames.TTimepicker}__time`);
       this.isFilled(css, { tint: 50 });
       css.addClass(this.themeModifier, this.hasThemeModifier);
       return css;
@@ -106,7 +107,7 @@ export default {
      * @returns { A css architect object }
      */
     bgCss: function() {
-      const css = new CssArchitect("timepicker__unit-bg");
+      const css = new CssArchitect(`${ComponentNames.TTimepicker}__unit-bg`);
       this.isFilled(css);
       css.addClass(this.themeModifier, this.hasThemeModifier);
       let singleDigitWidth = this.unitWidth;
@@ -126,7 +127,7 @@ export default {
      * @returns { A css architect object }
      */
     separatorCss: function() {
-      const css = new CssArchitect("timepicker__separator");
+      const css = new CssArchitect(`${ComponentNames.TTimepicker}__separator`);
       css.addStyle("width", css.addPx(this.unitWidth));
       return css;
     }
@@ -393,7 +394,7 @@ export default {
       }
     },
     createTimepicker(architect) {
-      let timepicker = architect.createDiv("timepicker");
+      let timepicker = architect.createDiv(ComponentNames.TTimepicker);
       timepicker.addClass("is-open", this.isOpen);
       timepicker.setRef("timepicker");
 

@@ -1,10 +1,10 @@
 $pairs-column-phone-max-width: 200px;
 $pairs-column-desktop-max-width: 200px;
-.pairs {
+.t-pairs {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax($pairs-column-phone-max-width, 1fr));
   grid-gap: 2em;
-  margin: 1rem 0 4rem 0;
+  margin: 1rem 0 1rem 0;
   padding: 2em;
   border-radius: 4px;
 
@@ -27,7 +27,8 @@ $pairs-column-desktop-max-width: 200px;
 
 }
 
-.pair {
+.t-pair {
+  --value-span: 2;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(20ch, 1fr));
   grid-gap: 1em;
@@ -53,7 +54,7 @@ $pairs-column-desktop-max-width: 200px;
 
   dd {
     padding: 0;
-    grid-column-start: span 2;
+    grid-column-start: span var(--value-span);
     word-break: break-word;
   }
 }

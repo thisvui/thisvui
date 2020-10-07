@@ -1,11 +1,12 @@
 import common from "../../mixins/common";
-import ElementArchitect from "../../utils/element-architect";
+import {ComponentNames} from "../../utils/constants";
+import {createDiv} from "../../utils/element-architect";
 
 export default {
-  name: "t-thumbnails",
+  name: ComponentNames.TThumbnails,
   mixins: [common],
   render: function(h) {
-    let root = new ElementArchitect(h, "div", "t-thumbnails");
+    let root = createDiv(h, ComponentNames.TThumbnails);
     root.setId(this.id).setChildren(this.$slots.default);
     return root.create();
   }

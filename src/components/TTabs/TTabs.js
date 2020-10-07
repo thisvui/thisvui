@@ -5,12 +5,13 @@ import margin from "../../mixins/margin";
 import padding from "../../mixins/padding";
 import sizes from "../../mixins/sizes";
 import themes from "../../mixins/themes";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
-  name: "t-tabs",
+  name: ComponentNames.TTabs,
   mixins: [common, themes, alignment, padding, margin, sizes, icons],
   props: {
     selected: Number,
@@ -37,7 +38,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const css = new CssArchitect("tabs");
+      const css = new CssArchitect(ComponentNames.TTabs);
       css.addClass(this.getThemeModifiers);
       css.addClass(this.getSizesModifiers);
       css.addClass(this.targetClass);
@@ -49,7 +50,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getHeadingClasses: function() {
-      const css = new CssArchitect("tabs__heading");
+      const css = new CssArchitect(`${ComponentNames.TTabs}__heading`);
       this.isFilled(css, { active: this.filled });
       css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass(this.getAlignmentModifiers);
@@ -61,7 +62,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getSliderClasses: function() {
-      const css = new CssArchitect("tab__slider");
+      const css = new CssArchitect(`${ComponentNames.TTab}__slider`);
       this.isFilled(css, {
         inverted: !this.transparent && !this.filled,
         tint: this.filled ? 30 : false
@@ -74,7 +75,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     bodyCss: function() {
-      const css = new CssArchitect("tabs__body");
+      const css = new CssArchitect(`${ComponentNames.TTabs}__body`);
       this.alpha(css, { border: 0.7 });
       css.addClass(this.getSizesModifiers);
       css.addClass("is-paddingless", this.paddingless);
@@ -86,7 +87,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     containerCss: function() {
-      const css = new CssArchitect("tabs__container");
+      const css = new CssArchitect(`${ComponentNames.TTabs}__container`);
       css.addClass("shadowless", this.shadowless);
       css.addStyles([this.getMarginStyles]);
       return css;
@@ -147,7 +148,7 @@ export default {
      */
     createSlider(architect) {
       let tabSliderWrapper = architect.createDiv(
-        "tab__slider--wrapper is-absolute"
+        `${ComponentNames.TTab}__slider--wrapper is-absolute`
       );
       let tabSlider = architect.createSpan(this.getSliderClasses);
       tabSlider.setStyles(this.getSliderStyles());
@@ -160,7 +161,7 @@ export default {
     createIcon(architect, $icon) {
       if ($icon) {
         let md = "md" === this.iconLibrary;
-        let iconContainer = architect.createSpan("icon medium");
+        let iconContainer = architect.createSpan("t-icon medium");
         let icon = architect.createElement("i");
         icon.addClass($icon, !md);
         icon.innerHTML($icon, md);
@@ -178,7 +179,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getItemClasses: function(active) {
-      const css = new CssArchitect("tabs__item");
+      const css = new CssArchitect(`${ComponentNames.TTabs}__item`);
       let config = {
         hoverable: true
       };

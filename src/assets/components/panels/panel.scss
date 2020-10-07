@@ -24,14 +24,14 @@ $panel-content-padding: $box-content-padding !default;
       flex-grow: 1;
     }
     &.icon-left {
-      .icon {
+      .t-icon {
         margin-right: 0.5rem;
       }
     }
   }
 }
 
-.panel {
+.t-panel {
   display: flex;
   flex-direction: column;
   &:not(:last-child){

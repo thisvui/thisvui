@@ -1,4 +1,4 @@
-.dropdown {
+.t-dropdown {
   position: relative;
   padding: 0;
   min-width: 150px;
@@ -60,11 +60,11 @@
   }
 
   &.is-active {
-    .dropdown__item {
+    .t-dropdown__item {
       display: block;
       opacity: 0;
       animation: dropdown-menu 0.3s ease-in-out forwards;
-      & + .dropdown__divider {
+      & + .t-dropdown__divider {
         display: block;
         animation: dropdown-menu 0.3s ease-in-out forwards;
       }
@@ -72,7 +72,7 @@
   }
 
   &.is-hoverable:hover {
-    .dropdown__item {
+    .t-dropdown__item {
       display: block;
       opacity: 0;
       animation: dropdown-menu 0.3s ease-in-out forwards;

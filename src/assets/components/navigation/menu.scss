@@ -18,7 +18,8 @@ $nav-drawer-label-text-transform: uppercase !default;
 $nav-drawer-font-size: 1rem !default;
 $nav-drawer-font-weight: normal !default;
 $nav-drawer-border-left: 1px solid tint($opaque, 20%) !default;
-$nav-drawer-padding-left: 0.75rem !default;
+$nav-drawer-margin-left: 0.75rem !default;
+$nav-drawer-padding-left: 1rem !default;
 
 .t-nav-drawer {
   min-height: 100%;
@@ -28,11 +29,11 @@ $nav-drawer-padding-left: 0.75rem !default;
 
   @include margin-padding(0, 0);
 
-  .menu {
+  &__menu {
     font-size: 1rem;
     padding: 1em 2em 2em 1em;
 
-    .menu-list {
+    &-list {
       line-height: 1.25;
       a {
         --bg-alpha: 0.7;
@@ -40,19 +41,9 @@ $nav-drawer-padding-left: 0.75rem !default;
         margin-left: $nav-drawer-item-left-margin;
         font-size: $nav-drawer-font-size;
         font-weight: $nav-drawer-font-weight;
-        //color: $nav-drawer-item-color;
-
-        &.router-link-active {
-          //color: $nav-drawer-active-color;
-        }
-
-        &.is-active {
-          //background-color: $nav-drawer-active-background-color;
-        }
 
         &:hover {
           --bg-hover-alpha: 0.7;
-          //background-color: $nav-drawer-hover-background-color;
         }
       }
 
@@ -62,13 +53,9 @@ $nav-drawer-padding-left: 0.75rem !default;
         list-style: none;
 
         ul {
-          margin: 0;
           border-left: $nav-drawer-border-left;
+          margin: 0 0 0 $nav-drawer-margin-left;
           padding-left: $nav-drawer-padding-left;
-        }
-
-        .icon {
-          //color: $nav-drawer-icon-color;
         }
       }
 
@@ -77,9 +64,7 @@ $nav-drawer-padding-left: 0.75rem !default;
       }
     }
 
-    .menu-label {
-      //background: $nav-drawer-label-background-color;
-      //color: $nav-drawer-label-color;
+    &-label {
       text-align: $nav-drawer-label-text-align;
       border-radius: $nav-drawer-label-border-radius;
       -webkit-box-shadow: $nav-drawer-label-shadow;
@@ -87,7 +72,6 @@ $nav-drawer-padding-left: 0.75rem !default;
       font-size: $nav-drawer-label-font-size;
       letter-spacing: $nav-drawer-label-letter-spacing;
       text-transform: $nav-drawer-label-text-transform;
-
       @include margin-padding(1rem 0rem, 0.5rem);
     }
 

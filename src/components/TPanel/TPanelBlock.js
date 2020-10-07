@@ -1,8 +1,9 @@
+import {ComponentNames} from "../../utils/constants";
 import ElementArchitect from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
-  name: "t-panel-block",
+  name: ComponentNames.TPanelBlock,
   props: {
     display: {
       type: String
@@ -14,7 +15,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("panel__block");
+      const cssArchitect = new CssArchitect(`${ComponentNames.TPanel}__block`);
       cssArchitect.addClass(this.display);
       return cssArchitect.getClasses();
     }

@@ -4,12 +4,13 @@ import background from "../../mixins/background";
 import padding from "../../mixins/padding";
 import margin from "../../mixins/margin";
 import helpers from "../../mixins/helpers";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
 
 export default {
-  name: "t-section",
+  name: ComponentNames.TSection,
   mixins: [common, sizes, padding, margin, background, helpers],
   computed: {
     /**
@@ -17,7 +18,7 @@ export default {
      * @returns { A CssArchitect object }
      */
     css: function() {
-      const css = new CssArchitect("section");
+      const css = new CssArchitect(ComponentNames.TSection);
       css.addClass(this.getSizesModifiers);
       css.addClass(this.getBackgroundModifiers);
       css.addClass(this.getHelpersModifiers);

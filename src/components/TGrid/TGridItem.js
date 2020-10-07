@@ -1,11 +1,12 @@
 import common from "../../mixins/common";
 import background from "../../mixins/background";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
-  name: "t-grid-item",
+  name: ComponentNames.TGridItem,
   mixins: [common, background],
   props: {
     column: String,
@@ -31,7 +32,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     css: function() {
-      const css = new CssArchitect("grid__item");
+      const css = new CssArchitect(`${ComponentNames.TGrid}__item`);
       // Classes
       css.addClass(this.getBackgroundModifiers);
 

@@ -2,6 +2,7 @@ import helpers from "../../mixins/helpers";
 import tree from "../../mixins/tree";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
+import {ComponentNames} from "../../utils/constants";
 import TIcon from "../TIcon/TIcon";
 
 import TTag from "../TTag/TTag";
@@ -11,7 +12,7 @@ import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
-  name: "t-tree-nav",
+  name: ComponentNames.TTreeNav,
   mixins: [common, tree, icons, helpers],
   components: {
     TExpand,
@@ -44,7 +45,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("t-tree-nav");
+      const cssArchitect = new CssArchitect(ComponentNames.TTreeNav);
       cssArchitect.addClass("list-style-none", this.removeListStyle);
       return cssArchitect.getClasses();
     },
@@ -53,7 +54,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getChildrenClasses: function() {
-      const cssArchitect = new CssArchitect("tree-children");
+      const cssArchitect = new CssArchitect(`${ComponentNames.TTreeNav}__children`);
       cssArchitect.addClass("is-collapsed", !this.open);
       return cssArchitect.getClasses();
     },
@@ -62,7 +63,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getTagClasses: function() {
-      const cssArchitect = new CssArchitect("tag");
+      const cssArchitect = new CssArchitect("t-tag");
       cssArchitect.addClass(this.tagClass, this.tagClass);
       return cssArchitect.getClasses();
     },
@@ -71,7 +72,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getLinkClasses: function() {
-      const cssArchitect = new CssArchitect("tree-nav-link");
+      const cssArchitect = new CssArchitect(`${ComponentNames.TTreeNav}__link`);
       cssArchitect.addClass("is-active", this.open);
       cssArchitect.addClass(this.linkClass, this.linkClass);
       cssArchitect.addClass(this.linkOpenedClass, this.open);
@@ -135,7 +136,7 @@ export default {
       this.createTag(link);
 
       if (this.isFolder) {
-        let iconContainer = architect.createDiv("icon");
+        let iconContainer = architect.createDiv(`${ComponentNames.TTreeNav}__icon-container`);
         let icon = architect.createIcon();
         icon.setProps({
           preserveDefaults: !this.overrideDefaults,
@@ -164,7 +165,7 @@ export default {
 
         for (let index in this.model.children) {
           let child = this.model.children[index];
-          let treeNav = architect.createElement("t-tree-nav", "item");
+          let treeNav = architect.createElement("t-tree-nav", `${ComponentNames.TTreeNav}__item`);
           treeNav.setKey(`${this.id}-${index}`);
           treeNav.setProps({
             model: child,

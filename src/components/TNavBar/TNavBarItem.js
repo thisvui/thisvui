@@ -3,12 +3,13 @@ import helper from "../../mixins/helpers";
 import themes from "../../mixins/themes";
 import common from "../../mixins/common";
 import padding from "../../mixins/padding";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import { createElement } from "../../utils/element-architect";
 
 export default {
-  name: "t-navbar-item",
+  name: ComponentNames.TNavBarItem,
   mixins: [common, themes, padding, dimension, helper],
   props: {
     view: String,
@@ -23,7 +24,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getCss: function() {
-      const css = new CssArchitect("navbar__item");
+      const css = new CssArchitect(`${ComponentNames.TNavBar}__item`);
       css.isColored({ inverted: this.$parent.hasThemeModifier });
       this.isHovered(css, { active: this.hoverable });
       css.addClass("hovered", this.hoverable);

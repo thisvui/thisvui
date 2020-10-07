@@ -4,11 +4,12 @@ import common from "../../mixins/common";
 import slide from "../../mixins/slide";
 import padding from "../../mixins/padding";
 import helpers from "../../mixins/helpers";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 
 export default {
-  name: "t-aside",
+  name: ComponentNames.TAside,
   mixins: [common, themes, gradient, slide, padding, helpers],
   props: {
     containerClass: {
@@ -21,7 +22,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     css: function() {
-      const css = new CssArchitect("t-aside");
+      const css = new CssArchitect(ComponentNames.TAside);
       css
         .flexible({
           direction: "column",

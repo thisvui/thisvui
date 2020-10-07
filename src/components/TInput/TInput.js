@@ -1,10 +1,11 @@
 import inputs from "../../mixins/inputs";
+import {ComponentNames} from "../../utils/constants";
 import { createDiv } from "../../utils/element-architect";
 
 import utils from "../../utils/utils";
 
 export default {
-  name: "t-input",
+  name: ComponentNames.TInput,
   mixins: [inputs],
   props: {
     value: {

@@ -1,6 +1,7 @@
 import helpers from "../../mixins/helpers";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
+import {ComponentNames} from "../../utils/constants";
 import TIcon from "../TIcon/TIcon";
 import dimension from "../../mixins/dimension";
 import flex from "../../mixins/flex";
@@ -10,7 +11,7 @@ import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
 
 export default {
-  name: "t-text",
+  name: ComponentNames.TText,
   components: { TIcon },
   mixins: [common, helpers, icons, alignment, dimension, flex],
   props: {
@@ -91,7 +92,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getContainerClasses: function() {
-      const cssArchitect = new CssArchitect("t-text");
+      const cssArchitect = new CssArchitect(ComponentNames.TText);
       cssArchitect.flexible({
         alignItems: "start",
         justifyContent: "normal",
@@ -116,7 +117,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getLabelClass: function() {
-      const cssArchitect = new CssArchitect("t-text-label");
+      const cssArchitect = new CssArchitect(`${ComponentNames.TText}-label`);
       cssArchitect.addClass(this.labelClass, this.isNotNull(this.labelClass));
       cssArchitect.addClass("is-inline-flex", this.isNotNull(this.labelIcon));
       cssArchitect.addClass("font-weight-bold", this.boldLabel);
@@ -131,7 +132,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getValueClass: function() {
-      const cssArchitect = new CssArchitect("t-text-value");
+      const cssArchitect = new CssArchitect(`${ComponentNames.TText}-value`);
       cssArchitect.addClass(this.valueClass, this.isNotNull(this.valueClass));
       cssArchitect.addClass("font-weight-bold", this.boldValue);
       cssArchitect.addClass(

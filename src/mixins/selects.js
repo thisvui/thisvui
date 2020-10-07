@@ -1,3 +1,4 @@
+import {ComponentNames} from "../utils/constants";
 import CssArchitect from "../utils/css-architect";
 
 export default {
@@ -53,7 +54,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getSelectContainerClass: function() {
-      const css = new CssArchitect("t-select group");
+      const css = new CssArchitect(`${ComponentNames.TSelect} group`);
       css.addClass(
         this.containerClass,
         this.containerClass !== undefined
@@ -68,7 +69,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getResultsClass: function() {
-      const css = new CssArchitect("t-select__results");
+      const css = new CssArchitect(`${ComponentNames.TSelect}__results`);
       css.addClass("opened", this.isOpen);
       css.isAbsolute();
       return css.getClasses();
@@ -79,7 +80,7 @@ export default {
      */
     getResultsContentClass: function() {
       const css = new CssArchitect(
-        "t-select__results__content marginless"
+        `${ComponentNames.TSelect}__results__content marginless`
       );
       css.isAbsolute().isFullwidth();
       css.addClass(this.resultsClass, this.resultsClass !== undefined);
@@ -127,7 +128,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getResultClass: function(isActive = false) {
-      const css = new CssArchitect("t-select__result");
+      const css = new CssArchitect(`${ComponentNames.TSelect}__result`);
       css.addClass("hovered", this.selectable);
       css.addClass("filled", isActive);
       css.addClass(this.themeModifier, this.hasThemeModifier);
@@ -234,7 +235,7 @@ export default {
       content.addChild(loading, this.isResultsLoading);
 
       if (!this.results || this.results.length === 0) {
-        let emptyResults = architect.createLi("t-select__result empty");
+        let emptyResults = architect.createLi(`${ComponentNames.TSelect}__result empty`);
         emptyResults.innerHTML(this.noResultsText);
         content.addChild(emptyResults);
       } else {

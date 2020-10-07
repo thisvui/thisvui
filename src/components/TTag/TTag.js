@@ -1,11 +1,12 @@
 import sizes from "../../mixins/sizes";
 import themes from "../../mixins/themes";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import { createSpan } from "../../utils/element-architect";
 
 export default {
-  name: "t-tag",
+  name: ComponentNames.TTag,
   mixins: [themes, sizes],
   props: {
     targetClass: {
@@ -27,7 +28,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const css = new CssArchitect("tag");
+      const css = new CssArchitect(ComponentNames.TTag);
       this.isFilled(css);
       css.addClass(this.getThemeModifiers);
       css.addClass(this.getSizesModifiers);

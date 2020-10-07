@@ -2,6 +2,7 @@ import dimension from "../../mixins/dimension";
 import helpers from "../../mixins/helpers";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
+import {ComponentNames} from "../../utils/constants";
 import TPanelHeading from "./TPanelHeading";
 import TExpand from "../TAnimation/TExpand";
 import themes from "../../mixins/themes";
@@ -10,7 +11,7 @@ import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
-  name: "t-panel",
+  name: ComponentNames.TPanel,
   mixins: [common, themes, icons, dimension, helpers],
   components: { TExpand, TPanelHeading },
   props: {
@@ -55,7 +56,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getCss: function() {
-      const css = new CssArchitect("panel");
+      const css = new CssArchitect(ComponentNames.TPanel);
       css.addClass(this.getThemeModifiers);
       css.addClass(this.getHelpersModifiers);
       css.addClass(this.getDimensionModifiers);
@@ -68,7 +69,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     bodyCss: function() {
-      const css = new CssArchitect("panel__body");
+      const css = new CssArchitect(`${ComponentNames.TPanel}__body`);
       css.addClass("is-closed is-shadowless", !this.isExpanded);
       this.isBordered(css);
       css.addClass(this.bodyClass);
@@ -134,7 +135,7 @@ export default {
 
     let expand = root.createElement(TExpand);
     let body = root.createDiv(this.bodyCss.getClasses());
-    let content = root.createDiv("panel__content");
+    let content = root.createDiv(`${ComponentNames.TPanel}__content`);
 
     content.setChildren(this.$slots.default);
     body.addChild(content);

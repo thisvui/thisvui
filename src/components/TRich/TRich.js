@@ -3,6 +3,7 @@ import common from "../../mixins/common";
 import icons from "../../mixins/icons";
 import themes from "../../mixins/themes";
 import validation from "../../mixins/validation";
+import {ComponentNames} from "../../utils/constants";
 import { TSelect } from "../TSelect";
 
 import CssArchitect from "../../utils/css-architect";
@@ -10,7 +11,7 @@ import { createDiv } from "../../utils/element-architect";
 
 
 export default {
-  name: "t-rich",
+  name: ComponentNames.TRich,
   mixins: [common, themes, icons, validation, helpers],
   props: {
     label: {
@@ -102,7 +103,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getCss: function() {
-      const css = new CssArchitect("rich");
+      const css = new CssArchitect(ComponentNames.TRich);
       css.addClass(this.getThemeModifiers);
       css.addClass(this.getHelpersModifiers);
       css.addStyles([this.getAlphaModifiers]);
@@ -114,7 +115,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getLabelClass: function() {
-      const css = new CssArchitect("rich__label");
+      const css = new CssArchitect(`${ComponentNames.TRich}__label`);
       css.addClass(this.labelClass, this.isNotNull(this.labelClass));
       css.addClass("is-inline-flex", this.isNotNull(this.labelIcon));
       this.isColored(css, { shade: 25 });
@@ -126,7 +127,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getToolbarClasses: function() {
-      const css = new CssArchitect("rich__toolbar");
+      const css = new CssArchitect(`${ComponentNames.TRich}__toolbar`);
       css.addClass(this.toolbarClass);
       return css.getClasses();
     },
@@ -135,7 +136,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getBodyClasses: function() {
-      const css = new CssArchitect("rich__body");
+      const css = new CssArchitect(`${ComponentNames.TRich}__body`);
       return css.getClasses();
     }
   },
@@ -391,7 +392,7 @@ export default {
       architect.addChild(label, this.isNotEmpty(this.label));
     },
     createIframe(architect) {
-      let iframe = architect.createElement("iframe", "rich__input");
+      let iframe = architect.createElement("iframe", `${ComponentNames.TRich}__input`);
       let id = `${this.id}_iframe`;
       iframe.setId(id);
       iframe.setRef(id);
@@ -410,7 +411,7 @@ export default {
     this.createToolbar(root);
 
     let body = root.createDiv(this.getBodyClasses);
-    let content = root.createDiv("rich__content");
+    let content = root.createDiv(`${ComponentNames.TRich}__content`);
     this.createIframe(content);
     body.addChild(content);
     root.addChild(body);

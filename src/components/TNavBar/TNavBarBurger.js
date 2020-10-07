@@ -1,12 +1,13 @@
 import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
 import themes from "../../mixins/themes";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
-  name: "t-navbar-burger",
+  name: ComponentNames.TNavBarBurger,
   mixins: [common, helper, themes],
   props: {
     active: {
@@ -22,7 +23,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const css = new CssArchitect("navbar__burger");
+      const css = new CssArchitect(`${ComponentNames.TNavBar}__burger`);
       css.addClass("is-active", this.active);
       css.addClass("is-mobile-only", this.mobileOnly);
       css.isColored();

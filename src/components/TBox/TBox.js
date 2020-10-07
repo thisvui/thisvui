@@ -4,12 +4,13 @@ import elevation from "../../mixins/elevation";
 import dimension from "../../mixins/dimension";
 import display from "../../mixins/display";
 import themes from "../../mixins/themes";
+import {ComponentNames} from "../../utils/constants";
 
 import ElementArchitect from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
-  name: "t-box",
+  name: ComponentNames.TBox,
   mixins: [common, display, themes, elevation, dimension, helpers],
   computed: {
     /**
@@ -17,7 +18,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const css = new CssArchitect("box");
+      const css = new CssArchitect(ComponentNames.TBox);
       this.isFilled(css);
       css.addClass(this.getThemeModifiers);
       css.addClass(this.getSyntaxModifiers);

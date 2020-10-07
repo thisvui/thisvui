@@ -6,6 +6,7 @@ import states from "../../mixins/states";
 import sizes from "../../mixins/sizes";
 import display from "../../mixins/display";
 import helpers from "../../mixins/helpers";
+import {ComponentNames} from "../../utils/constants";
 
 import TButtons from "../TButton/TButtons";
 import TNotification from "../TNotification/TNotification";
@@ -19,7 +20,7 @@ const STATUS_SUCCESS = 2;
 const STATUS_FAILED = 3;
 
 export default {
-  name: "t-file",
+  name: ComponentNames.TFile,
   components: {
     TButtons,
     TNotification
@@ -114,7 +115,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getContainerClasses: function() {
-      const css = new CssArchitect("file");
+      const css = new CssArchitect(ComponentNames.TFile);
       return css.getClasses();
     },
     /**
@@ -122,11 +123,11 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const css = new CssArchitect("file__input");
+      const css = new CssArchitect(`${ComponentNames.TFile}__input`);
       return css.getClasses();
     },
     getLabelClasses: function() {
-      const css = new CssArchitect("file__label");
+      const css = new CssArchitect(`${ComponentNames.TFile}__label`);
       this.isFilled(css, { hoverable: true });
       css.addClass(this.getDisplayModifiers);
       css.addClass(this.getThemeModifiers);
@@ -137,7 +138,7 @@ export default {
       return css.getClasses();
     },
     getPreviewCss: function() {
-      const css = new CssArchitect("file__preview");
+      const css = new CssArchitect(`${ComponentNames.TFile}__preview`);
       css.flexible({ direction: "column" });
       this.isBordered(css);
       css.addClass(this.themeModifier, this.hasThemeModifier);
@@ -145,18 +146,18 @@ export default {
       return css;
     },
     getThumbnailsClasses: function() {
-      const css = new CssArchitect("file__preview--thumbnails");
+      const css = new CssArchitect(`${ComponentNames.TFile}__preview--thumbnails`);
       return css.getClasses();
     },
     getThumbnailCss: function() {
-      const css = new CssArchitect("file__preview--thumbnail");
+      const css = new CssArchitect(`${ComponentNames.TFile}__preview--thumbnail`);
       this.isBordered(css);
       css.addClass(this.themeModifier, this.hasThemeModifier);
       this.alpha(css, { border: 0.7 });
       return css;
     },
     getThumbnailTitleCss: function() {
-      const css = new CssArchitect("file__preview--title");
+      const css = new CssArchitect(`${ComponentNames.TFile}__preview--title`);
       this.isFilled(css);
       css.addClass(this.themeModifier, this.hasThemeModifier);
       this.alpha(css, { bg: 0.9 });
@@ -313,10 +314,10 @@ export default {
      * Creates the file input section
      */
     createInput(architect) {
-      let root = architect.createDiv("file__wrapper");
+      let root = architect.createDiv(`${ComponentNames.TFile}__wrapper`);
 
       // Creating the html input element
-      let input = architect.createInput("file__input");
+      let input = architect.createInput(`${ComponentNames.TFile}__input`);
       input.setId(this.id);
       input.setRef("files");
       let inputAttrs = {
@@ -330,7 +331,7 @@ export default {
       input.setAttrs(inputAttrs);
       input.addChange(this.handleFilesUpload);
 
-      let fileIcon = architect.createSpan("file__icon");
+      let fileIcon = architect.createSpan(`${ComponentNames.TFile}__icon`);
       let icon = architect.createIcon().setProps({
         icon: this.$thisvui.icons.upload,
         containerClass: this.getIconClasses,

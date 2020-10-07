@@ -21,6 +21,7 @@ import setMinutes from "date-fns/setMinutes";
 import setSeconds from "date-fns/setSeconds";
 import startOfMonth from "date-fns/startOfMonth";
 import inputs from "../../mixins/inputs";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
@@ -30,7 +31,7 @@ import {TInput} from "../TInput";
 const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export default {
-  name: "t-calendar",
+  name: ComponentNames.TCalendar,
   mixins: [inputs],
   props: {
     value: {
@@ -102,8 +103,7 @@ export default {
       maxSeconds: 59,
       currentDate: null,
       dayLabels: null,
-      showCalendar: false,
-      baseClass: "t-calendar"
+      showCalendar: false
     };
   },
   watch: {
@@ -193,13 +193,13 @@ export default {
       return days;
     },
     getContainerClass: function() {
-      const css = new CssArchitect(`group ${this.className("container")}`);
+      const css = new CssArchitect(`group ${ComponentNames.TCalendar}__container`);
       css.addClass(this.containerClass, this.containerClass !== undefined);
       css.addClass("is-horizontal", this.isHorizontal);
       return css.getClasses();
     },
     getWidgetClass: function() {
-      const css = new CssArchitect("t-calendar__widget");
+      const css = new CssArchitect(`${ComponentNames.TCalendar}__widget`);
       css.flexible({ direction: "column" });
       css.addClass("is-absolute", !this.inline);
       css.addClass("inline-calendar", this.inline);
@@ -208,21 +208,21 @@ export default {
       return css.getClasses();
     },
     getCalendarBodyClass: function() {
-      const css = new CssArchitect("t-calendar__body");
+      const css = new CssArchitect(`${ComponentNames.TCalendar}__body`);
       return css.getClasses();
     },
     getHeaderClass: function() {
-      const css = new CssArchitect("t-calendar__header");
+      const css = new CssArchitect(`${ComponentNames.TCalendar}__header`);
       css.flexible().isCentered();
       return css.getClasses();
     },
     getTimePickerClass: function() {
-      const css = new CssArchitect("t-calendar__time");
+      const css = new CssArchitect(`${ComponentNames.TCalendar}__time`);
       css.flexible();
       return css.getClasses();
     },
     getDayClass() {
-      const css = new CssArchitect(this.className("day"));
+      const css = new CssArchitect(`${ComponentNames.TCalendar}__day`);
       return css.getClasses();
     },
     getClearIconClass: function() {
@@ -305,9 +305,6 @@ export default {
       if (!this.selectedDate) {
         this.selectedDate = new Date();
       }
-    },
-    className(className) {
-      return `${this.baseClass}__${className}`;
     },
     getDayNumberClass(day) {
       const cssArchitect = new CssArchitect("day-number");
@@ -500,7 +497,7 @@ export default {
 
         // Creating days labels
         for (let dayLabel of this.dayLabels) {
-          let dayLabelEl = architect.createDiv(this.className("headings"));
+          let dayLabelEl = architect.createDiv(`${ComponentNames.TCalendar}__headings`);
           dayLabelEl.innerHTML(dayLabel);
           calendarBody.addChild(dayLabelEl);
         }

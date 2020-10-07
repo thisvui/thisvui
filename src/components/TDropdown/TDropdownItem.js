@@ -1,11 +1,12 @@
 import themes from "../../mixins/themes";
+import {ComponentNames} from "../../utils/constants";
 
 import { createDiv } from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
 
 
 export default {
-  name: "t-dropdown-item",
+  name: ComponentNames.TDropdownItem,
   mixins: [themes],
   props: {
     targetClass: {
@@ -14,7 +15,7 @@ export default {
   },
   computed: {
     getClasses: function() {
-      const css = new CssArchitect("dropdown__item");
+      const css = new CssArchitect(`${ComponentNames.TDropdown}__item`);
       this.isFilled(css);
       css.addClass("hovered tint-75 color-dark");
       css.addClass(this.targetClass);

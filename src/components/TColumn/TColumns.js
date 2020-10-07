@@ -1,12 +1,13 @@
 import common from "../../mixins/common";
 import background from "../../mixins/background";
 import helpers from "../../mixins/helpers";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
-  name: "t-columns",
+  name: ComponentNames.TColumns,
   mixins: [common, background, helpers],
   props: {
     gapless: {
@@ -37,7 +38,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     css: function() {
-      const css = new CssArchitect("columns");
+      const css = new CssArchitect(`${ComponentNames.TColumns}`);
       css.addClass("gapless", this.gapless);
       css.addClass("auto", this.auto);
       css.addClass(this.getBackgroundModifiers);

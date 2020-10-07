@@ -19,11 +19,11 @@ $tree-view-font-weight: normal !default;
 
   @include margin-padding(0, 0);
 
-  .tree-view {
+  .t-tree-view {
     font-size: 1rem;
     padding: 1em 2em 1em 1em;
 
-    .tree-view-list {
+    &__list {
       a {
         padding: 0.4em 0.4em 0.2em 1em;
         font-size: $tree-view-font-size;
@@ -55,7 +55,7 @@ $tree-view-font-weight: normal !default;
           padding-left: 0.75em;
         }
 
-        .icon {
+        .t-icon {
           color: $tree-view-icon-color;
         }
       }
@@ -72,23 +72,23 @@ $tree-view-font-weight: normal !default;
     list-style: none !important;
   }
 
-  .item {
+  &__item {
     cursor: pointer;
   }
 
-  .icon {
+  &__icon-container {
     display: inline-flex;
     vertical-align: middle;
     transition: 0.5s ease all;
   }
 
-  .tree-nav-link {
+  &__link {
     display: inline-flex;
     padding-left: 5px;
     padding-top: 5px;
   }
 
-  .tree-children {
+  &__children {
     height: 0;
     overflow: hidden;
     margin: 0;
@@ -100,7 +100,7 @@ $tree-view-font-weight: normal !default;
     outline: none;
   }
 
-  .tag {
+  .t-tag {
     margin-left: 0.5rem;
     vertical-align: top;
     font-size: 0.7em;

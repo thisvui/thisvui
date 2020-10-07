@@ -1,11 +1,12 @@
 import helpers from "../../mixins/helpers";
 import icons from "../../mixins/icons";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
-  name: "t-paginator-control",
+  name: ComponentNames.TPaginatorControl,
   mixins: [helpers, icons],
   props: {
     showText: {

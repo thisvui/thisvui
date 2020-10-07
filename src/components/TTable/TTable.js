@@ -3,6 +3,7 @@ import list from "../../mixins/list";
 import common from "../../mixins/common";
 import themes from "../../mixins/themes";
 import dimension from "../../mixins/dimension";
+import {ComponentNames} from "../../utils/constants";
 
 import TExpand from "../TAnimation/TExpand";
 import { TFlex } from "../TFlex";
@@ -11,7 +12,7 @@ import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
 
 export default {
-  name: "t-table",
+  name: ComponentNames.TTable,
   components: { TExpand, TFlex },
   mixins: [common, list, themes, dimension, helpers],
   filters: {
@@ -66,7 +67,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     css: function() {
-      const css = new CssArchitect("table");
+      const css = new CssArchitect(ComponentNames.TTable);
       css.isRelative();
       css.addClass("is-bordered", this.bordered);
       css.addClass("striped", this.striped);
@@ -80,7 +81,7 @@ export default {
       return css;
     },
     containerCss: function() {
-      const css = new CssArchitect("table__container");
+      const css = new CssArchitect(`${ComponentNames.TTable}__container`);
       css.isRelative();
       css.addClass("is-fullwidth", this.isFullwidth);
       css.addClass(this.containerClass);
@@ -89,28 +90,28 @@ export default {
       return css;
     },
     wrapperCss: function() {
-      const css = new CssArchitect("table__wrapper");
+      const css = new CssArchitect(`${ComponentNames.TTable}__wrapper`);
       css.addClass("has-header", this.headerActive);
       css.addClass("has-footer", this.footerActive);
       return css;
     },
     headingCss: function() {
-      const css = new CssArchitect("table__heading");
+      const css = new CssArchitect(`${ComponentNames.TTable}__heading`);
       css.addClass(this.headingClass, this.headingClass !== undefined);
       return css;
     },
     headingContentCss: function() {
-      const css = new CssArchitect("table__heading--horizontal");
+      const css = new CssArchitect(`${ComponentNames.TTable}__heading--horizontal`);
       css.addClass("not-header", !this.hasHeading);
       return css;
     },
     footerCss: function() {
-      const css = new CssArchitect("table__footer");
+      const css = new CssArchitect(`${ComponentNames.TTable}__footer`);
       css.addClass(this.footerClass, this.footerClass !== undefined);
       return css;
     },
     functionsCss: function() {
-      const css = new CssArchitect("table__functions");
+      const css = new CssArchitect(`${ComponentNames.TTable}__functions`);
       this.isFilled(css);
       css.addClass(this.themeModifier, this.hasThemeModifier);
       return css;
@@ -125,7 +126,7 @@ export default {
     trCss: function() {
       const css = new CssArchitect();
       this.isHovered(css, { hasColor: true, active: !this.isEmpty });
-      this.isColored(css, { active: this.isEmpty });
+      this.isColored(css, { active: this.isEmpty, inverted: true });
       css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addStyles([this.getAlphaModifiers]);
       return css;
@@ -294,13 +295,13 @@ export default {
     createTableHead(architect) {
       let thead = architect.createElement("thead");
       let tr = architect.createTr();
-      if (this.checkable || this.expandable) {
+      if (this.checkable || this.expandable || this.isEmpty) {
         let th = architect.createCell(this.functionsCss.getClasses(), true);
         let flex = architect.createElement(TFlex);
 
         if (this.expandable) {
           let expandContainer = architect.createDiv(
-            "table__column--expandable"
+            `${ComponentNames.TTable}__column--expandable`
           );
           flex.addChild(expandContainer);
         }
@@ -317,7 +318,7 @@ export default {
       if (this.$slots["table-head"]) {
         tr.addVNodeChildren(this.$slots["table-head"]);
       }
-      if (this.hasActionColumn) {
+      if (this.hasActionColumn && !this.isEmpty) {
         let actionColumn = architect.createCell(this.thCss.getClasses(), true);
         actionColumn.setStyles(this.thCss.getStyles());
         actionColumn.innerHTML(this.actionText);
@@ -339,7 +340,7 @@ export default {
       if (this.isEmpty) {
         let tr = architect.createTr(this.trCss.getClasses());
         tr.setStyles(this.trCss.getStyles());
-        let textContainer = architect.createElement(TFlex, "is-absolute");
+        let textContainer = architect.createElement(TFlex);
         textContainer.setProps({
           justifyCenter: true,
           isFullwidth: true,
@@ -364,7 +365,7 @@ export default {
             let flex = architect.createElement(TFlex);
             if (this.isExpandable(item)) {
               let expandable = architect.createSpan(
-                "table__column--expandable"
+                `${ComponentNames.TTable}__column--expandable`
               );
               let expandIcon = architect.createIcon();
               expandIcon.setProps({

@@ -14,7 +14,7 @@ $message-font-size: $font-size-1 !default;
 
 $message-heading-body-border-width: 0 !default;
 
-.message {
+.t-message {
   display: block;
   border-radius: $message-radius;
   font-size: $message-font-size;
@@ -24,9 +24,15 @@ $message-heading-body-border-width: 0 !default;
     color: currentColor;
   }
 
-  a:not(.button):not(.tag):not(.dropdown-item) {
+  a:not(.button):not(.tag):not(.t-dropdown__item) {
     color: currentColor;
     text-decoration: underline;
+  }
+
+  span {
+    &:not(:last-child) {
+      margin-bottom: 0;
+    }
   }
 
   // Sizes
@@ -46,6 +52,12 @@ $message-heading-body-border-width: 0 !default;
     position: relative;
     top: 0;
     right: 0;
+
+    &__container {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+    }
   }
 
   &__heading {
@@ -58,7 +70,7 @@ $message-heading-body-border-width: 0 !default;
     padding: $message-heading-padding;
     position: relative;
 
-    & + .message__body {
+    & + .t-message__body {
       border-width: $message-heading-body-border-width;
       border-top-left-radius: 0;
       border-top-right-radius: 0;
@@ -67,13 +79,14 @@ $message-heading-body-border-width: 0 !default;
 
   &__body {
     display: flex;
+    position: relative;
     border-radius: $message-body-radius;
     border-style: solid;
     color: $message-body-color;
     border-width: $message-body-border-width;
     padding: $message-body-padding;
 
-    .message__close {
+    .t-message__close {
       top: -10px;
       right: 0;
       left: 15px;

@@ -2,6 +2,7 @@ import common from "../../mixins/common";
 import icons from "../../mixins/icons";
 import themes from "../../mixins/themes";
 import dimension from "../../mixins/dimension";
+import {ComponentNames} from "../../utils/constants";
 
 import TIcon from "../TIcon/TIcon";
 
@@ -9,7 +10,7 @@ import CssArchitect from "../../utils/css-architect";
 import { createElement } from "../../utils/element-architect";
 
 export default {
-  name: "t-dropdown",
+  name: ComponentNames.TDropdown,
   components: { TIcon },
   mixins: [common, themes, dimension, icons],
   props: {
@@ -45,7 +46,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getCss: function() {
-      const css = new CssArchitect("dropdown");
+      const css = new CssArchitect(ComponentNames.TDropdown);
       css.addClass(this.getAlignmentModifiers);
       css.addClass(this.getDimensionModifiers);
       css.addClass(this.getThemeModifiers);
@@ -56,7 +57,7 @@ export default {
       return css;
     },
     getMenuCss: function() {
-      const css = new CssArchitect("dropdown__menu");
+      const css = new CssArchitect(`${ComponentNames.TDropdown}__menu`);
       css.addClass("is-up", this.up);
       css.addClass("is-right", this.rightAligned);
       css.addClass(this.themeModifier, this.hasThemeModifier);
@@ -68,7 +69,7 @@ export default {
       return css;
     },
     getIconClasses: function() {
-      const css = new CssArchitect("dropdown__icon");
+      const css = new CssArchitect(`${ComponentNames.TDropdown}__icon`);
       this.isColored(css, { inverted: true });
       css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
@@ -78,7 +79,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getTriggerClasses: function() {
-      const css = new CssArchitect("dropdown__trigger button");
+      const css = new CssArchitect(`${ComponentNames.TDropdown}__trigger t-button`);
       this.isFilled(css);
       css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();

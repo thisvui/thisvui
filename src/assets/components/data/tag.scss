@@ -14,7 +14,7 @@ $tag-before-left: 10px;
 $tag-before-top: calc(50% - (#{$tag-before-height} / 2)) !default;
 $tags-margin: 0 10px 10px 0;
 
-.tag {
+.t-tag {
   background: $tag-bg-color;
   border-radius: $tag-border-radius;
   color: $tag-color;
@@ -100,16 +100,16 @@ $tags-margin: 0 10px 10px 0;
   }
 }
 
-.tags {
+.t-tags {
   display: flex;
   flex-wrap: wrap;
 
-  .tag {
+  .t-tag {
     margin: $tags-margin;
   }
 
   &.attached {
-    .tag {
+    .t-tag {
       &:not(:first-child) {
         margin-left: 0;
         margin-right: 0;

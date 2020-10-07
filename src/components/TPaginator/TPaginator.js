@@ -1,3 +1,4 @@
+import {ComponentNames} from "../../utils/constants";
 import TIcon from "../TIcon/TIcon";
 import TPaginatorControl from "./TPaginatorControl";
 import TSelect from "../TSelect/TSelect";
@@ -12,7 +13,7 @@ import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
 
 export default {
-  name: "t-paginator",
+  name: ComponentNames.TPaginator,
   components: { TSelect, TPaginatorControl, TIcon },
   mixins: [common, pagination, sizes, justify, helpers],
   props: {
@@ -51,7 +52,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     containerCss: function() {
-      const css = new CssArchitect("pagination__container");
+      const css = new CssArchitect(`${ComponentNames.TPaginator}__container`);
       css.addClass("transparent", this.transparent);
       return css;
     },
@@ -60,7 +61,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getTargetClass: function() {
-      const css = new CssArchitect("pagination");
+      const css = new CssArchitect(`${ComponentNames.TPaginator}`);
       css.addClass(this.getSizesModifiers);
       css.addClass(this.getJustifyModifiers);
       css.addClass("rounded", this.rounded);
@@ -72,7 +73,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getPreviousClass() {
-      const css = new CssArchitect("pagination__previous");
+      const css = new CssArchitect(`${ComponentNames.TPaginator}__previous`);
       css.addClass(
         this.previousClass,
         this.previousClass !== undefined
@@ -85,7 +86,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getNextClass() {
-      const css = new CssArchitect("pagination__next");
+      const css = new CssArchitect(`${ComponentNames.TPaginator}__next`);
       css.addClass(this.nextClass, this.nextClass !== undefined);
       css.addClass(this.getHelpersModifiers);
       return css.getClasses();
@@ -95,7 +96,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getListClass() {
-      const css = new CssArchitect("pagination__list");
+      const css = new CssArchitect(`${ComponentNames.TPaginator}__list`);
       css.addClass(this.listClass, this.listClass !== undefined);
       return css.getClasses();
     },
@@ -104,7 +105,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getLinkClass() {
-      const css = new CssArchitect("pagination__link");
+      const css = new CssArchitect(`${ComponentNames.TPaginator}__link`);
       css.addClass(this.linkClass, this.linkClass !== undefined);
       return css.getClasses();
     },
@@ -113,7 +114,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getCurrentLinkClass() {
-      const css = new CssArchitect("pagination__link is-current");
+      const css = new CssArchitect(`${ComponentNames.TPaginator}__link is-current`);
       css.addClass(
         this.currentLinkClass,
         this.currentLinkClass !== undefined
@@ -269,14 +270,14 @@ export default {
      */
     createSizeSelect(architect) {
       let root = architect.createLi();
-      let sizeLabel = root.createSpan("pagination__size");
+      let sizeLabel = root.createSpan(`${ComponentNames.TPaginator}__size`);
 
       let sizeSelect = root.createElement(TSelect);
       let sizeSelectProps = {
         items: this.sizeOptions,
         removeLabel: true,
         allowEmptyValue: false,
-        containerClass: "pagination__select",
+        containerClass: `${ComponentNames.TPaginator}__select`,
         targetClass: "size-select",
         compact: true,
         small: true,
@@ -299,7 +300,7 @@ export default {
     createItemsCount(architect) {
       let root = architect.createLi();
 
-      let itemsCount = root.createSpan("pagination__count");
+      let itemsCount = root.createSpan(`${ComponentNames.TPaginator}__count`);
       itemsCount.addDomProp("innerHTML", this.getItemsCount);
 
       root.addChild(itemsCount);
@@ -372,7 +373,7 @@ export default {
     createPageEllipsis(architect) {
       let root = architect.createLi("is-hidden-mobile");
 
-      let ellipsis = root.createSpan(`pagination__ellipsis`);
+      let ellipsis = root.createSpan(`${ComponentNames.TPaginator}__ellipsis`);
       ellipsis.innerHTML("&hellip;");
 
       root.addChild(ellipsis);

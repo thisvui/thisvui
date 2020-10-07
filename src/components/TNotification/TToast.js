@@ -1,3 +1,4 @@
+import {ComponentNames} from "../../utils/constants";
 import TNotification from "./TNotification";
 import common from "../../mixins/common";
 import check from "../../mixins/check";
@@ -10,7 +11,7 @@ import { createDiv } from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
-  name: "t-toast",
+  name: ComponentNames.TToast,
   mixins: [common, check, themes],
   components: {
     TNotification
@@ -56,7 +57,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getContainerClasses: function() {
-      const css = new CssArchitect("t-toast");
+      const css = new CssArchitect(ComponentNames.TToast);
       css.addClass("is-fixed", this.fixed);
       css.addClass("empty", this.isEmpty());
       return css.getClasses();
@@ -66,7 +67,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getNotificationClasses: function() {
-      const css = new CssArchitect("notification");
+      const css = new CssArchitect(ComponentNames.TNotification);
 
       if (this.outlined) {
         this.isBordered(css);
@@ -81,7 +82,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getCloseButtonClasses: function() {
-      const css = new CssArchitect("notification__close delete");
+      const css = new CssArchitect(`${ComponentNames.TNotification}__close t-delete`);
       css.addClass(this.closeButtonClass, this.closeButtonClass);
       return css.getClasses();
     }
@@ -158,7 +159,7 @@ export default {
       }
       return { top, right, bottom, left };
     },
-    getStyles() {
+    getToastStyles() {
       let { top, right, bottom, left } = this.getCoordinates();
       const css = new CssArchitect();
       css.addStyle(
@@ -237,7 +238,7 @@ export default {
     root.setKey(`${this.id}-toast`);
     root.setRef(`toast`);
     root.addAttr("scope", this.scope);
-    root.setStyles(this.getStyles());
+    root.setStyles(this.getToastStyles());
     this.createNotifications(root);
     return root.create();
   },

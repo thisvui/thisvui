@@ -1,9 +1,10 @@
 import common from "../../mixins/common";
+import {ComponentNames} from "../../utils/constants";
 
 import { createTransition } from "../../utils/element-architect";
 
 export default {
-  name: "t-tab",
+  name: ComponentNames.TTab,
   mixins: [common],
   props: {
     name: {
@@ -50,7 +51,7 @@ export default {
   render: function(h) {
     let root = createTransition(h, this.transitionClassName);
 
-    let tab = root.createDiv("tab__pane")
+    let tab = root.createDiv(`${ComponentNames.TTab}__pane`)
     tab.setId(this.id).setChildren(this.$slots.default);
 
     root.addChild(tab, this.isActive)

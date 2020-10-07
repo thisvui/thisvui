@@ -1,7 +1,8 @@
 import slide from "../../mixins/slide";
+import {ComponentNames} from "../../utils/constants";
 
 export default {
-  name: "t-slide",
+  name: ComponentNames.TSlide,
   mixins: [slide],
   render: function(h) {
     let root = this.createSlideContainer(h);

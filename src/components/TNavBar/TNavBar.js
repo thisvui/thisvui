@@ -3,12 +3,13 @@ import common from "../../mixins/common";
 import dimension from "../../mixins/dimension";
 import padding from "../../mixins/padding";
 import margin from "../../mixins/margin";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
-  name: "t-navbar",
+  name: ComponentNames.TNavBar,
   mixins: [common, dimension, padding, margin, themes],
   props: {
     targetClass: {
@@ -34,7 +35,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getCss: function() {
-      const css = new CssArchitect("t-navbar navbar");
+      const css = new CssArchitect(ComponentNames.TNavBar);
       this.isFilled(css);
       css.addClass(this.getThemeModifiers);
       css.addClass("transparent", this.transparent);

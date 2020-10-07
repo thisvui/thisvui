@@ -1,13 +1,14 @@
 import syntax from "../../mixins/syntax";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
 import TListItemAvatar from "./TListItemAvatar";
 
 export default {
-  name: "t-list-item",
+  name: ComponentNames.TListItem,
   mixins: [common, icons, syntax],
   props: {
     title: String,
@@ -29,26 +30,26 @@ export default {
      * @returns { A String with the chained css classes }
      */
     css: function() {
-      const css = new CssArchitect("t-list__item");
+      const css = new CssArchitect(`${ComponentNames.TList}__item`);
       css.addClass(this.getSyntaxModifiers);
       return css;
     },
     contentCss: function() {
-      const css = new CssArchitect("t-list__item--vertical");
+      const css = new CssArchitect(`${ComponentNames.TList}__item--vertical`);
       return css;
     },
     headingCss: function() {
-      const css = new CssArchitect("t-list__item-heading");
+      const css = new CssArchitect(`${ComponentNames.TList}__item-heading`);
       css.addClass(this.headingClass, this.headingClass !== undefined);
       return css;
     },
     bodyCss: function() {
-      const css = new CssArchitect("t-list__item-body");
+      const css = new CssArchitect(`${ComponentNames.TList}__item-body`);
       css.addClass(this.bodyClass, this.bodyClass !== undefined);
       return css;
     },
     actionsCss: function() {
-      const css = new CssArchitect("t-list__actions");
+      const css = new CssArchitect(`${ComponentNames.TList}__actions`);
       return css;
     }
   },
@@ -78,21 +79,21 @@ export default {
       if (this.title || this.$slots["heading"]) {
         let heading = architect.createDiv(this.headingCss.getClasses());
         if (this.title) {
-          let text = architect.createDiv("t-list__item-title");
+          let text = architect.createDiv(`${ComponentNames.TList}__item-title`);
           text.addClass(this.titleClass);
           text.innerHTML(this.title);
           heading.addChild(text);
         }
         if (this.$slots["heading"]) {
           let slotHeading = architect
-            .createDiv("t-list__item-heading--slot")
+            .createDiv(`${ComponentNames.TList}__item-heading--slot`)
             .setChildren(this.$slots["heading"]);
           heading.addChild(slotHeading);
         }
         architect.addChild(heading);
       }
       if (this.subtitle) {
-        let text = architect.createDiv("t-list__item-subtitle");
+        let text = architect.createDiv(`${ComponentNames.TList}__item-subtitle`);
         text.addClass(this.subtitleClass);
         text.innerHTML(this.subtitle);
         architect.addChild(text);

@@ -1,10 +1,11 @@
 import common from "../../mixins/common";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
-import ElementArchitect from "../../utils/element-architect";
+import {createDiv} from "../../utils/element-architect";
 
 export default {
-  name: "t-crud-toolbar",
+  name: ComponentNames.TCrudToolbar,
   mixins: [common],
   props: {
     editable: {
@@ -221,7 +222,7 @@ export default {
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "div", "t-crud-toolbar");
+    let root = createDiv(h, ComponentNames.TCrudToolbar);
     root.setId(this.id);
     // Creating the edit button
     this.createButton(root, this.edit && !this.editable, {

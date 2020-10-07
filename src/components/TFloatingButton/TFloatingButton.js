@@ -2,12 +2,13 @@ import sizes from "../../mixins/sizes";
 import themes from "../../mixins/themes";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
-  name: "t-floating-button",
+  name: ComponentNames.TFloatingButton,
   mixins: [common, sizes, themes, icons],
   props: {
     items: {
@@ -68,7 +69,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const css = new CssArchitect("t-floating-btn");
+      const css = new CssArchitect(ComponentNames.TFloatingButton);
       css.addClass(this.getSizesModifiers);
       css.addClass(this.getThemeModifiers);
       css.addClass("is-top", this.isTop);
@@ -83,7 +84,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getBtnClasses: function() {
-      const css = new CssArchitect("t-floating-btn-icon");
+      const css = new CssArchitect(`${ComponentNames.TFloatingButton}__icon`);
       css.flexible().isCentered();
       this.isFilled(css);
       css.addClass(this.themeModifier, this.hasThemeModifier);
@@ -95,7 +96,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getLabelClasses: function() {
-      const css = new CssArchitect("t-floating-btn-label");
+      const css = new CssArchitect(`${ComponentNames.TFloatingButton}__label`);
       css
         .flexible()
         .isCentered()
@@ -118,7 +119,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getOptionsClasses: function() {
-      const css = new CssArchitect("t-floating-btn-options");
+      const css = new CssArchitect(`${ComponentNames.TFloatingButton}__options`);
       css.addClass(this.optionsClass);
       return css.getClasses();
     },
@@ -127,7 +128,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getOptionBtnClasses: function() {
-      const css = new CssArchitect("t-floating-btn-option");
+      const css = new CssArchitect(`${ComponentNames.TFloatingButton}__option`);
       css.addClass(this.optionBtnClass);
       return css.getClasses();
     },
@@ -136,7 +137,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getOptionLabelClasses: function() {
-      const css = new CssArchitect("t-floating-btn-option-label");
+      const css = new CssArchitect(`${ComponentNames.TFloatingButton}__option__label`);
       css.addClass(this.optionLabelClass);
       return css.getClasses();
     }

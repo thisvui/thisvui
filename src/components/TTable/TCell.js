@@ -1,11 +1,12 @@
 import display from "../../mixins/display";
 import helpers from "../../mixins/helpers";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import { createElement } from "../../utils/element-architect";
 
 export default {
-  name: "t-cell",
+  name: ComponentNames.TCell,
   mixins: [display, helpers],
   props: {
     head: Boolean,
@@ -22,7 +23,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const css = new CssArchitect("table__cell");
+      const css = new CssArchitect(`${ComponentNames.TTable}__cell`);
       css.addClass("center", this.alignment.center);
       css.addClass("left", this.alignment.left);
       css.addClass("right", this.alignment.right);

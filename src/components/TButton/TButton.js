@@ -6,6 +6,7 @@ import padding from "../../mixins/padding";
 import sizes from "../../mixins/sizes";
 import states from "../../mixins/states";
 import themes from "../../mixins/themes";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
@@ -17,7 +18,7 @@ import TButtons from "./TButtons";
 import { ValidationBus } from "../TValidation/validation-bus.js";
 
 export default {
-  name: "t-button",
+  name: ComponentNames.TButton,
   components: { TIcon, TModal },
   inheritAttrs: false,
   mixins: [common, sizes, states, themes, display, margin, padding, helpers],
@@ -123,7 +124,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getCss: function() {
-      const css = new CssArchitect("t-button button");
+      const css = new CssArchitect(`${ComponentNames.TButton}`);
       css.addClass("rounded", this.rounded);
       css.addClass("flat", this.flat);
       css.addClass("raised", this.raised);
@@ -156,7 +157,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getContainerClass: function() {
-      const css = new CssArchitect("t-button-container");
+      const css = new CssArchitect(`${ComponentNames.TButton}-container`);
       css.addClass(this.containerClass, this.containerClass !== undefined);
       css.addClass(this.getDisplayModifiers);
       return css.getClasses();
@@ -306,7 +307,7 @@ export default {
         this.createButtonIcon(button, !this.iconRight);
         if (this.hasSlot) {
           let slot = architect
-            .createSpan("button__content")
+            .createSpan(`${ComponentNames.TButton}__content`)
             .setChildren(this.$slots.default);
           button.addChild(slot);
         }

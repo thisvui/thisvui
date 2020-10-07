@@ -3,12 +3,13 @@ import gradient from "../../mixins/gradient";
 import common from "../../mixins/common";
 import overflow from "../../mixins/overflow";
 import dimension from "../../mixins/dimension";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
-  name: "t-layout",
+  name: ComponentNames.TLayout,
   props: {
     row: Boolean,
     heightUnit: {
@@ -27,9 +28,9 @@ export default {
      * @returns { A String with the chained css classes }
      */
     css: function() {
-      const css = new CssArchitect("t-layout");
+      const css = new CssArchitect(ComponentNames.TLayout);
       css.isRelative();
-      css.addClass("row", this.row);
+      css.addClass("is-row", this.row);
       this.isFilled(css, { removeInit: true });
       css.addClass("has-min-height", this.isNotNull(this.minHeight));
       css.addClass(this.getThemeModifiers);

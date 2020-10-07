@@ -4,12 +4,13 @@ import common from "../../mixins/common";
 import overflow from "../../mixins/overflow";
 import padding from "../../mixins/padding";
 import dimension from "../../mixins/dimension";
+import {ComponentNames} from "../../utils/constants";
 
 import ElementArchitect from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
-  name: "t-content",
+  name: ComponentNames.TContent,
   mixins: [common, themes, gradient, padding, dimension, overflow],
   computed: {
     /**
@@ -17,7 +18,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     css: function() {
-      const css = new CssArchitect("t-content");
+      const css = new CssArchitect(ComponentNames.TContent);
       this.isFilled(css, { removeInit: true });
       css.addClass(this.getThemeModifiers);
       css.addClass(this.getGradientModifiers);

@@ -50,7 +50,7 @@ $rich-label-transition-delay: 300ms;
   }
 }
 
-.rich {
+.t-rich {
   &:not(:last-child){
     margin-bottom: $rich-bottom-margin;
   }

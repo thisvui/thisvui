@@ -2,12 +2,13 @@ import common from "../../mixins/common";
 import background from "../../mixins/background";
 import flex from "../../mixins/flex";
 import padding from "../../mixins/padding";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
-  name: "t-column",
+  name: ComponentNames.TColumn,
   mixins: [common, background, flex, padding],
   props: {
     span: Number,
@@ -33,7 +34,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     css: function() {
-      const css = new CssArchitect("column");
+      const css = new CssArchitect(`${ComponentNames.TColumn}`);
       css.addClass("half", this.half);
       css.flexible({ condition: this.flex });
       css.addClass(this.getBackgroundModifiers);

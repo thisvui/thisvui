@@ -7,7 +7,7 @@ $card-shadow: 0 4px 15px $card-shadow-color !default;
 $card-border-radius: 6px !default;
 $card-min-width: 270px !default;
 
-.card {
+.t-card {
   --bg-alpha: 0.7;
   position: relative;
   z-index: 1;

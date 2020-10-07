@@ -3,7 +3,7 @@ $notification-padding: 1.25rem 2.5rem 1.25rem 1.5rem !default;
 $notification-padding-compact: 0.55rem 1.25rem 0.55rem 1.25rem !default;
 $notification-margin: 0.7rem !default;
 
-.notification {
+.t-notification {
   padding: $notification-padding;
   border-radius: $notification-radius;
   margin: $notification-margin;
@@ -50,14 +50,6 @@ $notification-margin: 0.7rem !default;
 
 }
 
-.message {
-  p {
-    &:not(:last-child) {
-      margin-bottom: 0;
-    }
-  }
-}
-
 $error-help-color: $danger !default;
 $error-help-background: tint($danger, 50%) !default;
 
@@ -83,7 +75,7 @@ $error-help-background: tint($danger, 50%) !default;
   opacity: 1;
 }
 
-.help {
+.t-hint {
   background-color: transparent;
   border: none;
   border-radius: 7px;

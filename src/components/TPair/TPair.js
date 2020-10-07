@@ -1,6 +1,7 @@
 import helpers from "../../mixins/helpers";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
+import {ComponentNames} from "../../utils/constants";
 import TIcon from "../TIcon/TIcon";
 import dimension from "../../mixins/dimension";
 import flex from "../../mixins/flex";
@@ -10,7 +11,7 @@ import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
 
 export default {
-  name: "t-pair",
+  name: ComponentNames.TPair,
   components: { TIcon },
   mixins: [common, helpers, icons, alignment, dimension, flex],
   props: {
@@ -30,6 +31,9 @@ export default {
     valueClass: {
       type: String,
       default: "text-left"
+    },
+    valueSpan: {
+      type: [String, Number]
     },
     icon: {
       type: String
@@ -91,7 +95,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getContainerClasses: function() {
-      const cssArchitect = new CssArchitect("pair");
+      const cssArchitect = new CssArchitect(ComponentNames.TPair);
       cssArchitect.addClass(
         this.containerClass,
         this.containerClass !== undefined
@@ -111,7 +115,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getLabelClass: function() {
-      const cssArchitect = new CssArchitect("pair__label");
+      const cssArchitect = new CssArchitect(`${ComponentNames.TPair}__label`);
       cssArchitect.addClass(this.labelClass, this.isNotNull(this.labelClass));
       cssArchitect.addClass("is-inline-flex", this.isNotNull(this.labelIcon));
       cssArchitect.addClass("font-weight-bold", this.boldLabel);
@@ -126,7 +130,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getValueClass: function() {
-      const cssArchitect = new CssArchitect("pair__value");
+      const cssArchitect = new CssArchitect(`${ComponentNames.TPair}__value`);
       cssArchitect.addClass(this.valueClass, this.isNotNull(this.valueClass));
       cssArchitect.addClass("font-weight-bold", this.boldValue);
       cssArchitect.addClass(
@@ -134,6 +138,12 @@ export default {
         this.isNotNull(this.transformValue)
       );
       return cssArchitect.getClasses();
+    },
+    getValueStyle(){
+      const css = new CssArchitect();
+      let valueSpan = parseInt(this.valueSpan);
+      css.addStyle("--value-span", parseInt(this.valueSpan), this.isNotNull(this.valueSpan));
+      return css.getStyles();
     },
     /**
      * Dynamically build the css classes for the icon element
@@ -200,6 +210,7 @@ export default {
     createValue(architect) {
       if (this.value) {
         let valueContainer = architect.createElement("dd");
+        valueContainer.setStyles(this.getValueStyle);
         this.createIcon(
           valueContainer,
           this.icon,
@@ -219,6 +230,7 @@ export default {
         architect.addChild(valueContainer);
       } else if (this.$slots["value"]) {
         let valueContainer = architect.createElement("dd");
+        valueContainer.setStyles(this.getValueStyle);
         valueContainer.setChildren(this.$slots["value"]);
         architect.addChild(valueContainer);
       }

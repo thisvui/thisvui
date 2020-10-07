@@ -7,12 +7,13 @@ import padding from "../../mixins/padding";
 import margin from "../../mixins/margin";
 import themes from "../../mixins/themes";
 import gradient from "../../mixins/gradient";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
-  name: "t-container",
+  name: ComponentNames.TContainer,
   mixins: [
     common,
     screens,
@@ -33,7 +34,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     css: function() {
-      const css = new CssArchitect("container");
+      const css = new CssArchitect(ComponentNames.TContainer);
       this.isFilled(css, { removeInit: true });
       css.addClass("fluid", this.fluid);
       css.addClass(this.getScreensModifiers);

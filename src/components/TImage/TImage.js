@@ -5,12 +5,13 @@ import dimension from "../../mixins/dimension";
 import aspect from "../../mixins/aspect";
 import margin from "../../mixins/margin";
 import padding from "../../mixins/padding";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
 
 export default {
-  name: "t-image",
+  name: ComponentNames.TImage,
   mixins: [common, dimension, aspect, display, margin, padding, helper],
   props: {
     src: {
@@ -66,7 +67,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getWrapperCss: function() {
-      const css = new CssArchitect("image");
+      const css = new CssArchitect(ComponentNames.TImage);
       css.addClass("circular", this.circular);
       css.addClass("is-16", this.is16);
       css.addClass("is-32", this.is32);
@@ -100,7 +101,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getFillCss: function() {
-      const css = new CssArchitect("image__fill");
+      const css = new CssArchitect(`${ComponentNames.TImage}__fill`);
       css.addClass(this.fillClass);
       return css;
     },
@@ -109,7 +110,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getTextCss: function() {
-      const css = new CssArchitect("image__text");
+      const css = new CssArchitect(`${ComponentNames.TImage}__text`);
       css.addClass(this.textClass);
       return css;
     }

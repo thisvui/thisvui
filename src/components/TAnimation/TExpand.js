@@ -1,8 +1,9 @@
+import {ComponentNames} from "../../utils/constants";
 import ElementArchitect from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
-  name: "t-expand",
+  name: ComponentNames.TExpand,
   methods: {
     enter(element) {
       const width = getComputedStyle(element).width;

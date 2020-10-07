@@ -1,9 +1,10 @@
-import ElementArchitect from "../../utils/element-architect";
+import {ComponentNames} from "../../utils/constants";
+import {createDiv} from "../../utils/element-architect";
 
 export default {
-  name: "t-thumbnail",
+  name: ComponentNames.TThumbnail,
   render: function(h) {
-    let root = new ElementArchitect(h, "div", "t-thumbnail");
+    let root = createDiv(h, ComponentNames.TThumbnail);
     root.setChildren(this.$slots.default);
     return root.create();
   }

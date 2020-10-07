@@ -2,12 +2,13 @@ import helpers from "../../mixins/helpers";
 import alignment from "../../mixins/alignment";
 import flex from "../../mixins/flex";
 import common from "../../mixins/common";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
-  name: "t-buttons",
+  name: ComponentNames.TButtons,
   mixins: [common, flex, alignment, helpers],
   props: {
     targetClass: {
@@ -23,7 +24,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect("buttons");
+      const cssArchitect = new CssArchitect(`${ComponentNames.TButtons}`);
       cssArchitect.flexible({
         flexWrap: true,
         alignItems: "center",

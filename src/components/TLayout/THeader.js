@@ -1,12 +1,13 @@
 import themes from "../../mixins/themes";
 import gradient from "../../mixins/gradient";
 import common from "../../mixins/common";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
-  name: "t-header",
+  name: ComponentNames.THeader,
   mixins: [common, themes, gradient],
   props: {
     fixed: {
@@ -31,7 +32,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const css = new CssArchitect("t-header");
+      const css = new CssArchitect(ComponentNames.THeader);
       css.isFullwidth();
       css.addClass("is-fixed", this.fixed);
       css.addClass("elevation-1");

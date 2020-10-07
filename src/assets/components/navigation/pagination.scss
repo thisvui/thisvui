@@ -10,7 +10,7 @@ $pagination-count-label-color: rgba($dark, 0.8) !default;
 $pagination-search-border-color: rgba($dark, 0.9) !default;
 $pagination-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !default;
 
-.pagination {
+.t-paginator {
   padding-bottom: 0.2em;
   display: flex;
   justify-content: center;
@@ -58,7 +58,7 @@ $pagination-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)
   }
 
   &__next, &__previous {
-    box-shadow: 1px 2px 5px 2px rgba(100, 100, 100, 0.1), 1px 1px 1px 0 rgba(50, 50, 50, 0.1), 0 1px 2px 0px rgba(50, 50, 50, 0.1);
+    box-shadow: none;
     padding-left: 0 !important;
     padding-right: 0 !important;
     white-space: nowrap;
@@ -68,7 +68,7 @@ $pagination-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)
       color: $pagination-color;
     }
 
-    .icon {
+    .t-icon {
       vertical-align: middle;
     }
   }
@@ -138,7 +138,7 @@ $pagination-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)
     padding: 0.2rem;
     width: 100px;
 
-    .input {
+    .t-input {
       border-width: 2px;
       border-color: $pagination-size-select-border-color;
       border-radius: 3px;

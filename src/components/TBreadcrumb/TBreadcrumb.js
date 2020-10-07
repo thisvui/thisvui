@@ -1,12 +1,13 @@
 import alignment from "../../mixins/alignment";
 import themes from "../../mixins/themes";
 import common from "../../mixins/common";
+import {ComponentNames} from "../../utils/constants";
 
 import ElementArchitect from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
-  name: "t-breadcrumb",
+  name: ComponentNames.TBreadcrumb,
   mixins: [common, themes, alignment],
   props: {
     model: {
@@ -40,7 +41,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const css = new CssArchitect("breadcrumb");
+      const css = new CssArchitect(`${ComponentNames.TBreadcrumb}`);
       this.isBordered(css);
       css.addClass(this.getThemeModifiers);
       this.setupThemeModifier(css, true);
@@ -51,7 +52,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getContentClasses: function() {
-      const css = new CssArchitect("breadcrumb__content");
+      const css = new CssArchitect(`${ComponentNames.TBreadcrumb}__content`);
       css.addClass(this.getAlignmentModifiers);
       return css.getClasses();
     },
@@ -60,7 +61,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getItemsClasses: function() {
-      const css = new CssArchitect("breadcrumb__items");
+      const css = new CssArchitect(`${ComponentNames.TBreadcrumb}__items`);
       return css.getClasses();
     },
     /**
@@ -68,7 +69,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getNumberClasses: function() {
-      const css = new CssArchitect("breadcrumb__number");
+      const css = new CssArchitect(`${ComponentNames.TBreadcrumb}__number`);
       this.isFilled(css);
       css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
@@ -78,7 +79,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getIconClasses: function() {
-      const css = new CssArchitect("breadcrumb__icon");
+      const css = new CssArchitect(`${ComponentNames.TBreadcrumb}__icon`);
       css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
     },
@@ -87,7 +88,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getNameClasses: function() {
-      const css = new CssArchitect("breadcrumb__name");
+      const css = new CssArchitect(`${ComponentNames.TBreadcrumb}__name`);
       return css.getClasses();
     }
   },
@@ -136,7 +137,7 @@ export default {
         // Creating the link element. if item.view is present creates a router-link
         let link = root.createElement(
           item.url || (!item.url && !item.view) ? "a" : "router-link",
-          "breadcrumb__item"
+          `${ComponentNames.TBreadcrumb}__item`
         );
         link.addAttr("href", item.url, item.url);
         link.addProp("to", { name: item.view }, item.view);

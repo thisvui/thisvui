@@ -1,10 +1,11 @@
 import themes from "../../mixins/themes";
+import {ComponentNames} from "../../utils/constants";
 
 import { createDiv } from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
-  name: "t-dropdown-divider",
+  name: ComponentNames.TDropdownDivider,
   mixins: [themes],
   props: {
     targetClass: {
@@ -13,7 +14,7 @@ export default {
   },
   computed: {
     getClasses: function() {
-      const css = new CssArchitect("dropdown__divider");
+      const css = new CssArchitect(`${ComponentNames.TDropdown}__divider`);
       this.isFilled(css, { tint: 50 });
       css.addClass(this.getThemeModifiers);
       css.addClass(this.targetClass);

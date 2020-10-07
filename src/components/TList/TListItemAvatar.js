@@ -1,12 +1,13 @@
 import syntax from "../../mixins/syntax";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
 
 export default {
-  name: "t-list-item-avatar",
+  name: ComponentNames.TListItemAvatar,
   mixins: [common, icons, syntax],
   props: {
     avatar: String,
@@ -16,7 +17,7 @@ export default {
   },
   computed: {
     css: function() {
-      const css = new CssArchitect("t-list__avatar");
+      const css = new CssArchitect(`${ComponentNames.TList}__avatar`);
       return css;
     }
   },

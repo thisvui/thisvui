@@ -1,11 +1,12 @@
 import common from "../../mixins/common";
 import background from "../../mixins/background";
+import {ComponentNames} from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
 export default {
-  name: "t-grid",
+  name: ComponentNames.TGrid,
   mixins: [common, background],
   props: {
     auto: Boolean,
@@ -47,7 +48,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     css: function() {
-      const css = new CssArchitect("grid");
+      const css = new CssArchitect(ComponentNames.TGrid);
       // Classes
       css.addClass("auto", this.auto);
       css.addClass("inline", this.inline);

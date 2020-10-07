@@ -1,3 +1,4 @@
+import {ComponentNames} from "../../utils/constants";
 import TFlex from "../TFlex";
 import themes from "../../mixins/themes";
 import common from "../../mixins/common";
@@ -9,7 +10,7 @@ import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
 
 export default {
-  name: "t-progress",
+  name: ComponentNames.TProgress,
   mixins: [common, themes, dimension, margin, helpers],
   components: { TFlex },
   props: {
@@ -77,7 +78,7 @@ export default {
   },
   computed: {
     baseClass() {
-      return this.circular ? "progress__circular" : "progress__linear";
+      return `${ComponentNames.TProgress}${this.circular ? "__circular" : "__linear"}`;
     },
     /**
      * Dynamically build the css classes for the target element

@@ -1,8 +1,9 @@
+import {ComponentNames} from "../../utils/constants";
 import CssArchitect from "../../utils/css-architect";
 import { createSpan } from "../../utils/element-architect";
 
 export default {
-  name: "t-tags",
+  name: ComponentNames.TTags,
   props: {
     attached: {
       type: Boolean
@@ -14,7 +15,7 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const css = new CssArchitect("tags");
+      const css = new CssArchitect(ComponentNames.TTags);
       css.addClass("attached", this.attached);
       return css.getClasses();
     }

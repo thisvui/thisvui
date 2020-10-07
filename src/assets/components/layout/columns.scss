@@ -1,4 +1,4 @@
-.columns {
+.t-columns {
   /* Grid proportions */
   --grid-width: 960;
   --grid-column-width: 60;
@@ -49,7 +49,7 @@
     }
   }
 
-  .column {
+  .t-column {
     $column-span: column-spans(var(--column-span));
     $column-height: gutter-spans(var(--column-gutters));
     flex-basis: #{$column-span};

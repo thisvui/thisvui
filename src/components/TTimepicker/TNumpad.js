@@ -1,3 +1,4 @@
+import {ComponentNames} from "../../utils/constants";
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
 import { filteredDigits } from "../../utils/pad";
@@ -5,7 +6,7 @@ import { filteredDigits } from "../../utils/pad";
 import TDigit from "./TDigit";
 
 export default {
-  name: "TNumpad",
+  name: ComponentNames.TNumpad,
   props: {
     targetClass: {
       type: String
@@ -52,7 +53,7 @@ export default {
      * @returns { A CssArchitect object }
      */
     css: function() {
-      const css = new CssArchitect("numpad");
+      const css = new CssArchitect(ComponentNames.TNumpad);
       css.addClass(this.targetClass);
       return css;
     },
@@ -61,7 +62,7 @@ export default {
      * @returns {  A CssArchitect object }
      */
     arrowCss: function() {
-      const css = new CssArchitect("numpad__triangle");
+      const css = new CssArchitect(`${ComponentNames.TNumpad}__triangle`);
       css.isColored();
       css.addClass(this.arrowClass);
       return css;
@@ -72,7 +73,7 @@ export default {
      * Creates the digits
      */
     createDigits(architect) {
-      let digits = architect.createDiv("numpad__digits");
+      let digits = architect.createDiv(`${ComponentNames.TNumpad}__digits`);
       for (let digit of this.numbers) {
         let number = architect.createElement(TDigit);
         number.setProps({
@@ -88,8 +89,8 @@ export default {
      * Creates the arrows
      */
     createArrows(architect) {
-      let arrows = architect.createDiv("numpad__arrows");
-      let leftButton = architect.createDiv("numpad__digits");
+      let arrows = architect.createDiv(`${ComponentNames.TNumpad}__arrows`);
+      let leftButton = architect.createDiv(`${ComponentNames.TNumpad}__digits`);
       this.createButton(leftButton, {
         ref: "previousButton",
         pressed: this.arrowKeys.left.pressed,
@@ -105,7 +106,7 @@ export default {
         d: "M22.4 8v16l-14.4-8 14.4-8z"
       });
 
-      let rightButton = architect.createDiv("numpad__digits");
+      let rightButton = architect.createDiv(`${ComponentNames.TNumpad}__digits`);
       this.createButton(rightButton, {
         ref: "nextButton",
         pressed: this.arrowKeys.right.pressed,
@@ -152,7 +153,7 @@ export default {
       svg.addChild(path);
       button.addChild(svg);
 
-      let ripple = architect.createDiv("numpad__ripple");
+      let ripple = architect.createDiv(`${ComponentNames.TNumpad}__ripple`);
       ripple.addClass("is-pressed", pressed);
 
       architect.addChild(button);
