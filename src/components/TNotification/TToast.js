@@ -205,7 +205,7 @@ export default {
         notification.setKey(`${this.id}-notification-${$index}`);
         notification.addClass(this.getType($notification.type));
 
-        if (!this.infinite && $notification.infinite) {
+        if (!this.infinite && !$notification.infinite) {
           let timer = setTimeout(
             function() {
               this.$thisvui.removeNotification($notification);

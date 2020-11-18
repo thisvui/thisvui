@@ -42,29 +42,18 @@ export default {
       NotificationBus.$emit(this.$thisvui.events.notification.removed)
       NotificationBus.$emit(this.$thisvui.events.notification.updated)
     },
-    getType(params) {
-      return params !== undefined && params.type !== undefined
-        ? params.type
-        : "info";
-    },
-    getInfinite(params) {
-      return params !== undefined && params.infinite !== undefined
-        ? params.infinite
-        : true;
-    },
-    getTimeout(params) {
-      return params !== undefined && params.timeout !== undefined
-        ? params.timeout
-        : 3000;
-    },
-    notify(message, params) {
-      this.addNotification({
+    notify(message, { type='info', timeout = 3000, infinite = false, ...rest}={}) {
+      let params = {
         text: message,
-        type: this.getType(params),
-        infinite: this.getInfinite(params),
-        timeout: this.getTimeout(params),
-        ...params
-      });
+        type: type,
+        infinite: infinite,
+        timeout: timeout,
+        ...rest
+      }
+      if(infinite){
+        delete params.timeout;
+      }
+      this.addNotification(params);
     },
     success(message, params) {
       this.notify(message, { type: "success", ...params });
