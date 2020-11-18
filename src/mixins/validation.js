@@ -4,7 +4,6 @@ import utils from "../utils/utils";
 import {
   Result,
   Rule,
-  ValidationBus
 } from "../components/TValidation/validation-bus";
 
 export const RULES = Object.freeze({
@@ -301,7 +300,7 @@ export default {
     },
     registerValidator(){
       if (this.hasRules()) {
-        ValidationBus.registerValidator(
+        this.$validation.registerValidator(
           this.id,
           this,
           this.rules,
@@ -325,14 +324,14 @@ export default {
      */
     removeValidator(formId) {
       if (this.hasRules()) {
-        ValidationBus.unregisterValidator(this.id, formId, this.validationScope);
+        this.$validation.unregisterValidator(this.id, formId, this.validationScope);
       }
     },
     /**
      * Removes a validator from the validation bus
      */
     getValidator() {
-      return ValidationBus.getValidator(this.id, this.validationScope);
+      return  this.$validation.getValidator(this.id, this.validationScope);
     },
     /**
      * Returns the error message for specific rule type

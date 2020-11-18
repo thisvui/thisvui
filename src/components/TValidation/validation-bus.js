@@ -84,7 +84,7 @@ export const ValidationBus = new Vue({
     registerValidator(key, component, rules, scopeName) {
       const element = document.getElementById(key);
       if (!element) {
-        throw new DOMException(`Element with id ${key} not found`);
+        throw new DOMException(`Validator Registration Error: Element with id ${key} not found`);
       }
       let formId = null;
       let isParent = true;
@@ -94,7 +94,7 @@ export const ValidationBus = new Vue({
       }
       if (!form) {
         throw new DOMException(
-          "Input elements must be inside a form in order to attach validators"
+          "Validator Registration Error: Input elements must be inside a form in order to attach validators"
         );
       } else {
         formId = form.id;
@@ -151,11 +151,8 @@ export const ValidationBus = new Vue({
      */
     validateAll(formId, scopeName) {
       const formValidator = this.formValidators.get(formId);
-      let validateAll = true;
+      let validateAll = !utils.check.notEmpty(scopeName);
       this.errors = [];
-      if (utils.check.notEmpty(scopeName)) {
-        validateAll = false;
-      }
       this.invalidForm();
       if (validateAll) {
         // Executes all validators
@@ -215,7 +212,7 @@ export const ValidationBus = new Vue({
     getValidator(key, scopeName) {
       const element = document.getElementById(key);
       if (!element) {
-        throw new DOMException(`Element with id ${key} not found`);
+        throw new DOMException(`Validator Error: Element with id ${key} not found`);
       }
       let formId = null;
       let isParent = true;

@@ -1,4 +1,4 @@
-import {ComponentNames} from "../utils/constants";
+import { ComponentNames } from "../utils/constants";
 import validation from "./validation";
 import states from "./states";
 import sizes from "./sizes";
@@ -429,6 +429,12 @@ export default {
           let el = document.getElementById(this.id);
           if (el && el.form) {
             this.formId = el.form.id;
+          }
+          if (!el.form) {
+            let form = el.closest("form");
+            if(form){
+              this.formId = form.id;
+            }
           }
           this.addValidator(); // Registers the validator
           if (this.$refs.inputField) {
