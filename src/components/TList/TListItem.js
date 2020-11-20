@@ -107,11 +107,19 @@ export default {
         text.innerHTML(this.description);
         body.addChild(text);
       }
-      if (this.$slots["body"]) {
-        let slotHeading = architect
+      let defaultSlot = this.$slots.default;
+      let bodySlot = this.$slots["body"];
+      if (defaultSlot) {
+        let defaultSlotContent = architect
           .createDiv()
-          .setChildren(this.$slots["body"]);
-        body.addChild(slotHeading);
+          .setChildren(defaultSlot);
+        body.addChild(defaultSlotContent);
+      }
+      if (bodySlot) {
+        let bodySlotContent = architect
+          .createDiv()
+          .setChildren(bodySlot);
+        body.addChild(bodySlotContent);
       }
       architect.addChild(body);
     },

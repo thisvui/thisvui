@@ -4,12 +4,15 @@ $list-bottom-border-color: rgba($dark, 0.1) !default;
 $list-bottom-border: 1px solid $list-bottom-border-color !default;
 $list-item-bottom-border: none !default;
 $list-item-title-font-size: 1rem !default;
-$list-item-subtitle-font-size: calc(#{$list-item-title-font-size} * 0.87) !default;
+$list-item-subtitle-font-size: calc(
+  #{$list-item-title-font-size} * 0.87
+) !default;
 $list-item-subtitle-color: $grey-light !default;
 $list-item-subtitle-padding: 0.3rem !default;
 $list-item-title-font-weight: 700 !default;
 $list-border-radius: 4px !default;
 $list-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !default;
+$list-check-column-padding: 0.7rem !default;
 $items-width: 20 30 40 50 60 70 80 90 100;
 
 @mixin list-bar() {
@@ -20,7 +23,6 @@ $items-width: 20 30 40 50 60 70 80 90 100;
   border-bottom: $list-bottom-border;
 }
 
-
 .t-list {
   display: flex;
   flex-direction: column;
@@ -28,9 +30,9 @@ $items-width: 20 30 40 50 60 70 80 90 100;
   padding: 0;
   @include overflow($y: auto);
 
-  &__container{
+  &__container {
     @include border-radius($list-border-radius);
-    @include box-shadow-full( $list-shadow);
+    @include box-shadow-full($list-shadow);
   }
 
   &__heading {
@@ -45,7 +47,7 @@ $items-width: 20 30 40 50 60 70 80 90 100;
 
       @include tablet-up {
         --justify-content: space-between;
-        &.not-header{
+        &.not-header {
           --justify-content: flex-end;
         }
       }
@@ -73,6 +75,7 @@ $items-width: 20 30 40 50 60 70 80 90 100;
     }
 
     &-container {
+      display: flex;
       @include margin-padding($padding: $list-padding);
     }
 
@@ -133,6 +136,11 @@ $items-width: 20 30 40 50 60 70 80 90 100;
     justify-content: center;
     align-items: center;
   }
+  .table__column {
+    &--checkable {
+      padding-right: $list-check-column-padding;
+    }
+  }
 }
 
 .t-search {
@@ -167,19 +175,5 @@ $items-width: 20 30 40 50 60 70 80 90 100;
     @include tablet-landscape-up {
       width: unset;
     }
-  }
-}
-
-.t-loading-block {
-  width: 100%;
-  height: calc(100% - 3px);
-  padding: 0 !important;
-  z-index: 40;
-
-  .t-loading-block-ui {
-    width: 100%;
-    height: 100%;
-    background: rgba($dark, 0.1);
-    border-radius: 0 0 5px 5px;
   }
 }

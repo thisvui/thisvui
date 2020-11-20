@@ -4,6 +4,7 @@ export * from "./TButton";
 
 export { default as TAutocomplete } from "./TAutocomplete";
 
+export { default as TBlockUI } from "./TBlockUI";
 export { default as TBox } from "./TBox";
 export { default as TBreadcrumb } from "./TBreadcrumb";
 

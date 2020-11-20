@@ -21,7 +21,6 @@ export default {
       const css = new CssArchitect(ComponentNames.TBox);
       this.isFilled(css);
       css.addClass(this.getThemeModifiers);
-      css.addClass(this.getSyntaxModifiers);
       css.addClass(this.getElevationModifiers);
       css.addClass(this.getDimensionModifiers);
       css.addClass(this.getDisplayModifiers);

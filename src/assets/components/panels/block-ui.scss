@@ -1,0 +1,14 @@
+.t-loading-block {
+  top: 0;
+  width: 100%;
+  height: calc(100% - 3px);
+  padding: 0 !important;
+  z-index: 40;
+
+  .t-loading-block-ui {
+    width: 100%;
+    height: 100%;
+    background: rgba($dark, 0.1);
+    border-radius: 0 0 5px 5px;
+  }
+}

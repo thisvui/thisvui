@@ -3,6 +3,7 @@ let ComponentNames = {
   TAccordionItem: "t-accordion-item",
   TAside: "t-aside",
   TAutocomplete: "t-autocomplete",
+  TBlockUI: "t-block-ui",
   TBox: "t-box",
   TBreadcrumb: "t-breadcrumb",
   TButton: "t-button",

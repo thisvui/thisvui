@@ -47,14 +47,14 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect(ComponentNames.TAccordion);
-      cssArchitect.addClass(this.getThemeModifiers);
-      cssArchitect.addClass(this.getHelpersModifiers);
-      cssArchitect.addClass("borderless", this.borderless);
-      cssArchitect.addClass("elevation-1");
-      cssArchitect.addClass(this.targetClass, this.targetClass !== undefined);
-      this.setupThemeModifier(cssArchitect);
-      return cssArchitect.getClasses();
+      const css = new CssArchitect(ComponentNames.TAccordion);
+      css.addClass(this.getThemeModifiers);
+      css.addClass(this.getHelpersModifiers);
+      css.addClass("borderless", this.borderless);
+      css.addClass("elevation-1");
+      css.addClass(this.targetClass, this.targetClass !== undefined);
+      this.setupThemeModifier(css);
+      return css.getClasses();
     }
   },
   data() {
