@@ -9,10 +9,9 @@ $bt-radius-normal: 3px !default;
 $bt-radius-medium: 4px !default;
 $bt-radius-large: 6px !default;
 
-$btn-margin: 0.5rem;
-$btn-margin-compact: 0.25rem;
-$btn-padding: 1em;
-$btn-padding-compact: 0.7em;
+$btn-margin: 0.25rem;
+$btn-padding: 0.7em;
+$btn-padding-compact: 0.5em;
 $btn-icon-margin: 0.3rem;
 
 @mixin btn-sizes {
@@ -49,32 +48,28 @@ $btn-icon-margin: 0.3rem;
   text-align: center;
   text-decoration: none;
   position: relative;
-  @include btn-shadow;
   @include btn-sizes;
+
+  &.inset {
+    @include btn-shadow;
+  }
 
   &__content{
     line-height: 1;
+    &.icon-left {
+      margin-left: $btn-icon-margin;
+      margin-right: 0;
+    }
+    &.icon-right {
+      margin-left: 0;
+      margin-right: $btn-icon-margin;
+    }
   }
 
   & > .t-icon {
     width: auto;
     height: auto;
   }
-
-  &.icon-left {
-    & > .t-icon{
-      margin-left: 0;
-      margin-right: $btn-icon-margin;
-    }
-  }
-
-  &.icon-right {
-    & > .t-icon{
-      margin-left: $btn-icon-margin;
-      margin-right: 0;
-    }
-  }
-
 
   &.compact {
     padding: $btn-padding-compact;

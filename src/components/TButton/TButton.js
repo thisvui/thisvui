@@ -6,7 +6,7 @@ import padding from "../../mixins/padding";
 import sizes from "../../mixins/sizes";
 import states from "../../mixins/states";
 import themes from "../../mixins/themes";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
@@ -36,10 +36,6 @@ export default {
     confirm: {
       type: Boolean,
       default: false
-    },
-    active: {
-      type: Boolean,
-      default: true
     },
     dialogTitle: {
       type: String,
@@ -107,7 +103,8 @@ export default {
     raised: Boolean,
     flat: Boolean,
     compact: Boolean,
-    ripple: Boolean
+    ripple: Boolean,
+    inset: Boolean
   },
   data() {
     return {
@@ -130,14 +127,13 @@ export default {
       css.addClass("raised", this.raised);
       css.addClass("ripple", this.ripple);
       css.addClass("compact", this.compact);
+      css.addClass("inset", this.inset);
       css.addClass("is-text colored", this.text);
       css.addClass("outlined bordered colored", this.outlined);
       css.addClass("inverted", this.inverted);
       css.addClass("filled hoverable activable", !this.outlined && !this.text);
       css.addClass("is-loading", this.isLoading);
       css.addClass("disabled", this.disabled);
-      css.addClass("icon-left", this.icon && !this.iconRight);
-      css.addClass("icon-right", this.iconRight);
       css.addClass(this.targetClass, this.targetClass !== undefined);
       css.addClass(this.getThemeModifiers);
       css.addStyles([
@@ -187,12 +183,10 @@ export default {
     getIconClasses: function() {
       const css = new CssArchitect();
       css.addClass(this.themeModifier, this.hasThemeModifier);
+      css.addClass("disabled", this.disabled);
       css.addClass("inverted", !this.outlined && !this.text && !this.inverted);
       css.addClass(this.iconClass, this.isNotNull(this.iconClass));
       return css.getClasses();
-    },
-    getActive: function() {
-      return this.active && !this.disabled;
     },
     /**
      * Converts the confirm prop to Boolean
@@ -292,33 +286,27 @@ export default {
      */
     createButton(architect) {
       let button = architect.createElement(
-        this.getActive ? "a" : "span",
+        this.disabled ? "span" : "a",
         this.getCss.getClasses()
       );
       button.setId(this.id);
+      button.setRef("button");
+      button.setAttrs(this.$attrs);
+      button.setStyles(this.getCss.getStyles());
+      button.addAttr("disabled", this.disabled);
+      button.addClick(this.onClick, !this.disabled, false);
 
-      if (this.getActive) {
-        button.setRef("button");
-        button.setAttrs(this.$attrs);
-        button.setStyles(this.getCss.getStyles());
-        button.addAttr("disabled", this.disabled);
-        button.addClick(this.onClick);
-
-        this.createButtonIcon(button, !this.iconRight);
-        if (this.hasSlot) {
-          let slot = architect
-            .createSpan(`${ComponentNames.TButton}__content`)
-            .setChildren(this.$slots.default);
-          button.addChild(slot);
-        }
-        this.createButtonIcon(button, this.iconRight);
-      } else {
-        this.createButtonIcon(button, !this.iconRight);
-        if (this.hasSlot) {
-          button.setChildren(this.$slots.default);
-        }
-        this.createButtonIcon(button, this.iconRight);
+      this.createButtonIcon(button, !this.iconRight);
+      let contentClass =
+        this.icon && this.iconRight ? "icon-right" : "icon-left";
+      if (this.hasSlot) {
+        let slot = architect
+          .createSpan(`${ComponentNames.TButton}__content ${contentClass}`)
+          .setChildren(this.$slots.default);
+        button.addChild(slot);
       }
+      this.createButtonIcon(button, this.iconRight);
+
       architect.addChild(button);
     },
     /**

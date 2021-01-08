@@ -36,6 +36,9 @@ $shade-percents: 10 20 25 30 40 50 60 70 75 80 90 !default;
 * {
   .colored {
     color: $dark;
+    &.disabled {
+      color: lighten($grey-dark, 30%) !important;
+    }
     @each $name, $pair in $this-colors {
       $color: nth($pair, 1);
       $color-invert: nth($pair, 2);
@@ -53,6 +56,9 @@ $shade-percents: 10 20 25 30 40 50 60 70 75 80 90 !default;
 * {
   .bordered {
     border-color: $link;
+    &.disabled {
+      border-color: lighten($grey-dark, 30%) !important;
+    }
     @each $name, $pair in $this-colors {
       $color: nth($pair, 1);
       $color-invert: nth($pair, 2);
@@ -91,8 +97,8 @@ $shade-percents: 10 20 25 30 40 50 60 70 75 80 90 !default;
     background-color: rgba($dark, var(--bg-alpha));
   }
   &.disabled {
-    background-color: lighten($grey, 40%) !important;
-    color: lighten($grey, 20%) !important;
+    background-color: lighten($grey-dark, 50%) !important;
+    color: lighten($grey-dark, 30%) !important;
   }
   &.ripple:hover {
     background: lighten($dark, 50%)

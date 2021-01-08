@@ -82,6 +82,10 @@ a {
   strong {
     color: currentColor;
   }
+
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 code {
