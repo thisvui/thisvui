@@ -1,7 +1,7 @@
 import alignment from "../../mixins/alignment";
 import themes from "../../mixins/themes";
 import common from "../../mixins/common";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import ElementArchitect from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";

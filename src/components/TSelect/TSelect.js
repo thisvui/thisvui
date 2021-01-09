@@ -1,6 +1,6 @@
 import inputs from "../../mixins/inputs";
 import selects from "../../mixins/selects";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";

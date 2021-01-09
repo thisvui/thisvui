@@ -2,7 +2,7 @@ import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
 import display from "../../mixins/display";
 import themes from "../../mixins/themes";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
@@ -55,7 +55,9 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getCloseButtonClasses: function() {
-      const css = new CssArchitect(`${ComponentNames.TNotification}__close t-delete`);
+      const css = new CssArchitect(
+        `${ComponentNames.TNotification}__close t-delete`
+      );
       css.addClass(this.closeButtonClass, this.closeButtonClass);
       return css.getClasses();
     }

@@ -12,45 +12,48 @@ export default {
     }
   },
   methods: {
-    addScope(key){
-        if(key && !this.scopes.has(key)) {
-          this.scopes.set(key, [])
-        }
+    addScope(key) {
+      if (key && !this.scopes.has(key)) {
+        this.scopes.set(key, []);
+      }
     },
-    getScope(key){
-      if(key){
-        if(!this.scopes.has(key)){
-          throw new Error(`Notification scope ${key} not found`)
+    getScope(key) {
+      if (key) {
+        if (!this.scopes.has(key)) {
+          throw new Error(`Notification scope ${key} not found`);
         }
-        return this.scopes.get(key)
+        return this.scopes.get(key);
       }
     },
     addNotification: function(notification) {
-      let scope = notification.scope || "global"
-      let notifications = this.getScope(scope)
+      let scope = notification.scope || "global";
+      let notifications = this.getScope(scope);
       notifications.push(notification);
-      NotificationBus.$emit(this.$thisvui.events.notification.added)
-      NotificationBus.$emit(this.$thisvui.events.notification.updated)
+      NotificationBus.$emit(this.$thisvui.events.notification.added);
+      NotificationBus.$emit(this.$thisvui.events.notification.updated);
     },
     removeNotification: function(notification) {
-      let scope = notification.scope || "global"
-      let notifications = this.getScope(scope)
+      let scope = notification.scope || "global";
+      let notifications = this.getScope(scope);
       const index = notifications.indexOf(notification);
       if (index !== -1) {
         notifications.splice(index, 1);
       }
-      NotificationBus.$emit(this.$thisvui.events.notification.removed)
-      NotificationBus.$emit(this.$thisvui.events.notification.updated)
+      NotificationBus.$emit(this.$thisvui.events.notification.removed);
+      NotificationBus.$emit(this.$thisvui.events.notification.updated);
     },
-    notify(message, { type='info', timeout = 3000, infinite = false, ...rest}={}) {
+    notify(
+      message,
+      { type = "info", timeout = 3000, infinite = false, ...rest } = {}
+    ) {
       let params = {
         text: message,
         type: type,
         infinite: infinite,
         timeout: timeout,
         ...rest
-      }
-      if(infinite){
+      };
+      if (infinite) {
         delete params.timeout;
       }
       this.addNotification(params);

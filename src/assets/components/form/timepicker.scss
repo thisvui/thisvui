@@ -23,7 +23,6 @@ $tp-input-width: 34px;
   pointer-events: none;
   @include box-overlay-z-index;
 
-
   @include big-phone-up {
     width: 250px;
     border-radius: 0;
@@ -84,7 +83,7 @@ $tp-input-width: 34px;
       transform: scale(1.1);
     }
 
-    &-bg{
+    &-bg {
       position: absolute;
       top: -25%;
       left: 0;

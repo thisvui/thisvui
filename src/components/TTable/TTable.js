@@ -3,7 +3,7 @@ import list from "../../mixins/list";
 import common from "../../mixins/common";
 import themes from "../../mixins/themes";
 import dimension from "../../mixins/dimension";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import TExpand from "../TAnimation/TExpand";
 import { TFlex } from "../TFlex";
@@ -101,7 +101,9 @@ export default {
       return css;
     },
     headingContentCss: function() {
-      const css = new CssArchitect(`${ComponentNames.TTable}__heading--horizontal`);
+      const css = new CssArchitect(
+        `${ComponentNames.TTable}__heading--horizontal`
+      );
       css.addClass("not-header", !this.hasHeading);
       return css;
     },

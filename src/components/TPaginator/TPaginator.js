@@ -1,4 +1,4 @@
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 import TIcon from "../TIcon/TIcon";
 import TPaginatorControl from "./TPaginatorControl";
 import TSelect from "../TSelect/TSelect";
@@ -25,7 +25,7 @@ export default {
       default: false
     },
     rounded: Boolean,
-    transparent: Boolean,
+    transparent: Boolean
   },
   data() {
     return {
@@ -74,10 +74,7 @@ export default {
      */
     getPreviousClass() {
       const css = new CssArchitect(`${ComponentNames.TPaginator}__previous`);
-      css.addClass(
-        this.previousClass,
-        this.previousClass !== undefined
-      );
+      css.addClass(this.previousClass, this.previousClass !== undefined);
       css.addClass(this.getHelpersModifiers);
       return css.getClasses();
     },
@@ -114,11 +111,10 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getCurrentLinkClass() {
-      const css = new CssArchitect(`${ComponentNames.TPaginator}__link is-current`);
-      css.addClass(
-        this.currentLinkClass,
-        this.currentLinkClass !== undefined
+      const css = new CssArchitect(
+        `${ComponentNames.TPaginator}__link is-current`
       );
+      css.addClass(this.currentLinkClass, this.currentLinkClass !== undefined);
       return css.getClasses();
     },
     /**

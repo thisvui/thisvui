@@ -136,7 +136,9 @@ export default {
       return this.modifiers.some(modifier => classes.includes(modifier));
     },
     configureDefault(cssArchitect, defaultTheme) {
-      let defaultModifier = this.$_utils.check.isString(defaultTheme) ? defaultTheme : "is-primary";
+      let defaultModifier = this.$_utils.check.isString(defaultTheme)
+        ? defaultTheme
+        : "is-primary";
       cssArchitect.addClass(defaultModifier, !this.hasThemeModifier);
       this.setupThemeModifier(cssArchitect);
     },
@@ -169,7 +171,7 @@ export default {
       if (!cssArchitect) {
         throw new Error("filled - Please provide css-architect parameter");
       }
-      if(active) {
+      if (active) {
         cssArchitect.addClass(`filled`);
         cssArchitect.addClass(`remove-init`, removeInit);
         cssArchitect.addClass(`hoverable`, hoverable);
@@ -178,22 +180,28 @@ export default {
         cssArchitect.addClass(`shade-${shade}`, shade);
       }
     },
-    isColored(cssArchitect, { inverted = false, tint = false, shade = false, active = true } = {}) {
+    isColored(
+      cssArchitect,
+      { inverted = false, tint = false, shade = false, active = true } = {}
+    ) {
       if (!cssArchitect) {
         throw new Error("colored - Please provide css-architect parameter");
       }
-      if(active) {
+      if (active) {
         cssArchitect.addClass(`colored`);
         cssArchitect.addClass(`inverted`, inverted);
         cssArchitect.addClass(`tint-${tint}`, tint);
         cssArchitect.addClass(`shade-${shade}`, shade);
       }
     },
-    isBordered(cssArchitect, { tint = false, shade = false,  active = true } = {}) {
+    isBordered(
+      cssArchitect,
+      { tint = false, shade = false, active = true } = {}
+    ) {
       if (!cssArchitect) {
         throw new Error("bordered - Please provide css-architect parameter");
       }
-      if(active) {
+      if (active) {
         cssArchitect.addClass(`bordered`);
         cssArchitect.addClass(`tint-${tint}`, tint);
         cssArchitect.addClass(`shade-${shade}`, shade);
@@ -203,7 +211,7 @@ export default {
       if (!cssArchitect) {
         throw new Error("hovered - Please provide css-architect parameter");
       }
-      if(active){
+      if (active) {
         cssArchitect.addClass(`hovered`);
         cssArchitect.addClass(`has-color`, hasColor);
       }

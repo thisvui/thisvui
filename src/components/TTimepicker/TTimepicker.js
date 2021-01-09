@@ -12,10 +12,10 @@ import setSeconds from "date-fns/setSeconds";
 import inputs from "../../mixins/inputs";
 import time from "../../mixins/time";
 import timeEvents from "../../mixins/timeEvents";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 import CssArchitect from "../../utils/css-architect";
-import {createDiv} from "../../utils/element-architect";
-import {filteredDigits} from "../../utils/pad";
+import { createDiv } from "../../utils/element-architect";
+import { filteredDigits } from "../../utils/pad";
 
 import TNumpad from "./TNumpad";
 import TTimeUnit from "./TTimeUnit";

@@ -1,4 +1,4 @@
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 import ElementArchitect from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
 
@@ -10,7 +10,9 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect(`${ComponentNames.TNavBar}__divider`);
+      const cssArchitect = new CssArchitect(
+        `${ComponentNames.TNavBar}__divider`
+      );
       return cssArchitect.getClasses();
     }
   },

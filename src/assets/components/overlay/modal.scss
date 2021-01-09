@@ -17,25 +17,25 @@ $modal-max-height: 98vh !default;
 
   &.small {
     @include tablet-up {
-      width: calc(38vw - (#{$modal-margin}*2));
+      width: calc(38vw - (#{$modal-margin}* 2));
     }
   }
 
   &.half {
     @include tablet-up {
-      width: calc(54vw - (#{$modal-margin}*2));
+      width: calc(54vw - (#{$modal-margin}* 2));
     }
   }
 
   &.medium {
     @include tablet-up {
-      width: calc(78vw - (#{$modal-margin}*2));
+      width: calc(78vw - (#{$modal-margin}* 2));
     }
   }
 
   &.large {
     @include tablet-up {
-      width: calc(96vw - (#{$modal-margin}*2));
+      width: calc(96vw - (#{$modal-margin}* 2));
     }
   }
 

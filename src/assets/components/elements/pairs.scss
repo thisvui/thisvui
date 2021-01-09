@@ -2,29 +2,41 @@ $pairs-column-phone-max-width: 200px;
 $pairs-column-desktop-max-width: 200px;
 .t-pairs {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax($pairs-column-phone-max-width, 1fr));
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax($pairs-column-phone-max-width, 1fr)
+  );
   grid-gap: 2em;
   margin: 1rem 0 1rem 0;
   padding: 2em;
   border-radius: 4px;
 
   @include desktop-up {
-    grid-template-columns: repeat(auto-fit, minmax($pairs-column-desktop-max-width, 1fr));
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax($pairs-column-desktop-max-width, 1fr)
+    );
   }
 
   &--vertical {
     --pairs-row-height: 40px;
     display: grid;
-    grid-template-rows: minmax(var(--pairs-row-height), 1fr) minmax(var(--pairs-row-height), 1fr);
+    grid-template-rows: minmax(var(--pairs-row-height), 1fr) minmax(
+        var(--pairs-row-height),
+        1fr
+      );
     grid-auto-rows: minmax(var(--pairs-row-height), 1fr);
     grid-gap: 2em;
 
     @include tablet-up {
-      grid-template-rows: minmax(var(--pairs-row-height), 1fr) minmax(var(--pairs-row-height), 1fr) minmax(var(--pairs-row-height), 1fr);
-
+      grid-template-rows:
+        minmax(var(--pairs-row-height), 1fr) minmax(
+          var(--pairs-row-height),
+          1fr
+        )
+        minmax(var(--pairs-row-height), 1fr);
     }
   }
-
 }
 
 .t-pair {

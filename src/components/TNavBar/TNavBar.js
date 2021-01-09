@@ -3,7 +3,7 @@ import common from "../../mixins/common";
 import dimension from "../../mixins/dimension";
 import padding from "../../mixins/padding";
 import margin from "../../mixins/margin";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";

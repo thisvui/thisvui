@@ -2,12 +2,12 @@ import helpers from "../../mixins/helpers";
 import tree from "../../mixins/tree";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import TTreeNav from "./TTreeNav";
 
 import CssArchitect from "../../utils/css-architect";
-import {createDiv} from "../../utils/element-architect";
+import { createDiv } from "../../utils/element-architect";
 
 export default {
   name: ComponentNames.TTreeView,
@@ -78,7 +78,10 @@ export default {
       for (let index in this.model) {
         let item = this.model[index];
 
-        let treeItem = architect.createElement(TTreeNav, `${ComponentNames.TTreeNav}__item`);
+        let treeItem = architect.createElement(
+          TTreeNav,
+          `${ComponentNames.TTreeNav}__item`
+        );
         treeItem.setKey(`${this.id}${index}`);
         treeItem.setProps({
           model: item,

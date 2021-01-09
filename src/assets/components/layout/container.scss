@@ -40,7 +40,6 @@ $container-offset: (2 * $container-min-gap) !default;
   &.fluid {
     margin-left: $container-min-gap;
     margin-right: $container-min-gap;
-    max-width: none
+    max-width: none;
   }
-
 }

@@ -271,13 +271,15 @@
   transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
 }
 
-.slidePrev-leave-to, .slideNext-enter {
+.slidePrev-leave-to,
+.slideNext-enter {
   transform: translate3d(-100%, 0, 0);
   position: absolute;
   width: 100%;
 }
 
-.slidePrev-enter, .slideNext-leave-to {
+.slidePrev-enter,
+.slideNext-leave-to {
   transform: translate3d(100%, 0, 0);
   position: absolute;
   width: 100%;
@@ -357,12 +359,14 @@
   transition: 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
-.slide-in-left-leave-to, .slide-in-left-enter {
+.slide-in-left-leave-to,
+.slide-in-left-enter {
   -webkit-animation: slide-in-right 0.5s;
   animation: slide-in-right 0.5s;
 }
 
-.slide-in-left-enter, .slide-in-right-leave-to {
+.slide-in-left-enter,
+.slide-in-right-leave-to {
   -webkit-animation: slide-in-left 0.5s;
   animation: slide-in-left 0.5s;
 }
@@ -377,12 +381,15 @@
   width: 0;
 }
 
-.dropdown-enter-active, .dropdown-leave-active {
+.dropdown-enter-active,
+.dropdown-leave-active {
   z-index: 1;
-  transition: all 0.1s ease-in-out 0s, visibility 0s linear 0.1s, z-index 0s linear 0.01s;
+  transition: all 0.1s ease-in-out 0s, visibility 0s linear 0.1s,
+    z-index 0s linear 0.01s;
 }
 
-.dropdown-enter, .dropdown-leave-to {
+.dropdown-enter,
+.dropdown-leave-to {
   opacity: 0;
   transition-delay: 0s, 0s, 0.1s;
   z-index: -1;

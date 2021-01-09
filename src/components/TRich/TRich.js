@@ -3,12 +3,11 @@ import common from "../../mixins/common";
 import icons from "../../mixins/icons";
 import themes from "../../mixins/themes";
 import validation from "../../mixins/validation";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 import { TSelect } from "../TSelect";
 
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
-
 
 export default {
   name: ComponentNames.TRich,
@@ -271,7 +270,7 @@ export default {
         this.editor.execCommand(command, false, arg);
       }
     },
-    configEditable(editor){
+    configEditable(editor) {
       let editorBody = editor.body;
       if ("contentEditable" in editorBody) {
         // allow contentEditable
@@ -280,7 +279,7 @@ export default {
         // Firefox earlier than version 3
         if ("designMode" in editor) {
           // turn on designMode
-          editor.designMode = !this.disabled ? "on": "off";
+          editor.designMode = !this.disabled ? "on" : "off";
         }
       }
     },
@@ -392,7 +391,10 @@ export default {
       architect.addChild(label, this.isNotEmpty(this.label));
     },
     createIframe(architect) {
-      let iframe = architect.createElement("iframe", `${ComponentNames.TRich}__input`);
+      let iframe = architect.createElement(
+        "iframe",
+        `${ComponentNames.TRich}__input`
+      );
       let id = `${this.id}_iframe`;
       iframe.setId(id);
       iframe.setRef(id);

@@ -102,7 +102,6 @@ $hero-content-padding-big: 1.5rem 2rem;
     @include tablet-up {
       margin-top: 0;
     }
-
   }
 
   &__title {
@@ -120,7 +119,6 @@ $hero-content-padding-big: 1.5rem 2rem;
       @include tablet-up {
         text-align: left;
       }
-
     }
   }
 
@@ -139,7 +137,6 @@ $hero-content-padding-big: 1.5rem 2rem;
       @include tablet-up {
         text-align: left;
       }
-
     }
   }
   &__desc {
@@ -174,7 +171,7 @@ $hero-content-padding-big: 1.5rem 2rem;
       height: auto;
     }
 
-    &--slot{
+    &--slot {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -192,7 +189,5 @@ $hero-content-padding-big: 1.5rem 2rem;
         height: auto;
       }
     }
-
   }
-
 }

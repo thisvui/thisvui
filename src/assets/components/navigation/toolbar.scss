@@ -31,7 +31,10 @@
 
             &:not(.is-loading) {
               &::after {
-                border-color: rgba($color, 0.9) transparent transparent transparent;
+                border-color: rgba($color, 0.9)
+                  transparent
+                  transparent
+                  transparent;
               }
             }
           }

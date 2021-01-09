@@ -1,7 +1,7 @@
 import helpers from "../../mixins/helpers";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 import TIcon from "../TIcon/TIcon";
 import dimension from "../../mixins/dimension";
 import flex from "../../mixins/flex";

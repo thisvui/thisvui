@@ -4,7 +4,7 @@ import background from "../../mixins/background";
 import padding from "../../mixins/padding";
 import margin from "../../mixins/margin";
 import helpers from "../../mixins/helpers";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";

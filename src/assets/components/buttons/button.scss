@@ -1,7 +1,7 @@
 /* Buttons */
 $bt-size-small: 0.7rem !default;
 $bt-size-normal: 0.9rem !default;
-$bt-size-medium: 1.1rem  !default;
+$bt-size-medium: 1.1rem !default;
 $bt-size-large: 1.4rem !default;
 
 $bt-radius-small: 2px !default;
@@ -54,7 +54,7 @@ $btn-icon-margin: 0.3rem;
     @include btn-shadow;
   }
 
-  &__content{
+  &__content {
     line-height: 1;
     &.icon-left {
       margin-left: $btn-icon-margin;
@@ -75,14 +75,14 @@ $btn-icon-margin: 0.3rem;
     padding: $btn-padding-compact;
 
     &.icon-left {
-      & > .t-icon{
+      & > .t-icon {
         margin-left: 0;
         margin-right: $btn-icon-margin;
       }
     }
 
     &.icon-right {
-      & > .t-icon{
+      & > .t-icon {
         margin-left: $btn-icon-margin;
         margin-right: 0;
       }

@@ -164,7 +164,11 @@ iconsMap.set("md", ICONS_MATERIAL_DESIGN);
 
 class ThisVuiConfig {
   constructor(options = {}) {
-    let { iconLib = "fa5", disabledClass = "bg-grey-lighter", emptyListText = "No records found" } = options;
+    let {
+      iconLib = "fa5",
+      disabledClass = "bg-grey-lighter",
+      emptyListText = "No records found"
+    } = options;
     this.options = options;
     this.iconLib = iconLib;
     this.icons = iconsMap.get(this.iconLib);

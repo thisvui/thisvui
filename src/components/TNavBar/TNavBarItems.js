@@ -3,7 +3,7 @@ import themes from "../../mixins/themes";
 import common from "../../mixins/common";
 import padding from "../../mixins/padding";
 import justify from "../../mixins/justify";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";

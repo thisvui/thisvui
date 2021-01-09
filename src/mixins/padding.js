@@ -29,12 +29,32 @@ export default {
      */
     getPaddingStyles() {
       const css = new CssArchitect();
-      css.addStyle("padding", css.addUnitOrString(this.padding, this.paddingUnit), this.padding !== undefined);
-      css.addStyle("padding-top", css.addUnitOrString(this.paddingTop, this.paddingUnit), this.paddingTop !== undefined);
-      css.addStyle("padding-right", css.addUnitOrString(this.paddingRight, this.paddingUnit), this.paddingRight !== undefined);
-      css.addStyle("padding-bottom", css.addUnitOrString(this.paddingBottom, this.paddingUnit), this.paddingBottom !== undefined);
-      css.addStyle("padding-left", css.addUnitOrString(this.paddingLeft, this.paddingUnit), this.paddingLeft !== undefined);
+      css.addStyle(
+        "padding",
+        css.addUnitOrString(this.padding, this.paddingUnit),
+        this.padding !== undefined
+      );
+      css.addStyle(
+        "padding-top",
+        css.addUnitOrString(this.paddingTop, this.paddingUnit),
+        this.paddingTop !== undefined
+      );
+      css.addStyle(
+        "padding-right",
+        css.addUnitOrString(this.paddingRight, this.paddingUnit),
+        this.paddingRight !== undefined
+      );
+      css.addStyle(
+        "padding-bottom",
+        css.addUnitOrString(this.paddingBottom, this.paddingUnit),
+        this.paddingBottom !== undefined
+      );
+      css.addStyle(
+        "padding-left",
+        css.addUnitOrString(this.paddingLeft, this.paddingUnit),
+        this.paddingLeft !== undefined
+      );
       return css.getStyles();
-    },
+    }
   }
 };

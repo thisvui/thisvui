@@ -1,4 +1,4 @@
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 import TNotification from "./TNotification";
 import common from "../../mixins/common";
 import check from "../../mixins/check";
@@ -82,7 +82,9 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getCloseButtonClasses: function() {
-      const css = new CssArchitect(`${ComponentNames.TNotification}__close t-delete`);
+      const css = new CssArchitect(
+        `${ComponentNames.TNotification}__close t-delete`
+      );
       css.addClass(this.closeButtonClass, this.closeButtonClass);
       return css.getClasses();
     }

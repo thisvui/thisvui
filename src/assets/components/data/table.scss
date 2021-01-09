@@ -44,7 +44,12 @@ $table-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !def
   &__heading {
     flex-direction: column;
     @include table-bar;
-    @include border-radius-specific($table-border-radius, $table-border-radius, 0, 0);
+    @include border-radius-specific(
+      $table-border-radius,
+      $table-border-radius,
+      0,
+      0
+    );
 
     &--horizontal {
       @extend .t-flex;
@@ -54,7 +59,7 @@ $table-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !def
 
       @include tablet-up {
         --justify-content: space-between;
-        &.not-header{
+        &.not-header {
           --justify-content: flex-end;
         }
       }
@@ -63,7 +68,12 @@ $table-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !def
 
   &__footer {
     @include table-bar;
-    @include border-radius-specific(0, 0, $table-border-radius, $table-border-radius);
+    @include border-radius-specific(
+      0,
+      0,
+      $table-border-radius,
+      $table-border-radius
+    );
   }
 
   td,
@@ -75,7 +85,12 @@ $table-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !def
 
   thead {
     tr {
-      @include border-radius-specific($table-border-radius, $table-border-radius, 0, 0);
+      @include border-radius-specific(
+        $table-border-radius,
+        $table-border-radius,
+        0,
+        0
+      );
     }
     th {
       border-bottom-color: $table-head-cell-border-color;
@@ -127,16 +142,26 @@ $table-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !def
     border-radius: $table-border-radius;
     @include box-shadow-full($table-shadow);
 
-    &.has-header{
-      &:not(.has-footer){
-        @include border-radius-specific(0, 0, $table-border-radius, $table-border-radius);
+    &.has-header {
+      &:not(.has-footer) {
+        @include border-radius-specific(
+          0,
+          0,
+          $table-border-radius,
+          $table-border-radius
+        );
         thead {
           tr {
-            @include border-radius-specific(0, 0, $table-border-radius, $table-border-radius);
+            @include border-radius-specific(
+              0,
+              0,
+              $table-border-radius,
+              $table-border-radius
+            );
           }
         }
       }
-      &.has-footer{
+      &.has-footer {
         @include border-radius-specific(0, 0, 0, 0);
         thead {
           tr {
@@ -146,17 +171,26 @@ $table-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !def
       }
     }
 
-    &.has-footer{
-      &:not(.has-header){
-        @include border-radius-specific($table-border-radius, $table-border-radius, 0, 0);
+    &.has-footer {
+      &:not(.has-header) {
+        @include border-radius-specific(
+          $table-border-radius,
+          $table-border-radius,
+          0,
+          0
+        );
         thead {
           tr {
-            @include border-radius-specific($table-border-radius, $table-border-radius, 0, 0);
+            @include border-radius-specific(
+              $table-border-radius,
+              $table-border-radius,
+              0,
+              0
+            );
           }
         }
       }
     }
-
   }
 
   &__row {

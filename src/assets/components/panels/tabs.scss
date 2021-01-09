@@ -1,9 +1,10 @@
 $tabs-body-content-padding: $box-content-padding !default;
-$tabs-item-height:3rem !default;
+$tabs-item-height: 3rem !default;
 $tabs-item-line-height: 1rem !default;
 $tabs-border-radius: 4px !default;
 $tabs-bottom-margin: $separation-margin !default;
-$tabs-shadow: 0 0px 1px 0px rgba($black, 0.25), 0 1px 1px 0px rgba($black, 0.14), 0 3px 3px 0 rgba($black, 0.12) !default;
+$tabs-shadow: 0 0px 1px 0px rgba($black, 0.25), 0 1px 1px 0px rgba($black, 0.14),
+  0 3px 3px 0 rgba($black, 0.12) !default;
 
 .t-tabs {
   margin: 0;
@@ -97,7 +98,6 @@ $tabs-shadow: 0 0px 1px 0px rgba($black, 0.25), 0 1px 1px 0px rgba($black, 0.14)
         border-top-right-radius: $tabs-border-radius;
       }
     }
-
   }
 
   &__container {

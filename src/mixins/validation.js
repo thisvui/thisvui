@@ -1,10 +1,7 @@
 import mask from "./mask";
 
 import utils from "../utils/utils";
-import {
-  Result,
-  Rule,
-} from "../components/TValidation/validation-bus";
+import { Result, Rule } from "../components/TValidation/validation-bus";
 
 export const RULES = Object.freeze({
   REQUIRED: Symbol("required"),
@@ -291,14 +288,14 @@ export default {
     addRule(name, message, validationFunction, custom = false) {
       const rule = new Rule(name, message, validationFunction, custom);
       this.rules.push(rule);
-      if(this.registrationFirstAttempt && !this.validatorLoaded){
+      if (this.registrationFirstAttempt && !this.validatorLoaded) {
         this.registerValidator();
       }
     },
     addCustomRule(name, message, validationFunction) {
       this.addRule(name, message, validationFunction, true);
     },
-    registerValidator(){
+    registerValidator() {
       if (this.hasRules()) {
         this.$validation.registerValidator(
           this.id,
@@ -308,8 +305,8 @@ export default {
         );
         this.validatorLoaded = true;
       }
-      if(!this.registrationFirstAttempt){
-        this.registrationFirstAttempt = true
+      if (!this.registrationFirstAttempt) {
+        this.registrationFirstAttempt = true;
       }
     },
     /**
@@ -324,14 +321,18 @@ export default {
      */
     removeValidator(formId) {
       if (this.hasRules()) {
-        this.$validation.unregisterValidator(this.id, formId, this.validationScope);
+        this.$validation.unregisterValidator(
+          this.id,
+          formId,
+          this.validationScope
+        );
       }
     },
     /**
      * Removes a validator from the validation bus
      */
     getValidator() {
-      return  this.$validation.getValidator(this.id, this.validationScope);
+      return this.$validation.getValidator(this.id, this.validationScope);
     },
     /**
      * Returns the error message for specific rule type

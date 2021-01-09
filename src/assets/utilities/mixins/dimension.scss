@@ -8,7 +8,6 @@
   }
 }
 
-
 @mixin margin-padding($margin: false, $padding: false) {
   @if $margin {
     margin: $margin;

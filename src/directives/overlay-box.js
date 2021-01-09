@@ -88,11 +88,7 @@ function enterListener(el, binding) {
   let { showOn } = getAttributes(el);
   let $box = el;
 
-  let { yPos, xPos, inverted } = calculatePos(
-    $box,
-    getScrollTop(el),
-    binding
-  );
+  let { yPos, xPos, inverted } = calculatePos($box, getScrollTop(el), binding);
   $box.style.top = yPos;
   $box.style.left = inverted ? "unset" : xPos;
   $box.style.right = inverted ? xPos : "unset";

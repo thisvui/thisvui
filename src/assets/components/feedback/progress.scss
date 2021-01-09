@@ -52,14 +52,14 @@ $progress-circular-margin: 1rem !default;
 
       &.stripped {
         background-image: linear-gradient(
-            -45deg,
-            rgba(255, 255, 255, 0.125) 25%,
-            transparent 25%,
-            transparent 50%,
-            rgba(255, 255, 255, 0.125) 50%,
-            rgba(255, 255, 255, 0.125) 75%,
-            transparent 75%,
-            transparent
+          -45deg,
+          rgba(255, 255, 255, 0.125) 25%,
+          transparent 25%,
+          transparent 50%,
+          rgba(255, 255, 255, 0.125) 50%,
+          rgba(255, 255, 255, 0.125) 75%,
+          transparent 75%,
+          transparent
         );
         background-size: 35px 35px;
       }
@@ -119,8 +119,8 @@ $progress-circular-margin: 1rem !default;
     &__wrapper {
       --circular-progress: 0;
       @include dimensions(
-          var(--progress-circular-size),
-          var(--progress-circular-size)
+        var(--progress-circular-size),
+        var(--progress-circular-size)
       );
       margin: $progress-circular-margin;
       position: relative;
@@ -133,10 +133,10 @@ $progress-circular-margin: 1rem !default;
     &__bar {
       @include dimensions(100%, 100%);
       clip: rect(
-          0,
-          var(--progress-circular-size),
-          var(--progress-circular-size),
-          calc(var(--progress-circular-size) / 2)
+        0,
+        var(--progress-circular-size),
+        var(--progress-circular-size),
+        calc(var(--progress-circular-size) / 2)
       );
       left: 0;
       position: absolute;
@@ -156,10 +156,10 @@ $progress-circular-margin: 1rem !default;
       border: calc(var(--progress-circular-size) / 10) solid $primary;
       border-radius: 50%;
       clip: rect(
-          0,
-          calc(var(--progress-circular-size) / 2),
-          var(--progress-circular-size),
-          0
+        0,
+        calc(var(--progress-circular-size) / 2),
+        var(--progress-circular-size),
+        0
       );
       left: 0;
       position: absolute;

@@ -23,11 +23,19 @@
 
         .day-number {
           &.is-today {
-            @include color-props($color-invert, rgba($color, 0.7), rgba($color-invert, 0.1));
+            @include color-props(
+              $color-invert,
+              rgba($color, 0.7),
+              rgba($color-invert, 0.1)
+            );
           }
 
           &.is-selected {
-            @include color-props($color-invert, rgba($color, 0.9), rgba($color-invert, 0.2));
+            @include color-props(
+              $color-invert,
+              rgba($color, 0.9),
+              rgba($color-invert, 0.2)
+            );
           }
         }
 
@@ -100,7 +108,11 @@
       &.is-selected {
         border: 2px solid;
 
-        @include color-props($primary-invert, rgba($primary, 0.9), rgba($primary, 0.1));
+        @include color-props(
+          $primary-invert,
+          rgba($primary, 0.9),
+          rgba($primary, 0.1)
+        );
       }
 
       &.is-today {
@@ -115,7 +127,7 @@
     .group {
       flex: 33%;
 
-      &:not(:last-child){
+      &:not(:last-child) {
         margin-left: 1px;
       }
     }

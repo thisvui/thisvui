@@ -1,4 +1,4 @@
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 import ElementArchitect from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
 

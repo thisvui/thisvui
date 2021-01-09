@@ -48,7 +48,6 @@ $shade-percents: 10 20 25 30 40 50 60 70 75 80 90 !default;
         &.inverted {
           color: rgba($color-invert, var(--color-alpha));
         }
-
       }
     }
   }
@@ -232,45 +231,44 @@ $shade-percents: 10 20 25 30 40 50 60 70 75 80 90 !default;
   $color: nth($pair, 1);
 
   .color-#{$name} {
-    color: rgba($color,  var(--color-alpha)) !important;
+    color: rgba($color, var(--color-alpha)) !important;
   }
 
   .bg-#{$name} {
-    background-color: rgba($color,  var(--bg-alpha)) !important;
+    background-color: rgba($color, var(--bg-alpha)) !important;
   }
 
   .color-hover-#{$name} {
     &:hover {
-      color: rgba($color,  var(--color-hover-alpha)) !important;
+      color: rgba($color, var(--color-hover-alpha)) !important;
     }
   }
 
   .bg-hover-#{$name} {
     &:hover {
-      background-color: rgba($color,  var(--bg-hover-alpha)) !important;
+      background-color: rgba($color, var(--bg-hover-alpha)) !important;
     }
   }
-
 }
 
 @each $name, $shade in $this-shades {
   .color-#{$name} {
-    color: rgba($shade,  var(--color-alpha)) !important;
+    color: rgba($shade, var(--color-alpha)) !important;
   }
 
   .bg-#{$name} {
-    background-color: rgba($shade,  var(--bg-alpha)) !important;
+    background-color: rgba($shade, var(--bg-alpha)) !important;
   }
 
   .color-hover-#{$name} {
     &:hover {
-      color: rgba($shade,  var(--color-hover-alpha)) !important;
+      color: rgba($shade, var(--color-hover-alpha)) !important;
     }
   }
 
   .bg-hover-#{$name} {
     &:hover {
-      background-color: rgba($shade,  var(--bg-hover-alpha)) !important;
+      background-color: rgba($shade, var(--bg-hover-alpha)) !important;
     }
   }
 }

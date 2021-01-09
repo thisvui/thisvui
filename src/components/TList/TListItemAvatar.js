@@ -1,7 +1,7 @@
 import syntax from "../../mixins/syntax";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";

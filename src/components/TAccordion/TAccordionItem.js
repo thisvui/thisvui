@@ -119,12 +119,8 @@ export default {
     getIconClasses: function() {
       const css = new CssArchitect();
       css.addClass(this.iconClass, this.isNotNull(this.iconClass));
-      css.addClass(
-        "is-primary", !this.hasThemeModifier
-      );
-      css.addClass(
-        this.themeModifier, this.hasThemeModifier
-      );
+      css.addClass("is-primary", !this.hasThemeModifier);
+      css.addClass(this.themeModifier, this.hasThemeModifier);
       css.addClass("inverted");
       return css.getClasses();
     },
@@ -214,7 +210,9 @@ export default {
     let body = root.createDiv(this.getBodyClasses);
     let expand = root.createElement(TExpand);
     let content = root.createDiv(`${ComponentNames.TAccordion}__content`);
-    let contentBody = root.createDiv(`${ComponentNames.TAccordion}__content__body`);
+    let contentBody = root.createDiv(
+      `${ComponentNames.TAccordion}__content__body`
+    );
     contentBody.setChildren(this.$slots.default);
     content.addChild(contentBody);
     expand.addChild(content, this.isItemOpen);

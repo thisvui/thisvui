@@ -21,12 +21,12 @@ import setMinutes from "date-fns/setMinutes";
 import setSeconds from "date-fns/setSeconds";
 import startOfMonth from "date-fns/startOfMonth";
 import inputs from "../../mixins/inputs";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
 
-import {TInput} from "../TInput";
+import { TInput } from "../TInput";
 
 const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -193,7 +193,9 @@ export default {
       return days;
     },
     getContainerClass: function() {
-      const css = new CssArchitect(`group ${ComponentNames.TCalendar}__container`);
+      const css = new CssArchitect(
+        `group ${ComponentNames.TCalendar}__container`
+      );
       css.addClass(this.containerClass, this.containerClass !== undefined);
       css.addClass("is-horizontal", this.isHorizontal);
       return css.getClasses();
@@ -497,7 +499,9 @@ export default {
 
         // Creating days labels
         for (let dayLabel of this.dayLabels) {
-          let dayLabelEl = architect.createDiv(`${ComponentNames.TCalendar}__headings`);
+          let dayLabelEl = architect.createDiv(
+            `${ComponentNames.TCalendar}__headings`
+          );
           dayLabelEl.innerHTML(dayLabel);
           calendarBody.addChild(dayLabelEl);
         }

@@ -3,7 +3,7 @@ import tree from "../../mixins/tree";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
 import themes from "../../mixins/themes";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import TTreeNav from "../TTree/TTreeNav";
 
@@ -119,13 +119,18 @@ export default {
           menu.addChild(label);
         }
 
-        let treeContainer = menu.createUl(`${ComponentNames.TNavDrawer}__menu-list`);
+        let treeContainer = menu.createUl(
+          `${ComponentNames.TNavDrawer}__menu-list`
+        );
         treeContainer.setKey(`${this.id}-ml-tree${$index}`);
 
         for (let $treeIndex in $menu.children) {
           let $treeItem = $menu.children[$treeIndex];
 
-          let treeNav = menu.createElement(TTreeNav, `${ComponentNames.TNavDrawer}__menu-item`);
+          let treeNav = menu.createElement(
+            TTreeNav,
+            `${ComponentNames.TNavDrawer}__menu-item`
+          );
           treeNav.setKey(`${this.id}-ml-tree-item${$treeIndex}`);
           treeNav.setProps({
             tagClass: this.tagClass,
@@ -153,10 +158,9 @@ export default {
     this.createMenuItems(root);
     return root.create();
   },
-  mounted(){
+  mounted() {
     this.$on("close-siblings", id => {
       this.$emit("close-children", id);
     });
-
   }
 };

@@ -53,7 +53,7 @@ export default {
     },
     full: {
       type: Boolean
-    },
+    }
   },
   computed: {
     /**
@@ -80,13 +80,25 @@ export default {
     },
     getFlexStyles: function() {
       const cssArchitect = new CssArchitect();
-      cssArchitect.addStyle("--flex", this.flex, this.flex)
-      cssArchitect.addStyle("--flex-grow", this.flexGrow, this.flexGrow)
-      cssArchitect.addStyle("--flex-direction", this.flexDirection, this.flexDirection)
-      cssArchitect.addStyle("--align-items", this.alignItems, this.alignItems)
-      cssArchitect.addStyle("--align-self", this.alignSelf, this.alignSelf)
-      cssArchitect.addStyle("--justify-content", this.justifyContent, this.justifyContent)
-      cssArchitect.addStyle("--align-content", this.alignContent, this.alignContent)
+      cssArchitect.addStyle("--flex", this.flex, this.flex);
+      cssArchitect.addStyle("--flex-grow", this.flexGrow, this.flexGrow);
+      cssArchitect.addStyle(
+        "--flex-direction",
+        this.flexDirection,
+        this.flexDirection
+      );
+      cssArchitect.addStyle("--align-items", this.alignItems, this.alignItems);
+      cssArchitect.addStyle("--align-self", this.alignSelf, this.alignSelf);
+      cssArchitect.addStyle(
+        "--justify-content",
+        this.justifyContent,
+        this.justifyContent
+      );
+      cssArchitect.addStyle(
+        "--align-content",
+        this.alignContent,
+        this.alignContent
+      );
       return cssArchitect.getStyles();
     }
   }

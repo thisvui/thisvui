@@ -45,7 +45,7 @@
     justify-content: center;
   }
 
-  &.justify{
+  &.justify {
     &-start {
       justify-content: flex-start;
     }
@@ -57,7 +57,7 @@
     }
   }
 
-  &.align-items{
+  &.align-items {
     &-start {
       align-items: flex-start;
     }
@@ -87,5 +87,4 @@
   &.is-fullwidth {
     width: 100%;
   }
-
 }

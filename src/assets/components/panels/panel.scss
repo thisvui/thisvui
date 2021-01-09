@@ -15,12 +15,15 @@ $panel-content-padding: $box-content-padding !default;
     margin-bottom: 0;
     padding: 8px 12px 8px 12px;
     @if $add-radius == true {
-      border-radius: $panel-border-top-left-radius $panel-border-top-right-radius 0 0;
+      border-radius: $panel-border-top-left-radius
+        $panel-border-top-right-radius
+        0
+        0;
     }
     @if $add-shadow == true {
       @include light-shadow($black);
     }
-    &__text{
+    &__text {
       flex-grow: 1;
     }
     &.icon-left {
@@ -34,7 +37,7 @@ $panel-content-padding: $box-content-padding !default;
 .t-panel {
   display: flex;
   flex-direction: column;
-  &:not(:last-child){
+  &:not(:last-child) {
     margin-bottom: $panel-bottom-margin;
   }
 
@@ -54,7 +57,7 @@ $panel-content-padding: $box-content-padding !default;
     border-bottom: none;
     border-left: none;
     border-right: none;
-    &:not(:last-child){
+    &:not(:last-child) {
       margin-bottom: $panel-bottom-margin;
     }
   }

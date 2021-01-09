@@ -44,7 +44,7 @@ $pagination-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)
     flex: 1;
     @include box-size();
 
-    &:not(.transparent){
+    &:not(.transparent) {
       background-position: 0 0, 0 100%;
       background-repeat: no-repeat;
       @include border-radius($pagination-border-radius);
@@ -52,12 +52,13 @@ $pagination-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)
       @include box-shadow-full($pagination-shadow);
     }
 
-    &.transparent{
+    &.transparent {
       background: transparent;
     }
   }
 
-  &__next, &__previous {
+  &__next,
+  &__previous {
     box-shadow: none;
     padding-left: 0 !important;
     padding-right: 0 !important;

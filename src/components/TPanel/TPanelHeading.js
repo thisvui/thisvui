@@ -1,6 +1,6 @@
 import icons from "../../mixins/icons";
 import themes from "../../mixins/themes";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
@@ -83,7 +83,9 @@ export default {
     root.addVNodeChildren(this.$slots.default, !this.alignContentRight);
     this.createHeadingIcon(root, this.iconLeft);
     if (this.text) {
-      let text = root.createSpan(`${ComponentNames.TPanel}__heading__text is-size-6`);
+      let text = root.createSpan(
+        `${ComponentNames.TPanel}__heading__text is-size-6`
+      );
       text.innerHTML(this.text);
       root.addChild(text);
     }

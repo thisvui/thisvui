@@ -35,7 +35,6 @@
       bottom: 100%;
       top: unset;
     }
-
   }
 
   &__item {
@@ -82,16 +81,15 @@
       }
     }
   }
-
 }
 
-@keyframes dropdown-menu{
-  0%{
+@keyframes dropdown-menu {
+  0% {
     opacity: 0;
-    transform: rotateY(90deg) translateY(30px)
+    transform: rotateY(90deg) translateY(30px);
   }
-  100%{
+  100% {
     opacity: 1;
-    transform: rotateY(0deg) translateY(0px)
+    transform: rotateY(0deg) translateY(0px);
   }
 }

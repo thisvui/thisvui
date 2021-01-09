@@ -1,6 +1,6 @@
 import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
@@ -17,7 +17,9 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getClasses: function() {
-      const cssArchitect = new CssArchitect(`${ComponentNames.TNavBar}__dropdown`);
+      const cssArchitect = new CssArchitect(
+        `${ComponentNames.TNavBar}__dropdown`
+      );
       cssArchitect.addClass("is-boxed", this.isBoxed);
       return cssArchitect.getClasses();
     }

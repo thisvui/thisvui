@@ -1,4 +1,4 @@
-import {ComponentNames} from "../utils/constants";
+import { ComponentNames } from "../utils/constants";
 import CssArchitect from "../utils/css-architect";
 
 export default {
@@ -24,7 +24,7 @@ export default {
       type: [String, Number, Object]
     },
     height: {
-      type: [ Number, String ],
+      type: [Number, String],
       default: 270
     },
     resultsClass: {
@@ -55,10 +55,7 @@ export default {
      */
     getSelectContainerClass: function() {
       const css = new CssArchitect(`${ComponentNames.TSelect} group`);
-      css.addClass(
-        this.containerClass,
-        this.containerClass !== undefined
-      );
+      css.addClass(this.containerClass, this.containerClass !== undefined);
       css.addClass(this.getSyntaxModifiers);
       css.addClass(this.getThemeModifiers);
       css.addClass(this.getAlignmentModifiers);
@@ -235,7 +232,9 @@ export default {
       content.addChild(loading, this.isResultsLoading);
 
       if (!this.results || this.results.length === 0) {
-        let emptyResults = architect.createLi(`${ComponentNames.TSelect}__result empty`);
+        let emptyResults = architect.createLi(
+          `${ComponentNames.TSelect}__result empty`
+        );
         emptyResults.innerHTML(this.noResultsText);
         content.addChild(emptyResults);
       } else {

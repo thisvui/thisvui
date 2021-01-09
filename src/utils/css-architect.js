@@ -176,16 +176,16 @@ export default class CssArchitect {
   }
 
   flexible(config = {}) {
-      let {
-        direction = "row",
-        flexWrap = false,
-        alignItems = false,
-        justifyContent = false,
-        alignSelf = false,
-        alignContent = false,
-        condition = true
-      } = config;
-    if(condition) {
+    let {
+      direction = "row",
+      flexWrap = false,
+      alignItems = false,
+      justifyContent = false,
+      alignSelf = false,
+      alignContent = false,
+      condition = true
+    } = config;
+    if (condition) {
       this.addClass(`t-flex is-${direction}`);
       this.addClass("flex-wrap", flexWrap);
       this.addStyle("--align-items", alignItems, alignItems);

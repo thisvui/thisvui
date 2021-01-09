@@ -4,7 +4,7 @@ import elevation from "../../mixins/elevation";
 import dimension from "../../mixins/dimension";
 import display from "../../mixins/display";
 import themes from "../../mixins/themes";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import ElementArchitect from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";

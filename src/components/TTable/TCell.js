@@ -1,6 +1,6 @@
 import display from "../../mixins/display";
 import helpers from "../../mixins/helpers";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import { createElement } from "../../utils/element-architect";

@@ -4,7 +4,7 @@ $icon-size-medium: 2rem !default;
 $icon-size-large: 3rem !default;
 
 @mixin icon-font-size($font-size) {
-  &.resize-font{
+  &.resize-font {
     font-size: $font-size;
   }
 }
@@ -13,7 +13,6 @@ $icon-size-large: 3rem !default;
   &.small {
     @include dimensions($icon-size-small, $icon-size-small);
     @include icon-font-size(0.8em);
-
   }
 
   &.medium {
@@ -24,7 +23,6 @@ $icon-size-large: 3rem !default;
   &.large {
     @include dimensions($icon-size-large, $icon-size-large);
     @include icon-font-size(3em);
-
   }
 }
 

@@ -17,21 +17,29 @@ $card-min-width: 270px !default;
   min-width: $card-min-width;
   margin: 0.5em 0 0 0;
   border-radius: $card-border-radius;
-  @include box-shadow($v-shadow: 2px, $blur: 10px, $color: lighten($black, 50%));
+  @include box-shadow(
+    $v-shadow: 2px,
+    $blur: 10px,
+    $color: lighten($black, 50%)
+  );
   @include transitions();
   &.hover-effect:hover {
-    @include box-shadow($v-shadow: 2px, $blur: 12px, $color: lighten($black, 40%));
+    @include box-shadow(
+      $v-shadow: 2px,
+      $blur: 12px,
+      $color: lighten($black, 40%)
+    );
     .card__figure {
       img {
         -webkit-transform: scale(1.1);
         -moz-transform: scale(1.1);
         transform: scale(1.1);
-        opacity: .6;
+        opacity: 0.6;
       }
     }
   }
 
-  &.horizontal{
+  &.horizontal {
     flex-direction: row;
   }
   &.transparent {
@@ -42,7 +50,7 @@ $card-min-width: 270px !default;
     max-height: 250px;
     border-radius: $card-border-radius $card-border-radius 0 0;
 
-    &.overflow-hidden{
+    &.overflow-hidden {
       overflow: hidden;
     }
 
@@ -51,7 +59,6 @@ $card-min-width: 270px !default;
       align-self: start;
       padding: 2.5rem 0 0 1rem;
       border-radius: 0;
-
     }
   }
 
@@ -73,7 +80,7 @@ $card-min-width: 270px !default;
     text-align: center;
     padding: 3rem 0 0.5rem 0;
 
-    @include phone-only(){
+    @include phone-only() {
       padding: 1rem 0 0.5rem 0;
     }
 
@@ -89,7 +96,7 @@ $card-min-width: 270px !default;
     justify-content: center;
     padding: 3rem 0 0.5rem 0;
 
-    @include phone-only(){
+    @include phone-only() {
       padding: 1rem 0 0.5rem 0;
     }
 
@@ -121,7 +128,7 @@ $card-min-width: 270px !default;
     @include box-size();
     .day {
       font-size: 1.4rem;
-      @include phone-only(){
+      @include phone-only() {
         font-size: 0.9rem;
       }
     }
@@ -130,8 +137,8 @@ $card-min-width: 270px !default;
       text-transform: uppercase;
     }
 
-    &.horizontal{
-      @include phone-only(){
+    &.horizontal {
+      @include phone-only() {
         top: 0.5rem;
         right: 0.5rem;
         left: unset;
@@ -141,7 +148,6 @@ $card-min-width: 270px !default;
         padding: 0.3rem;
       }
     }
-
   }
   &__content {
     position: relative;
@@ -151,7 +157,7 @@ $card-min-width: 270px !default;
     padding: 30px;
     border-radius: 0 0 $card-border-radius $card-border-radius;
     @include box-size();
-    @include transitions($timing: cubic-bezier(.37,.75,.61,1.05));
+    @include transitions($timing: cubic-bezier(0.37, 0.75, 0.61, 1.05));
 
     &.horizontal {
       flex: 0.7;
@@ -170,7 +176,7 @@ $card-min-width: 270px !default;
       text-align: justify;
     }
 
-    @include phone-only(){
+    @include phone-only() {
       padding: 1rem;
       text-align: left;
     }
@@ -184,7 +190,7 @@ $card-min-width: 270px !default;
     font-size: 14px;
     font-weight: 600;
     text-transform: uppercase;
-    @include phone-only(){
+    @include phone-only() {
       padding: 0.5rem;
       font-size: 11px;
     }
@@ -195,11 +201,11 @@ $card-min-width: 270px !default;
       padding: 0.5rem 1rem;
       &.has-img {
         top: 1.5rem;
-        @include phone-only(){
+        @include phone-only() {
           top: 0;
         }
       }
-      @include phone-only(){
+      @include phone-only() {
         top: 0;
         left: 1rem;
         padding: 0.4rem;
@@ -214,7 +220,7 @@ $card-min-width: 270px !default;
     color: $grey-dark;
     font-size: 26px;
     font-weight: 700;
-    @include phone-only(){
+    @include phone-only() {
       font-size: 1.4em;
     }
   }
@@ -224,7 +230,7 @@ $card-min-width: 270px !default;
     color: $primary;
     font-size: 20px;
     font-weight: 400;
-    @include phone-only(){
+    @include phone-only() {
       font-size: 1em;
     }
   }
@@ -233,7 +239,7 @@ $card-min-width: 270px !default;
     font-size: 14px;
     line-height: 1.8em;
     padding: 0 0 20px;
-    @include phone-only(){
+    @include phone-only() {
       font-size: 1em;
     }
   }

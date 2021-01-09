@@ -51,7 +51,7 @@ $label-font-size: 1rem;
   }
 }
 
-@mixin label-on-top{
+@mixin label-on-top {
   top: -1.8em;
   font-size: $label-font-size;
   left: 0;
@@ -133,7 +133,8 @@ $label-font-size: 1rem;
     &.is-textarea {
       top: 0.5em;
     }
-    &.has-value, &.box-opened {
+    &.has-value,
+    &.box-opened {
       @include label-on-top;
     }
   }

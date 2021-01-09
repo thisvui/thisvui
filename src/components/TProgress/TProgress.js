@@ -1,4 +1,4 @@
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 import TFlex from "../TFlex";
 import themes from "../../mixins/themes";
 import common from "../../mixins/common";
@@ -78,7 +78,9 @@ export default {
   },
   computed: {
     baseClass() {
-      return `${ComponentNames.TProgress}${this.circular ? "__circular" : "__linear"}`;
+      return `${ComponentNames.TProgress}${
+        this.circular ? "__circular" : "__linear"
+      }`;
     },
     /**
      * Dynamically build the css classes for the target element
@@ -205,7 +207,11 @@ export default {
   methods: {
     getLinearStyles: function() {
       const css = new CssArchitect();
-      css.addStyle("width", css.addPercent(this.progressValue), !this.indeterminate);
+      css.addStyle(
+        "width",
+        css.addPercent(this.progressValue),
+        !this.indeterminate
+      );
       return css.getStyles();
     },
     getCircularStyles: function() {

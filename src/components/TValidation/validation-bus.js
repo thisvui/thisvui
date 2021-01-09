@@ -84,7 +84,9 @@ export const ValidationBus = new Vue({
     registerValidator(key, component, rules, scopeName) {
       const element = document.getElementById(key);
       if (!element) {
-        throw new DOMException(`Validator Registration Error: Element with id ${key} not found`);
+        throw new DOMException(
+          `Validator Registration Error: Element with id ${key} not found`
+        );
       }
       let formId = null;
       let isParent = true;
@@ -212,7 +214,9 @@ export const ValidationBus = new Vue({
     getValidator(key, scopeName) {
       const element = document.getElementById(key);
       if (!element) {
-        throw new DOMException(`Validator Error: Element with id ${key} not found`);
+        throw new DOMException(
+          `Validator Error: Element with id ${key} not found`
+        );
       }
       let formId = null;
       let isParent = true;

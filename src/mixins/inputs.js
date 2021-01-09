@@ -432,7 +432,7 @@ export default {
           }
           if (!el.form) {
             let form = el.closest("form");
-            if(form){
+            if (form) {
               this.formId = form.id;
             }
           }

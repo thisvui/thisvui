@@ -3,19 +3,19 @@ import CssArchitect from "../utils/css-architect";
 export default {
   props: {
     colorAlpha: {
-      type: String | Number
+      type: [String, Number]
     },
     colorHoverAlpha: {
-      type: String | Number
+      type: [String, Number]
     },
     borderAlpha: {
-      type: String | Number
+      type: [String, Number]
     },
     bgAlpha: {
-      type: String | Number
+      type: [String, Number]
     },
     bgHoverAlpha: {
-      type: String | Number
+      type: [String, Number]
     }
   },
   computed: {

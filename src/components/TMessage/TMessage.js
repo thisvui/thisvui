@@ -2,7 +2,7 @@ import syntax from "../../mixins/syntax";
 import sizes from "../../mixins/sizes";
 import helper from "../../mixins/helpers";
 import common from "../../mixins/common";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import { createDiv } from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
@@ -77,7 +77,9 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getCloseButtonClasses: function() {
-      const css = new CssArchitect(`${ComponentNames.TMessage}__close t-delete`);
+      const css = new CssArchitect(
+        `${ComponentNames.TMessage}__close t-delete`
+      );
       css.addClass(this.deleteClass, this.deleteClass);
       return css.getClasses();
     }
@@ -113,7 +115,9 @@ export default {
       body.setStyles(this.getBodyCss.getStyles());
       body.addVNodeChildren(this.$slots.default);
       if (!this.showHeading) {
-        let deleteContainer = architect.createDiv(`${ComponentNames.TMessage}__close__container`);
+        let deleteContainer = architect.createDiv(
+          `${ComponentNames.TMessage}__close__container`
+        );
         this.createCloseButton(deleteContainer);
         body.addChild(deleteContainer);
       }

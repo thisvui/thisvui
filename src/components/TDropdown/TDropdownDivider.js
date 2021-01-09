@@ -1,5 +1,5 @@
 import themes from "../../mixins/themes";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import { createDiv } from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
@@ -24,7 +24,7 @@ export default {
         this.$parent.hasThemeModifier && !this.hasThemeModifier
       );
       return css.getClasses();
-    },
+    }
   },
   render: function(h) {
     let root = createDiv(h, this.getClasses);

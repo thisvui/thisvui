@@ -2,7 +2,7 @@ import common from "../../mixins/common";
 import icons from "../../mixins/icons";
 import themes from "../../mixins/themes";
 import dimension from "../../mixins/dimension";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import TIcon from "../TIcon/TIcon";
 
@@ -18,7 +18,7 @@ export default {
       type: String
     },
     icon: {
-      type: String,
+      type: String
     },
     up: {
       type: Boolean,
@@ -79,7 +79,9 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getTriggerClasses: function() {
-      const css = new CssArchitect(`${ComponentNames.TDropdown}__trigger t-button`);
+      const css = new CssArchitect(
+        `${ComponentNames.TDropdown}__trigger t-button`
+      );
       this.isFilled(css);
       css.addClass(this.themeModifier, this.hasThemeModifier);
       return css.getClasses();
@@ -95,7 +97,7 @@ export default {
       let icon = this.up
         ? this.$thisvui.icons.arrowUp
         : this.$thisvui.icons.arrowDown;
-      if(this.icon){
+      if (this.icon) {
         icon = this.icon;
       }
       let iconEl = architect.createIcon(this.getIconClasses).setProps({

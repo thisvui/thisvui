@@ -3,7 +3,7 @@ import common from "../../mixins/common";
 import icons from "../../mixins/icons";
 import dimension from "../../mixins/dimension";
 import helpers from "../../mixins/helpers";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import TFlex from "../TFlex/TFlex";
 import TImage from "../TImage/TImage";
@@ -151,7 +151,10 @@ export default {
     getFigureClasses: function() {
       const css = new CssArchitect(`${ComponentNames.TCard}__figure`);
       css.addClass("horizontal", this.horizontal);
-      css.addClass("overflow-hidden", !this.horizontal && this.isNotNull(this.img));
+      css.addClass(
+        "overflow-hidden",
+        !this.horizontal && this.isNotNull(this.img)
+      );
       return css.getClasses();
     },
     /**
@@ -160,7 +163,7 @@ export default {
      */
     getDateClasses: function() {
       const css = new CssArchitect(`${ComponentNames.TCard}__date`);
-      this.isFilled(css,  { removeInit: true });
+      this.isFilled(css, { removeInit: true });
       css.addClass(this.getThemeModifier(true));
       css.addClass("horizontal", this.horizontal);
       css.addClass(this.dateClass, this.dateClass !== undefined);
@@ -173,7 +176,7 @@ export default {
     getImageClasses: function() {
       const css = new CssArchitect(`${ComponentNames.TCard}__image`);
       css.addClass(this.imgClass, this.isNotNull(this.imgClass));
-      if(this.horizontal){
+      if (this.horizontal) {
         css.addClass("horizontal");
         this.isBordered(css);
         css.addClass(this.getThemeModifier(true));
@@ -223,9 +226,9 @@ export default {
      */
     getCategoryClasses: function() {
       const css = new CssArchitect(`${ComponentNames.TCard}__category`);
-      this.isFilled(css,  { removeInit: true });
+      this.isFilled(css, { removeInit: true });
       css.addClass("horizontal", this.horizontal);
-      css.addClass("has-img",  this.horizontal && this.isNotNull(this.img));
+      css.addClass("has-img", this.horizontal && this.isNotNull(this.img));
       css.addClass(this.getThemeModifier(true));
       css.addClass(this.categoryClass, this.categoryClass !== undefined);
       return css.getClasses();
@@ -247,10 +250,7 @@ export default {
       const css = new CssArchitect(`${ComponentNames.TCard}__subtitle`);
       this.isColored(css);
       css.addClass(this.getThemeModifier(true));
-      css.addClass(
-        this.subtitleClass,
-        this.subtitleClass !== undefined
-      );
+      css.addClass(this.subtitleClass, this.subtitleClass !== undefined);
       return css.getClasses();
     },
     /**
@@ -300,7 +300,9 @@ export default {
     },
     createAvatar(architect) {
       if (this.avatar) {
-        let avatarContainer = architect.createDiv(this.getAvatarContainerClasses);
+        let avatarContainer = architect.createDiv(
+          this.getAvatarContainerClasses
+        );
         let imgEl = architect.createImg(this.getAvatarClasses);
         imgEl.addAttr("src", this.avatar);
         avatarContainer.addChild(imgEl);
@@ -314,17 +316,17 @@ export default {
         architect.addChild(imgEl);
       }
     },
-    createFigure(architect){
-      if(this.figure) {
+    createFigure(architect) {
+      if (this.figure) {
         let root = architect.createDiv(this.getFigureClasses);
         if (this.showDate) {
           let dateEl = architect.createDiv(this.getDateClasses);
-          if(this.day){
+          if (this.day) {
             let dayEl = architect.createDiv("day");
             dayEl.innerHTML(this.day);
             dateEl.addChild(dayEl);
           }
-          if(this.month) {
+          if (this.month) {
             let monthEl = architect.createDiv("month");
             monthEl.innerHTML(this.month);
             dateEl.addChild(monthEl);
@@ -339,14 +341,14 @@ export default {
         architect.addChild(root);
       }
     },
-    createCategory(architect, condition){
+    createCategory(architect, condition) {
       if (this.category && condition) {
         let category = architect.createDiv(this.getCategoryClasses);
         category.innerHTML(this.category);
         architect.addChild(category);
       }
     },
-    createContent(architect){
+    createContent(architect) {
       let root = architect.createDiv(this.getContentClasses);
       this.createCategory(root, !this.horizontal);
       if (this.title) {
@@ -378,7 +380,7 @@ export default {
               iconEl.setProps({
                 icon: $metaItem.icon
               });
-              iconEl.addClass($metaItem.iconClass)
+              iconEl.addClass($metaItem.iconClass);
               metaItemEl.addChild(iconEl);
             }
             if ($metaItem.content) {
@@ -392,12 +394,11 @@ export default {
         architect.addChild(root);
       }
     }
-
   },
   render: function(h) {
     let root = new ElementArchitect(h, "div", this.getClasses);
     root.setId(this.id);
-    root.setStyles(this.getStyles)
+    root.setStyles(this.getStyles);
     this.createFigure(root);
     this.createContent(root);
     return root.create();

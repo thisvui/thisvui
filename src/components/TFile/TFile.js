@@ -6,7 +6,7 @@ import states from "../../mixins/states";
 import sizes from "../../mixins/sizes";
 import display from "../../mixins/display";
 import helpers from "../../mixins/helpers";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import TButtons from "../TButton/TButtons";
 import TNotification from "../TNotification/TNotification";
@@ -146,11 +146,15 @@ export default {
       return css;
     },
     getThumbnailsClasses: function() {
-      const css = new CssArchitect(`${ComponentNames.TFile}__preview--thumbnails`);
+      const css = new CssArchitect(
+        `${ComponentNames.TFile}__preview--thumbnails`
+      );
       return css.getClasses();
     },
     getThumbnailCss: function() {
-      const css = new CssArchitect(`${ComponentNames.TFile}__preview--thumbnail`);
+      const css = new CssArchitect(
+        `${ComponentNames.TFile}__preview--thumbnail`
+      );
       this.isBordered(css);
       css.addClass(this.themeModifier, this.hasThemeModifier);
       this.alpha(css, { border: 0.7 });

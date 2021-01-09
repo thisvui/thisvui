@@ -1,6 +1,6 @@
 import inputs from "../../mixins/inputs";
 import selects from "../../mixins/selects";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
@@ -35,7 +35,9 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getAutocompleteContainerClass: function() {
-      const cssArchitect = new CssArchitect(`${ComponentNames.TAutocomplete} group`);
+      const cssArchitect = new CssArchitect(
+        `${ComponentNames.TAutocomplete} group`
+      );
       cssArchitect.addClass(
         this.containerClass,
         this.containerClass !== undefined

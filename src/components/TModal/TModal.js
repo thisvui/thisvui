@@ -2,7 +2,7 @@ import flex from "../../mixins/flex";
 import sizes from "../../mixins/sizes";
 import themes from "../../mixins/themes";
 import common from "../../mixins/common";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import { createTransition } from "../../utils/element-architect";

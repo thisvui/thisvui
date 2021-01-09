@@ -1,6 +1,6 @@
 $navbar-height: 4rem !default;
 $navbar-dropdown-background-color: $white !default;
-$navbar-dropdown-border-top: 2px solid $grey-lighter  !default;
+$navbar-dropdown-border-top: 2px solid $grey-lighter !default;
 $navbar-dropdown-min-width: 200px !default;
 $navbar-dropdown-radius: $radius-large !default;
 $navbar-dropdown-z: 20 !default;
@@ -103,7 +103,6 @@ $navbar-item-img-max-height: 100%;
     @include desktop-up {
       font-size: 1.4rem;
     }
-
   }
 
   &__burger {
@@ -161,7 +160,6 @@ $navbar-item-img-max-height: 100%;
       }
     }
   }
-
 
   h1 {
     margin-bottom: 0;

@@ -4,7 +4,7 @@ import common from "../../mixins/common";
 import slide from "../../mixins/slide";
 import padding from "../../mixins/padding";
 import helpers from "../../mixins/helpers";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 

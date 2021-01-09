@@ -1,5 +1,5 @@
 import inputs from "../../mixins/inputs";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 import { createDiv } from "../../utils/element-architect";
 
 import utils from "../../utils/utils";

@@ -82,7 +82,6 @@
     img {
       border-radius: 50%;
     }
-
   }
 
   &.broken {
@@ -90,7 +89,8 @@
       position: absolute;
       top: 0;
       height: 100%;
-      &:after, &:before {
+      &:after,
+      &:before {
         content: attr(alt);
         position: absolute;
         width: 100%;
@@ -117,5 +117,4 @@
     align-items: center;
     color: $white-bis;
   }
-
 }

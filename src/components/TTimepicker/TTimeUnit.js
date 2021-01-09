@@ -1,4 +1,4 @@
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 import { createDiv } from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
 
@@ -56,7 +56,9 @@ export default {
         return;
       }
       this.transitionName =
-        val > oldVal ? `${ComponentNames.TTimepicker}__value` : `${ComponentNames.TTimepicker}__value--reverse`;
+        val > oldVal
+          ? `${ComponentNames.TTimepicker}__value`
+          : `${ComponentNames.TTimepicker}__value--reverse`;
 
       this.numbers.splice(0, 1);
       this.numbers.push(val);

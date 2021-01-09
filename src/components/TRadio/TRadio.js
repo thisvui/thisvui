@@ -1,5 +1,5 @@
 import inputs from "../../mixins/inputs";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
@@ -143,7 +143,9 @@ export default {
      * Creates the radio container section
      */
     createRadioContainer(architect, id, item) {
-      let container = architect.createDiv(`${ComponentNames.TRadio}__container`);
+      let container = architect.createDiv(
+        `${ComponentNames.TRadio}__container`
+      );
       this.createTextLabel(container, item, this.labelLeft);
       this.createRadio(container, id, item);
       this.createRadioLabel(container, id);

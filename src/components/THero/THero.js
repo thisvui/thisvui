@@ -3,7 +3,7 @@ import dimension from "../../mixins/dimension";
 import sizes from "../../mixins/sizes";
 import themes from "../../mixins/themes";
 import gradient from "../../mixins/gradient";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
@@ -27,8 +27,8 @@ export default {
     hasActionSlot() {
       return !!this.$slots.action;
     },
-    hasImg(){
-      return this.isNotNull(this.img) || this.$slots["img"]
+    hasImg() {
+      return this.isNotNull(this.img) || this.$slots["img"];
     },
     /**
      * Dynamically build the css classes for the target element
@@ -162,10 +162,10 @@ export default {
       let img = root.createImg(this.getImgClasses);
       img.addAttr("src", this.img, this.isNotNull(this.img));
       imgContent.addChild(img, this.isNotNull(this.img));
-      if(this.$slots["img"]){
+      if (this.$slots["img"]) {
         let imgSlot = root.createDiv(this.getImgSlotClasses);
         imgSlot.setChildren(this.$slots["img"]);
-        imgContent.addChild(imgSlot)
+        imgContent.addChild(imgSlot);
       }
       root.addChild(imgContent);
     }

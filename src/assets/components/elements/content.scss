@@ -29,8 +29,6 @@ $ul-list-style-size-medium: 15px;
 $ul-list-style-size-large: 20px;
 $ul-list-style-margin: 0 14px 0 7px;
 
-
-
 @mixin content-heading(
   $font-size: 1em,
   $margin-bottom: 0.5em,
@@ -51,7 +49,6 @@ $ul-list-style-margin: 0 14px 0 7px;
 }
 
 .content {
-
   &:not(:last-child) {
     margin-bottom: $content-bottom-margin;
   }

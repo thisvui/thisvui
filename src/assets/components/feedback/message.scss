@@ -1,7 +1,7 @@
 $message-radius: $radius !default;
 $message-margin: 0.7rem !default;
 
-$message-heading-color:  findColorInvert($grey-dark) !default;
+$message-heading-color: findColorInvert($grey-dark) !default;
 $message-heading-weight: $weight-bold !default;
 $message-heading-padding: 0.75em 1em !default;
 $message-heading-radius: $radius !default;
@@ -91,6 +91,5 @@ $message-heading-body-border-width: 0 !default;
       right: 0;
       left: 15px;
     }
-
   }
 }

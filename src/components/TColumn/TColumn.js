@@ -2,7 +2,7 @@ import common from "../../mixins/common";
 import background from "../../mixins/background";
 import flex from "../../mixins/flex";
 import padding from "../../mixins/padding";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";

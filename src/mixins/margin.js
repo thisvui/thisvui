@@ -20,7 +20,7 @@ export default {
     marginUnit: {
       type: String,
       default: "px"
-    },
+    }
   },
   computed: {
     /**
@@ -29,12 +29,32 @@ export default {
      */
     getMarginStyles() {
       const css = new CssArchitect();
-      css.addStyle("margin", css.addUnitOrString(this.margin, this.marginUnit), this.margin !== undefined);
-      css.addStyle("margin-top", css.addUnitOrString(this.marginTop, this.marginUnit), this.marginTop !== undefined);
-      css.addStyle("margin-right", css.addUnitOrString(this.marginRight, this.marginUnit), this.marginRight !== undefined);
-      css.addStyle("margin-bottom", css.addUnitOrString(this.marginBottom, this.marginUnit), this.marginBottom !== undefined);
-      css.addStyle("margin-left", css.addUnitOrString(this.marginLeft, this.marginUnit), this.marginLeft !== undefined);
+      css.addStyle(
+        "margin",
+        css.addUnitOrString(this.margin, this.marginUnit),
+        this.margin !== undefined
+      );
+      css.addStyle(
+        "margin-top",
+        css.addUnitOrString(this.marginTop, this.marginUnit),
+        this.marginTop !== undefined
+      );
+      css.addStyle(
+        "margin-right",
+        css.addUnitOrString(this.marginRight, this.marginUnit),
+        this.marginRight !== undefined
+      );
+      css.addStyle(
+        "margin-bottom",
+        css.addUnitOrString(this.marginBottom, this.marginUnit),
+        this.marginBottom !== undefined
+      );
+      css.addStyle(
+        "margin-left",
+        css.addUnitOrString(this.marginLeft, this.marginUnit),
+        this.marginLeft !== undefined
+      );
       return css.getStyles();
-    },
+    }
   }
 };

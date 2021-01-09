@@ -1,9 +1,8 @@
-$numpad-header-bg: #F25F5C;
+$numpad-header-bg: #f25f5c;
 $numpad-digit-color: #757575;
-$numpad-mobile-breakpoint:   480px;
+$numpad-mobile-breakpoint: 480px;
 
 .t-numpad {
-
   &__digits {
     display: flex;
     flex-wrap: wrap;
@@ -33,10 +32,10 @@ $numpad-mobile-breakpoint:   480px;
       font-weight: 600;
       line-height: 1.3;
       cursor: pointer;
-      transition: color .3s ease;
+      transition: color 0.3s ease;
       outline: none;
       -webkit-user-select: none;
-      -webkit-tap-highlight-color: rgba(0,0,0,0);
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
       @media (min-width: $numpad-mobile-breakpoint) {
         padding: 15px 0;
@@ -47,12 +46,10 @@ $numpad-mobile-breakpoint:   480px;
       }
 
       &:focus + .numpad__ripple {
-        opacity: .3;
+        opacity: 0.3;
         transform: translate(-50%, -50%) scale(1);
       }
-
     }
-
   }
 
   &__arrows {
@@ -81,13 +78,13 @@ $numpad-mobile-breakpoint:   480px;
     position: absolute;
     left: 50%;
     top: 50%;
-    background: rgba(#000, .2);
+    background: rgba(#000, 0.2);
     border-radius: 50%;
     width: 55px;
     height: 55px;
     opacity: 0;
     transform: translate(-50%, -50%) scale(1.1);
-    transition: .3s;
+    transition: 0.3s;
 
     @media (min-width: $numpad-mobile-breakpoint) {
       width: 45px;
@@ -95,7 +92,7 @@ $numpad-mobile-breakpoint:   480px;
     }
 
     &.is-pressed {
-      opacity: .3;
+      opacity: 0.3;
       transform: translate(-50%, -50%) scale(1);
     }
   }

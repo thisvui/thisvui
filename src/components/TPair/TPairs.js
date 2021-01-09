@@ -7,7 +7,7 @@ import padding from "../../mixins/padding";
 import margin from "../../mixins/margin";
 import themes from "../../mixins/themes";
 import gradient from "../../mixins/gradient";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
@@ -35,7 +35,9 @@ export default {
      * @returns { A String with the chained css classes }
      */
     css: function() {
-      let baseClass = this.vertical ? `${ComponentNames.TPairs}--vertical` : ComponentNames.TPairs;
+      let baseClass = this.vertical
+        ? `${ComponentNames.TPairs}--vertical`
+        : ComponentNames.TPairs;
       const css = new CssArchitect(baseClass);
       this.isFilled(css, { removeInit: true });
       css.addClass(this.getHelpersModifiers);

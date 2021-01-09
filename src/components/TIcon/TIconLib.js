@@ -2,7 +2,7 @@
  * Adds iconLib prop to elements that support it
  * @returns { A virtual DOM node }
  */
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 const addIconLib = function(props, children) {
   let iconLib = props.iconLib;

@@ -1,5 +1,5 @@
 import slide from "../../mixins/slide";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 export default {
   name: ComponentNames.TSlide,

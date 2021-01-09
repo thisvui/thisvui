@@ -5,7 +5,7 @@ import background from "../../mixins/background";
 import overflow from "../../mixins/overflow";
 import margin from "../../mixins/margin";
 import padding from "../../mixins/padding";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";

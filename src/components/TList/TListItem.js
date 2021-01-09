@@ -1,7 +1,7 @@
 import syntax from "../../mixins/syntax";
 import common from "../../mixins/common";
 import icons from "../../mixins/icons";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
@@ -61,10 +61,10 @@ export default {
           avatar: this.avatar,
           avatarClass: this.avatarClass,
           icon: this.icon,
-          iconClass: this.iconClass,
-        })
+          iconClass: this.iconClass
+        });
         if (this.$slots["avatar"]) {
-          avatar.setChildren(this.$slots["avatar"])
+          avatar.setChildren(this.$slots["avatar"]);
         }
         architect.addChild(avatar);
       }
@@ -93,7 +93,9 @@ export default {
         architect.addChild(heading);
       }
       if (this.subtitle) {
-        let text = architect.createDiv(`${ComponentNames.TList}__item-subtitle`);
+        let text = architect.createDiv(
+          `${ComponentNames.TList}__item-subtitle`
+        );
         text.addClass(this.subtitleClass);
         text.innerHTML(this.subtitle);
         architect.addChild(text);
@@ -110,15 +112,11 @@ export default {
       let defaultSlot = this.$slots.default;
       let bodySlot = this.$slots["body"];
       if (defaultSlot) {
-        let defaultSlotContent = architect
-          .createDiv()
-          .setChildren(defaultSlot);
+        let defaultSlotContent = architect.createDiv().setChildren(defaultSlot);
         body.addChild(defaultSlotContent);
       }
       if (bodySlot) {
-        let bodySlotContent = architect
-          .createDiv()
-          .setChildren(bodySlot);
+        let bodySlotContent = architect.createDiv().setChildren(bodySlot);
         body.addChild(bodySlotContent);
       }
       architect.addChild(body);

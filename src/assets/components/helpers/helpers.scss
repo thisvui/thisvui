@@ -1,4 +1,4 @@
-$displays: 'block' 'flex' 'inline' 'inline-block' 'inline-flex';
+$displays: "block" "flex" "inline" "inline-block" "inline-flex";
 
 * {
   &.is-fullwidth {
@@ -18,7 +18,7 @@ $displays: 'block' 'flex' 'inline' 'inline-block' 'inline-flex';
   }
 
   &.is-sticky {
-    position: -webkit-sticky !important;/* Safari */
+    position: -webkit-sticky !important; /* Safari */
     position: sticky !important;
   }
 

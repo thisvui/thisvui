@@ -1,4 +1,9 @@
-@mixin transitions( $property: all, $duration: 0.3s, $timing: linear, $delay: 0s ) {
+@mixin transitions(
+  $property: all,
+  $duration: 0.3s,
+  $timing: linear,
+  $delay: 0s
+) {
   $args: $property $duration $timing $delay;
   -webkit-transition: $args;
   -moz-transition: $args;
@@ -7,7 +12,7 @@
   transition: $args;
 }
 
-@mixin animation( $animation_name, $duration: 1s, $timing_function: ease ) {
+@mixin animation($animation_name, $duration: 1s, $timing_function: ease) {
   -webkit-animation: $animation_name $duration $timing_function;
   -moz-animation: $animation_name $duration $timing_function;
   -o-animation: $animation_name $duration $timing_function;

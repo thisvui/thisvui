@@ -1,6 +1,6 @@
 import common from "../../mixins/common";
 import background from "../../mixins/background";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import ElementArchitect from "../../utils/element-architect";
@@ -18,8 +18,7 @@ export default {
     area: String,
     justifySelf: String,
     alignSelf: String,
-    placeSelf: String,
-
+    placeSelf: String
   },
   data() {
     return {
@@ -39,16 +38,40 @@ export default {
       // Styles
       css.addStyle("grid-column", this.column, this.isNotNull(this.column));
       css.addStyle("grid-row", this.row, this.isNotNull(this.row));
-      css.addStyle("grid-column-start", this.columnStart, this.isNotNull(this.columnStart));
-      css.addStyle("grid-row-start", this.rowStart, this.isNotNull(this.rowStart));
-      css.addStyle("grid-column-end", this.columnEnd, this.isNotNull(this.columnEnd));
+      css.addStyle(
+        "grid-column-start",
+        this.columnStart,
+        this.isNotNull(this.columnStart)
+      );
+      css.addStyle(
+        "grid-row-start",
+        this.rowStart,
+        this.isNotNull(this.rowStart)
+      );
+      css.addStyle(
+        "grid-column-end",
+        this.columnEnd,
+        this.isNotNull(this.columnEnd)
+      );
       css.addStyle("grid-row-end", this.rowEnd, this.isNotNull(this.rowEnd));
       css.addStyle("grid-area", this.area, this.isNotNull(this.area));
 
       // Positioning
-      css.addStyle("justify-self", this.justifySelf, this.isNotNull(this.justifySelf));
-      css.addStyle("align-self", this.alignSelf, this.isNotNull(this.alignSelf));
-      css.addStyle("place-self", this.placeSelf, this.isNotNull(this.placeSelf));
+      css.addStyle(
+        "justify-self",
+        this.justifySelf,
+        this.isNotNull(this.justifySelf)
+      );
+      css.addStyle(
+        "align-self",
+        this.alignSelf,
+        this.isNotNull(this.alignSelf)
+      );
+      css.addStyle(
+        "place-self",
+        this.placeSelf,
+        this.isNotNull(this.placeSelf)
+      );
       return css;
     }
   },

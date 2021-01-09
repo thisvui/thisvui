@@ -5,7 +5,7 @@ import list from "../../mixins/list";
 import margin from "../../mixins/margin";
 import padding from "../../mixins/padding";
 import themes from "../../mixins/themes";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
@@ -85,7 +85,9 @@ export default {
       return css;
     },
     headingContentCss: function() {
-      const css = new CssArchitect(`${ComponentNames.TList}__heading--horizontal`);
+      const css = new CssArchitect(
+        `${ComponentNames.TList}__heading--horizontal`
+      );
       css.addClass("not-header", !this.hasHeading);
       return css;
     },
@@ -151,7 +153,10 @@ export default {
         let pagParent = this.filtered
           ? architect.createDiv(this.headingContentCss.getClasses())
           : headingContent;
-        this.createPaginator(pagParent, this.paginated && this.paginatorAtTop && !this.isEmpty);
+        this.createPaginator(
+          pagParent,
+          this.paginated && this.paginatorAtTop && !this.isEmpty
+        );
         heading.addChild(headingContent);
         heading.addChild(pagParent, this.filtered);
         architect.addChild(heading);
@@ -166,7 +171,10 @@ export default {
             .setChildren(this.$slots["footer"]);
           footer.addChild(slotFooter);
         }
-        this.createPaginator(footer, this.paginated && !this.paginatorAtTop && !this.isEmpty);
+        this.createPaginator(
+          footer,
+          this.paginated && !this.paginatorAtTop && !this.isEmpty
+        );
         architect.addChild(footer);
       }
     },
@@ -177,7 +185,9 @@ export default {
 
       this.createLoading(items, this.progressCss.getClasses());
       if (this.isEmpty) {
-        let itemContainer = architect.createDiv(`${ComponentNames.TList}__item-container`);
+        let itemContainer = architect.createDiv(
+          `${ComponentNames.TList}__item-container`
+        );
         itemContainer.innerHTML(this.emptyText);
         items.addChild(itemContainer);
       } else {

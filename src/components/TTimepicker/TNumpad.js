@@ -1,4 +1,4 @@
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 import CssArchitect from "../../utils/css-architect";
 import { createDiv } from "../../utils/element-architect";
 import { filteredDigits } from "../../utils/pad";
@@ -106,7 +106,9 @@ export default {
         d: "M22.4 8v16l-14.4-8 14.4-8z"
       });
 
-      let rightButton = architect.createDiv(`${ComponentNames.TNumpad}__digits`);
+      let rightButton = architect.createDiv(
+        `${ComponentNames.TNumpad}__digits`
+      );
       this.createButton(rightButton, {
         ref: "nextButton",
         pressed: this.arrowKeys.right.pressed,

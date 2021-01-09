@@ -4,7 +4,7 @@ import common from "../../mixins/common";
 import overflow from "../../mixins/overflow";
 import padding from "../../mixins/padding";
 import dimension from "../../mixins/dimension";
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 
 import ElementArchitect from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";

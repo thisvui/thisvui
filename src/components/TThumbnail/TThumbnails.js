@@ -1,6 +1,6 @@
 import common from "../../mixins/common";
-import {ComponentNames} from "../../utils/constants";
-import {createDiv} from "../../utils/element-architect";
+import { ComponentNames } from "../../utils/constants";
+import { createDiv } from "../../utils/element-architect";
 
 export default {
   name: ComponentNames.TThumbnails,

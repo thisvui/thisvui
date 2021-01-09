@@ -1,4 +1,4 @@
-import {ComponentNames} from "../../utils/constants";
+import { ComponentNames } from "../../utils/constants";
 import CssArchitect from "../../utils/css-architect";
 import { createSpan } from "../../utils/element-architect";
 

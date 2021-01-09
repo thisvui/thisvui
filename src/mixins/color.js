@@ -91,10 +91,7 @@ export default {
       cssArchitect.addClass("color-black", this.colorBlack);
       cssArchitect.addClass("color-white", this.colorWhite);
       cssArchitect.addClass("color-happy", this.colorHappy);
-      cssArchitect.addClass(
-        `color-${this.color}`,
-        this.color !== undefined
-      );
+      cssArchitect.addClass(`color-${this.color}`, this.color !== undefined);
       return cssArchitect.getClasses();
     }
   },
@@ -103,7 +100,9 @@ export default {
       return this.colorModifiers.some(modifier => classes.includes(modifier));
     },
     setupColorModifier(cssArchitect) {
-      this.hasColorModifier = this.checkThemeModifier(cssArchitect.getClasses());
+      this.hasColorModifier = this.checkThemeModifier(
+        cssArchitect.getClasses()
+      );
       this.colorModifier = cssArchitect
         .getClassesArray()
         .filter(this.checkColorModifier);
