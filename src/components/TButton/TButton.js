@@ -297,11 +297,15 @@ export default {
       button.addClick(this.onClick, !this.disabled, false);
 
       this.createButtonIcon(button, !this.iconRight);
-      let contentClass =
-        this.icon && this.iconRight ? "icon-right" : "icon-left";
+      let contentClass = `${ComponentNames.TButton}__content`;
+      if (this.icon) {
+        contentClass = `${contentClass} ${
+          this.iconRight ? "icon-right" : "icon-left"
+        }`;
+      }
       if (this.hasSlot) {
         let slot = architect
-          .createSpan(`${ComponentNames.TButton}__content ${contentClass}`)
+          .createSpan(contentClass)
           .setChildren(this.$slots.default);
         button.addChild(slot);
       }

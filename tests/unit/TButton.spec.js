@@ -16,6 +16,7 @@ describe("TButton", () => {
     let button = wrapper.find(".t-button");
     let content = button.find(".t-button__content");
     expect(content.isVisible()).toBe(true);
+    expect(content.classes()).not.toContain("icon-left");
     expect(content.text()).toBe("Button");
   });
 
@@ -53,6 +54,35 @@ describe("TButton", () => {
     let content = button.find(".t-button__content");
     expect(icon.isVisible()).toBe(true);
     expect(content.isVisible()).toBe(true);
+    expect(content.classes()).toContain("icon-left");
+    expect(content.classes()).not.toContain("icon-right");
+    expect(content.text()).toBe("Button");
+  });
+  it("Renders button with icon to the right", async () => {
+    let config = new ThisVuiConfig({});
+    const optionsConfig = config.getOptions();
+    const localVue = createLocalVue();
+    localVue.prototype.$thisvui = createLocalVue({
+      mixins: [notification],
+      data: optionsConfig
+    });
+
+    localVue.prototype.$_utils = utils;
+    const wrapper = mount(TButton, {
+      localVue,
+      propsData: { icon: "fas fa-home", iconRight: true },
+      slots: {
+        default: ["Button"]
+      }
+    });
+
+    let button = wrapper.find(".t-button");
+    let icon = button.find(".t-icon");
+    let content = button.find(".t-button__content");
+    expect(icon.isVisible()).toBe(true);
+    expect(content.isVisible()).toBe(true);
+    expect(content.classes()).toContain("icon-right");
+    expect(content.classes()).not.toContain("icon-left");
     expect(content.text()).toBe("Button");
   });
 });
