@@ -1,127 +1,15 @@
-import utils from "../utils/utils";
-
-let fixPx = 30;
-
-function calculatePos($tooltip, $tooltipDimension, scrollTop, binding) {
-  let {
-    top = false,
-    right = false,
-    bottom = false,
-    left = false,
-    center = false,
-    offsetX = 0
-  } = binding.value;
-
-  let startPos = $tooltipDimension.left + offsetX + "px";
-  let endPos = 0;
-  if (utils.check.existWindow()) {
-    endPos = window.innerWidth - $tooltipDimension.right - offsetX + "px";
-  }
-  let topPos = scrollTop + $tooltipDimension.top - fixPx + "px";
-  let bottomPos =
-    scrollTop + $tooltipDimension.top + $tooltipDimension.height + "px";
-  let middlePos =
-    scrollTop + $tooltipDimension.top + $tooltipDimension.height / 4 + "px";
-  let leftPos = endPos + $tooltipDimension.width - offsetX + "px";
-  let rightPos =
-    $tooltipDimension.left + $tooltipDimension.width + offsetX + "px";
-  let centerPos = $tooltipDimension.left + $tooltipDimension.width / 2 + "px";
-
-  let yPos = topPos;
-  let xPos = centerPos;
-  let inverted = false;
-  let translate = false;
-
-  if (top && left) {
-    xPos = startPos;
-    return { yPos, xPos };
-  }
-
-  if (bottom && left) {
-    yPos = bottomPos;
-    xPos = startPos;
-    return { yPos, xPos };
-  }
-
-  if (!top && !bottom & left) {
-    yPos = middlePos;
-    xPos = leftPos;
-    inverted = true;
-    return { yPos, xPos, inverted };
-  }
-
-  if (top && right) {
-    xPos = endPos;
-    inverted = true;
-    return { yPos, xPos, inverted };
-  }
-
-  if (bottom && right) {
-    yPos = bottomPos;
-    xPos = endPos;
-    inverted = true;
-    return { yPos, xPos, inverted };
-  }
-
-  if (!top && !bottom & right) {
-    yPos = middlePos;
-    xPos = rightPos;
-    return { yPos, xPos };
-  }
-
-  if (top && center) {
-    translate = true;
-    return { yPos, xPos, translate };
-  }
-
-  if (bottom && center) {
-    yPos = bottomPos;
-    translate = true;
-    return { yPos, xPos, translate };
-  }
-
-  if (top) {
-    translate = true;
-    return { yPos, xPos, translate };
-  }
-
-  if (bottom) {
-    yPos = bottomPos;
-    translate = true;
-    return { yPos, xPos, translate };
-  }
-  translate = true;
-  return { yPos, xPos, translate };
-}
+import { gen, overlay } from "../utils/utils";
 
 function enterListener(arg1) {
   let { el, $tooltip, binding } = arg1;
   let { text, cssClass, showOn } = getAttributes(el);
 
-  let $tooltipDimension = el.getBoundingClientRect();
-
-  let scrollTop = utils.check.existWindow()
-    ? window.pageYOffset
-    : el.scrollTop || document.body.scrollTop;
-
-  let { yPos, xPos, inverted, translate } = calculatePos(
-    $tooltip,
-    $tooltipDimension,
-    scrollTop,
-    binding
-  );
-  $tooltip.style.top = yPos;
-  $tooltip.style.left = inverted ? "unset" : xPos;
-  $tooltip.style.right = inverted ? xPos : "unset";
-
-  if (translate) {
-    $tooltip.style.transform = "translateX(-50%)";
-  }
-
   $tooltip.setAttribute("class", `tooltip filled ${cssClass}`);
   $tooltip.innerHTML = text;
+  document.body.appendChild($tooltip);
+  $tooltip = overlay.calculateCoords($tooltip, el, binding.value);
+
   if (showOn) {
-    document.body.appendChild($tooltip);
     setTimeout(function() {
       $tooltip.style.opacity = "1";
     }, 200);
@@ -135,6 +23,10 @@ function leaveListener(arg1) {
     $tooltip.style.opacity = "0";
     setTimeout(function() {
       $tooltip.parentNode.removeChild($tooltip);
+      $tooltip.style.top = "unset";
+      $tooltip.style.right = "unset";
+      $tooltip.style.bottom = "unset";
+      $tooltip.style.left = "unset";
     }, 200);
   }
 }
@@ -175,7 +67,7 @@ export default {
       cssClass = "is-dark",
       showOn = true
     } = binding.value;
-    let id = `${utils.gen.id()}-Tooltip`;
+    let id = `${gen.id()}-Tooltip`;
     el.setAttribute("tooltip", id);
     setAttributes(el, { text, cssClass, showOn });
 

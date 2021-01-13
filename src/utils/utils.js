@@ -326,6 +326,138 @@ const date = {
   }
 };
 
+const overlay = {
+  /**
+   * Check if vertical scrollbar is present.
+   * @returns { A Boolean }
+   */
+  // Todo - Add support for horizontal scrolling
+  checkScrollBar: () => {
+    let rootElem = document.documentElement || document.body;
+    let overflowStyle;
+
+    if (typeof rootElem.currentStyle !== "undefined")
+      overflowStyle = rootElem.currentStyle.overflow;
+
+    overflowStyle =
+      overflowStyle || window.getComputedStyle(rootElem, "").overflow;
+
+    let overflowYStyle;
+
+    if (typeof rootElem.currentStyle !== "undefined")
+      overflowYStyle = rootElem.currentStyle.overflowY;
+
+    overflowYStyle =
+      overflowYStyle || window.getComputedStyle(rootElem, "").overflowY;
+
+    let contentOverflows = rootElem.scrollHeight > rootElem.clientHeight;
+    let overflowShown =
+      /^(visible|auto)$/.test(overflowStyle) ||
+      /^(visible|auto)$/.test(overflowYStyle);
+    let alwaysShowScroll =
+      overflowStyle === "scroll" || overflowYStyle === "scroll";
+
+    return (contentOverflows && overflowShown) || alwaysShowScroll;
+  },
+  /**
+   * Calculates the coordinates to position a overlay element, useful to calculate position of tooltips or similar
+   * @returns { The DOM element }
+   */
+  // Todo - Add support for horizontal scrolling
+  calculateCoords: (
+    overlayElement,
+    targetElement,
+    {
+      top = false,
+      right = false,
+      bottom = false,
+      left = false,
+      center = false,
+      offsetX = false,
+      offsetY = false,
+      offset = 1
+    }
+  ) => {
+    offsetX = offsetX ? offsetX : offset;
+    offsetY = offsetY ? offsetY : offset;
+
+    if (!check.existWindow()) {
+      throw Error(
+        "Can't calculate coords because windows object doesn't exists"
+      );
+    }
+    // Check if vertical scrollbar is present so we can add the scroll offset to the calculation
+    let scrollBarIsPresent = overlay.checkScrollBar();
+    let verticalScrollWidth = scrollBarIsPresent ? 16 : 0;
+    let scrollY = scrollBarIsPresent ? window.scrollY : 0;
+
+    let targetDimension = targetElement.getBoundingClientRect();
+    let overlayDimension = overlayElement.getBoundingClientRect();
+
+    let elementWidth = targetDimension.width;
+    let elementHeight = targetDimension.height;
+    let elementTop = targetDimension.top;
+    let elementRight = targetDimension.right;
+    let elementBottom = targetDimension.bottom;
+    let elementLeft = targetDimension.left;
+
+    let topPosition = window.innerHeight - elementTop - scrollY + offsetY;
+    let bottomPosition = elementBottom + scrollY + offsetY;
+    let leftPosition =
+      window.innerWidth - elementLeft - verticalScrollWidth + offsetX;
+    let rightPosition = elementRight + offsetX;
+    let middlePosition =
+      elementTop + scrollY + (elementHeight - overlayDimension.height) / 2;
+
+    if (top) {
+      overlayElement.style.bottom = `${topPosition}px`;
+    }
+
+    if (bottom) {
+      overlayElement.style.top = `${bottomPosition}px`;
+    }
+
+    if (left) {
+      overlayElement.style.right = `${leftPosition}px`;
+    }
+
+    if (right) {
+      overlayElement.style.left = `${rightPosition}px`;
+    }
+
+    if ((!left && !right) || center) {
+      leftPosition =
+        elementLeft - offsetX - overlayDimension.width / 2 + elementWidth / 2;
+      overlayElement.style.left = `${leftPosition}px`;
+    }
+
+    if (!top && !bottom) {
+      overlayElement.style.top = `${middlePosition}px`;
+    }
+
+    overlayDimension = overlayElement.getBoundingClientRect();
+
+    // We check for collision on window edges
+    if (overlayDimension.left < 0) {
+      overlayElement.style.left = `${offsetX}px`;
+      overlayElement.style.right = "unset";
+    }
+    if (overlayDimension.right > window.innerWidth) {
+      overlayElement.style.left = "unset";
+      overlayElement.style.right = `${offsetX}px`;
+    }
+    if (overlayDimension.top < 0) {
+      overlayElement.style.top = `${offsetX}px`;
+      overlayElement.style.bottom = "unset";
+    }
+    if (overlayDimension.bottom > window.innerHeight) {
+      overlayElement.style.top = "unset";
+      overlayElement.style.bottom = `${offsetX}px`;
+    }
+
+    return overlayElement;
+  }
+};
 export default {
   gen,
   json,
@@ -334,5 +466,7 @@ export default {
   number,
   convert,
   css,
-  date
+  date,
+  overlay
 };
+export { gen, json, check, text, number, convert, css, date, overlay };
