@@ -1,0 +1,42 @@
+@include transition-opacity($transition-name: "fade", $duration: 0.2s);
+
+.dropdown-enter-active,
+.dropdown-leave-active {
+  z-index: 1;
+  transition: all 0.1s ease-in-out 0s, visibility 0s linear 0.1s,
+    z-index 0s linear 0.01s;
+}
+
+.dropdown-enter,
+.dropdown-leave-to {
+  opacity: 0;
+  transition-delay: 0s, 0s, 0.1s;
+  z-index: -1;
+}
+
+.toast-enter-active,
+.toast-leave-active,
+.toast-move {
+  transition: 500ms cubic-bezier(0.59, 0.12, 0.34, 0.95);
+  transition-property: opacity, transform;
+}
+
+.toast-enter {
+  opacity: 0;
+  transform: translateX(70px) scaleY(0.7);
+}
+
+.toast-enter-to {
+  opacity: 1;
+  transform: translateX(0) scaleY(1);
+}
+
+.toast-leave-active {
+  position: absolute;
+}
+
+.toast-leave-to {
+  opacity: 0;
+  transform: translateX(100px) scaleY(0.7);
+  transform-origin: center top;
+}

@@ -1,0 +1,78 @@
+@mixin transition-opacity($transition-name, $max: 1, $min: 0, $duration: 0.1s) {
+  @-webkit-keyframes #{$transition-name}-enter {
+    from {
+      opacity: $min;
+    }
+
+    to {
+      opacity: $max;
+    }
+  }
+
+  @keyframes #{$transition-name}-enter {
+    from {
+      opacity: $min;
+    }
+
+    to {
+      opacity: $max;
+    }
+  }
+
+  .#{$transition-name}-enter-active {
+    -webkit-animation-name: #{$transition-name}-enter;
+    animation-name: #{$transition-name}-enter;
+    animation-duration: $duration;
+  }
+
+  @-webkit-keyframes #{$transition-name}-leave {
+    from {
+      opacity: $max;
+    }
+
+    to {
+      opacity: $min;
+    }
+  }
+
+  @keyframes #{$transition-name}-leave {
+    from {
+      opacity: $max;
+    }
+
+    to {
+      opacity: $min;
+    }
+  }
+
+  .#{$transition-name}-leave-to {
+    -webkit-animation-name: #{$transition-name}-leave;
+    animation-name: #{$transition-name}-leave;
+    animation-duration: $duration;
+  }
+}
+
+@mixin vue-animation-enter($transition-name, $duration: 0.1s) {
+  @include keyframes(#{$transition-name}-enter){
+    @content;
+  }
+
+  .#{$transition-name}-enter-active {
+    -webkit-animation-name: #{$transition-name}-enter;
+    animation-name: #{$transition-name}-enter;
+    animation-duration: $duration;
+  }
+}
+
+@mixin vue-animation-leave($transition-name, $duration: 0.1s) {
+  @include keyframes(#{$transition-name}-leave){
+    @content;
+  }
+
+  .#{$transition-name}-leave-to {
+    -webkit-animation-name: #{$transition-name}-leave;
+    animation-name: #{$transition-name}-leave;
+    animation-duration: $duration;
+  }
+}
+

@@ -30,6 +30,7 @@ $notification-margin: 0.7rem !default;
   z-index: 100;
   transition: 0.5s ease-in-out;
   width: 300px;
+  word-wrap: anywhere;
 
   .t-icon {
     padding-right: 1.3em;

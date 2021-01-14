@@ -1,3 +1,7 @@
+.t-block-ui {
+  position: relative;
+}
+
 .t-loading-block {
   top: 0;
   width: 100%;
@@ -12,3 +16,5 @@
     border-radius: 0 0 5px 5px;
   }
 }
+
+@include transition-opacity($transition-name: "block-ui", $duration: 0.05s);

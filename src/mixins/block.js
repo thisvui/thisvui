@@ -8,7 +8,7 @@ export default {
     },
     transition: {
       type: String,
-      default: "fade"
+      default: "block-ui"
     },
     zIndex: {
       type: [Number, String]
