@@ -1,3 +1,5 @@
+$nav-drawer-font-size: 1rem !default;
+$nav-drawer-padding: 1rem 1.5rem 1rem 1.5rem !default;
 $nav-drawer-background-color: transparent !default;
 $nav-drawer-item-color: rgba($dark, 0.9) !default;
 $nav-drawer-item-padding: 0.4em 0.4em 0.4em 0.6em !default;
@@ -8,13 +10,15 @@ $nav-drawer-hover-background-color: rgba($primary, 0.4) !default;
 $nav-drawer-icon-color: rgba($primary, 0.9) !default;
 $nav-drawer-label-color: $primary_invert !default;
 $nav-drawer-label-background-color: $primary !default;
-$nav-drawer-label-border-radius: 6px !default;
+$nav-drawer-label-border-radius: 4px !default;
 $nav-drawer-label-shadow-color: rgba(0, 0, 0, 0.05) !default;
 $nav-drawer-label-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !default;
 $nav-drawer-label-font-size: 0.75em !default;
 $nav-drawer-label-letter-spacing: 0.1em !default;
 $nav-drawer-label-text-align: center !default;
 $nav-drawer-label-text-transform: uppercase !default;
+$nav-drawer-label-margin: 1rem 0rem !default;
+$nav-drawer-label-padding: 0.3rem !default;
 $nav-drawer-font-size: 1rem !default;
 $nav-drawer-font-weight: normal !default;
 $nav-drawer-border-left: 1px solid tint($opaque, 20%) !default;
@@ -30,8 +34,8 @@ $nav-drawer-padding-left: 1rem !default;
   @include margin-padding(0, 0);
 
   &__menu {
-    font-size: 1rem;
-    padding: 1em 2em 2em 1em;
+    font-size: $nav-drawer-font-size;
+    padding: $nav-drawer-padding;
 
     &-list {
       line-height: 1.25;
@@ -72,7 +76,10 @@ $nav-drawer-padding-left: 1rem !default;
       font-size: $nav-drawer-label-font-size;
       letter-spacing: $nav-drawer-label-letter-spacing;
       text-transform: $nav-drawer-label-text-transform;
-      @include margin-padding(1rem 0rem, 0.5rem);
+      @include margin-padding(
+        $nav-drawer-label-margin,
+        $nav-drawer-label-padding
+      );
     }
 
     .icon {

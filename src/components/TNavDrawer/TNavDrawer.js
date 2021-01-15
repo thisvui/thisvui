@@ -112,8 +112,8 @@ export default {
       for (let $index in this.model) {
         let $menu = this.model[$index];
 
-        if (!this.hideLabel) {
-          let label = menu.createP(this.getLabelClass);
+        if ($menu.name && !this.hideLabel) {
+          let label = menu.createDiv(this.getLabelClass);
           label.setKey(`${this.id}-ml-${$index}`);
           label.innerHTML($menu.name);
           menu.addChild(label);
