@@ -1,3 +1,4 @@
+import padding from "../../mixins/padding";
 import common from "../../mixins/common";
 import background from "../../mixins/background";
 import helpers from "../../mixins/helpers";
@@ -8,7 +9,7 @@ import ElementArchitect from "../../utils/element-architect";
 
 export default {
   name: ComponentNames.TColumns,
-  mixins: [common, background, helpers],
+  mixins: [common, background, padding, helpers],
   props: {
     gapless: {
       type: Boolean
@@ -50,6 +51,7 @@ export default {
         this.gridColumnWidth !== 60
       );
       css.addStyle("--grid-columns", this.gridColumns, this.gridColumns !== 12);
+      css.addStyles([this.getPaddingStyles]);
       return css;
     }
   },
