@@ -35,17 +35,18 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getAutocompleteContainerClass: function() {
-      const cssArchitect = new CssArchitect(
+      const css = new CssArchitect(
         `${ComponentNames.TAutocomplete} group`
       );
-      cssArchitect.addClass(
+      css.addClass("modern", this.modern);
+      css.addClass(
         this.containerClass,
         this.containerClass !== undefined
       );
-      cssArchitect.addClass(this.getSyntaxModifiers);
-      cssArchitect.addClass(this.getThemeModifiers);
-      cssArchitect.addClass(this.getAlignmentModifiers);
-      return cssArchitect.getClasses();
+      css.addClass(this.getSyntaxModifiers);
+      css.addClass(this.getThemeModifiers);
+      css.addClass(this.getAlignmentModifiers);
+      return css.getClasses();
     }
   },
   methods: {
@@ -183,7 +184,7 @@ export default {
       });
       control.addChild(input);
 
-      let labelParent = this.classic ? architect : control;
+      let labelParent = this.modern ? control : architect;
       this.createLabel(labelParent);
       root.addChild(control);
 

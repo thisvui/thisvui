@@ -91,9 +91,11 @@ export default {
       type: String,
       default: "is-success"
     },
-    msgPosition: {
-      type: String,
-      default: "right"
+    messagePosition: {
+      type: Object,
+      default: function() {
+        return { right: true };
+      }
     },
     customValidators: Array,
     showSuccessIcon: Boolean,

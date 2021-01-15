@@ -97,7 +97,7 @@ export default {
     },
     showStateIcon: Boolean,
     compact: Boolean,
-    classic: Boolean,
+    modern: Boolean,
     transparent: Boolean,
     coloredText: Boolean,
     alignCenter: Boolean,
@@ -122,6 +122,7 @@ export default {
       const css = new CssArchitect("group");
       css.addClass(this.containerClass, this.containerClass !== undefined);
       css.addClass("is-horizontal", this.isHorizontal);
+      css.addClass("modern", this.modern);
       css.addClass(this.getDimensionModifiers);
       css.addStyles([this.getDimensionStyles]);
       return css.getClasses();
@@ -354,6 +355,7 @@ export default {
       label.addClass("box-opened", boxOpened);
       label.addAttr("for", this.id);
       label.addDomProp("innerHTML", this.label);
+      label.setRef("inputLabel");
       architect.addChild(label, this.isNotEmpty(this.label));
     },
     /**
@@ -403,7 +405,6 @@ export default {
           let help = architect.createP("t-hint is-danger");
           help.setKey(error);
           help.addAttr("msg", error);
-          help.addAttr("msg-position", this.msgPosition);
           architect.addChild(help);
         }
       } else {
@@ -415,10 +416,9 @@ export default {
           value: {
             text: this.currentPopupMessage,
             event: this.popupEvent,
-            top: true,
-            right: true,
             cssClass: "is-danger",
-            showOn: this.hasErrors
+            showOn: this.hasErrors,
+            ...this.messagePosition
           }
         });
       }

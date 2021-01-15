@@ -196,6 +196,7 @@ export default {
       const css = new CssArchitect(
         `group ${ComponentNames.TCalendar}__container`
       );
+      css.addClass("modern", this.modern);
       css.addClass(this.containerClass, this.containerClass !== undefined);
       css.addClass("is-horizontal", this.isHorizontal);
       return css.getClasses();
@@ -629,7 +630,7 @@ export default {
       });
       control.addChild(input);
 
-      let labelParent = this.classic ? architect : control;
+      let labelParent = this.modern ? control : architect;
       this.createLabel(labelParent, {
         boxOpened: this.focused || this.showCalendar
       });

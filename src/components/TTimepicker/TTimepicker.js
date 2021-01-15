@@ -358,7 +358,7 @@ export default {
       });
       control.addChild(input);
 
-      let labelParent = this.classic ? architect : control;
+      let labelParent = this.modern ? control : architect;
       this.createLabel(labelParent, { boxOpened: this.focused || this.isOpen });
       root.addChild(control);
 

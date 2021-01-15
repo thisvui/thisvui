@@ -19,21 +19,22 @@ $input-focus-box-shadow-color: rgba($dark, 0.25) !default;
 $label-weight: normal !default;
 $label-color: tint($dark, 50%) !default;
 $label-transition-delay: 300ms;
-$label-font-size: 1rem;
+$label-font-size: 0.9rem;
 
 .group {
   position: relative;
 
+  .label {
+    font-size: $label-font-size;
+    position: relative;
+  }
+
   &__wrapper {
+    position: relative;
     padding: 0.2rem;
     display: flex;
     align-items: center;
     height: inherit;
-    .label {
-      font-size: $label-font-size;
-      position: relative;
-      text-transform: uppercase;
-    }
 
     &.bordered {
       border: 1px solid tint($primary, 25%);
@@ -47,7 +48,10 @@ $label-font-size: 1rem;
     }
   }
   &:not(:last-child) {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
+    &.modern {
+      margin-bottom: 2rem;
+    }
   }
 }
 
@@ -127,8 +131,8 @@ $label-font-size: 1rem;
     font-weight: $label-weight;
     position: absolute;
     pointer-events: none;
-    left: 5px;
-    top: 25%;
+    left: 0;
+    top: 20%;
     transition: $label-transition-delay ease all;
     &.is-textarea {
       top: 0.5em;

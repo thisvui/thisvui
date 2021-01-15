@@ -89,7 +89,7 @@ export default {
       input.addEvent("keypress", this.allowOnlyNumber, this.numeric);
       control.addChild(input);
 
-      let labelParent = this.classic ? architect : control;
+      let labelParent = this.modern ? control : architect;
       this.createLabel(labelParent);
 
       root.addChild(control);

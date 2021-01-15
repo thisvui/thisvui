@@ -58,7 +58,7 @@ export default {
       textarea.addEvent("keypress", this.allowOnlyNumber, this.numeric);
       control.addChild(textarea);
 
-      let labelParent = this.classic ? architect : control;
+      let labelParent = this.modern ? control : architect;
       this.createLabel(labelParent, { cssClasses: "is-textarea" });
       root.addChild(control);
       this.createIcon(root, this.iconPosition.right, "is-textarea");
