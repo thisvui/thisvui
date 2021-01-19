@@ -1,60 +1,103 @@
 import { ComponentNames } from "../../utils/constants";
-import ElementArchitect from "../../utils/element-architect";
+import { createDiv } from "../../utils/element-architect";
 import CssArchitect from "../../utils/css-architect";
 
 export default {
   name: ComponentNames.TExpand,
-  methods: {
-    enter(element) {
-      const width = getComputedStyle(element).width;
-
-      element.style.width = width;
-      element.style.position = "absolute";
-      element.style.visibility = "hidden";
-      element.style.height = "auto";
-
-      let height = getComputedStyle(element).height;
-
-      element.style.width = null;
-      element.style.position = null;
-      element.style.visibility = null;
-      element.style.height = "0";
-
-      height = getComputedStyle(element).height;
-
-      setTimeout(() => {
-        element.style.height = height;
-      });
+  props: {
+    expanded: Boolean,
+    duration: {
+      type: Number,
+      default: 500
     },
-    afterEnter(element) {
-      element.style.height = "auto";
-    },
-    leave(element) {
-      let height = getComputedStyle(element).height;
-
-      element.style.height = height;
-
-      setTimeout(() => {
-        element.style.height = "0";
-      });
+    containerClass: {
+      type: String
+    }
+  },
+  data: () => ({
+    css: new CssArchitect(),
+    initial: false,
+    hidden: false
+  }),
+  watch: {
+    expanded() {
+      this.toggle();
     }
   },
   render: function(h) {
-    let root = new ElementArchitect(h, "transition");
+    let root = createDiv(h);
+    root.addClass(this.containerClass, this.containerClass !== undefined);
+    root.setRef("expandContainer");
     root.setProps({ name: "expand" });
-
-    root.addEvent("enter", this.enter);
-    root.addEvent("after-enter", this.afterEnter);
-    root.addEvent("leave", this.leave);
+    root.setAttrs(this.attrs);
+    root.setStyles(this.css.getStyles());
+    root.addEvent("transitionend", this.onTransitionEnd);
     root.setChildren(this.$slots.default);
-
-    let css = new CssArchitect();
-    css.addStyle("will-change", "height");
-    css.addStyle("transform", "translateZ(0)");
-    css.addStyle("backface-visibility", "hidden");
-    css.addStyle("perspective", "1000px");
-
-    root.setStyles(css.getStyles());
     return root.create();
+  },
+  mounted() {
+    this.toggle();
+    this.initialized = true;
+  },
+
+  created() {
+    this.hidden = !this.expanded;
+  },
+
+  computed: {
+    el() {
+      return this.$refs.expandContainer;
+    },
+
+    attrs() {
+      const attrs = {
+        "aria-hidden": !this.expanded,
+        "aria-expanded": this.expanded
+      };
+
+      return attrs;
+    }
+  },
+  methods: {
+    toggle() {
+      if (this.expanded) {
+        this.hidden = false;
+        this.$emit("expand-start");
+        if (this.initialized) {
+          this.calculateHeight();
+        }
+      } else {
+        this.$emit("collapse-start");
+        this.calculateHeight();
+      }
+    },
+
+    update(callback) {
+      if (!this.initialized) {
+        callback();
+      } else {
+        this.$nextTick(callback);
+      }
+    },
+
+    calculateHeight() {
+      let initial = this.expanded ? 0 : this.el.scrollHeight;
+      this.css.addStyle("height", `${initial}px`);
+
+      this.update(() => {
+        let height = this.expanded ? this.el.scrollHeight : 0;
+        this.css.addStyle("height", `${height}px`);
+        this.css.addStyle("overflow", "hidden");
+        this.css.addStyle("transition-property", "height");
+        this.css.addStyle("transition-duration", `${this.duration}ms`);
+      });
+    },
+
+    onTransitionEnd(event) {
+      if (event.target !== this.el) {
+        return;
+      }
+      this.$emit(this.expanded ? "expand-end" : "collapse-end");
+    }
   }
 };

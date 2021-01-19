@@ -208,15 +208,17 @@ export default {
     this.createHeadingIcon(header, !this.iconLeft);
 
     let body = root.createDiv(this.getBodyClasses);
-    let expand = root.createElement(TExpand);
-    let content = root.createDiv(`${ComponentNames.TAccordion}__content`);
+    let content = root.createElement(TExpand);
+    content.setProps({
+      expanded: this.isItemOpen,
+      containerClass: `${ComponentNames.TAccordion}__content`
+    });
     let contentBody = root.createDiv(
       `${ComponentNames.TAccordion}__content__body`
     );
     contentBody.setChildren(this.$slots.default);
     content.addChild(contentBody);
-    expand.addChild(content, this.isItemOpen);
-    body.addChild(expand);
+    body.addChild(content);
 
     root.addChild(header);
     root.addChild(body);

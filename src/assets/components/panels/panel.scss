@@ -47,8 +47,12 @@ $panel-content-padding: $box-content-padding !default;
     padding: 0;
     background-color: $panel-background-color;
     flex: 1;
-    @include light-shadow($black);
+
+    &-container {
+      @include light-shadow($black);
+    }
   }
+
   &__content {
     padding: $panel-content-padding;
   }

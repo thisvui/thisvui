@@ -35,14 +35,9 @@ export default {
      * @returns { A String with the chained css classes }
      */
     getAutocompleteContainerClass: function() {
-      const css = new CssArchitect(
-        `${ComponentNames.TAutocomplete} group`
-      );
+      const css = new CssArchitect(`${ComponentNames.TAutocomplete} group`);
       css.addClass("modern", this.modern);
-      css.addClass(
-        this.containerClass,
-        this.containerClass !== undefined
-      );
+      css.addClass(this.containerClass, this.containerClass !== undefined);
       css.addClass(this.getSyntaxModifiers);
       css.addClass(this.getThemeModifiers);
       css.addClass(this.getAlignmentModifiers);

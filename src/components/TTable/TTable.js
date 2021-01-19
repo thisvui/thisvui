@@ -409,6 +409,9 @@ export default {
             let expandColumn = architect.createCell("expandable__col");
             expandColumn.addAttr("colspan", this.getColspan);
             let expand = architect.createElement(TExpand);
+            expand.setProps({
+              expanded: this.isExpanded(item)
+            });
             if (this.isExpanded(item)) {
               let expandedContainer = architect.createDiv(
                 "expandable__container"

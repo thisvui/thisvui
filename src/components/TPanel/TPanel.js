@@ -134,12 +134,16 @@ export default {
     }
 
     let expand = root.createElement(TExpand);
+    expand.setProps({
+      expanded: this.isExpanded,
+      containerClass: `${ComponentNames.TPanel}__body-container`
+    });
     let body = root.createDiv(this.bodyCss.getClasses());
     let content = root.createDiv(`${ComponentNames.TPanel}__content`);
 
     content.setChildren(this.$slots.default);
     body.addChild(content);
-    expand.addChild(body, this.isExpanded);
+    expand.addChild(body);
     root.addChild(expand);
     return root.create();
   },

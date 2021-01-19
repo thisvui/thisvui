@@ -27,7 +27,7 @@ export default {
   },
   data: function() {
     return {
-      open: false
+      expanded: false
     };
   },
   computed: {
@@ -57,7 +57,7 @@ export default {
       const cssArchitect = new CssArchitect(
         `${ComponentNames.TTreeNav}__children`
       );
-      cssArchitect.addClass("is-collapsed", !this.open);
+      cssArchitect.addClass("is-collapsed", !this.expanded);
       return cssArchitect.getClasses();
     },
     /**
@@ -75,24 +75,24 @@ export default {
      */
     getLinkClasses: function() {
       const cssArchitect = new CssArchitect(`${ComponentNames.TTreeNav}__link`);
-      cssArchitect.addClass("is-active", this.open);
+      cssArchitect.addClass("is-active", this.expanded);
       cssArchitect.addClass(this.linkClass, this.linkClass);
-      cssArchitect.addClass(this.linkOpenedClass, this.open);
+      cssArchitect.addClass(this.linkExpandedClass, this.expanded);
       return cssArchitect.getClasses();
     }
   },
   created() {
     this.$parent.$on("close-children", id => {
       if (this.id !== id) {
-        this.open = false;
+        this.expanded = false;
       }
     });
   },
   methods: {
     toggle: function() {
       if (this.isFolder) {
-        this.open = !this.open;
-        if (this.open && this.exclusive) {
+        this.expanded = !this.expanded;
+        if (this.expanded && this.exclusive) {
           this.$parent.$emit("close-siblings", this.id);
         }
       }
@@ -144,7 +144,7 @@ export default {
         let icon = architect.createIcon();
         icon.setProps({
           preserveDefaults: !this.overrideDefaults,
-          icon: this.open ? this.openedIcon : this.closedIcon,
+          icon: this.expanded ? this.expandedIcon : this.collapsedIcon,
           containerClass: this.controlIconClass
         });
         iconContainer.addChild(icon);
@@ -158,7 +158,10 @@ export default {
      */
     createChildren(architect) {
       let expand = architect.createElement(TExpand);
-      if (this.isFolder && this.open) {
+      expand.setProps({
+        expanded: this.expanded
+      });
+      if (this.isFolder) {
         let children = architect.createDiv(this.getChildrenClasses);
         children.setRef("children");
 
@@ -179,7 +182,7 @@ export default {
             tagClass: this.tagClass,
             iconClass: this.iconClass,
             linkClass: this.linkClass,
-            linkOpenedClass: this.linkOpenedClass,
+            linkExpandedClass: this.linkExpandedClass,
             controlIconClass: this.controlIconClass
           });
           ul.addChild(treeNav);
@@ -187,6 +190,7 @@ export default {
         children.addChild(ul);
         expand.addChild(children);
       }
+
       architect.addChild(expand);
     }
   },
