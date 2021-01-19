@@ -1,33 +1,39 @@
 /* Buttons */
-$bt-size-small: 0.7rem !default;
-$bt-size-normal: 0.9rem !default;
-$bt-size-medium: 1.1rem !default;
-$bt-size-large: 1.4rem !default;
+$bt-size-small: 0.75rem !default;
+$bt-size-normal: 0.875rem !default;
+$bt-size-large: 1rem !default;
 
 $bt-radius-small: 2px !default;
 $bt-radius-normal: 3px !default;
 $bt-radius-medium: 4px !default;
-$bt-radius-large: 6px !default;
+$bt-radius-large: 4px !default;
 
 $btn-margin: 0.25rem;
-$btn-padding: 0.7em;
+$btn-padding: 0.7rem;
+$btn-padding-small: 0.55rem;
+$btn-padding-medium: 0.875rem;
+$btn-padding-large: 1rem;
 $btn-padding-compact: 0.5em;
 $btn-icon-margin: 0.3rem;
+$btn-letter-spacing: 0.089777em;
 
 @mixin btn-sizes {
   &.small {
     border-radius: $bt-radius-small;
     font-size: $bt-size-small;
+    padding: $btn-padding-small;
   }
 
   &.medium {
     border-radius: $bt-radius-medium;
-    font-size: $bt-size-medium;
+    font-size: $bt-size-normal;
+    padding: $btn-padding-medium;
   }
 
   &.large {
     border-radius: $bt-radius-large;
     font-size: $bt-size-large;
+    padding: $btn-padding-large;
   }
 }
 
@@ -47,7 +53,11 @@ $btn-icon-margin: 0.3rem;
   text-transform: uppercase;
   text-align: center;
   text-decoration: none;
+  letter-spacing: $btn-letter-spacing;
+  text-indent: $btn-letter-spacing;
+  line-height: calc(1ex / 0.32);
   position: relative;
+  white-space: nowrap;
   @include btn-sizes;
 
   &.inset {
@@ -55,7 +65,13 @@ $btn-icon-margin: 0.3rem;
   }
 
   &__content {
-    line-height: 1;
+    display: flex;
+    align-items: center;
+    position: relative;
+    flex: 1 0 auto;
+    padding: 0;
+    margin: 0;
+    line-height: normal;
     &.icon-left {
       margin-left: $btn-icon-margin;
       margin-right: 0;

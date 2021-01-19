@@ -15,16 +15,16 @@ export default {
     controlIconClass: {
       type: String
     },
-    linkOpenedClass: {
+    linkExpandedClass: {
       type: String
     },
-    openedIcon: {
+    expandedIcon: {
       type: String,
       default: function() {
         return this.$thisvui.icons.arrowUp;
       }
     },
-    closedIcon: {
+    collapsedIcon: {
       type: String,
       default: function() {
         return this.$thisvui.icons.arrowDown;

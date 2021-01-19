@@ -53,7 +53,7 @@
 }
 
 @mixin vue-animation-enter($transition-name, $duration: 0.1s) {
-  @include keyframes(#{$transition-name}-enter){
+  @include keyframes(#{$transition-name}-enter) {
     @content;
   }
 
@@ -65,7 +65,7 @@
 }
 
 @mixin vue-animation-leave($transition-name, $duration: 0.1s) {
-  @include keyframes(#{$transition-name}-leave){
+  @include keyframes(#{$transition-name}-leave) {
     @content;
   }
 
@@ -75,4 +75,3 @@
     animation-duration: $duration;
   }
 }
-
