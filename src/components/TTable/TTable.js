@@ -14,6 +14,7 @@ import { createDiv } from "../../utils/element-architect";
 export default {
   name: ComponentNames.TTable,
   components: { TExpand, TFlex },
+  inheritAttrs: false,
   mixins: [common, list, themes, dimension, helpers],
   filters: {
     capitalize: function(str) {
@@ -448,6 +449,7 @@ export default {
       let table = architect.createElement("table", this.css.getClasses());
       table.setStyles(this.css.getStyles());
       table.setId(this.id);
+      table.setAttrs(this.$attrs);
 
       this.createTableHead(table);
       this.createTableBody(table);
