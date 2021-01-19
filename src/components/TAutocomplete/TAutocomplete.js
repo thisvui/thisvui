@@ -122,6 +122,7 @@ export default {
      */
     createInput(architect) {
       let root = architect.createDiv(this.getWrapperCss.getClasses());
+      root.setId(`${this.id}-wrapper`);
       root.setStyles(this.getWrapperCss.getStyles());
       root.addDirective({
         name: "click-outside",
