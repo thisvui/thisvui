@@ -170,6 +170,7 @@ export const ValidationBus = new Vue({
       if (this.errors.length === 0) {
         this.validForm();
       }
+      return { valid: this.formIsValid };
     },
     /**
      * Executes validators within scope range.

@@ -221,8 +221,7 @@ export default {
             "Cannot validate because not parent form found"
           );
         }
-        ValidationBus.validateAll(formId, this.scope);
-        if (!ValidationBus.isFormValid) {
+        if (!ValidationBus.validateAll(formId, this.scope).valid) {
           throw new DOMException("Invalid form");
         }
       }

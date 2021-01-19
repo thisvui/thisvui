@@ -317,15 +317,15 @@ export default {
       }
     },
     onEnter() {
-      let result = this.validateOnEvent("enter");
+      let result = this.validateOnEvent(this.$thisvui.events.common.keyup);
       if (result && result.valid) {
         this.$emit(this.$thisvui.events.common.onEnter);
       }
     },
     onKeyup(event) {
-      let result = this.validateOnEvent("enter");
+      let result = this.validateOnEvent(this.$thisvui.events.common.keyup);
       if (result && result.valid) {
-        this.$emit(this.$thisvui.events.common.onEnter);
+        this.$emit(this.$thisvui.events.common.keyup);
       }
     },
     onInput() {
